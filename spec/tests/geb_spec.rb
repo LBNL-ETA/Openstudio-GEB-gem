@@ -44,4 +44,69 @@ RSpec.describe OpenStudio::Geb do
     instance = OpenStudio::Geb::Geb.new
     expect(File.exist?(instance.measures_dir)).to be true
   end
+
+  # First get all available GEB measures
+  it "list all geb measures" do
+    all_measures = list_all_geb_measures
+    expect(all_measures).to be_kind_of Hash
+    expect(all_measures.size).to be >= 1
+    puts JSON.pretty_generate(all_measures)
+  end
+
+  it "can apply single measure" do
+    # provide baseline path
+    baseline_dir_str = "../seed_models/MediumOffice-90.1-2010-ASHRAE 169-2013-5A.osm"
+    baseline_dir_str = File.expand_path(baseline_dir_str)
+    all_measures = list_all_geb_measures
+    measure_dict = {
+      "DR HVAC (Large Office Detailed)" => {
+        "measure_dir_name" => all_measures["DR HVAC (Large Office Detailed)"]["measure_dir_name"],
+        "arguments" => {
+          "cooling_adjustment" => 4,
+          "starttime_cooling" => '13:00:00',
+          "endtime_cooling" => '15:00:00',
+          "starttime_heating1" => '13:00:00',
+          "endtime_heating1" => '15:00:00',
+          "heating_adjustment" => 5,
+          "auto_date" => true
+        }
+      },
+      "DR Electric Equipment (Large Office Detailed)" => {
+        "measure_dir_name" => all_measures["DR Electric Equipment (Large Office Detailed)"]["measure_dir_name"],
+        "arguments" => {
+          "space_type" => '*Entire Building*',
+          "occupied_space_type" => 20,
+          "unoccupied_space_type" => 20,
+          "single_space_type" => 20,
+          "starttime_winter2" => '17:00:00',
+          "endtime_winter2" => '21:00:00',
+          "starttime_winter1" => '17:00:00',
+          "endtime_winter1" => '21:00:00',
+          "starttime_summer" => '16:00:00',
+          "endtime_summer" => '20:00:00',
+          "auto_date" => true,
+          "alt_periods" => true
+        }
+      }
+    }
+    run_output_path = "../output"
+    # provide weather file path
+    weather_file_path = "../seed_models/USA_NY_Buffalo.Niagara.Intl.AP.725280_TMY3.epw"
+    weather_file_path = File.expand_path(weather_file_path)
+    runner = OpenStudio::Geb::Runner.new(baseline_dir_str, measure_dict, run_output_path, weather_file_path)
+    expect(runner.run).to be true
+
+    # report and save openstudio errors
+    errors = runner.report_and_save_errors
+    expect(errors.size).to be 0
+  end
+
+
+
+  it "can apply and run single measure" do
+  end
+
+  it "can apply and run multiple measures" do
+  end
+
 end

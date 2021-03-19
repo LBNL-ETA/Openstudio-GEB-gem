@@ -33,8 +33,12 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # *******************************************************************************
 
-require 'openstudio/geb/version'
 require 'openstudio/extension'
+require 'openstudio-standards'
+
+require 'openstudio/geb/version'
+require 'openstudio/geb/run'
+require 'openstudio/geb/extension'
 
 module OpenStudio
   module Geb
