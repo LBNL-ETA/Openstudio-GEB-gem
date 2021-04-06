@@ -34,6 +34,7 @@ module OpenStudio
         # create osw_file
         # TODO update
         osw_path = File.join(@run_output_path, "run_geb_measures/geb.osw")
+        osw_path = File.expand_path(osw_path)
         unless File.directory?(File.dirname(osw_path))
           FileUtils.mkdir_p(File.dirname(osw_path))
         end
@@ -66,21 +67,31 @@ module OpenStudio
       def run_osw(osw_path)
         cli_path = OpenStudio.getOpenStudioCLI
         cmd = "\"#{cli_path}\" run -w \"#{osw_path}\""
+        puts cmd
+        system(cmd)
 
-        stdout_str, stderr_str, status = Open3.capture3(get_run_env(), cmd)
-        if status.success?
-          OpenStudio.logFree(OpenStudio::Debug, 'openstudio.standards.command', "Successfully ran command: '#{cmd}'")
+        result_osw = postprocess_out_osw(File.join(@run_output_path, "run_geb_measures"))
+        if result_osw[:completed_status] == 'Success'
           return true
         else
-          OpenStudio.logFree(OpenStudio::Error, 'openstudio.standards.command', "Error running command: '#{cmd}'")
-          OpenStudio.logFree(OpenStudio::Error, 'openstudio.standards.command', "stdout: #{stdout_str}")
-          OpenStudio.logFree(OpenStudio::Error, 'openstudio.standards.command', "stderr: #{stderr_str}")
           return false
         end
+
+        # Open3.capture3 can't capture error in this case
+        # stdout_str, stderr_str, status = Open3.capture3(get_run_env, cmd)
+        # if status.success? && status.success? != nil
+        #   OpenStudio.logFree(OpenStudio::Debug, 'openstudio.standards.command', "Successfully ran command: '#{cmd}'")
+        #   return true
+        # else
+        #   OpenStudio.logFree(OpenStudio::Error, 'openstudio.standards.command', "Error running command: '#{cmd}'")
+        #   OpenStudio.logFree(OpenStudio::Error, 'openstudio.standards.command', "stdout: #{stdout_str}")
+        #   OpenStudio.logFree(OpenStudio::Error, 'openstudio.standards.command', "stderr: #{stderr_str}")
+        #   return false
+        # end
       end
 
       def report_and_save_errors
-        # Report out errors
+        # Report out Info, Warning, and Errors
         log_file_path = "#{@run_output_path}/openstudio-standards.log"
         log_messages_to_file(log_file_path, false)
         errors = get_logs(OpenStudio::Error)

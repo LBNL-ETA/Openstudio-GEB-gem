@@ -39,6 +39,8 @@ require 'openstudio-standards'
 require 'openstudio/geb/version'
 require 'openstudio/geb/run'
 require 'openstudio/geb/extension'
+require 'openstudio/geb/logging'
+require 'openstudio/geb/utilities'
 
 module OpenStudio
   module Geb

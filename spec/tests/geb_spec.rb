@@ -58,16 +58,26 @@ RSpec.describe OpenStudio::Geb do
     baseline_dir_str = "../seed_models/MediumOffice-90.1-2010-ASHRAE 169-2013-5A.osm"
     baseline_dir_str = File.expand_path(baseline_dir_str)
     all_measures = list_all_geb_measures
+
+    puts "*"*150
+    puts "all_measures: #{all_measures.inspect}"
+
     measure_dict = {
-      "DR HVAC (Large Office Detailed)" => {
-        "measure_dir_name" => all_measures["DR HVAC (Large Office Detailed)"]["measure_dir_name"],
+      "Adjust thermostat setpoint by degrees for peak hours" => {
+        "measure_dir_name" => all_measures["Adjust thermostat setpoint by degrees for peak hours"]["measure_dir_name"],
         "arguments" => {
           "cooling_adjustment" => 4,
-          "starttime_cooling" => '13:00:00',
-          "endtime_cooling" => '15:00:00',
-          "starttime_heating1" => '13:00:00',
-          "endtime_heating1" => '15:00:00',
-          "heating_adjustment" => 5,
+          "cooling_daily_starttime" => '13:00:00',
+          "cooling_daily_endtime" => '15:00:00',
+          "cooling_startdate" => '2009-Jun-01',
+          "cooling_enddate" => '2009-Sep-30',
+          "heating_daily_starttime" => '13:00:00',
+          "heating_daily_endtime" => '15:00:00',
+          "heating_startdate_1" => '2009-Jan-01',
+          "heating_enddate_1" => '2009-May-31',
+          "heating_startdate_2" => '2009-Oct-01',
+          "heating_enddate_2" => '2009-Dec-31',
+          "heating_adjustment" => -5,
           "auto_date" => true
         }
       },
@@ -100,8 +110,6 @@ RSpec.describe OpenStudio::Geb do
     errors = runner.report_and_save_errors
     expect(errors.size).to be 0
   end
-
-
 
   it "can apply and run single measure" do
   end
