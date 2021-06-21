@@ -1,0 +1,225 @@
+<measure>
+  <schema_version>3.0</schema_version>
+  <name>add_electric_vehicle_charging_load</name>
+  <uid>8f2cc5fa-3aed-4bd1-8663-dc9415733759</uid>
+  <version_id>f823fa57-d749-45a0-a87b-f3bc4cc32984</version_id>
+  <version_modified>20210618T193323Z</version_modified>
+  <xml_checksum>0EED982D</xml_checksum>
+  <class_name>AddElectricVehicleChargingLoad</class_name>
+  <display_name>AddElectricVehicleChargingLoad</display_name>
+  <description>This measure adds electric vehicle charging load to the building. The user can specify the level of charger, number of chargers, number of EVs charging daily, start time, average number of hours to fully charge. </description>
+  <modeler_description>This measure will add electric vehicle charging load as exterior electric equipment. The user inputs of level of chargers, number of chargers, and number of EVs charging daily will be used to determine the load level, and the inputs of start time and average number of hours to fully charge will be used to determine load schedule.</modeler_description>
+  <arguments>
+    <argument>
+      <name>bldg_use_type</name>
+      <display_name>Building Use Type</display_name>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>home</default_value>
+      <choices>
+        <choice>
+          <value>home</value>
+          <display_name>home</display_name>
+        </choice>
+        <choice>
+          <value>workplace</value>
+          <display_name>workplace</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>num_ev_chargers</name>
+      <display_name>Number of EV Chargers</display_name>
+      <type>Integer</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>1</default_value>
+    </argument>
+    <argument>
+      <name>num_evs</name>
+      <display_name>Number of Electric Vehicles</display_name>
+      <type>Integer</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>1</default_value>
+    </argument>
+    <argument>
+      <name>charger_level</name>
+      <display_name>EV Charger Level</display_name>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>Level 2</default_value>
+      <choices>
+        <choice>
+          <value>Level 1</value>
+          <display_name>Level 1</display_name>
+        </choice>
+        <choice>
+          <value>Level 2</value>
+          <display_name>Level 2</display_name>
+        </choice>
+        <choice>
+          <value>DC charger</value>
+          <display_name>DC charger</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>avg_arrival_time</name>
+      <display_name>Average arrival time, applicable for workplace only</display_name>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>08:30</default_value>
+    </argument>
+    <argument>
+      <name>avg_leave_time</name>
+      <display_name>Average leave time, applicable for workplace only</display_name>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>17:30</default_value>
+    </argument>
+    <argument>
+      <name>start_charge_time</name>
+      <display_name>Start charging time, required for home only</display_name>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>21:00</default_value>
+    </argument>
+    <argument>
+      <name>avg_charge_hours</name>
+      <display_name>Average needed hours to charge to full (should vary with charger level)</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>4</default_value>
+    </argument>
+    <argument>
+      <name>charge_on_sat</name>
+      <display_name>EVs are charged on Saturday</display_name>
+      <type>Boolean</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>true</default_value>
+      <choices>
+        <choice>
+          <value>true</value>
+          <display_name>true</display_name>
+        </choice>
+        <choice>
+          <value>false</value>
+          <display_name>false</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>charge_on_sun</name>
+      <display_name>EVs are charged on Sunday</display_name>
+      <type>Boolean</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>true</default_value>
+      <choices>
+        <choice>
+          <value>true</value>
+          <display_name>true</display_name>
+        </choice>
+        <choice>
+          <value>false</value>
+          <display_name>false</display_name>
+        </choice>
+      </choices>
+    </argument>
+  </arguments>
+  <outputs/>
+  <provenances/>
+  <tags>
+    <tag>Equipment.Electric Equipment</tag>
+  </tags>
+  <attributes>
+    <attribute>
+      <name>Measure Type</name>
+      <value>ModelMeasure</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Apply Measure Now</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>OpenStudio Application</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Parametric Analysis Tool</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Use Case</name>
+      <value>Model Articulation</value>
+      <datatype>string</datatype>
+    </attribute>
+  </attributes>
+  <files>
+    <file>
+      <filename>LICENSE.md</filename>
+      <filetype>md</filetype>
+      <usage_type>license</usage_type>
+      <checksum>CD7F5672</checksum>
+    </file>
+    <file>
+      <filename>README.md.erb</filename>
+      <filetype>erb</filetype>
+      <usage_type>readmeerb</usage_type>
+      <checksum>703C9964</checksum>
+    </file>
+    <file>
+      <filename>.gitkeep</filename>
+      <filetype>gitkeep</filetype>
+      <usage_type>doc</usage_type>
+      <checksum>00000000</checksum>
+    </file>
+    <file>
+      <filename>example_model.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>53D14E69</checksum>
+    </file>
+    <file>
+      <filename>add_electric_vehicle_charging_load_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>52DBCB7E</checksum>
+    </file>
+    <file>
+      <filename>test.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>6AAB13AE</checksum>
+    </file>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>2.9.1</identifier>
+        <min_compatible>2.9.1</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>549C949E</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>253F8177</checksum>
+    </file>
+  </files>
+</measure>

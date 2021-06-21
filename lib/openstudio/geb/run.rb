@@ -32,11 +32,16 @@ module OpenStudio
       def apply_measures
         # remove old osw_file
         # create osw_file
-        # TODO update
         osw_path = File.join(@run_output_path, "run_geb_measures/geb.osw")
-        osw_path = File.expand_path(osw_path)
-        unless File.directory?(File.dirname(osw_path))
-          FileUtils.mkdir_p(File.dirname(osw_path))
+
+        osw_result_folder = File.join(@run_output_path, "run_geb_measures")
+        if File.exist? osw_result_folder
+          FileUtils.rm_rf(osw_result_folder)
+          sleep(0.1)
+        end
+
+        unless File.directory?(osw_result_folder)
+          FileUtils.mkdir_p(osw_result_folder)
         end
 
         create_workflow(osw_path)

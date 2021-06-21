@@ -53,10 +53,61 @@ RSpec.describe OpenStudio::Geb do
     puts JSON.pretty_generate(all_measures)
   end
 
-  it "can apply single measure" do
+  it "can apply and run single measure" do
     # provide baseline path
-    baseline_dir_str = "../seed_models/MediumOffice-90.1-2010-ASHRAE 169-2013-5A.osm"
-    baseline_dir_str = File.expand_path(baseline_dir_str)
+    baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/MediumOffice-90.1-2010-ASHRAE 169-2013-5A.osm")
+    all_measures = list_all_geb_measures
+    measure_dict = {
+      "Adjust thermostat setpoint by degrees for peak hours" => {
+        "measure_dir_name" => all_measures["Adjust thermostat setpoint by degrees for peak hours"]["measure_dir_name"],
+        "arguments" => {
+          "cooling_adjustment" => 4,
+          "cooling_daily_starttime" => '13:00:00',
+          "cooling_daily_endtime" => '15:00:00',
+          "cooling_startdate" => '2009-Jun-01',
+          "cooling_enddate" => '2009-Sep-30',
+          "heating_daily_starttime" => '13:00:00',
+          "heating_daily_endtime" => '15:00:00',
+          "heating_startdate_1" => '2009-Jan-01',
+          "heating_enddate_1" => '2009-May-31',
+          "heating_startdate_2" => '2009-Oct-01',
+          "heating_enddate_2" => '2009-Dec-31',
+          "heating_adjustment" => -5,
+          "auto_date" => true
+        }
+      },
+      "DR Electric Equipment (Large Office Detailed)" => {
+        "measure_dir_name" => all_measures["DR Electric Equipment (Large Office Detailed)"]["measure_dir_name"],
+        "arguments" => {
+          "space_type" => '*Entire Building*',
+          "occupied_space_type" => 20,
+          "unoccupied_space_type" => 20,
+          "single_space_type" => 20,
+          "starttime_winter2" => '17:00:00',
+          "endtime_winter2" => '21:00:00',
+          "starttime_winter1" => '17:00:00',
+          "endtime_winter1" => '21:00:00',
+          "starttime_summer" => '16:00:00',
+          "endtime_summer" => '20:00:00',
+          "auto_date" => true,
+          "alt_periods" => true
+        }
+      }
+    }
+    run_output_path = File.join(File.dirname(__FILE__ ), "../output")
+    # provide weather file path
+    weather_file_path = File.join(File.dirname(__FILE__ ), "../seed_models/USA_NY_Buffalo.Niagara.Intl.AP.725280_TMY3.epw")
+    runner = OpenStudio::Geb::Runner.new(baseline_dir_str, measure_dict, run_output_path, weather_file_path)
+    expect(runner.run).to be true
+
+    # report and save openstudio errors
+    errors = runner.report_and_save_errors
+    expect(errors.size).to be 0
+  end
+
+  it "can apply and run multiple measures" do
+    # provide baseline path
+    baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/MediumOffice-90.1-2010-ASHRAE 169-2013-5A.osm")
     all_measures = list_all_geb_measures
 
     puts "*"*150
@@ -97,24 +148,31 @@ RSpec.describe OpenStudio::Geb do
           "auto_date" => true,
           "alt_periods" => true
         }
+      },
+      "AddElectricVehicleChargingLoad" => {
+        "measure_dir_name" => all_measures["AddElectricVehicleChargingLoad"]["measure_dir_name"],
+        "arguments" => {
+          "bldg_use_type" => "workplace",
+          "num_ev_chargers" => 3,
+          "num_evs" => 10,
+          "charger_level" => "Level 1",
+          "avg_arrival_time" => "8:30",
+          "avg_leave_time" => "17:30",
+          "avg_charge_hours" => 4,
+          "charge_on_sat" => true,
+          "charge_on_sun" => false
+        }
       }
     }
-    run_output_path = "../output"
+    run_output_path = File.join(File.dirname(__FILE__ ), "../output")
     # provide weather file path
-    weather_file_path = "../seed_models/USA_NY_Buffalo.Niagara.Intl.AP.725280_TMY3.epw"
-    weather_file_path = File.expand_path(weather_file_path)
+    weather_file_path = File.join(File.dirname(__FILE__ ), "../seed_models/USA_NY_Buffalo.Niagara.Intl.AP.725280_TMY3.epw")
     runner = OpenStudio::Geb::Runner.new(baseline_dir_str, measure_dict, run_output_path, weather_file_path)
     expect(runner.run).to be true
 
     # report and save openstudio errors
     errors = runner.report_and_save_errors
     expect(errors.size).to be 0
-  end
-
-  it "can apply and run single measure" do
-  end
-
-  it "can apply and run multiple measures" do
   end
 
 end
