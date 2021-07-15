@@ -73,25 +73,25 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
 
     # make an argument for the first start date of heating adjustment
     heating_startdate_1 = OpenStudio::Measure::OSArgument.makeStringArgument('heating_startdate_1', false)
-    heating_startdate_1.setDisplayName('Start Date for Heating Adjustment')
+    heating_startdate_1.setDisplayName('Start Date for Heating Adjustment Period 1')
     heating_startdate_1.setDefaultValue('2009-Jan-01')
     args << heating_startdate_1
 
     # make an argument for the first end date of heating adjustment
     heating_enddate_1 = OpenStudio::Measure::OSArgument.makeStringArgument('heating_enddate_1', false)
-    heating_enddate_1.setDisplayName('End Date for Heating Adjustment')
+    heating_enddate_1.setDisplayName('End Date for Heating Adjustment Period 1')
     heating_enddate_1.setDefaultValue('2009-May-31')
     args << heating_enddate_1
 
     # make an argument for the second start date of heating adjustment
     heating_startdate_2 = OpenStudio::Measure::OSArgument.makeStringArgument('heating_startdate_2', false)
-    heating_startdate_2.setDisplayName('Start Date for Heating Adjustment')
+    heating_startdate_2.setDisplayName('Start Date for Heating Adjustment Period 2')
     heating_startdate_2.setDefaultValue('2009-Oct-01')
     args << heating_startdate_2
 
     # make an argument for the second end date of heating adjustment
     heating_enddate_2 = OpenStudio::Measure::OSArgument.makeStringArgument('heating_enddate_2', false)
-    heating_enddate_2.setDisplayName('End Date for Heating Adjustment')
+    heating_enddate_2.setDisplayName('End Date for Heating Adjustment Period 2')
     heating_enddate_2.setDefaultValue('2009-Dec-31')
     args << heating_enddate_2
 

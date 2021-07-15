@@ -493,6 +493,7 @@ class AddElectricVehicleChargingLoad < OpenStudio::Measure::ModelMeasure
     ev_charger.setName("#{ev_charger_level} w EV Charger")
     ev_charger.setFuelType('Electricity')
     ev_charger.setEndUseSubcategory('Electric Vehicles')
+
     runner.registerInfo("multiplier (kW) = #{max_charging_power}}")
 
     # echo the new space's name back to the user

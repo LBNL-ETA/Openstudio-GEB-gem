@@ -9,6 +9,15 @@ module OpenStudio
         @measure_dict = measure_dict
         @run_output_path = run_output_path
         @weather_file_path = weather_file_path
+
+        if File.exist? run_output_path
+          FileUtils.rm_rf(run_output_path)
+          sleep(0.1)
+        end
+
+        unless File.directory?(run_output_path)
+          FileUtils.mkdir_p(run_output_path)
+        end
       end
 
       def run
