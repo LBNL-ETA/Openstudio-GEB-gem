@@ -1,0 +1,191 @@
+<?xml version="1.0"?>
+<measure>
+  <schema_version>3.0</schema_version>
+  <name>reduce_lpd_by_percentage_for_peak_hours</name>
+  <uid>a305ea88-b32c-4e91-bdd0-4ea7d41d7388</uid>
+  <version_id>c476f158-f59b-4ab7-a70b-627c5eeb8bc2</version_id>
+  <version_modified>20210819T052419Z</version_modified>
+  <xml_checksum>81C5D8E7</xml_checksum>
+  <class_name>ReduceLPDByPercentageForPeakHours</class_name>
+  <display_name>Reduce LPD by Percentage for Peak Hours</display_name>
+  <description>This measure reduces lighting loads by a user-specified percentage for a user-specified time period (usually the peak hours). This is applied throughout the entire building.</description>
+  <modeler_description>This measure will clone all of the lighting schedules for each zone. Then the schedules are adjusted by the specified percentage during the specified time period.</modeler_description>
+  <arguments>
+    <argument>
+      <name>lpd_reduce_percent</name>
+      <display_name>Percentage Reduction of Lighting Power (%)</display_name>
+      <description>Enter a value between 0 and 100</description>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>50</default_value>
+    </argument>
+    <argument>
+      <name>start_time</name>
+      <display_name>Start Time for the Reduction</display_name>
+      <description>In HH:MM:SS format</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>17:00:00</default_value>
+    </argument>
+    <argument>
+      <name>end_time</name>
+      <display_name>End Time for the Reduction</display_name>
+      <description>In HH:MM:SS format</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>21:00:00</default_value>
+    </argument>
+    <argument>
+      <name>alt_periods</name>
+      <display_name>Use alternative default start and end time based on the climate zone of the model?</display_name>
+      <description>This will overwrite the star and end time you input</description>
+      <type>Boolean</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>false</default_value>
+      <choices>
+        <choice>
+          <value>true</value>
+          <display_name>true</display_name>
+        </choice>
+        <choice>
+          <value>false</value>
+          <display_name>false</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>start_date1</name>
+      <display_name>First start date for the Reduction</display_name>
+      <description>In MM-DD format</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>03-01</default_value>
+    </argument>
+    <argument>
+      <name>end_date1</name>
+      <display_name>First end date for the Reduction</display_name>
+      <description>In MM-DD format</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>05-01</default_value>
+    </argument>
+    <argument>
+      <name>start_date2</name>
+      <display_name>Second start date for the Reduction (optional)</display_name>
+      <description>Specify a date in MM-DD format if you want a second period of reduction; leave blank if not needed.</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>end_date2</name>
+      <display_name>Second end date for the Reduction</display_name>
+      <description>Specify a date in MM-DD format if you want a second period of reduction; leave blank if not needed. If either the start or end date is blank, the period is considered not used.</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>start_date3</name>
+      <display_name>Second start date for the Reduction (optional)</display_name>
+      <description>Specify a date in MM-DD format if you want a third period of reduction; leave blank if not needed.</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>end_date3</name>
+      <display_name>Second end date for the Reduction</display_name>
+      <description>Specify a date in MM-DD format if you want a third period of reduction; leave blank if not needed. If either the start or end date is blank, the period is considered not used.</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+  </arguments>
+  <outputs />
+  <provenances />
+  <tags>
+    <tag>Electric Lighting.Electric Lighting Controls</tag>
+  </tags>
+  <attributes>
+    <attribute>
+      <name>Measure Type</name>
+      <value>ModelMeasure</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Apply Measure Now</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>OpenStudio Application</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Parametric Analysis Tool</value>
+      <datatype>string</datatype>
+    </attribute>
+  </attributes>
+  <files>
+    <file>
+      <filename>LICENSE.md</filename>
+      <filetype>md</filetype>
+      <usage_type>license</usage_type>
+      <checksum>CD7F5672</checksum>
+    </file>
+    <file>
+      <filename>README.md.erb</filename>
+      <filetype>erb</filetype>
+      <usage_type>readmeerb</usage_type>
+      <checksum>703C9964</checksum>
+    </file>
+    <file>
+      <filename>.gitkeep</filename>
+      <filetype>gitkeep</filetype>
+      <usage_type>doc</usage_type>
+      <checksum>00000000</checksum>
+    </file>
+    <file>
+      <filename>reduce_lpd_by_percentage_for_peak_hours_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>91264C7C</checksum>
+    </file>
+    <file>
+      <filename>example_model.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>53D14E69</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>66D5DFAC</checksum>
+    </file>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>3.1.0</identifier>
+        <min_compatible>3.1.0</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>E9F18590</checksum>
+    </file>
+  </files>
+</measure>
