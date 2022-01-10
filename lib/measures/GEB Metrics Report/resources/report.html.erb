@@ -1,0 +1,493 @@
+<%
+  # *******************************************************************************
+  # OpenStudio(R), Copyright (c) 2008-2018, Alliance for Sustainable Energy, LLC.
+  # All rights reserved.
+  # Redistribution and use in source and binary forms, with or without
+  # modification, are permitted provided that the following conditions are met:
+  #
+  # (1) Redistributions of source code must retain the above copyright notice,
+  # this list of conditions and the following disclaimer.
+  #
+  # (2) Redistributions in binary form must reproduce the above copyright notice,
+  # this list of conditions and the following disclaimer in the documentation
+  # and/or other materials provided with the distribution.
+  #
+  # (3) Neither the name of the copyright holder nor the names of any contributors
+  # may be used to endorse or promote products derived from this software without
+  # specific prior written permission from the respective party.
+  #
+  # (4) Other than as required in clauses (1) and (2), distributions in any form
+  # of modifications or other derivative works may not use the "OpenStudio"
+  # trademark, "OS", "os", or any other confusingly similar designation without
+  # specific prior written permission from Alliance for Sustainable Energy, LLC.
+  #
+  # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER(S) AND ANY CONTRIBUTORS
+  # "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+  # THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  # ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER(S), ANY CONTRIBUTORS, THE
+  # UNITED STATES GOVERNMENT, OR THE UNITED STATES DEPARTMENT OF ENERGY, NOR ANY OF
+  # THEIR EMPLOYEES, BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+  # EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+  # OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  # INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+  # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+  # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  # *******************************************************************************
+%>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GEB Metrics</title>
+  <!--for Bootstrap 3-->
+  <!--  <link href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">-->
+  <!--  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>-->
+  <!--  <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>-->
+
+  <!--for Bootstrap 4-->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/tablesorter@2.31.1/dist/js/jquery.tablesorter.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"></script>
+
+  <script type="text/javascript" src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.4.8/d3.min.js"></script>
+  <script type="text/javascript" src="http://dimplejs.org/dist/dimple.v2.1.2.min.js"></script>
+  <style>
+    body {
+      position: relative;
+      height: 100%;
+    }
+
+    div.col-md-3 {
+      padding-left: 0;
+    }
+
+    #tocItems {
+      margin-top: 40px;
+      z-index: 1;
+    }
+
+    #tocItems > .nav > li > a {
+      padding-top: 4px;
+      padding-bottom: 4px;
+    }
+
+    .btn {
+      margin: 0 3px;
+    }
+
+    .bs-docs-sidebar.affix {
+      margin-left: 15px;
+      position: static;
+    }
+
+    .bs-docs-sidebar.well {
+      padding: 0;
+    }
+
+    /* sidebar */
+    .bs-docs-sidebar {
+      padding-left: 20px;
+      padding-bottom: 20px;
+    }
+
+    @media (min-width: 1500px) {
+      .container {
+        max-width: 1450px;
+      }
+    }
+
+    /* Show and affix the side nav when space allows it */
+    @media (min-width: 992px) {
+      .bs-docs-sidebar .nav > .active > ul {
+        display: block;
+      }
+
+      /* Widen the fixed sidebar */
+      .bs-docs-sidebar.affix,
+      .bs-docs-sidebar.affix-bottom {
+        width: 213px;
+      }
+
+      .bs-docs-sidebar.affix {
+        position: fixed; /* Undo the static from mobile first approach */
+      }
+
+      .bs-docs-sidebar.affix-bottom {
+        position: absolute; /* Undo the static from mobile first approach */
+      }
+    }
+
+    @media (min-width: 1200px) {
+      /* Widen the fixed sidebar again */
+      .bs-docs-sidebar.affix-bottom,
+      .bs-docs-sidebar.affix {
+        width: 263px;
+      }
+    }
+
+    /* make sidebar scrollable */
+    .bs-docs-sidebar > ul {
+      overflow-y: auto;
+      height: 85vh;
+      padding: 10px;
+    }
+
+    @media (max-width: 991px) {
+      #tocItems {
+        margin-top: 10px;
+      }
+
+      .bs-docs-sidebar > ul {
+        max-height: 300px;
+      }
+    }
+  </style>
+  <script type="text/javascript">
+      // This variable will be an array of graph data
+      var nine = <%= @test_nine_data || 'null' %>;
+  </script>
+</head>
+<body data-spy="scroll" data-target="#tocItems">
+<div id="content" class="container-fluid">
+  <!--  ##################################################################################-->
+  <div class="container marketing pt-1">
+    <div class="mt-3 p-3 rounded box-shadow" style="background-color: #263b6a">
+      <h2 class="text-center" style="color: whitesmoke"><b>OpenStudio Results</b></h2>
+      <h4 class="text-center" style="color: whitesmoke"><b>Grid-Interactive Efficient Buildings (GEB) Related Metrics</b></h4>
+      <% chart_index = table_index = 0 %>
+    </div>
+    <div>
+      <br>
+      <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+          <% @sections.each_with_index do |section, index| %>
+            <% next if not section %>
+            <% if index == 0 %>
+              <a class="nav-item nav-link active" id="nav-interface-tab" data-toggle="tab"
+                 href="#<%= section[:title].gsub(' ', '_').gsub('/', '_') %>" role="tab" aria-controls="nav-interface"
+                 aria-selected="false"><%= section[:title] %></a>
+            <% else %>
+              <a class="nav-item nav-link" id="nav-interface-tab" data-toggle="tab"
+                 href="#<%= section[:title].gsub(' ', '_').gsub('/', '_') %>" role="tab" aria-controls="nav-interface"
+                 aria-selected="false"><%= section[:title] %></a>
+            <% end %>
+          <% end %>
+        </div>
+      </nav>
+      <div class="tab-content" id="nav-tabContent">
+        <% @sections.each_with_index do |section, index| %>
+          <% next if not section %>
+          <% if index == 0 %>
+            <div class="tab-pane fade show active" id="<%= section[:title].gsub(' ', '_').gsub('/', '_') %>" role="tabpanel" aria-labelledby="nav-interface-tab">
+          <% else %>
+            <div class="tab-pane fade" id="<%= section[:title].gsub(' ', '_').gsub('/', '_') %>" role="tabpanel" aria-labelledby="nav-interface-tab">
+          <% end %>
+          <div class="card card-body pb-3">
+            <div class="col-12">
+              <!--<h5 class="pb-1"><%#= section[:title] %></h5>-->
+              <!--Messages-->
+              <% if section[:messages] %>
+                <% section[:messages].each do |message| %>
+                  <h5><i><%= message %></i></h5>
+                <% end %>
+              <% elsif section[:tables].size == 0 %>
+                <h5><i>No Data to Show for <%= section[:title] %></i></h5>
+              <% end %>
+              <!--Tables-->
+              <h4>GEB Metrics Tables</h4>
+              <% section[:tables].each do |table| %>
+                <% next if not table %>
+                <a class="pl-0" data-toggle="collapse" href="<%= "#table_#{table_index}" %>" aria-expanded="true">
+                  <%= table[:title] %>
+                </a>
+                <div class="collapse show pt-2" id=<%= "table_#{table_index}" %>>
+                  <div class="well">
+                    <% if table.has_key?(:data_color) %>
+                      <table class="table table-bordered table-condensed table-sm table-hover">
+                    <% else %>
+                      <table class="table table-striped table-bordered table-condensed table-sm table-hover">
+                    <% end %>
+                    <tr style="text-align: center">
+                      <% table[:header].each_with_index do |header, header_index| %>
+                        <% if not table[:units] or table[:units][header_index] == '' or not table[:units][header_index] %>
+                          <th><%= header %></th>
+                        <% else %>
+                          <th><%= "#{header} (#{table[:units][header_index]})" %></th>
+                        <% end %>
+                      <% end %>
+                    </tr>
+                    <% table[:data].each_with_index do |row, row_index| %>
+                      <tr style="text-align: center">
+                        <% row.each_with_index do |column, column_index| %>
+                          <% if column.class.to_s == 'Hash' and column.key?(:sub_header) %>
+                            <td><h5><b><i>(<%= column[:sub_header] %>)</i></b></h5></td>
+                          <% else %>
+                            <% if table.has_key?(:data_color) %>
+                              <td style="background-color:<%= "#{table[:data_color][row_index][column_index]}" %>"><%= column %></td>
+                            <% else %>
+                              <td><%= column %></td>
+                            <% end %>
+                          <% end %>
+                        <% end %>
+                      </tr>
+                    <% end %>
+                    </table>
+                    </table>
+                    <% if table.has_key?(:Metric_descriptions) %>
+                      <% table[:Metric_descriptions].each_with_index do |desc, index| %>
+                        <p class="pl-2"><%= desc %></p>
+                      <% end %>
+                    <% end %>
+                    <% table_index += 1 %>
+                  </div>
+                </div>
+              <% end %>
+
+            </div>
+          </div>
+          <div class="card card-body">
+            <div class="col-12 pt-2">
+              <!--Timeseries Chart divs-->
+              <% if section[:bldg_demand_charts] %>
+                <% if section[:bldg_demand_charts].length > 0 %>
+                  <h4>Time-series Plots</h4>
+                <% end %>
+                <% section[:bldg_demand_charts].each do |bldg_demand_chart| %>
+                  <div id=<%= "plotly_div_#{bldg_demand_chart[:chart_div]}" %>></div>
+                  <hr>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+          </div>
+        <% end %>
+
+        </div>
+      </div>
+    </div>
+    <!--  ##################################################################################-->
+
+  </div>
+</div>
+
+<% @sections.each_with_index do |section, index| %>
+  <% next if not section %>
+  <% if section[:bldg_demand_charts] %>
+    <% section[:bldg_demand_charts].each do |bldg_demand_chart| %>
+      <script>
+          var data = [<%= bldg_demand_chart[:chart_data].join(',') %>];
+          var layout = {
+              title: '<%= bldg_demand_chart[:title] %>',
+              xaxis: {
+                  title: '<%= bldg_demand_chart[:xaxis_label]%>',
+                  autorange: true
+              },
+              yaxis: {
+                  title: '<%= bldg_demand_chart[:yaxis_label]%>',
+                  autorange: true,
+                  type: 'linear'
+              },
+              width: 1350,
+              height: 500,
+              shapes: [
+                  //# highlight shed period only
+                  {
+                      'label': 'test',
+                      'type': 'rect',
+                      'xref': 'x',
+                      'yref': 'paper',
+                      'x0': '<%= bldg_demand_chart[:shed_range][0]%>',
+                      'y0': 0,
+                      'x1': '<%= bldg_demand_chart[:shed_range][1]%>',
+                      'y1': 1,
+                      'fillcolor': 'green',
+                      'opacity': 0.2,
+                      'line': {'width': 0}
+                  }
+              ]
+          };
+
+          <% if bldg_demand_chart.key?(:shed_range) && bldg_demand_chart.key?(:take_range)%>
+              layout.shapes = [
+                  //# highlight shed period
+                  {
+                      'type': 'rect',
+                      'xref': 'x',
+                      'yref': 'paper',
+                      'x0': '<%= bldg_demand_chart[:shed_range][0]%>',
+                      'y0': 0,
+                      'x1': '<%= bldg_demand_chart[:shed_range][1]%>',
+                      'y1': 1,
+                      'fillcolor': 'green',
+                      'opacity': 0.2,
+                      'line': {'width': 0}
+                  }
+              ];
+              <% if bldg_demand_chart[:take_range][0] > bldg_demand_chart[:take_range][1] %>
+                  // when take period goes overnight
+                  // # highlight take period
+                  layout.shapes.push(
+                      {
+                          'type': 'rect',
+                          //# x-reference is assigned to the x-values
+                          'xref': 'x',
+                          //# y-reference is assigned to the plot paper [0,1]
+                          'yref': 'paper',
+                          'x0': '<%= bldg_demand_chart[:take_range][0]%>',
+                          'y0': 0,
+                          'x1': 1,
+                          'y1': 1,
+                          'fillcolor': 'purple',
+                          'opacity': 0.2,
+                          'line': {'width': 0}
+                      }
+                  )
+                  layout.shapes.push(
+                      {
+                          'type': 'rect',
+                          //# x-reference is assigned to the x-values
+                          'xref': 'x',
+                          //# y-reference is assigned to the plot paper [0,1]
+                          'yref': 'paper',
+                          'x0': 0,
+                          'y0': 0,
+                          'x1': '<%= bldg_demand_chart[:take_range][1]%>',
+                          'y1': 1,
+                          'fillcolor': 'purple',
+                          'opacity': 0.2,
+                          'line': {'width': 0}
+                      }
+                  )
+                  layout.annotations = [
+                      {
+                          showarrow: false,
+                          text: "Shed period",
+                          align: "right",
+                          x: '<%= bldg_demand_chart[:shed_range][1]%>',
+                          xanchor: "right",
+                          y: 1,
+                          yanchor: "bottom"
+                      },
+                      {
+                          showarrow: false,
+                          text: "Take period",
+                          align: "right",
+                          x: '<%= bldg_demand_chart[:take_range][0]%>',
+                          xanchor: "left",
+                          y: 1,
+                          yanchor: "bottom"
+                      },
+                      {
+                          showarrow: false,
+                          text: "Take period",
+                          align: "right",
+                          x: '<%= bldg_demand_chart[:take_range][1]%>',
+                          xanchor: "left",
+                          y: 1,
+                          yanchor: "bottom"
+                      }
+                  ];
+              <% else %>
+                  // when take period doesn't go overnight
+                  // to highlight the timestamp we use shapes and create a rectangular
+                  layout.shapes = [
+                      // # 1st highlight take period
+                      {
+                          'type': 'rect',
+                          //# x-reference is assigned to the x-values
+                          'xref': 'x',
+                          //# y-reference is assigned to the plot paper [0,1]
+                          'yref': 'paper',
+                          'x0': '<%= bldg_demand_chart[:take_range][0]%>',
+                          'y0': 0,
+                          'x1': '<%= bldg_demand_chart[:take_range][1]%>',
+                          'y1': 1,
+                          'fillcolor': 'purple',
+                          'opacity': 0.2,
+                          'line': {'width': 0}
+                      },
+                      //# 2nd highlight shed period
+                      {
+                          'type': 'rect',
+                          'xref': 'x',
+                          'yref': 'paper',
+                          'x0': '<%= bldg_demand_chart[:shed_range][0]%>',
+                          'y0': 0,
+                          'x1': '<%= bldg_demand_chart[:shed_range][1]%>',
+                          'y1': 1,
+                          'fillcolor': 'green',
+                          'opacity': 0.2,
+                          'line': {'width': 0}
+                      }
+                  ];
+                  layout.annotations = [
+                      {
+                          showarrow: false,
+                          text: "Shed period",
+                          align: "right",
+                          x: '<%= bldg_demand_chart[:shed_range][1]%>',
+                          xanchor: "right",
+                          y: 1,
+                          yanchor: "bottom"
+                      },
+                      {
+                          showarrow: false,
+                          text: "Take period",
+                          align: "right",
+                          x: '<%= bldg_demand_chart[:take_range][0]%>',
+                          xanchor: "left",
+                          y: 1,
+                          yanchor: "bottom"
+                      }
+                  ];
+              <% end %>
+          <% elsif bldg_demand_chart.key?(:shed_range) %>
+          // if there is only shed period
+          // to highlight the timestamp we use shapes and create a rectangular
+            layout.shapes = [
+                //# highlight shed period only
+                {
+                    'type': 'rect',
+                    'xref': 'x',
+                    'yref': 'paper',
+                    'x0': '<%= bldg_demand_chart[:shed_range][0]%>',
+                    'y0': 0,
+                    'x1': '<%= bldg_demand_chart[:shed_range][1]%>',
+                    'y1': 1,
+                    'fillcolor': 'green',
+                    'opacity': 0.2,
+                    'line': {'width': 0}
+                }
+            ];
+            layout.annotations = [
+                {
+                    showarrow: false,
+                    text: "Shed period",
+                    align: "right",
+                    x: '<%= bldg_demand_chart[:shed_range][1]%>',
+                    xanchor: "right",
+                    y: 1,
+                    yanchor: "bottom"
+                },
+            ];
+          <% end %>
+
+
+
+          Plotly.newPlot('<%= "plotly_div_#{bldg_demand_chart[:chart_div]}" %>', data, layout);
+      </script>
+    <% end %>
+  <% end %>
+<% end %>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</body>
+</html>

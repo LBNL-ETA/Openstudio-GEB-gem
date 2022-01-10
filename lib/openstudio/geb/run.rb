@@ -9,59 +9,69 @@ module OpenStudio
         @measure_dict = measure_dict
         @run_output_path = run_output_path
         @weather_file_path = weather_file_path
-
-        if File.exist? run_output_path
-          FileUtils.rm_rf(run_output_path)
-          sleep(0.1)
-        end
-
-        unless File.directory?(run_output_path)
-          FileUtils.mkdir_p(run_output_path)
-        end
       end
 
       def run
         # load baseline model
         @baseline_osm = safe_load_osm(@baseline_dir_str)
 
+        # run baseline first. This is mainly for reporting GEB metrics purpose
+        # remove old osw_file
+        baseline_osw_result_folder = File.join(@run_output_path, "baseline")
+        rm_old_folder_and_create_new(baseline_osw_result_folder)
+
+        # add facility demand as output variable to the baseline
+        demand_var = OpenStudio::Model::OutputVariable.new('Facility Total Electricity Demand Rate', @baseline_osm)
+        demand_var.setReportingFrequency('timestep')
+        @baseline_osm.getTimestep.setNumberOfTimestepsPerHour(4)  # change to 15min timestep
+        @baseline_dir_str = File.join(baseline_osw_result_folder, "baseline.osm")  # update baseline model
+        @baseline_osm.save(@baseline_dir_str, true)
+
+        # create baseline osw
+        baseline_osw_path = File.join(baseline_osw_result_folder, "baseline.osw")
+        baseline_osw = {}
+        baseline_osw["weather_file"] = @weather_file_path
+        baseline_osw["seed_file"] = @baseline_dir_str
+
+        # TODO: remove
+        # baseline_osw["root"] = "/Users/sky/Sites/Openstudio-GEB-gem/"
+
+        File.open(baseline_osw_path, 'w') do |f|
+          f << JSON.pretty_generate(baseline_osw)
+        end
+
+        # run baseline osw
+        return false unless run_osw(baseline_osw_path, baseline_osw_result_folder)
+
+        # remove old osw_file
+        geb_osw_result_folder = File.join(@run_output_path, "run_geb_measures")
+        rm_old_folder_and_create_new(geb_osw_result_folder)
+
         # apply measures and create osw file
-        osw_path = apply_measures
+        geb_osw_path = apply_measures(geb_osw_result_folder)
 
-        # run osw
-        return false unless run_osw(osw_path)
+        # run geb measure osw
+        return false unless run_osw(geb_osw_path, geb_osw_result_folder)
+        # runner = OpenStudio::Extension::Runner.new(@run_output_path)
+        # failures = runner.run_osws([baseline_osw_path, geb_osw_path], num_parallel = 2)
+        # puts "failures: #{failures.inspect}"
 
-        # get results
-
+        # if failures.empty?
+        #   return true
+        # else
+        #   return false
+        # end
 
         return true
-
       end
 
       # measure_dict: hash of measures and their arguments => {measure_name: arguments}
-      def apply_measures
-        # remove old osw_file
+      def apply_measures(osw_result_folder)
         # create osw_file
-        osw_path = File.join(@run_output_path, "run_geb_measures/geb.osw")
+        osw_path = File.join(osw_result_folder, "geb.osw")
 
-        osw_result_folder = File.join(@run_output_path, "run_geb_measures")
-        if File.exist? osw_result_folder
-          FileUtils.rm_rf(osw_result_folder)
-          sleep(0.1)
-        end
-
-        unless File.directory?(osw_result_folder)
-          FileUtils.mkdir_p(osw_result_folder)
-        end
-
-        create_workflow(osw_path)
-
-        return osw_path
-      end
-
-
-      # measure_dict: hash of measures and their arguments => {measure_name: arguments}
-      def create_workflow(osw_path)
         steps = []
+        # measure_dict: hash of measures and their arguments => {measure_name: arguments}
         @measure_dict.each_pair do |m_name, para_dict|
           measure = {}
           measure['measure_dir_name'] = para_dict['measure_dir_name']
@@ -73,18 +83,21 @@ module OpenStudio
         osw["weather_file"] = @weather_file_path
         osw["seed_file"] = @baseline_dir_str
         osw["steps"] = steps
+
         File.open(osw_path, 'w') do |f|
           f << JSON.pretty_generate(osw)
         end
+
+        return osw_path
       end
 
-      def run_osw(osw_path)
+      def run_osw(osw_path, osw_result_folder)
         cli_path = OpenStudio.getOpenStudioCLI
         cmd = "\"#{cli_path}\" run -w \"#{osw_path}\""
         puts cmd
         system(cmd)
 
-        result_osw = postprocess_out_osw(File.join(@run_output_path, "run_geb_measures"))
+        result_osw = postprocess_out_osw(osw_result_folder)
         if result_osw[:completed_status] == 'Success'
           return true
         else

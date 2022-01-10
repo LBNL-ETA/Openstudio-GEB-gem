@@ -2,7 +2,7 @@
 
 ###### (Automatically generated documentation)
 
-# Reduce EPD by Percentage for Peak Hours Copy
+# Reduce EPD by Percentage for Peak Hours
 
 ## Description
 This measure reduces electric equipment loads by a user-specified percentage for a user-specified time period (usually the peak hours). The reduction can be applied to at most three periods throughout out the year specified by the user. This is applied throughout the entire building.
@@ -19,9 +19,9 @@ ModelMeasure
 ## Arguments
 
 
-### Percentage Reduction of Lighting Power (%)
+### Percentage Reduction of Electric Equipment Power (%)
 Enter a value between 0 and 100
-**Name:** lpd_reduce_percent,
+**Name:** epd_reduce_percent,
 **Type:** Double,
 **Units:** ,
 **Required:** true,

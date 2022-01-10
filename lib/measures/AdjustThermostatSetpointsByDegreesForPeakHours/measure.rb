@@ -32,25 +32,29 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
     # make an argument for the start time of cooling adjustment
     cooling_daily_starttime = OpenStudio::Measure::OSArgument.makeStringArgument('cooling_daily_starttime', false)
     cooling_daily_starttime.setDisplayName('Daily Start Time for Cooling Adjustment')
+    cooling_daily_starttime.setDescription('Use 24 hour format HH:MM:SS')
     cooling_daily_starttime.setDefaultValue('16:01:00')
     args << cooling_daily_starttime
 
     # make an argument for the end time of cooling adjustment
     cooling_daily_endtime = OpenStudio::Measure::OSArgument.makeStringArgument('cooling_daily_endtime', false)
     cooling_daily_endtime.setDisplayName('Daily End Time for Cooling Adjustment')
+    cooling_daily_endtime.setDescription('Use 24 hour format HH:MM:SS')
     cooling_daily_endtime.setDefaultValue('20:00:00')
     args << cooling_daily_endtime
 
     # make an argument for the start date of cooling adjustment
     cooling_startdate = OpenStudio::Measure::OSArgument.makeStringArgument('cooling_startdate', false)
     cooling_startdate.setDisplayName('Start Date for Cooling Adjustment')
-    cooling_startdate.setDefaultValue('2009-Jun-01')
+    cooling_startdate.setDescription('In MM-DD format')
+    cooling_startdate.setDefaultValue('06-01')
     args << cooling_startdate
 
     # make an argument for the end date of cooling adjustment
     cooling_enddate = OpenStudio::Measure::OSArgument.makeStringArgument('cooling_enddate', false)
     cooling_enddate.setDisplayName('End Date for Cooling Adjustment')
-    cooling_enddate.setDefaultValue('2009-Sep-30')
+    cooling_enddate.setDescription('In MM-DD format')
+    cooling_enddate.setDefaultValue('09-30')
     args << cooling_enddate
 
     # make an argument for adjustment to heating setpoint
@@ -62,37 +66,43 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
     # make an argument for the start time of heating adjustment
     heating_daily_starttime = OpenStudio::Measure::OSArgument.makeStringArgument('heating_daily_starttime', false)
     heating_daily_starttime.setDisplayName('Start Time for Heating Adjustment')
+    heating_daily_starttime.setDescription('Use 24 hour format HH:MM:SS')
     heating_daily_starttime.setDefaultValue('18:01:00')
     args << heating_daily_starttime
 
     # make an argument for the end time of heating adjustment
     heating_daily_endtime = OpenStudio::Measure::OSArgument.makeStringArgument('heating_daily_endtime', false)
     heating_daily_endtime.setDisplayName('End Time for Heating Adjustment')
+    heating_daily_endtime.setDescription('Use 24 hour format HH:MM:SS')
     heating_daily_endtime.setDefaultValue('22:00:00')
     args << heating_daily_endtime
 
     # make an argument for the first start date of heating adjustment
     heating_startdate_1 = OpenStudio::Measure::OSArgument.makeStringArgument('heating_startdate_1', false)
     heating_startdate_1.setDisplayName('Start Date for Heating Adjustment Period 1')
-    heating_startdate_1.setDefaultValue('2009-Jan-01')
+    heating_startdate_1.setDescription('In MM-DD format')
+    heating_startdate_1.setDefaultValue('01-01')
     args << heating_startdate_1
 
     # make an argument for the first end date of heating adjustment
     heating_enddate_1 = OpenStudio::Measure::OSArgument.makeStringArgument('heating_enddate_1', false)
     heating_enddate_1.setDisplayName('End Date for Heating Adjustment Period 1')
-    heating_enddate_1.setDefaultValue('2009-May-31')
+    heating_enddate_1.setDescription('In MM-DD format')
+    heating_enddate_1.setDefaultValue('05-31')
     args << heating_enddate_1
 
     # make an argument for the second start date of heating adjustment
     heating_startdate_2 = OpenStudio::Measure::OSArgument.makeStringArgument('heating_startdate_2', false)
     heating_startdate_2.setDisplayName('Start Date for Heating Adjustment Period 2')
-    heating_startdate_2.setDefaultValue('2009-Oct-01')
+    heating_startdate_2.setDescription('In MM-DD format')
+    heating_startdate_2.setDefaultValue('10-01')
     args << heating_startdate_2
 
     # make an argument for the second end date of heating adjustment
     heating_enddate_2 = OpenStudio::Measure::OSArgument.makeStringArgument('heating_enddate_2', false)
     heating_enddate_2.setDisplayName('End Date for Heating Adjustment Period 2')
-    heating_enddate_2.setDefaultValue('2009-Dec-31')
+    heating_enddate_2.setDescription('In MM-DD format')
+    heating_enddate_2.setDefaultValue('12-31')
     args << heating_enddate_2
 
     # make an argument if the thermostat for design days should be altered
@@ -103,7 +113,7 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
 
     auto_date = OpenStudio::Measure::OSArgument.makeBoolArgument('auto_date', false)
     auto_date.setDisplayName('Enable Climate-specific Periods Setting?')
-    auto_date.setDefaultValue(true)
+    auto_date.setDefaultValue(false)
     args << auto_date
 
     alt_periods = OpenStudio::Measure::OSArgument.makeBoolArgument('alt_periods', false)
@@ -140,14 +150,75 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
     auto_date = runner.getBoolArgumentValue('auto_date', user_arguments)
     alt_periods = runner.getBoolArgumentValue('alt_periods', user_arguments)
 
-    summerStartDate = OpenStudio::Date.new(cooling_startdate)
-    summerEndDate = OpenStudio::Date.new(cooling_enddate)
-    winterStartDate1 = OpenStudio::Date.new(heating_startdate_1)
-    winterEndDate1 = OpenStudio::Date.new(heating_enddate_1)
-    winterStartDate2 = OpenStudio::Date.new(heating_startdate_2)
-    winterEndDate2 = OpenStudio::Date.new(heating_enddate_2)
+    cooling_start_month = nil
+    cooling_start_day = nil
+    md = /(\d\d)-(\d\d)/.match(cooling_startdate)
+    if md
+      cooling_start_month = md[1].to_i
+      cooling_start_day = md[2].to_i
+    else
+      runner.registerError('Start date must be in MM-DD format.')
+      return false
+    end
+    cooling_end_month = nil
+    cooling_end_day = nil
+    md = /(\d\d)-(\d\d)/.match(cooling_enddate)
+    if md
+      cooling_end_month = md[1].to_i
+      cooling_end_day = md[2].to_i
+    else
+      runner.registerError('End date must be in MM-DD format.')
+      return false
+    end
+    heating_start_month_1 = nil
+    heating_start_day_1 = nil
+    md = /(\d\d)-(\d\d)/.match(heating_startdate_1)
+    if md
+      heating_start_month_1 = md[1].to_i
+      heating_start_day_1 = md[2].to_i
+    else
+      runner.registerError('Start date must be in MM-DD format.')
+      return false
+    end
+    heating_end_month_1 = nil
+    heating_end_day_1 = nil
+    md = /(\d\d)-(\d\d)/.match(heating_enddate_1)
+    if md
+      heating_end_month_1 = md[1].to_i
+      heating_end_day_1 = md[2].to_i
+    else
+      runner.registerError('Start date must be in MM-DD format.')
+      return false
+    end
+    heating_start_month_2 = nil
+    heating_start_day_2 = nil
+    md = /(\d\d)-(\d\d)/.match(heating_startdate_2)
+    if md
+      heating_start_month_2 = md[1].to_i
+      heating_start_day_2 = md[2].to_i
+    else
+      runner.registerError('Start date must be in MM-DD format.')
+      return false
+    end
+    heating_end_month_2 = nil
+    heating_end_day_2 = nil
+    md = /(\d\d)-(\d\d)/.match(heating_enddate_1)
+    if md
+      heating_end_month_2 = md[1].to_i
+      heating_end_day_2 = md[2].to_i
+    else
+      runner.registerError('Start date must be in MM-DD format.')
+      return false
+    end
 
-######### GET CLIMATE ZONES ################
+    summerStartDate = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(cooling_start_month), cooling_start_day)
+    summerEndDate = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(cooling_end_month), cooling_end_day)
+    winterStartDate1 = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(heating_start_month_1), heating_end_day_1)
+    winterEndDate1 = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(heating_end_month_1), heating_end_day_1)
+    winterStartDate2 = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(heating_start_month_2), heating_end_day_2)
+    winterEndDate2 = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(heating_end_month_2), heating_end_day_2)
+
+    ######### GET CLIMATE ZONES ################
     if auto_date
       ashraeClimateZone = ''
       #climateZoneNUmber = ''
@@ -265,7 +336,7 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
         else
           new_clg_set_sch = clg_set_sch.get.clone(model)
           new_clg_set_sch = new_clg_set_sch.to_Schedule.get
-          new_clg_set_sch.setName("#{clg_set_sch.get.name.to_s} adjusted by #{cooling_adjustment_ip}")
+          new_clg_set_sch.setName("#{clg_set_sch.get.name.to_s} adjusted by #{cooling_adjustment_ip}F")
 
           # add to the hash
           clg_set_schs[clg_set_sch.get.name.to_s] = new_clg_set_sch
@@ -320,17 +391,27 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
     shift_time3 = OpenStudio::Time.new(0, 24, 0, 0)    # not used
     shift_time_heating_start = OpenStudio::Time.new(heating_daily_starttime)
     shift_time_heating_end = OpenStudio::Time.new(heating_daily_endtime)
-    # make cooling schedule adjustments and rename. Put in check to skip and warn if schedule not ruleset
 
+    # Check model's daylight saving period, if cooling period is within daylight saving period, shift the cooling start time and end time by one hour later
+    if model.getObjectsByType('OS:RunPeriodControl:DaylightSavingTime'.to_IddObjectType).size >= 1
+      runperiodctrl_daylgtsaving = model.getRunPeriodControlDaylightSavingTime
+      daylight_saving_startdate = runperiodctrl_daylgtsaving.startDate
+      daylight_saving_enddate = runperiodctrl_daylgtsaving.endDate
+      if summerStartDate >= OpenStudio::Date.new(daylight_saving_startdate.monthOfYear, daylight_saving_startdate.dayOfMonth, summerStartDate.year) && summerEndDate <= OpenStudio::Date.new(daylight_saving_enddate.monthOfYear, daylight_saving_enddate.dayOfMonth, summerStartDate.year)
+        shift_time_cooling_start += OpenStudio::Time.new(0,1,0,0)
+        shift_time_cooling_end += OpenStudio::Time.new(0,1,0,0)
+      end
+    end
+
+    # make cooling schedule adjustments and rename. Put in check to skip and warn if schedule not ruleset
     clg_set_schs.each do |sch_name, os_sch| # old name and new object for schedule
-      puts "old sch_name: #{sch_name}"
-      puts "new sch_name: #{os_sch.name.to_s}"
       if !os_sch.to_ScheduleRuleset.empty?
         schedule = os_sch.to_ScheduleRuleset.get
         default_rule = schedule.defaultDaySchedule
         rules = schedule.scheduleRules
         days_covered = Array.new(7, false)
 
+        # TODO: when ruleset has multiple rules for each month or couple of months instead of a full year, should first see if the period overlaps with summer/winter
         if rules.length > 0
           rules.each do |rule|
             winter_rule1 = copy_sch_rule_for_period(model, rule, rule.daySchedule, winterStartDate1, winterEndDate1)
@@ -345,16 +426,9 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
             day_time_vector = summer_day.times
             day_value_vector = summer_day.values
             clg_sch_set_values << summer_day.values   # original
-
-            puts "summer day schedule name: #{summer_day.name.to_s}"
-            puts "before change: #{day_value_vector}"
-
             summer_day.clearValues
 
             summer_day = updateDaySchedule(summer_day, day_time_vector, day_value_vector, shift_time_cooling_start, shift_time_cooling_end, cooling_adjustment_ip)
-
-            puts "after change: #{summer_day.values}"
-
             final_clg_sch_set_values << summer_day.values   # new
           end
         else
@@ -363,9 +437,6 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
 
 
         if days_covered.include?(false)
-          puts "*"*150
-          puts "not all days are covered"
-
           winter_rule1 = create_sch_rule_from_default(model, schedule, default_rule, winterStartDate1, winterEndDate1)
           winter_rule2 = create_sch_rule_from_default(model, schedule, default_rule, winterStartDate2, winterEndDate2)
 
@@ -393,8 +464,6 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
 
     # make heating schedule adjustments and rename. Put in check to skip and warn if schedule not ruleset
     htg_set_schs.each do |sch_name, os_sch| # old name and new object for schedule
-      puts "old sch_name: #{sch_name}"
-      puts "new sch_name: #{os_sch.name.to_s}"
       if !os_sch.to_ScheduleRuleset.empty?
         schedule = os_sch.to_ScheduleRuleset.get
         default_rule = schedule.defaultDaySchedule
@@ -428,8 +497,6 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
 
 
         if days_covered.include?(false)
-          puts "*"*150
-          puts "not all days are covered - heating"
           summer_rule = create_sch_rule_from_default(model, schedule, default_rule, summerStartDate, summerEndDate)
 
           coverMissingDays(summer_rule, days_covered)

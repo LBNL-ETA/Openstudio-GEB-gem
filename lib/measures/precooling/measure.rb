@@ -75,7 +75,7 @@ class Precooling < OpenStudio::Measure::ModelMeasure
 
     auto_date = OpenStudio::Measure::OSArgument.makeBoolArgument('auto_date', true)
     auto_date.setDisplayName('Enable Climate-specific Periods Setting ?')
-    auto_date.setDefaultValue(true)
+    auto_date.setDefaultValue(false)
     args << auto_date
 
     alt_periods = OpenStudio::Measure::OSArgument.makeBoolArgument('alt_periods', true)
@@ -216,6 +216,24 @@ class Precooling < OpenStudio::Measure::ModelMeasure
       return false
     end
 
+    puts "shift_time1: #{shift_time1}"
+    puts "shift_time2: #{shift_time2}"
+
+    # Check model's daylight saving period, if cooling period is within daylight saving period, shift the cooling start time and end time by one hour later
+    if model.getObjectsByType('OS:RunPeriodControl:DaylightSavingTime'.to_IddObjectType).size >= 1
+      runperiodctrl_daylgtsaving = model.getRunPeriodControlDaylightSavingTime
+      daylight_saving_startdate = runperiodctrl_daylgtsaving.startDate
+      daylight_saving_enddate = runperiodctrl_daylgtsaving.endDate
+      if summerStartDate >= OpenStudio::Date.new(daylight_saving_startdate.monthOfYear, daylight_saving_startdate.dayOfMonth, summerStartDate.year) && summerEndDate <= OpenStudio::Date.new(daylight_saving_enddate.monthOfYear, daylight_saving_enddate.dayOfMonth, summerStartDate.year)
+        shift_time1 += OpenStudio::Time.new(0,1,0,0)
+        shift_time2 += OpenStudio::Time.new(0,1,0,0)
+      end
+    end
+
+    puts "shift_time1: #{shift_time1}"
+    puts "shift_time2: #{shift_time2}"
+
+
     # ruby test to see if first charter of string is uppercase letter
     if cooling_adjustment > 0
       runner.registerWarning('Raising cooling setpoint will not do pre-cooling.')
@@ -253,50 +271,55 @@ class Precooling < OpenStudio::Measure::ModelMeasure
 
     air_loop_avail_schs.each do |sch_name, air_loop_sch|
       runner.registerInfo("Air Loop Schedule #{sch_name}:")
-      schedule = air_loop_sch.to_ScheduleRuleset.get
-      default_rule = schedule.defaultDaySchedule
-      rules = schedule.scheduleRules
-      days_covered = Array.new(7, false)
+      if air_loop_sch.to_ScheduleRuleset.empty?
+        runner.registerWarning("Schedule #{sch_name} isn't a ScheduleRuleset object and won't be altered by this measure.")
+        air_loop_sch.remove # remove un-used clone
+      else
+        schedule = air_loop_sch.to_ScheduleRuleset.get
+        default_rule = schedule.defaultDaySchedule
+        rules = schedule.scheduleRules
+        days_covered = Array.new(7, false)
 
-      rules.each do |rule|
-        winter_avail_rule1 = copy_sch_rule_for_period(model, rule, rule.daySchedule, winterStartDate1, winterEndDate1)
-        winter_avail_rule2 = copy_sch_rule_for_period(model, rule, rule.daySchedule, winterStartDate2, winterEndDate2)
-        runner.registerInfo("    ------------ time: #{rule.daySchedule.times.map {|os_time| os_time.toString}}")
-        runner.registerInfo("    ------------ values: #{rule.daySchedule.values}")
-        summer_avail_rule = rule.clone(model).to_ScheduleRule.get
-        summer_avail_rule.setStartDate(summerStartDate)
-        summer_avail_rule.setEndDate(summerEndDate)
+        rules.each do |rule|
+          winter_avail_rule1 = copy_sch_rule_for_period(model, rule, rule.daySchedule, winterStartDate1, winterEndDate1)
+          winter_avail_rule2 = copy_sch_rule_for_period(model, rule, rule.daySchedule, winterStartDate2, winterEndDate2)
+          runner.registerInfo("    ------------ time: #{rule.daySchedule.times.map {|os_time| os_time.toString}}")
+          runner.registerInfo("    ------------ values: #{rule.daySchedule.values}")
+          summer_avail_rule = rule.clone(model).to_ScheduleRule.get
+          summer_avail_rule.setStartDate(summerStartDate)
+          summer_avail_rule.setEndDate(summerEndDate)
 
-        checkDaysCovered(summer_avail_rule, days_covered)
+          checkDaysCovered(summer_avail_rule, days_covered)
 
-        summer_avail_day = summer_avail_rule.daySchedule
-        day_time_vector = summer_avail_day.times
-        day_value_vector = summer_avail_day.values
-        summer_avail_day.clearValues
+          summer_avail_day = summer_avail_rule.daySchedule
+          day_time_vector = summer_avail_day.times
+          day_value_vector = summer_avail_day.values
+          summer_avail_day.clearValues
 
-        summer_avail_day = updateAvailDaySchedule(summer_avail_day, day_time_vector, day_value_vector, shift_time1, shift_time2)
-        runner.registerInfo("    ------------ updated time: #{summer_avail_day.times.map {|os_time| os_time.toString}}")
-        runner.registerInfo("    ------------ uodated values: #{summer_avail_day.values}")
+          summer_avail_day = updateAvailDaySchedule(summer_avail_day, day_time_vector, day_value_vector, shift_time1, shift_time2)
+          runner.registerInfo("    ------------ updated time: #{summer_avail_day.times.map {|os_time| os_time.toString}}")
+          runner.registerInfo("    ------------ uodated values: #{summer_avail_day.values}")
 
-      end
+        end
 
-      if days_covered.include?(false)
+        if days_covered.include?(false)
 
-        winter_rule1 = create_sch_rule_from_default(model, schedule, default_rule, winterStartDate1, winterEndDate1)
-        winter_rule2 = create_sch_rule_from_default(model, schedule, default_rule, winterStartDate2, winterEndDate2)
+          winter_rule1 = create_sch_rule_from_default(model, schedule, default_rule, winterStartDate1, winterEndDate1)
+          winter_rule2 = create_sch_rule_from_default(model, schedule, default_rule, winterStartDate2, winterEndDate2)
 
-        coverMissingDays(winter_rule1, days_covered)
-        checkDaysCovered(winter_rule1, days_covered)
+          coverMissingDays(winter_rule1, days_covered)
+          checkDaysCovered(winter_rule1, days_covered)
 
-        summer_rule = copy_sch_rule_for_period(model, winter_rule1, default_rule, summerStartDate, summerEndDate)
+          summer_rule = copy_sch_rule_for_period(model, winter_rule1, default_rule, summerStartDate, summerEndDate)
 
-        summer_day = summer_rule.daySchedule
-        day_time_vector = summer_day.times
-        day_value_vector = summer_day.values
-        summer_day.clearValues
+          summer_day = summer_rule.daySchedule
+          day_time_vector = summer_day.times
+          day_value_vector = summer_day.values
+          summer_day.clearValues
 
-        summer_day = updateAvailDaySchedule(summer_day, day_time_vector, day_value_vector, shift_time1, shift_time2)
+          summer_day = updateAvailDaySchedule(summer_day, day_time_vector, day_value_vector, shift_time1, shift_time2)
 
+        end
       end
     end
 

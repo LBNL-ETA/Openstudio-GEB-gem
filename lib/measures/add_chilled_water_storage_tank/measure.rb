@@ -92,13 +92,15 @@ class AddChilledWaterStorageTank < OpenStudio::Measure::ModelMeasure
     # Make double argument for loop setpoint temperature
     secondary_loop_sp = OpenStudio::Measure::OSArgument.makeDoubleArgument('secondary_loop_sp', true)
     secondary_loop_sp.setDisplayName('Secondary Loop (discharging) Setpoint Temperature degree C:')
-    secondary_loop_sp.setDefaultValue(8.5)
+    # secondary_loop_sp.setDefaultValue(8.5)
+    secondary_loop_sp.setDefaultValue(6.7)
     args << secondary_loop_sp
 
     # Make double argument for loop temperature for chilled water charging
     tank_charge_sp = OpenStudio::Measure::OSArgument.makeDoubleArgument('tank_charge_sp', true)
     tank_charge_sp.setDisplayName('Chilled Water Tank Setpoint Temperature degree C:')
-    tank_charge_sp.setDefaultValue(7.5)
+    # tank_charge_sp.setDefaultValue(7.5)
+    tank_charge_sp.setDefaultValue(6.7)
     args << tank_charge_sp
 
     # Make double argument for loop design delta T
@@ -426,7 +428,7 @@ class AddChilledWaterStorageTank < OpenStudio::Measure::ModelMeasure
 
       # add plant equipment operation schema if partial storage
       clg_op_scheme = OpenStudio::Model::PlantEquipmentOperationCoolingLoad.new(model)
-      tank_supply_watt = 4182 * tank_vol * 1000 * secondary_delta_t / (3600 * lasting_hrs)
+      tank_supply_watt = 2.0 * (4182 * tank_vol * 1000 * secondary_delta_t / (3600 * lasting_hrs))   # double the cooling cap in case thermal storage is not used at larger cooling load.
       # the sequence of addEquipment and addLoadRange can't be switched
       clg_op_scheme.addEquipment(sec_chiller)
       clg_op_scheme.addLoadRange(tank_supply_watt, [chw_storage_tank])

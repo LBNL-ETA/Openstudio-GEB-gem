@@ -75,7 +75,7 @@ class ReduceLPDByPercentageForPeakHoursTest < Minitest::Test
 
     # load the test model
     translator = OpenStudio::OSVersion::VersionTranslator.new
-    path = "#{File.dirname(__FILE__)}/example_model.osm"
+    path = "#{File.dirname(__FILE__)}/test.osm"
     model = translator.loadModel(path)
     assert(!model.empty?)
     model = model.get
@@ -90,7 +90,11 @@ class ReduceLPDByPercentageForPeakHoursTest < Minitest::Test
     # create hash of argument values.
     # If the argument has a default that you want to use, you don't need it in the hash
     args_hash = {}
-    args_hash['space_name'] = 'New Space'
+    args_hash['lpd_reduce_percent'] = 25
+    args_hash['start_time'] = "14:00:00"
+    args_hash['end_time'] = "18:00:00"
+    args_hash['start_date1'] = '06-01'
+    args_hash['end_date1'] = '09-30'
     # using defaults values from measure.rb for other arguments
 
     # populate argument with specified hash value if specified
@@ -111,11 +115,7 @@ class ReduceLPDByPercentageForPeakHoursTest < Minitest::Test
 
     # assert that it ran correctly
     assert_equal('Success', result.value.valueName)
-    assert(result.info.size == 1)
     assert(result.warnings.empty?)
-
-    # check that there is now 1 space
-    assert_equal(1, model.getSpaces.size - num_spaces_seed)
 
     # save the model to test output directory
     output_file_path = "#{File.dirname(__FILE__)}//output/test_output.osm"

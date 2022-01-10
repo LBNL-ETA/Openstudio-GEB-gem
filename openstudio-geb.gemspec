@@ -25,9 +25,9 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'bundler', '~> 2.1'
   spec.add_development_dependency 'rake', '~> 13.0'
   spec.add_development_dependency 'rspec', '3.7.0'
-  spec.add_development_dependency 'rubocop', '~> 0.54.0'
+  spec.add_development_dependency 'rubocop', '~> 1.15.0'
   spec.add_development_dependency 'nokogiri', '~>1.10'
 
-  spec.add_dependency 'openstudio-extension', '~> 0.3.2'
+  spec.add_dependency 'openstudio-extension', '~> 0.4.2'
   spec.add_dependency 'openstudio-standards', '~> 0.2.9'
 end

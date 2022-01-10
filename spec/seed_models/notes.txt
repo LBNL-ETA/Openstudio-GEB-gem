@@ -1,0 +1,1 @@
+SFD_1story_UB_UA_ASHP2_HPWH.osm and SFD_2story_FB_UA_GRG_AC1_UnitHeater_FuelTankWH.osm come from ResStock, but modified to be using schedule:ruleset instead of original schedule:file, and added schedule:rule to schedule:ruleset.
