@@ -296,22 +296,7 @@
               },
               width: 1350,
               height: 500,
-              shapes: [
-                  //# highlight shed period only
-                  {
-                      'label': 'test',
-                      'type': 'rect',
-                      'xref': 'x',
-                      'yref': 'paper',
-                      'x0': '<%= bldg_demand_chart[:shed_range][0]%>',
-                      'y0': 0,
-                      'x1': '<%= bldg_demand_chart[:shed_range][1]%>',
-                      'y1': 1,
-                      'fillcolor': 'green',
-                      'opacity': 0.2,
-                      'line': {'width': 0}
-                  }
-              ]
+              shapes: []
           };
 
           <% if bldg_demand_chart.key?(:shed_range) && bldg_demand_chart.key?(:take_range)%>

@@ -103,10 +103,6 @@ class AdjustDHWSetpoint < OpenStudio::Measure::ModelMeasure
         end
       end
     end
-    puts "flex_hrs: #{flex_hrs}"
-    puts "hours: #{hours}"
-    puts "minutes: #{minutes}"
-    puts "flex_stps: #{flex_stps}"
 
     # convert hours and minutes into OS:Time objects
     hours.each_with_index do |h, idx|
@@ -155,8 +151,6 @@ class AdjustDHWSetpoint < OpenStudio::Measure::ModelMeasure
       old_times_to_del = []
       new_values = Array.new(flex_times.size, 2)
 
-      puts "old_values: #{old_values}"
-
       # find existing values in reference schedule and grab for use in new-rule creation
       flex_times.size.times do |i|
         if i.even?
@@ -196,8 +190,6 @@ class AdjustDHWSetpoint < OpenStudio::Measure::ModelMeasure
       flex_times_clean = flex_times.reject.with_index {|x,i| idx_to_del.include?i}
       new_values_clean = new_values.reject.with_index {|x,i| idx_to_del.include?i}
 
-      puts "new_values_clean: #{new_values_clean.inspect}"
-
       # create new rules and add to default day based on flex period options above
       idx = 0
       flex_times_clean.each do |ft|
@@ -232,8 +224,6 @@ class AdjustDHWSetpoint < OpenStudio::Measure::ModelMeasure
 
     # search for heat pump water heater first, if no HPWH, change the setpoint of WaterHeater:Mixed
     hpwhs = model.getWaterHeaterHeatPumps + model.getWaterHeaterHeatPumpWrappedCondensers
-    puts "*"*150
-    puts hpwhs.inspect
     if hpwhs.empty?  # no HPWH in the model
       model.getWaterHeaterMixeds.each do |wh_mix|
         new_sch = wh_mix.setpointTemperatureSchedule.get.clone.to_ScheduleRuleset.get

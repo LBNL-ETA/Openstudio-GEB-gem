@@ -603,6 +603,8 @@ module OsLib_Reporting
       end
     end
 
+    puts "*****We are here"
+
     bldg_demand_chart[:chart_data] << JSON.generate(
       type: "scatter",
       mode: "lines",
@@ -617,6 +619,9 @@ module OsLib_Reporting
       x: event_day_times,
       y: event_day_geb_values
     )
+
+    puts "demand_decrease_primary_metrics_table: #{demand_decrease_primary_metrics_table.inspect}"
+    puts "bldg_demand_chart: #{bldg_demand_chart.inspect}"
 
     @geb_metrics_section[:tables] << demand_decrease_primary_metrics_table
     @geb_metrics_section[:bldg_demand_charts] << bldg_demand_chart

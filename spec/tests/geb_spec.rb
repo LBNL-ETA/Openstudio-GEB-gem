@@ -55,7 +55,7 @@ RSpec.describe OpenStudio::Geb do
 
   it "can apply and run single measure" do
     # provide baseline path
-    baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/LargeOffice-90.1-2013-ASHRAE 169-2013-5A.osm")
+    baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/SF-CACZ6-HPWH-pre1978.osm")
     all_measures = list_all_geb_measures
     # puts JSON.pretty_generate(all_measures)
     run_output_path = File.join(File.dirname(__FILE__ ), "../output")
@@ -122,12 +122,12 @@ RSpec.describe OpenStudio::Geb do
       #     "charge_end" => '07:00:00'
       #   }
       # },
-      "Add HPWH for Domestic Hot Water" => {
-        "measure_dir_name" => all_measures["Add HPWH for Domestic Hot Water"]["measure_dir_name"],
-        "arguments" => {
-          "type" => "PumpedCondenser"
-        }
-      },
+      # "Add HPWH for Domestic Hot Water" => {
+      #   "measure_dir_name" => all_measures["Add HPWH for Domestic Hot Water"]["measure_dir_name"],
+      #   "arguments" => {
+      #     "type" => "PumpedCondenser"
+      #   }
+      # },
       # "Adjust DHW setpoint" => {
       #   "measure_dir_name" => all_measures["Adjust DHW setpoint"]["measure_dir_name"],
       #   "arguments" => {
@@ -138,6 +138,14 @@ RSpec.describe OpenStudio::Geb do
       #     "flex_stp_3" => '120'
       #   }
       # },
+      "Reduce domestic hot water use for peak hours" => {
+        "measure_dir_name" => all_measures["Reduce domestic hot water use for peak hours"]["measure_dir_name"],
+        "arguments" => {
+          "water_use_reduce_percent" => 50,
+          "start_time" => '16:00:00',
+          "end_time" => '21:00:00'
+        }
+      },
       # TODO: test overnight take period
       # TODO: test no shed period and take period
       # TODO: test shed period only
@@ -146,8 +154,8 @@ RSpec.describe OpenStudio::Geb do
         "arguments" => {
           "event_date" => "07-21",
           "baseline_run_output_path" => run_output_path,
-          "shed_start" => '14:00:00',
-          "shed_end" => '18:00:00'
+          "shed_start" => '16:00:00',
+          "shed_end" => '21:00:00'
           # "take_start" => '09:00:00',
           # "take_end" => '12:00:00'
         }

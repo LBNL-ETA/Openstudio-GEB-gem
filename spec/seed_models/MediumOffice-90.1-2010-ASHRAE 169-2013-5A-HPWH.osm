@@ -1,7 +1,7 @@
 
 OS:Version,
-  {3c26dbef-87a1-4c0d-a447-8d7b3b09a0b6}, !- Handle
-  3.1.0;                                  !- Version Identifier
+  {b2367eb8-7269-4dff-93b8-1d6e81fa9824}, !- Handle
+  3.2.1;                                  !- Version Identifier
 
 OS:Schedule:Constant,
   {caa8d877-bc04-445c-b8e9-85a98907b891}, !- Handle
@@ -60,7 +60,6 @@ OS:Surface,
 
 OS:Connection,
   {3251a104-9178-462f-87a9-5bd4dc7a4421}, !- Handle
-  {a34e1b20-5b85-4001-910e-e99c193c9e37}, !- Name
   ,                                       !- Source Object
   11,                                     !- Outlet Port
   ,                                       !- Target Object
@@ -99,7 +98,6 @@ OS:Surface,
 
 OS:Connection,
   {3997a087-aeb9-4f63-8af7-77219f3fcf60}, !- Handle
-  {a5b4f6bb-76ac-49ca-9714-ec400ef4073b}, !- Name
   ,                                       !- Source Object
   11,                                     !- Outlet Port
   ,                                       !- Target Object
@@ -140,7 +138,6 @@ OS:Surface,
 
 OS:Connection,
   {9374b6d9-4d54-48ce-a7eb-cec45d1eb92e}, !- Handle
-  {91c1062b-20ef-48be-b1d8-36df762b49ba}, !- Name
   ,                                       !- Source Object
   11,                                     !- Outlet Port
   ,                                       !- Target Object
@@ -181,7 +178,6 @@ OS:Surface,
 
 OS:Connection,
   {c3560cee-15d4-46d3-8e14-7961e8c7a634}, !- Handle
-  {dfa5c0cc-e1e7-424f-a80c-e433ac49c8fb}, !- Name
   ,                                       !- Source Object
   11,                                     !- Outlet Port
   ,                                       !- Target Object
@@ -222,7 +218,6 @@ OS:Surface,
 
 OS:Connection,
   {afe10e32-b72d-4d5e-bf54-2826ba05b467}, !- Handle
-  {2d982968-6e53-4520-ae27-0ab10bba98b3}, !- Name
   ,                                       !- Source Object
   11,                                     !- Outlet Port
   ,                                       !- Target Object
@@ -261,7 +256,6 @@ OS:Surface,
 
 OS:Connection,
   {8648570b-75f8-4c43-8675-fd8884421cf9}, !- Handle
-  {3767d3cc-1c29-4eaa-a8e5-c8e9afb466de}, !- Name
   ,                                       !- Source Object
   11,                                     !- Outlet Port
   ,                                       !- Target Object
@@ -300,7 +294,6 @@ OS:Surface,
 
 OS:Connection,
   {70c7c49f-9c3b-4432-948d-40f7dcdceb85}, !- Handle
-  {27f238d7-c984-49a3-a31d-8c158bc58e4a}, !- Name
   ,                                       !- Source Object
   11,                                     !- Outlet Port
   ,                                       !- Target Object
@@ -341,7 +334,6 @@ OS:Surface,
 
 OS:Connection,
   {5b4f233a-f867-4e28-b77f-a75223d01ab1}, !- Handle
-  {59e4d256-bcb2-4f19-b7a0-43ebd7ca0b4a}, !- Name
   ,                                       !- Source Object
   11,                                     !- Outlet Port
   ,                                       !- Target Object
@@ -363,7 +355,6 @@ OS:Space,
 
 OS:Connection,
   {1075df3e-244e-4e8c-9ecb-3835a6dcd57e}, !- Handle
-  {c7a79ba8-5df7-4625-8813-3c03c43e80d9}, !- Name
   ,                                       !- Source Object
   11,                                     !- Outlet Port
   ,                                       !- Target Object
@@ -419,7 +410,6 @@ OS:Surface,
 
 OS:Connection,
   {48349877-a319-4bb0-a75b-701ab9ce8476}, !- Handle
-  {192384f3-e080-4c16-80e9-652a030eeca3}, !- Name
   ,                                       !- Source Object
   11,                                     !- Outlet Port
   ,                                       !- Target Object
@@ -458,7 +448,6 @@ OS:Surface,
 
 OS:Connection,
   {c74d23b7-90c7-4c8d-9eae-736c6bbd98a2}, !- Handle
-  {ae3fead7-c6f7-42ed-a9ff-abe6c3ada941}, !- Name
   ,                                       !- Source Object
   11,                                     !- Outlet Port
   ,                                       !- Target Object
@@ -547,7 +536,6 @@ OS:Surface,
 
 OS:Connection,
   {3ac71dba-513d-4610-8b96-a1499245af91}, !- Handle
-  {125040e3-a269-48e9-8312-919f9659a926}, !- Name
   ,                                       !- Source Object
   11,                                     !- Outlet Port
   ,                                       !- Target Object
@@ -603,7 +591,6 @@ OS:Surface,
 
 OS:Connection,
   {d867664e-8bbb-4857-8fa5-fa5e58516137}, !- Handle
-  {04e66276-502f-4d83-a247-2ab0a2d944c7}, !- Name
   ,                                       !- Source Object
   11,                                     !- Outlet Port
   ,                                       !- Target Object
@@ -676,7 +663,6 @@ OS:Surface,
 
 OS:Connection,
   {386b236d-87cf-4c51-a865-7efaae1a1371}, !- Handle
-  {c856817e-1774-48e9-9a76-eac1f951338c}, !- Name
   ,                                       !- Source Object
   11,                                     !- Outlet Port
   ,                                       !- Target Object
@@ -799,7 +785,6 @@ OS:Surface,
 
 OS:Connection,
   {7dff4d08-8dca-4d9d-a4e9-ae9e455d6704}, !- Handle
-  {498e129e-0912-4645-a5b4-6d8125082d8f}, !- Name
   ,                                       !- Source Object
   11,                                     !- Outlet Port
   ,                                       !- Target Object
@@ -1468,7 +1453,6 @@ OS:Surface,
 
 OS:Connection,
   {ef52e319-cb16-46d7-bcee-4e1844096863}, !- Handle
-  {a164423f-6700-409e-8867-05dbc4972732}, !- Name
   ,                                       !- Source Object
   11,                                     !- Outlet Port
   ,                                       !- Target Object
@@ -1507,7 +1491,6 @@ OS:Surface,
 
 OS:Connection,
   {e53a869f-657d-441c-85b2-61ebe0df1aa6}, !- Handle
-  {d0eaf297-800a-46eb-85a4-91bc2b035261}, !- Name
   ,                                       !- Source Object
   11,                                     !- Outlet Port
   ,                                       !- Target Object
@@ -1753,7 +1736,6 @@ OS:Surface,
 
 OS:Connection,
   {8c9efdf8-3b32-42c5-b1ad-e36c8733239e}, !- Handle
-  {f3ca1d55-5588-4c98-a52d-9f9730f17b86}, !- Name
   ,                                       !- Source Object
   11,                                     !- Outlet Port
   ,                                       !- Target Object
@@ -2620,7 +2602,7 @@ OS:Surface,
 
 OS:Timestep,
   {b0fa043b-3e91-4705-b798-a26bbea47620}, !- Handle
-  6;                                      !- Number of Timesteps per Hour
+  4;                                      !- Number of Timesteps per Hour
 
 OS:Sizing:Parameters,
   {0677494e-4528-4de5-8964-9c0de7d15381}, !- Handle
@@ -4386,7 +4368,6 @@ OS:Node,
 
 OS:Connection,
   {19a96946-8782-4a74-abe5-197d4b40460b}, !- Handle
-  {bc97b631-7065-4c95-941f-b12b0bf5122c}, !- Name
   {9ea7a624-1dcb-4c04-b27d-03215e68f02a}, !- Source Object
   11,                                     !- Outlet Port
   {f094107e-985b-426c-b331-b36a3a5134db}, !- Target Object
@@ -4394,18 +4375,17 @@ OS:Connection,
 
 OS:PortList,
   {f0cfab27-1d4b-477c-8bd6-64ea83b28475}, !- Handle
-  {8977f83c-4ac0-49a0-979e-abecba748eea}, !- Name
   {9ea7a624-1dcb-4c04-b27d-03215e68f02a}, !- HVAC Component
-  {659720af-13b2-4d42-8c51-8a6e52d74988}; !- Port 1
+  {659720af-13b2-4d42-8c51-8a6e52d74988}, !- Port 1
+  {988cfba3-6ad0-43e3-8050-089c6aa57dd1}; !- Port 2
 
 OS:PortList,
   {d76cccbf-2fa0-41b1-a9f3-a93948eede1f}, !- Handle
-  {c537df94-4299-4ec9-9496-eeccd3d61ada}, !- Name
-  {9ea7a624-1dcb-4c04-b27d-03215e68f02a}; !- HVAC Component
+  {9ea7a624-1dcb-4c04-b27d-03215e68f02a}, !- HVAC Component
+  {6f13f5fa-7a5e-457e-baa9-d376d6f9574a}; !- Port 1
 
 OS:PortList,
   {2a93c052-57d9-44ef-9465-5a0d0e3f32c9}, !- Handle
-  {a73a8794-06c4-4a30-a37b-a2f7b399b5b0}, !- Name
   {9ea7a624-1dcb-4c04-b27d-03215e68f02a}, !- HVAC Component
   {4e8b8f88-ff02-4a50-93c1-a4930bd49b79}; !- Port 1
 
@@ -4443,10 +4423,15 @@ OS:ZoneHVAC:EquipmentList,
   {9ea7a624-1dcb-4c04-b27d-03215e68f02a}, !- Thermal Zone
   ,                                       !- Load Distribution Scheme
   {0874c7bb-a558-4499-a2bd-218fa4cb9528}, !- Zone Equipment 1
-  1,                                      !- Zone Equipment Cooling Sequence 1
-  1,                                      !- Zone Equipment Heating or No-Load Sequence 1
+  2,                                      !- Zone Equipment Cooling Sequence 1
+  2,                                      !- Zone Equipment Heating or No-Load Sequence 1
   ,                                       !- Zone Equipment Sequential Cooling Fraction Schedule Name 1
-  ;                                       !- Zone Equipment Sequential Heating Fraction Schedule Name 1
+  ,                                       !- Zone Equipment Sequential Heating Fraction Schedule Name 1
+  {faf572b2-90d2-4060-b11e-c1072d62be80}, !- Zone Equipment 2
+  1,                                      !- Zone Equipment Cooling Sequence 2
+  1,                                      !- Zone Equipment Heating or No-Load Sequence 2
+  ,                                       !- Zone Equipment Sequential Cooling Fraction Schedule Name 2
+  ;                                       !- Zone Equipment Sequential Heating Fraction Schedule Name 2
 
 OS:ThermostatSetpoint:DualSetpoint,
   {5bec5d6c-a34e-465e-bf83-6905d09f30a1}, !- Handle
@@ -4485,7 +4470,6 @@ OS:Node,
 
 OS:Connection,
   {dd9ae8cb-5a32-41af-a711-2fa0d3c80418}, !- Handle
-  {fdc4c0a1-f8b5-4baf-b025-363199253fe3}, !- Name
   {e75f845e-106b-4a69-bff1-ca5f5ff2f280}, !- Source Object
   11,                                     !- Outlet Port
   {7c329ca2-89fe-4252-b60b-9c3e51f81445}, !- Target Object
@@ -4493,18 +4477,15 @@ OS:Connection,
 
 OS:PortList,
   {f074a4b7-18eb-451d-8a66-2fd7cf8614b3}, !- Handle
-  {1ae0e617-db51-4de3-9147-b3b255e96b56}, !- Name
   {e75f845e-106b-4a69-bff1-ca5f5ff2f280}, !- HVAC Component
   {8d862e4a-16ec-4aaa-977c-902fc9ba15ab}; !- Port 1
 
 OS:PortList,
   {338a0182-80d4-4bcf-b30c-7d00fe22342a}, !- Handle
-  {aaf1bb16-c64c-40e0-ae40-173743c3286d}, !- Name
   {e75f845e-106b-4a69-bff1-ca5f5ff2f280}; !- HVAC Component
 
 OS:PortList,
   {d6edb003-be23-4714-affb-7cf8527c1527}, !- Handle
-  {1fbb15bb-6d05-490a-83e1-4da33427b37e}, !- Name
   {e75f845e-106b-4a69-bff1-ca5f5ff2f280}, !- HVAC Component
   {88b7d75c-5091-4e95-977d-54595e1db97a}; !- Port 1
 
@@ -4584,7 +4565,6 @@ OS:Node,
 
 OS:Connection,
   {4e18e41d-1444-42c3-a5d7-a0df86c10f32}, !- Handle
-  {17d1d957-b8e5-400d-b0ca-44200c3435d6}, !- Name
   {ec5d922b-fe13-49a1-9b3e-81cb03ac19aa}, !- Source Object
   11,                                     !- Outlet Port
   {dde9c1e5-e7b6-4bda-9bf0-177c75ee07af}, !- Target Object
@@ -4592,18 +4572,15 @@ OS:Connection,
 
 OS:PortList,
   {f3df7832-3122-4ac4-9e30-3e59178203b2}, !- Handle
-  {7f1ec0e0-de06-4e0d-b141-0f43b0a9dd52}, !- Name
   {ec5d922b-fe13-49a1-9b3e-81cb03ac19aa}, !- HVAC Component
   {628df57c-7748-4849-94ed-a4007a1113d4}; !- Port 1
 
 OS:PortList,
   {222313c6-fe2b-4f0f-b4f1-542b558ac916}, !- Handle
-  {d9af4718-820e-4992-b2f6-720da4fdaefe}, !- Name
   {ec5d922b-fe13-49a1-9b3e-81cb03ac19aa}; !- HVAC Component
 
 OS:PortList,
   {20faac00-59de-4312-9781-b758fa6e5805}, !- Handle
-  {ee7a3115-4ed7-44ab-b575-b95c2fc4165a}, !- Name
   {ec5d922b-fe13-49a1-9b3e-81cb03ac19aa}, !- HVAC Component
   {1118897b-e27e-44ff-96dd-e52045d6faec}; !- Port 1
 
@@ -4683,7 +4660,6 @@ OS:Node,
 
 OS:Connection,
   {fb3d7e58-6ada-429c-8e22-2eb121f25076}, !- Handle
-  {7080b7ad-1a2f-4163-9090-e66cb41bfbcb}, !- Name
   {f1d394ed-e8b7-4a8e-9c22-a3f7aa50155a}, !- Source Object
   11,                                     !- Outlet Port
   {093ef965-ecea-4492-9bd4-60137ff3e960}, !- Target Object
@@ -4691,17 +4667,14 @@ OS:Connection,
 
 OS:PortList,
   {899981d9-c9f0-468d-bf7d-57182c211727}, !- Handle
-  {a8c91129-c09c-4a5d-bc53-8a52b641eb6d}, !- Name
   {f1d394ed-e8b7-4a8e-9c22-a3f7aa50155a}; !- HVAC Component
 
 OS:PortList,
   {7619c183-eec8-4420-897d-d66114f66eab}, !- Handle
-  {b77c38b1-9e34-40c4-bf3e-17ea6d5b3054}, !- Name
   {f1d394ed-e8b7-4a8e-9c22-a3f7aa50155a}; !- HVAC Component
 
 OS:PortList,
   {b5e5c7a1-3097-48f5-a9ba-d3b3115ea9f4}, !- Handle
-  {9af91a5d-56c0-4ade-b7a1-f6e232a34779}, !- Name
   {f1d394ed-e8b7-4a8e-9c22-a3f7aa50155a}; !- HVAC Component
 
 OS:Sizing:Zone,
@@ -4772,7 +4745,6 @@ OS:Node,
 
 OS:Connection,
   {5c4e4b71-2c70-4c47-8d6d-aef15cbed255}, !- Handle
-  {3508d1be-bcb8-4a16-aabf-0cc9a50cc6ae}, !- Name
   {8b7b0bfa-e28e-49c9-8a97-18e55e30bdb6}, !- Source Object
   11,                                     !- Outlet Port
   {55430a98-59b3-40c0-9866-1944b872bef4}, !- Target Object
@@ -4780,17 +4752,14 @@ OS:Connection,
 
 OS:PortList,
   {b316e61e-6db2-45cf-894e-3eba32ba49e1}, !- Handle
-  {027a1101-6e87-4770-8d11-e512991d5a9e}, !- Name
   {8b7b0bfa-e28e-49c9-8a97-18e55e30bdb6}; !- HVAC Component
 
 OS:PortList,
   {5d7a3a7b-f018-460e-8a23-1ba692381807}, !- Handle
-  {7061b562-7615-41f0-b6dc-f6c8f1352d1c}, !- Name
   {8b7b0bfa-e28e-49c9-8a97-18e55e30bdb6}; !- HVAC Component
 
 OS:PortList,
   {0e818a66-4c84-4fe0-9e4b-6d8d7ca0771e}, !- Handle
-  {a5e33364-86c6-41c0-b1fc-79304a1c70b9}, !- Name
   {8b7b0bfa-e28e-49c9-8a97-18e55e30bdb6}; !- HVAC Component
 
 OS:Sizing:Zone,
@@ -4861,7 +4830,6 @@ OS:Node,
 
 OS:Connection,
   {b7d4f252-442c-48b6-8640-966d7c750292}, !- Handle
-  {8fe68509-0f0d-441b-8dfb-c3d978c3c057}, !- Name
   {37db81b8-ef5e-447a-8b70-162a258f9b10}, !- Source Object
   11,                                     !- Outlet Port
   {bdab3e32-9b2d-453c-98b9-5aab36d13cf0}, !- Target Object
@@ -4869,18 +4837,15 @@ OS:Connection,
 
 OS:PortList,
   {2230efe7-fc42-4569-9425-31f983790dc0}, !- Handle
-  {22c0a444-2e71-4007-9b11-eb5f88287723}, !- Name
   {37db81b8-ef5e-447a-8b70-162a258f9b10}, !- HVAC Component
   {fd16614d-1dd4-4f40-82c9-ff5aaa05db72}; !- Port 1
 
 OS:PortList,
   {28374d1a-2351-4954-b8d7-f7361e8cd127}, !- Handle
-  {1edfd06b-f3cb-47d4-bd22-3374dd843828}, !- Name
   {37db81b8-ef5e-447a-8b70-162a258f9b10}; !- HVAC Component
 
 OS:PortList,
   {35d4e9ec-c53b-4e8e-bf56-0e24a4303cd6}, !- Handle
-  {edb57a60-3486-4aae-8d03-4179454d80db}, !- Name
   {37db81b8-ef5e-447a-8b70-162a258f9b10}, !- HVAC Component
   {d70f546d-5cd1-404e-a92d-740255b1b663}; !- Port 1
 
@@ -4960,7 +4925,6 @@ OS:Node,
 
 OS:Connection,
   {43271aff-2de1-4b32-b5a3-727439308d50}, !- Handle
-  {80a0d2ff-e535-4d39-967f-606e71f01ab7}, !- Name
   {99cd7528-6996-427e-aee8-31387f82fd2b}, !- Source Object
   11,                                     !- Outlet Port
   {f80640ff-b309-4870-8fe7-5e8b2e3a2d53}, !- Target Object
@@ -4968,18 +4932,15 @@ OS:Connection,
 
 OS:PortList,
   {2d10a42b-c8f0-4fc5-bc81-59841b6ae8a7}, !- Handle
-  {274edc76-d6f0-43ef-a592-95229a0832d9}, !- Name
   {99cd7528-6996-427e-aee8-31387f82fd2b}, !- HVAC Component
   {e2766fe8-8cc1-4fcb-b021-1224f10f81d0}; !- Port 1
 
 OS:PortList,
   {924b0837-4e3e-4db5-a1f2-f88ab24b1fb4}, !- Handle
-  {0ea3d93b-c6ce-462f-a977-bbd16ab99da1}, !- Name
   {99cd7528-6996-427e-aee8-31387f82fd2b}; !- HVAC Component
 
 OS:PortList,
   {da3a654b-ab42-4076-9c48-7789b81356df}, !- Handle
-  {2c0c1357-6ed3-438a-9a9d-9d0cf41a8951}, !- Name
   {99cd7528-6996-427e-aee8-31387f82fd2b}, !- HVAC Component
   {857fa2fb-6882-4e2f-83ff-c427723ddeb9}; !- Port 1
 
@@ -5059,7 +5020,6 @@ OS:Node,
 
 OS:Connection,
   {3c30c17d-3977-4df6-afa7-b8ace70c7dcc}, !- Handle
-  {1d3227b7-4f74-429f-addc-a000cf6d32f5}, !- Name
   {10127b19-06a6-4f99-a3a8-7d0115107339}, !- Source Object
   11,                                     !- Outlet Port
   {a6b10f7b-5630-4911-b398-ea4727fb8c58}, !- Target Object
@@ -5067,18 +5027,15 @@ OS:Connection,
 
 OS:PortList,
   {b026a88f-25a6-43dd-bf39-7a55f1acc512}, !- Handle
-  {20894f8b-030d-4f15-a8fc-75b5d63ebf67}, !- Name
   {10127b19-06a6-4f99-a3a8-7d0115107339}, !- HVAC Component
   {fbc8195d-ab3b-4ae9-a80c-ee1026646242}; !- Port 1
 
 OS:PortList,
   {34a7b352-00fd-4e74-ba62-3d62bf06520a}, !- Handle
-  {854f592e-f9fd-4816-b65a-3d0a70a18374}, !- Name
   {10127b19-06a6-4f99-a3a8-7d0115107339}; !- HVAC Component
 
 OS:PortList,
   {3776684c-a41f-437e-bd27-091521f8d1e6}, !- Handle
-  {2333d2ab-bf0d-4abd-a6d8-b5e98237ded9}, !- Name
   {10127b19-06a6-4f99-a3a8-7d0115107339}, !- HVAC Component
   {e154d394-df93-48f4-9e48-0a0e96dd1b64}; !- Port 1
 
@@ -5158,7 +5115,6 @@ OS:Node,
 
 OS:Connection,
   {93013a46-6565-48e9-838d-3622a3d67903}, !- Handle
-  {e512d473-0cea-4598-a2c7-30f18947f4b1}, !- Name
   {6f8a9412-22f8-4371-82f5-e19c83ce44ec}, !- Source Object
   11,                                     !- Outlet Port
   {5fe56ec9-308c-4add-9cee-785dfd36beff}, !- Target Object
@@ -5166,18 +5122,15 @@ OS:Connection,
 
 OS:PortList,
   {b3eac704-267f-48b6-865c-05a9aea414a9}, !- Handle
-  {9d56e615-f4f1-46e6-bcee-73c13b100705}, !- Name
   {6f8a9412-22f8-4371-82f5-e19c83ce44ec}, !- HVAC Component
   {d6836b10-03b2-4a4b-97e1-3bbaca946096}; !- Port 1
 
 OS:PortList,
   {ed5ecb87-92fd-4e13-a658-73f83eee754a}, !- Handle
-  {c1fbccb5-22bd-47c6-89bc-cdfaef2ae1aa}, !- Name
   {6f8a9412-22f8-4371-82f5-e19c83ce44ec}; !- HVAC Component
 
 OS:PortList,
   {d55a2087-39af-4792-97c1-ffa40cb88f5a}, !- Handle
-  {41309f85-cee9-4ad4-b737-a29021ea6205}, !- Name
   {6f8a9412-22f8-4371-82f5-e19c83ce44ec}, !- HVAC Component
   {159e3221-a9c5-4c98-9c3e-244dc4bc8bb6}; !- Port 1
 
@@ -5257,7 +5210,6 @@ OS:Node,
 
 OS:Connection,
   {84bdb8f4-4fb7-4d0c-8277-be00218b7f89}, !- Handle
-  {9acb2cc7-0e47-469f-b68b-fd9e98c0c024}, !- Name
   {c46a8b7c-b232-4120-9d1b-e69a7ec541f8}, !- Source Object
   11,                                     !- Outlet Port
   {11204f56-026b-41d5-b9c2-6cb491291673}, !- Target Object
@@ -5265,18 +5217,15 @@ OS:Connection,
 
 OS:PortList,
   {15d162a5-5ad0-44bd-a182-adc368d83031}, !- Handle
-  {c11074a2-072a-40b1-926e-87e33e07ce98}, !- Name
   {c46a8b7c-b232-4120-9d1b-e69a7ec541f8}, !- HVAC Component
   {52645384-bb8c-497e-8ae9-cf0338289668}; !- Port 1
 
 OS:PortList,
   {d3471b5f-8030-48f1-943c-93f746b3c993}, !- Handle
-  {e9344ed8-5100-4d9f-b8d0-ca75d0a7d513}, !- Name
   {c46a8b7c-b232-4120-9d1b-e69a7ec541f8}; !- HVAC Component
 
 OS:PortList,
   {9e2593c1-6450-4102-889f-529e91332090}, !- Handle
-  {54542883-55c1-42b4-84e8-254ffe1a0ef0}, !- Name
   {c46a8b7c-b232-4120-9d1b-e69a7ec541f8}, !- HVAC Component
   {97999377-ef94-4df3-aeb2-69af5a717491}; !- Port 1
 
@@ -5356,7 +5305,6 @@ OS:Node,
 
 OS:Connection,
   {7c7c805e-d727-4ea9-a109-8a61d0800668}, !- Handle
-  {2bbe485b-ab44-4088-b467-3b1372cf3171}, !- Name
   {2940852b-80d4-4999-9e17-eaa7a5e282a2}, !- Source Object
   11,                                     !- Outlet Port
   {f2d3086c-e5a4-4f98-845c-819bc112f64b}, !- Target Object
@@ -5364,18 +5312,15 @@ OS:Connection,
 
 OS:PortList,
   {6b1aefe5-cdab-478e-9270-d8da3214d870}, !- Handle
-  {c3a55e33-efe7-4ab9-a4a9-c0e47c4ac399}, !- Name
   {2940852b-80d4-4999-9e17-eaa7a5e282a2}, !- HVAC Component
   {dd12d38c-38e3-4dd2-98ab-1cb1c5ec4a31}; !- Port 1
 
 OS:PortList,
   {abb8d6b4-3c80-4dce-880a-f5583ee2c70b}, !- Handle
-  {bc523801-0703-4520-8c17-69fe0cf61477}, !- Name
   {2940852b-80d4-4999-9e17-eaa7a5e282a2}; !- HVAC Component
 
 OS:PortList,
   {a2dab80e-4653-4ccd-aebf-c957b841255f}, !- Handle
-  {d97be687-5957-4469-89a1-71b28c462050}, !- Name
   {2940852b-80d4-4999-9e17-eaa7a5e282a2}, !- HVAC Component
   {d73a9052-4490-49f5-9428-401d64105709}; !- Port 1
 
@@ -5455,7 +5400,6 @@ OS:Node,
 
 OS:Connection,
   {4d810aca-b40c-47cc-9ce3-e7b36d7e9511}, !- Handle
-  {eaf7dbf8-795c-4473-8e2b-f2c931e9f421}, !- Name
   {8cc898f0-b25d-48a3-b7d1-0eaaa483be89}, !- Source Object
   11,                                     !- Outlet Port
   {60225617-5aac-405c-947d-18b7bd8555d9}, !- Target Object
@@ -5463,18 +5407,15 @@ OS:Connection,
 
 OS:PortList,
   {09a4db56-83c8-4a19-977e-0184b0a48a4d}, !- Handle
-  {cf43aa2b-312c-460d-9c59-5b7f05b165be}, !- Name
   {8cc898f0-b25d-48a3-b7d1-0eaaa483be89}, !- HVAC Component
   {f0a843c9-0c38-4569-b25a-ac87a7e8da03}; !- Port 1
 
 OS:PortList,
   {34dbe23f-b577-438f-8448-90213efa72e4}, !- Handle
-  {ee3f9739-c95d-4115-91e7-59826ef05fd4}, !- Name
   {8cc898f0-b25d-48a3-b7d1-0eaaa483be89}; !- HVAC Component
 
 OS:PortList,
   {10607835-c28a-40c6-9d85-e12f82fdba79}, !- Handle
-  {131c2508-8219-4545-a84d-cc21720c313e}, !- Name
   {8cc898f0-b25d-48a3-b7d1-0eaaa483be89}, !- HVAC Component
   {3025691e-7c2a-498d-b847-60c201c8c483}; !- Port 1
 
@@ -5554,7 +5495,6 @@ OS:Node,
 
 OS:Connection,
   {6c74c155-c6bd-43b1-a364-0c15225d7068}, !- Handle
-  {97c71675-526b-43d1-b35b-6328fd42ea9f}, !- Name
   {c075b252-7e6a-4673-94b3-8c0963ef90af}, !- Source Object
   11,                                     !- Outlet Port
   {317533ed-61bf-4c13-a570-299216fe8a07}, !- Target Object
@@ -5562,18 +5502,15 @@ OS:Connection,
 
 OS:PortList,
   {ab0b5476-99c4-4193-8718-61c40e8ef8f7}, !- Handle
-  {c02ee0f1-ea04-4103-a33c-cb6d52325d9f}, !- Name
   {c075b252-7e6a-4673-94b3-8c0963ef90af}, !- HVAC Component
   {e528edef-9681-47bb-b6ad-4add1825652b}; !- Port 1
 
 OS:PortList,
   {4ba20a55-65d5-4023-b1cb-1b7ac7c860c0}, !- Handle
-  {b047ce9d-1575-4c36-952e-e473622df708}, !- Name
   {c075b252-7e6a-4673-94b3-8c0963ef90af}; !- HVAC Component
 
 OS:PortList,
   {5f8123e5-d09c-4231-ab03-8d1ffce76708}, !- Handle
-  {e7bb7fbe-5724-47e4-a53c-d00fa55fe69d}, !- Name
   {c075b252-7e6a-4673-94b3-8c0963ef90af}, !- HVAC Component
   {01f4f57c-482a-4533-a1d5-df870199dec8}; !- Port 1
 
@@ -5653,7 +5590,6 @@ OS:Node,
 
 OS:Connection,
   {3574d0a7-b45b-4666-b804-78cf21a52260}, !- Handle
-  {8bf5d26e-261f-4ee9-9322-1e17dffceaac}, !- Name
   {71c88493-292c-423f-8888-e9b1d0bdcd56}, !- Source Object
   11,                                     !- Outlet Port
   {53ba246f-0244-43a8-a89d-3d334269ec63}, !- Target Object
@@ -5661,18 +5597,15 @@ OS:Connection,
 
 OS:PortList,
   {5d9c885d-e357-4e7b-89a1-a10d28582695}, !- Handle
-  {16001c70-dce2-4113-86e0-b1f231b02df4}, !- Name
   {71c88493-292c-423f-8888-e9b1d0bdcd56}, !- HVAC Component
   {3aeb7ff4-92dc-416c-a807-710775274000}; !- Port 1
 
 OS:PortList,
   {5202996e-b40e-4acb-a3b0-c0c84173cbe0}, !- Handle
-  {ea66d2e4-2f34-44d6-a8a3-61855c36a9fa}, !- Name
   {71c88493-292c-423f-8888-e9b1d0bdcd56}; !- HVAC Component
 
 OS:PortList,
   {5bf6af23-802f-4111-8ed8-21323ddcbe5f}, !- Handle
-  {a6313721-fc2e-46b8-b828-ef3d52a4522b}, !- Name
   {71c88493-292c-423f-8888-e9b1d0bdcd56}, !- HVAC Component
   {851c842c-00cf-457d-a571-efffeca18897}; !- Port 1
 
@@ -5752,7 +5685,6 @@ OS:Node,
 
 OS:Connection,
   {c778a884-4349-48b4-8b49-6b0eb8a8e831}, !- Handle
-  {64dd7f5c-caed-4b7b-87b2-caf6397e7ee1}, !- Name
   {7c81417e-cb75-4b5b-8f6a-8a2cbbf85679}, !- Source Object
   11,                                     !- Outlet Port
   {6af5f0d4-1f1c-402a-bff8-2b6d7530333b}, !- Target Object
@@ -5760,18 +5692,15 @@ OS:Connection,
 
 OS:PortList,
   {ced0b434-1cfd-4015-a7b5-e6762f6e05c7}, !- Handle
-  {9a1973f1-8ea0-48ab-b40f-0e86c7ed660f}, !- Name
   {7c81417e-cb75-4b5b-8f6a-8a2cbbf85679}, !- HVAC Component
   {65fec694-7efa-41ff-a599-b8b5034693da}; !- Port 1
 
 OS:PortList,
   {1aa793da-9b37-4163-af56-0d39f2229153}, !- Handle
-  {5419df5b-c358-45c6-9768-b7128de817c2}, !- Name
   {7c81417e-cb75-4b5b-8f6a-8a2cbbf85679}; !- HVAC Component
 
 OS:PortList,
   {cec00aa4-99a0-48a1-87d8-0f6b82db2a3a}, !- Handle
-  {07218bff-95fd-4d77-8e94-72191360ebeb}, !- Name
   {7c81417e-cb75-4b5b-8f6a-8a2cbbf85679}, !- HVAC Component
   {1cf31472-94c0-4aab-a954-8c82e64659e2}; !- Port 1
 
@@ -5851,7 +5780,6 @@ OS:Node,
 
 OS:Connection,
   {d65c5856-93f8-41b2-aafa-66f08e7238c0}, !- Handle
-  {97c4ded1-b84b-48b2-b682-3e7e38880f93}, !- Name
   {f88d9f44-2c35-40b0-81df-6da722e6b846}, !- Source Object
   11,                                     !- Outlet Port
   {cebc1114-2561-40b5-a7eb-8f9ae63f2360}, !- Target Object
@@ -5859,18 +5787,15 @@ OS:Connection,
 
 OS:PortList,
   {a08ff2c5-18c3-4530-8bd5-df0f62c0b7ed}, !- Handle
-  {df7951a5-0ac1-40ed-951f-87de7c8fa900}, !- Name
   {f88d9f44-2c35-40b0-81df-6da722e6b846}, !- HVAC Component
   {662d9d99-4d62-473d-95da-1186f12bb03c}; !- Port 1
 
 OS:PortList,
   {980f48c2-1a73-4054-84b6-fd9b83de5951}, !- Handle
-  {1b10dfe6-1fac-47d6-b114-e59b8df152e8}, !- Name
   {f88d9f44-2c35-40b0-81df-6da722e6b846}; !- HVAC Component
 
 OS:PortList,
   {5b049d78-475c-4ccb-830e-81c77040a8a4}, !- Handle
-  {06b66dc3-3623-4acc-ba75-cbd839d6bc47}, !- Name
   {f88d9f44-2c35-40b0-81df-6da722e6b846}, !- HVAC Component
   {3bd87746-1082-494f-9468-88e816689be6}; !- Port 1
 
@@ -5950,7 +5875,6 @@ OS:Node,
 
 OS:Connection,
   {22f9c883-b6b4-4f11-924a-196ff6b0031f}, !- Handle
-  {bb795cef-f5d6-41a4-9eee-6d1e7e2a3741}, !- Name
   {f6506721-f4ad-4148-8445-e57f81bae796}, !- Source Object
   11,                                     !- Outlet Port
   {7720db1b-833b-4979-94da-4a978780bd1d}, !- Target Object
@@ -5958,18 +5882,15 @@ OS:Connection,
 
 OS:PortList,
   {3888499d-63f7-48d9-b864-2a535f16466d}, !- Handle
-  {64b9c85f-76ed-4064-8b9b-dde4249d5a00}, !- Name
   {f6506721-f4ad-4148-8445-e57f81bae796}, !- HVAC Component
   {9ddebf8e-2a81-4923-b215-3b986bd714a0}; !- Port 1
 
 OS:PortList,
   {34ddfb5a-3754-4e87-9daa-5588fbb4ef49}, !- Handle
-  {46a701b9-e9e7-4856-87d7-2a20131bcb74}, !- Name
   {f6506721-f4ad-4148-8445-e57f81bae796}; !- HVAC Component
 
 OS:PortList,
   {be9761b7-5def-449b-b746-23f3ef68b82f}, !- Handle
-  {81cfc5b9-3a2a-4748-9521-c7e68d4a268a}, !- Name
   {f6506721-f4ad-4148-8445-e57f81bae796}, !- HVAC Component
   {c4023c8f-7099-4421-9ce6-81ef0eeef4a4}; !- Port 1
 
@@ -6049,7 +5970,6 @@ OS:Node,
 
 OS:Connection,
   {a95d8242-2758-47f6-9232-2005f91ddb52}, !- Handle
-  {327added-bd01-4069-9869-21fc67faaeba}, !- Name
   {6c77d6fd-4977-483c-a89e-9a0ff0a7d282}, !- Source Object
   11,                                     !- Outlet Port
   {351747a5-98bb-47f8-a3e5-2afda7da5ffc}, !- Target Object
@@ -6057,17 +5977,14 @@ OS:Connection,
 
 OS:PortList,
   {7dd8ee42-c90e-49d3-800b-edb0879fbb84}, !- Handle
-  {541d17a5-39ba-4ae4-ae6a-198b5d029b38}, !- Name
   {6c77d6fd-4977-483c-a89e-9a0ff0a7d282}; !- HVAC Component
 
 OS:PortList,
   {0f481542-639e-4bc8-8b2b-e8a058295829}, !- Handle
-  {d4aba1aa-d598-468b-80ca-52c42dc29c2d}, !- Name
   {6c77d6fd-4977-483c-a89e-9a0ff0a7d282}; !- HVAC Component
 
 OS:PortList,
   {4d9d57d0-763c-4118-8995-9834cb9c86f0}, !- Handle
-  {e1332597-27ae-42e8-b07e-f55f4594d07a}, !- Name
   {6c77d6fd-4977-483c-a89e-9a0ff0a7d282}; !- HVAC Component
 
 OS:Sizing:Zone,
@@ -6118,7 +6035,7 @@ OS:WeatherFile,
   -78.73,                                 !- Longitude {deg}
   -5,                                     !- Time Zone {hr}
   215,                                    !- Elevation {m}
-  C:/Ruby25-x64/lib/ruby/gems/2.5.0/gems/openstudio-standards-0.2.12/data/weather/USA_NY_Buffalo.Niagara.Intl.AP.725280_TMY3.epw, !- Url
+  /Users/sky/Sites/Openstudio-GEB-gem/spec/tests/../seed_models/USA_NY_Buffalo.Niagara.Intl.AP.725280_TMY3.epw, !- Url
   3A15D82B;                               !- Checksum
 
 OS:Site:WaterMainsTemperature,
@@ -6212,7 +6129,6 @@ OS:Node,
 
 OS:Connection,
   {de3083c0-4b8c-4ed3-9f3e-fce630c5b936}, !- Handle
-  {04e87dac-98b7-43e4-9210-5d39b437e846}, !- Name
   {1ab4ead3-8010-4b5b-8e2f-b4cab4a0fc22}, !- Source Object
   9,                                      !- Outlet Port
   {fc55197a-c436-4813-9d74-3511ed044cb4}, !- Target Object
@@ -6220,7 +6136,6 @@ OS:Connection,
 
 OS:Connection,
   {455e9e21-43dc-4f4e-be12-78e4075be7fa}, !- Handle
-  {3c3bcba5-1e03-4e8e-907b-92dd2804c46b}, !- Name
   {3ab7b997-197d-4ac3-b08a-07976e74120b}, !- Source Object
   3,                                      !- Outlet Port
   {1ab4ead3-8010-4b5b-8e2f-b4cab4a0fc22}, !- Target Object
@@ -6246,7 +6161,6 @@ OS:Node,
 
 OS:Connection,
   {6c4e3a32-2774-48d1-9eba-4cb750971b15}, !- Handle
-  {ce5095ff-5080-4387-aa08-5e66bb7c31e5}, !- Name
   {1ab4ead3-8010-4b5b-8e2f-b4cab4a0fc22}, !- Source Object
   11,                                     !- Outlet Port
   {a689b106-7809-40f7-970f-cf16a489f6d7}, !- Target Object
@@ -6254,7 +6168,6 @@ OS:Connection,
 
 OS:Connection,
   {cb0d340e-6302-4555-9690-c63f3e7e7618}, !- Handle
-  {0fd03ce3-e082-4524-abc4-5acc0cbd0f30}, !- Name
   {eeb6fa5b-5859-48c1-945d-12bc3fe38269}, !- Source Object
   3,                                      !- Outlet Port
   {1ab4ead3-8010-4b5b-8e2f-b4cab4a0fc22}, !- Target Object
@@ -6279,7 +6192,6 @@ OS:AirLoopHVAC:ZoneMixer,
 
 OS:Connection,
   {b77a0be2-339e-4acb-9eb6-ba5a15f34f75}, !- Handle
-  {de0d209b-df6a-43a6-894b-ff0f55162a0c}, !- Name
   {a689b106-7809-40f7-970f-cf16a489f6d7}, !- Source Object
   3,                                      !- Outlet Port
   {94cbb048-45ad-4ce8-8d79-1108335f5cc3}, !- Target Object
@@ -6287,7 +6199,6 @@ OS:Connection,
 
 OS:Connection,
   {276c1819-0fcb-44ea-bdfb-7a712f3df38f}, !- Handle
-  {084c0dfe-fac2-4516-b3bc-f44cc7bad501}, !- Name
   {42aa3110-f5eb-466c-8fcf-2e7d9cf651e6}, !- Source Object
   2,                                      !- Outlet Port
   {eeb6fa5b-5859-48c1-945d-12bc3fe38269}, !- Target Object
@@ -6600,7 +6511,6 @@ OS:Fan:VariableVolume,
 
 OS:Connection,
   {2b1f4b4d-75eb-4c25-836b-acd6be55d710}, !- Handle
-  {c4fb2a77-ae72-40ad-909b-3909ef723722}, !- Name
   {58c15765-5e63-439b-82c6-a69f997fee20}, !- Source Object
   17,                                     !- Outlet Port
   {3ab7b997-197d-4ac3-b08a-07976e74120b}, !- Target Object
@@ -6627,7 +6537,6 @@ OS:Node,
 
 OS:Connection,
   {a4dd9108-9a25-4288-a8a1-4272ef287102}, !- Handle
-  {e1881564-5f1d-4492-a997-48f8024b0fda}, !- Name
   {e22a0fd2-a86d-4cf2-8126-11902c55c84f}, !- Source Object
   6,                                      !- Outlet Port
   {281b4097-17d9-448a-a7ce-36ebbb5c4425}, !- Target Object
@@ -6635,7 +6544,6 @@ OS:Connection,
 
 OS:Connection,
   {75e5acc0-8e56-46ae-bcaa-519e435cdf3a}, !- Handle
-  {9143aa2c-0bd3-4306-9329-40423c8908bd}, !- Name
   {281b4097-17d9-448a-a7ce-36ebbb5c4425}, !- Source Object
   3,                                      !- Outlet Port
   {58c15765-5e63-439b-82c6-a69f997fee20}, !- Target Object
@@ -6686,7 +6594,6 @@ OS:Node,
 
 OS:Connection,
   {36c42b4e-af69-4612-bea4-3242be0d77e4}, !- Handle
-  {e36a2920-4a38-45d7-b508-2e295085fc07}, !- Name
   {31b00698-fe7d-416d-9f1e-640a5a9c8b62}, !- Source Object
   9,                                      !- Outlet Port
   {30983668-c2e9-45bc-b97d-dc1025fcbde3}, !- Target Object
@@ -6694,7 +6601,6 @@ OS:Connection,
 
 OS:Connection,
   {8c29f840-9b42-465d-8276-269194ecfdab}, !- Handle
-  {806f0441-58c9-46da-9d4c-530d1b0fc6d4}, !- Name
   {30983668-c2e9-45bc-b97d-dc1025fcbde3}, !- Source Object
   3,                                      !- Outlet Port
   {e22a0fd2-a86d-4cf2-8126-11902c55c84f}, !- Target Object
@@ -6755,7 +6661,6 @@ OS:Node,
 
 OS:Connection,
   {ea4207b6-1244-4648-bc9c-9a91ce0dc882}, !- Handle
-  {9ff0309a-f410-4cdb-9de9-2a75bd5509b8}, !- Name
   {7f1b65a8-bae8-4564-8fc8-67488697b388}, !- Source Object
   3,                                      !- Outlet Port
   {93eb6291-d2ef-4baf-8df3-28ca075717a3}, !- Target Object
@@ -6769,7 +6674,6 @@ OS:Node,
 
 OS:Connection,
   {e02c7470-441d-4171-bfa6-82bf0b7a05cc}, !- Handle
-  {92d43542-d949-40a5-84d9-4d26f6ef5064}, !- Name
   {93eb6291-d2ef-4baf-8df3-28ca075717a3}, !- Source Object
   7,                                      !- Outlet Port
   {647827a4-c312-48f8-9d52-f3c1fcb7702a}, !- Target Object
@@ -6783,7 +6687,6 @@ OS:Node,
 
 OS:Connection,
   {8ac4b1eb-81ac-46ee-8bd8-e1722cffc52f}, !- Handle
-  {4009dcfc-c358-4307-9d5a-c095b5090d74}, !- Name
   {fc55197a-c436-4813-9d74-3511ed044cb4}, !- Source Object
   3,                                      !- Outlet Port
   {93eb6291-d2ef-4baf-8df3-28ca075717a3}, !- Target Object
@@ -6791,7 +6694,6 @@ OS:Connection,
 
 OS:Connection,
   {17f8e6fa-afab-4ca3-ba79-1f4c378a94e4}, !- Handle
-  {b62796e5-7aa8-4903-a866-e23c14077048}, !- Name
   {93eb6291-d2ef-4baf-8df3-28ca075717a3}, !- Source Object
   5,                                      !- Outlet Port
   {45ef758e-b76f-4ef8-95ad-c50e5ad7f63a}, !- Target Object
@@ -6799,7 +6701,6 @@ OS:Connection,
 
 OS:Connection,
   {4eb0e639-aa9e-4d6d-933e-a0407cd81f8e}, !- Handle
-  {393dcb85-296d-414a-8a01-aa622cfd403e}, !- Name
   {45ef758e-b76f-4ef8-95ad-c50e5ad7f63a}, !- Source Object
   3,                                      !- Outlet Port
   {31b00698-fe7d-416d-9f1e-640a5a9c8b62}, !- Target Object
@@ -6873,7 +6774,6 @@ OS:Node,
 
 OS:Connection,
   {fd16614d-1dd4-4f40-82c9-ff5aaa05db72}, !- Handle
-  {ef9c032f-fc28-4819-8bb1-a51bb69a0b46}, !- Name
   {f3f269f5-18c9-45fd-8695-c332d1bf9fde}, !- Source Object
   3,                                      !- Outlet Port
   {2230efe7-fc42-4569-9425-31f983790dc0}, !- Target Object
@@ -6881,7 +6781,6 @@ OS:Connection,
 
 OS:Connection,
   {d70f546d-5cd1-404e-a92d-740255b1b663}, !- Handle
-  {e2b820cb-6fde-4ac9-ae40-d21dc6d64e3b}, !- Name
   {35d4e9ec-c53b-4e8e-bf56-0e24a4303cd6}, !- Source Object
   3,                                      !- Outlet Port
   {2fcefe4e-cca9-4e39-8894-4557b03dfa0b}, !- Target Object
@@ -6895,7 +6794,6 @@ OS:Node,
 
 OS:Connection,
   {41c1648c-e120-4f9c-8e14-907c0c1386e7}, !- Handle
-  {b8e6eccf-6ffc-4cf0-82dd-c4fac1c161c0}, !- Name
   {94cbb048-45ad-4ce8-8d79-1108335f5cc3}, !- Source Object
   3,                                      !- Outlet Port
   {dba1593a-0597-4f51-8ffc-0502c4de9b8e}, !- Target Object
@@ -6903,7 +6801,6 @@ OS:Connection,
 
 OS:Connection,
   {63320eec-8694-465f-8835-0607f4e80241}, !- Handle
-  {9c4d7922-c7ff-45e3-b964-a3b25050116d}, !- Name
   {dba1593a-0597-4f51-8ffc-0502c4de9b8e}, !- Source Object
   3,                                      !- Outlet Port
   {85ffba8a-b23e-44a6-ae72-4303875ae103}, !- Target Object
@@ -6911,7 +6808,6 @@ OS:Connection,
 
 OS:Connection,
   {7c9b8827-5ebc-4e61-a2bb-96ec43708670}, !- Handle
-  {888464ac-cf5c-4715-bf32-9816ee7096e8}, !- Name
   {85ffba8a-b23e-44a6-ae72-4303875ae103}, !- Source Object
   12,                                     !- Outlet Port
   {f3f269f5-18c9-45fd-8695-c332d1bf9fde}, !- Target Object
@@ -6937,7 +6833,6 @@ OS:Node,
 
 OS:Connection,
   {895d2795-c322-4f6b-ace4-ba0ffb886076}, !- Handle
-  {f337afe4-4562-457f-abc2-5dba05d5c7fa}, !- Name
   {2fcefe4e-cca9-4e39-8894-4557b03dfa0b}, !- Source Object
   3,                                      !- Outlet Port
   {55d67ce1-5188-4441-9345-65a1bdf1566b}, !- Target Object
@@ -6945,7 +6840,6 @@ OS:Connection,
 
 OS:Connection,
   {ae1f1410-57ec-4bf3-aa94-226c32b29e70}, !- Handle
-  {bd702c72-3fa3-4bec-ae80-819e540c462c}, !- Name
   {55d67ce1-5188-4441-9345-65a1bdf1566b}, !- Source Object
   3,                                      !- Outlet Port
   {267286b2-2343-45e9-9be5-31b7ab175ca9}, !- Target Object
@@ -6953,7 +6847,6 @@ OS:Connection,
 
 OS:Connection,
   {21dc216e-f6d4-4b0a-9207-b498817e2af6}, !- Handle
-  {ca357757-f383-4197-b3a5-b00855bafe0c}, !- Name
   {267286b2-2343-45e9-9be5-31b7ab175ca9}, !- Source Object
   3,                                      !- Outlet Port
   {42aa3110-f5eb-466c-8fcf-2e7d9cf651e6}, !- Target Object
@@ -7003,7 +6896,6 @@ OS:Node,
 
 OS:Connection,
   {e2766fe8-8cc1-4fcb-b021-1224f10f81d0}, !- Handle
-  {07c9006e-b363-4452-ac51-423433f883cc}, !- Name
   {2181d8bd-5f7d-44d8-aa07-e9be217a1cf5}, !- Source Object
   3,                                      !- Outlet Port
   {2d10a42b-c8f0-4fc5-bc81-59841b6ae8a7}, !- Target Object
@@ -7011,7 +6903,6 @@ OS:Connection,
 
 OS:Connection,
   {857fa2fb-6882-4e2f-83ff-c427723ddeb9}, !- Handle
-  {14135533-fa46-4ea7-80fb-6f85cfb0a8a7}, !- Name
   {da3a654b-ab42-4076-9c48-7789b81356df}, !- Source Object
   3,                                      !- Outlet Port
   {c498c7f9-475d-4935-a01b-6305a1074f3b}, !- Target Object
@@ -7025,7 +6916,6 @@ OS:Node,
 
 OS:Connection,
   {8f872d8d-5e84-4b08-80f4-adc5e5e3d076}, !- Handle
-  {2782eb80-12e0-4b50-ba30-9ab8af7d7615}, !- Name
   {94cbb048-45ad-4ce8-8d79-1108335f5cc3}, !- Source Object
   4,                                      !- Outlet Port
   {88c1021a-b884-4d88-8b6a-aa0acd06bdb8}, !- Target Object
@@ -7033,7 +6923,6 @@ OS:Connection,
 
 OS:Connection,
   {df1543f8-d0fe-4ec0-be72-c4ea46e1bef0}, !- Handle
-  {a06a8128-1d53-4ac3-9d19-076a021d66f5}, !- Name
   {88c1021a-b884-4d88-8b6a-aa0acd06bdb8}, !- Source Object
   3,                                      !- Outlet Port
   {33b1741e-bde4-4dc5-9515-57bf9640a454}, !- Target Object
@@ -7041,7 +6930,6 @@ OS:Connection,
 
 OS:Connection,
   {0be1604a-7221-49ee-ae7d-ff2ef31b67ea}, !- Handle
-  {72862e9f-46e3-4d51-a3eb-a94a0370ceaf}, !- Name
   {33b1741e-bde4-4dc5-9515-57bf9640a454}, !- Source Object
   12,                                     !- Outlet Port
   {2181d8bd-5f7d-44d8-aa07-e9be217a1cf5}, !- Target Object
@@ -7049,7 +6937,6 @@ OS:Connection,
 
 OS:Connection,
   {db1d616a-e9c8-4437-b213-c27c857fa6ff}, !- Handle
-  {bedeea5d-ec9e-4460-8143-64a03d8a44a5}, !- Name
   {c498c7f9-475d-4935-a01b-6305a1074f3b}, !- Source Object
   3,                                      !- Outlet Port
   {55d67ce1-5188-4441-9345-65a1bdf1566b}, !- Target Object
@@ -7099,7 +6986,6 @@ OS:Node,
 
 OS:Connection,
   {fbc8195d-ab3b-4ae9-a80c-ee1026646242}, !- Handle
-  {655197af-ce81-4cf5-acfa-fc205f6b546a}, !- Name
   {486f0133-a9ab-4320-83b8-1face71d6187}, !- Source Object
   3,                                      !- Outlet Port
   {b026a88f-25a6-43dd-bf39-7a55f1acc512}, !- Target Object
@@ -7107,7 +6993,6 @@ OS:Connection,
 
 OS:Connection,
   {e154d394-df93-48f4-9e48-0a0e96dd1b64}, !- Handle
-  {c2cf40cc-b0cc-46af-abd7-239b0fa81c43}, !- Name
   {3776684c-a41f-437e-bd27-091521f8d1e6}, !- Source Object
   3,                                      !- Outlet Port
   {d263cae0-42db-404e-8955-d42907adb217}, !- Target Object
@@ -7121,7 +7006,6 @@ OS:Node,
 
 OS:Connection,
   {7b750264-cdea-4177-9979-15e47648045b}, !- Handle
-  {51aa4257-4b49-47e3-82ac-bb4d6fe3d040}, !- Name
   {94cbb048-45ad-4ce8-8d79-1108335f5cc3}, !- Source Object
   5,                                      !- Outlet Port
   {3f05c574-21f1-4bf1-ae5d-8dd71d2d08aa}, !- Target Object
@@ -7129,7 +7013,6 @@ OS:Connection,
 
 OS:Connection,
   {0deae741-0c66-4550-bdb3-9037edfe2293}, !- Handle
-  {2bbc065b-a5bb-46c2-b855-9d4bf656f1e5}, !- Name
   {3f05c574-21f1-4bf1-ae5d-8dd71d2d08aa}, !- Source Object
   3,                                      !- Outlet Port
   {5c721237-06ac-442c-9aa6-685397ef95bb}, !- Target Object
@@ -7137,7 +7020,6 @@ OS:Connection,
 
 OS:Connection,
   {c4d1a9df-cec0-4259-9dd1-edda97a1662c}, !- Handle
-  {283f4283-b04f-4ec2-9483-5ca48fbb8e1f}, !- Name
   {5c721237-06ac-442c-9aa6-685397ef95bb}, !- Source Object
   12,                                     !- Outlet Port
   {486f0133-a9ab-4320-83b8-1face71d6187}, !- Target Object
@@ -7145,7 +7027,6 @@ OS:Connection,
 
 OS:Connection,
   {50f38e16-4582-4aed-a211-397a2a7749df}, !- Handle
-  {9abf228f-6f99-4525-87ce-085e2b06320e}, !- Name
   {d263cae0-42db-404e-8955-d42907adb217}, !- Source Object
   3,                                      !- Outlet Port
   {55d67ce1-5188-4441-9345-65a1bdf1566b}, !- Target Object
@@ -7195,7 +7076,6 @@ OS:Node,
 
 OS:Connection,
   {d6836b10-03b2-4a4b-97e1-3bbaca946096}, !- Handle
-  {02180fec-3723-4da3-8ab9-1a864e4ec887}, !- Name
   {c9dd5f93-7873-4a92-9529-112a12b1c267}, !- Source Object
   3,                                      !- Outlet Port
   {b3eac704-267f-48b6-865c-05a9aea414a9}, !- Target Object
@@ -7203,7 +7083,6 @@ OS:Connection,
 
 OS:Connection,
   {159e3221-a9c5-4c98-9c3e-244dc4bc8bb6}, !- Handle
-  {5432d782-07b8-4511-ba9a-b6668218117a}, !- Name
   {d55a2087-39af-4792-97c1-ffa40cb88f5a}, !- Source Object
   3,                                      !- Outlet Port
   {66ff2b25-d9ab-42d9-af15-df1141b29509}, !- Target Object
@@ -7217,7 +7096,6 @@ OS:Node,
 
 OS:Connection,
   {45461c46-374f-48f3-82ec-80e734e4f50d}, !- Handle
-  {6f8f79c9-1c8e-4b28-a8a2-447b72347676}, !- Name
   {94cbb048-45ad-4ce8-8d79-1108335f5cc3}, !- Source Object
   6,                                      !- Outlet Port
   {699d106d-b871-4ef8-9b4e-84558506eb28}, !- Target Object
@@ -7225,7 +7103,6 @@ OS:Connection,
 
 OS:Connection,
   {486a1b3a-4c20-40cd-9ba3-25f06457e861}, !- Handle
-  {2d05e0db-1a5d-4182-aab7-027a9dcf580f}, !- Name
   {699d106d-b871-4ef8-9b4e-84558506eb28}, !- Source Object
   3,                                      !- Outlet Port
   {6d60e243-c055-470c-8801-b4e0512fce1d}, !- Target Object
@@ -7233,7 +7110,6 @@ OS:Connection,
 
 OS:Connection,
   {77a60100-ccb1-47ab-a415-4ecf427dc6bb}, !- Handle
-  {186b9ed3-6c6d-44ee-800f-3cb0fa4bc6a7}, !- Name
   {6d60e243-c055-470c-8801-b4e0512fce1d}, !- Source Object
   12,                                     !- Outlet Port
   {c9dd5f93-7873-4a92-9529-112a12b1c267}, !- Target Object
@@ -7241,7 +7117,6 @@ OS:Connection,
 
 OS:Connection,
   {31d10314-3f2a-41b5-afe4-6665b693dd8e}, !- Handle
-  {5055f130-5f98-4fd8-9181-a88ae3782c59}, !- Name
   {66ff2b25-d9ab-42d9-af15-df1141b29509}, !- Source Object
   3,                                      !- Outlet Port
   {55d67ce1-5188-4441-9345-65a1bdf1566b}, !- Target Object
@@ -7291,7 +7166,6 @@ OS:Node,
 
 OS:Connection,
   {659720af-13b2-4d42-8c51-8a6e52d74988}, !- Handle
-  {6acccad7-6fee-4ec0-ba5b-4c9552ae433d}, !- Name
   {8167e5ee-2691-449c-93f4-9192ad337fcf}, !- Source Object
   3,                                      !- Outlet Port
   {f0cfab27-1d4b-477c-8bd6-64ea83b28475}, !- Target Object
@@ -7299,7 +7173,6 @@ OS:Connection,
 
 OS:Connection,
   {4e8b8f88-ff02-4a50-93c1-a4930bd49b79}, !- Handle
-  {27b15353-cf17-4982-9e0f-9db08433ba3a}, !- Name
   {2a93c052-57d9-44ef-9465-5a0d0e3f32c9}, !- Source Object
   3,                                      !- Outlet Port
   {33256157-7958-4fa8-b90a-e2cb5515cfb8}, !- Target Object
@@ -7313,7 +7186,6 @@ OS:Node,
 
 OS:Connection,
   {f5869ef5-36f5-479f-a6b4-0ccd18970445}, !- Handle
-  {6199e04d-f67b-423b-8690-c3029d7c697f}, !- Name
   {94cbb048-45ad-4ce8-8d79-1108335f5cc3}, !- Source Object
   7,                                      !- Outlet Port
   {2ce6cc51-08ff-437a-a945-fb93bfae8efc}, !- Target Object
@@ -7321,7 +7193,6 @@ OS:Connection,
 
 OS:Connection,
   {baa0f1ca-2407-4bd8-83c7-9229e932ce11}, !- Handle
-  {29565e17-72ab-4484-8f39-1d724d4c99cb}, !- Name
   {2ce6cc51-08ff-437a-a945-fb93bfae8efc}, !- Source Object
   3,                                      !- Outlet Port
   {0874c7bb-a558-4499-a2bd-218fa4cb9528}, !- Target Object
@@ -7329,7 +7200,6 @@ OS:Connection,
 
 OS:Connection,
   {26476101-ce8c-4162-84dc-ed0f38bfd827}, !- Handle
-  {f5b56780-9aaf-4424-b930-008ad93d49c2}, !- Name
   {0874c7bb-a558-4499-a2bd-218fa4cb9528}, !- Source Object
   12,                                     !- Outlet Port
   {8167e5ee-2691-449c-93f4-9192ad337fcf}, !- Target Object
@@ -7337,7 +7207,6 @@ OS:Connection,
 
 OS:Connection,
   {50cfeb9d-4fb2-494a-a394-9ea9a1f63176}, !- Handle
-  {cb068c4e-fd77-4bb4-9efa-8b49b4631e74}, !- Name
   {33256157-7958-4fa8-b90a-e2cb5515cfb8}, !- Source Object
   3,                                      !- Outlet Port
   {55d67ce1-5188-4441-9345-65a1bdf1566b}, !- Target Object
@@ -7379,7 +7248,6 @@ OS:Node,
 
 OS:Connection,
   {d83822e8-4e85-4238-9fa8-8f192173433c}, !- Handle
-  {d7f4fb0d-9ae7-4e6d-aa98-166d71d72a02}, !- Name
   {c91df6df-e896-4205-bc5c-6554783e4c36}, !- Source Object
   9,                                      !- Outlet Port
   {37b2550e-cde5-4177-b23e-72bb7116e535}, !- Target Object
@@ -7387,7 +7255,6 @@ OS:Connection,
 
 OS:Connection,
   {2c096bcc-7e5b-4477-8666-d110469f89f1}, !- Handle
-  {612a15b7-b205-4e9a-8020-1108dba93170}, !- Name
   {c5cd9978-bb38-4582-bc70-e5ce13ef6c28}, !- Source Object
   3,                                      !- Outlet Port
   {c91df6df-e896-4205-bc5c-6554783e4c36}, !- Target Object
@@ -7413,7 +7280,6 @@ OS:Node,
 
 OS:Connection,
   {88c2aa33-eeb8-4f9a-bb13-7f43e401c8b0}, !- Handle
-  {ddec0cee-026e-481b-81c1-b82f13fc637b}, !- Name
   {c91df6df-e896-4205-bc5c-6554783e4c36}, !- Source Object
   11,                                     !- Outlet Port
   {46a0f60a-c49d-4b81-bc09-0a55cdb18d60}, !- Target Object
@@ -7421,7 +7287,6 @@ OS:Connection,
 
 OS:Connection,
   {286ff22b-e4f9-4d41-b003-2151358cac16}, !- Handle
-  {e42e997c-6d09-4afc-8188-63f193805b9a}, !- Name
   {419792ba-6cda-4bbe-90c0-d98b43cb6b10}, !- Source Object
   3,                                      !- Outlet Port
   {c91df6df-e896-4205-bc5c-6554783e4c36}, !- Target Object
@@ -7446,7 +7311,6 @@ OS:AirLoopHVAC:ZoneMixer,
 
 OS:Connection,
   {70aee829-1520-45b1-b048-3b051aacef84}, !- Handle
-  {6db07cc5-a2f6-45e7-a82d-41a304dda9b2}, !- Name
   {46a0f60a-c49d-4b81-bc09-0a55cdb18d60}, !- Source Object
   3,                                      !- Outlet Port
   {1a1b620c-595d-4c55-a4d5-046e8ae87f8c}, !- Target Object
@@ -7454,7 +7318,6 @@ OS:Connection,
 
 OS:Connection,
   {9f133055-addc-4e0e-8198-71ceacfa2776}, !- Handle
-  {123c0809-23ff-47a7-ab9a-0a858af66adf}, !- Name
   {c10a0282-a760-48fe-a516-b877ffc8c940}, !- Source Object
   2,                                      !- Outlet Port
   {419792ba-6cda-4bbe-90c0-d98b43cb6b10}, !- Target Object
@@ -7537,7 +7400,6 @@ OS:Fan:VariableVolume,
 
 OS:Connection,
   {d6dad6a5-bb9d-4962-b48c-d10e29a610c7}, !- Handle
-  {70d4e3c4-44ec-4cd7-bb0f-97ef0c71102d}, !- Name
   {ff940a5a-1310-4ba1-9f36-3853d167a8b0}, !- Source Object
   17,                                     !- Outlet Port
   {c5cd9978-bb38-4582-bc70-e5ce13ef6c28}, !- Target Object
@@ -7564,7 +7426,6 @@ OS:Node,
 
 OS:Connection,
   {94fe77a7-2554-4be3-9528-f019cf407fd6}, !- Handle
-  {2316e7ae-612c-441a-9d41-aa21b4fc28c0}, !- Name
   {b224bc5b-1937-487a-9f62-38632382b38e}, !- Source Object
   6,                                      !- Outlet Port
   {dd2e3754-64f9-4d1e-95e5-82b2acb16ebe}, !- Target Object
@@ -7572,7 +7433,6 @@ OS:Connection,
 
 OS:Connection,
   {9637fe5e-b273-4f3c-8979-105c173b6fcd}, !- Handle
-  {c34b155d-f4c0-4968-969e-717d86444d8f}, !- Name
   {dd2e3754-64f9-4d1e-95e5-82b2acb16ebe}, !- Source Object
   3,                                      !- Outlet Port
   {ff940a5a-1310-4ba1-9f36-3853d167a8b0}, !- Target Object
@@ -7623,7 +7483,6 @@ OS:Node,
 
 OS:Connection,
   {4f15f87d-27eb-499b-b2dd-bc0e995377b4}, !- Handle
-  {8d75d0b4-72d8-4cd9-8be6-09ac6cb73029}, !- Name
   {13fd3a14-763c-47e5-9a67-bf2c974a0a39}, !- Source Object
   9,                                      !- Outlet Port
   {1cb3aaaf-19d8-4de6-bcd1-8625f4516596}, !- Target Object
@@ -7631,7 +7490,6 @@ OS:Connection,
 
 OS:Connection,
   {4a582eef-5804-4737-b240-ee65289787d3}, !- Handle
-  {60103801-6a32-4a66-ba23-67c44a1a3f46}, !- Name
   {1cb3aaaf-19d8-4de6-bcd1-8625f4516596}, !- Source Object
   3,                                      !- Outlet Port
   {b224bc5b-1937-487a-9f62-38632382b38e}, !- Target Object
@@ -7692,7 +7550,6 @@ OS:Node,
 
 OS:Connection,
   {b917835d-508d-4ddd-979b-c209038a0ce6}, !- Handle
-  {86fae69b-81d8-4e1d-ad38-6b6efd181a2f}, !- Name
   {671f9941-bd0d-4790-8b45-a851f4d057cf}, !- Source Object
   3,                                      !- Outlet Port
   {83bdd2c5-ab4f-4931-a893-e17325f03dac}, !- Target Object
@@ -7706,7 +7563,6 @@ OS:Node,
 
 OS:Connection,
   {4a989131-ae8d-4842-be5a-88615c3a072a}, !- Handle
-  {4ba73844-7ac3-44b4-b98d-ace244c45cb1}, !- Name
   {83bdd2c5-ab4f-4931-a893-e17325f03dac}, !- Source Object
   7,                                      !- Outlet Port
   {abf26eb0-cf90-4b8d-af37-e4e9674557f9}, !- Target Object
@@ -7720,7 +7576,6 @@ OS:Node,
 
 OS:Connection,
   {06aa338a-19a5-40ab-b6a6-2b2b606f5a0f}, !- Handle
-  {525a9deb-b477-4ac5-974c-a5f625fd392f}, !- Name
   {37b2550e-cde5-4177-b23e-72bb7116e535}, !- Source Object
   3,                                      !- Outlet Port
   {83bdd2c5-ab4f-4931-a893-e17325f03dac}, !- Target Object
@@ -7728,7 +7583,6 @@ OS:Connection,
 
 OS:Connection,
   {68a4b3ec-b609-462f-a72e-a4b49acbc3e6}, !- Handle
-  {d144705e-c41f-4303-915a-3ab7a50e8aef}, !- Name
   {83bdd2c5-ab4f-4931-a893-e17325f03dac}, !- Source Object
   5,                                      !- Outlet Port
   {f6706ea8-3870-486e-8651-6a10918a83b7}, !- Target Object
@@ -7736,7 +7590,6 @@ OS:Connection,
 
 OS:Connection,
   {ad210ed1-6f8b-4d8d-8728-b1f930a4ae19}, !- Handle
-  {8e85238a-c427-48c6-8d20-b3fe8429673f}, !- Name
   {f6706ea8-3870-486e-8651-6a10918a83b7}, !- Source Object
   3,                                      !- Outlet Port
   {13fd3a14-763c-47e5-9a67-bf2c974a0a39}, !- Target Object
@@ -7810,7 +7663,6 @@ OS:Node,
 
 OS:Connection,
   {52645384-bb8c-497e-8ae9-cf0338289668}, !- Handle
-  {16a6b443-2e02-48a5-bfd1-3372aa7691a3}, !- Name
   {ac65c440-c99f-43bf-932d-9db3c675c5cc}, !- Source Object
   3,                                      !- Outlet Port
   {15d162a5-5ad0-44bd-a182-adc368d83031}, !- Target Object
@@ -7818,7 +7670,6 @@ OS:Connection,
 
 OS:Connection,
   {97999377-ef94-4df3-aeb2-69af5a717491}, !- Handle
-  {69db5913-cf47-43c3-a240-b40ffe0f6403}, !- Name
   {9e2593c1-6450-4102-889f-529e91332090}, !- Source Object
   3,                                      !- Outlet Port
   {c461b05f-b8dd-4d8d-b397-5ac898f706a0}, !- Target Object
@@ -7832,7 +7683,6 @@ OS:Node,
 
 OS:Connection,
   {f31c24dc-b0fd-4bd3-97f3-10c734559a78}, !- Handle
-  {b33f6f42-6ac2-48da-8e17-afc937505c7b}, !- Name
   {1a1b620c-595d-4c55-a4d5-046e8ae87f8c}, !- Source Object
   3,                                      !- Outlet Port
   {f09eb3e9-5fef-4e22-a2db-4ae8f4b770af}, !- Target Object
@@ -7840,7 +7690,6 @@ OS:Connection,
 
 OS:Connection,
   {406e879b-e52f-432c-bed4-c899d7933d92}, !- Handle
-  {36272a07-492f-4868-81a9-2599968dfb12}, !- Name
   {f09eb3e9-5fef-4e22-a2db-4ae8f4b770af}, !- Source Object
   3,                                      !- Outlet Port
   {ea2ce784-ebce-4289-8182-27b32f87c24d}, !- Target Object
@@ -7848,7 +7697,6 @@ OS:Connection,
 
 OS:Connection,
   {b5b36902-f819-4ec8-9f7f-318d1f004374}, !- Handle
-  {416b64f5-ece4-40f1-9628-a04fa6a8fa8c}, !- Name
   {ea2ce784-ebce-4289-8182-27b32f87c24d}, !- Source Object
   12,                                     !- Outlet Port
   {ac65c440-c99f-43bf-932d-9db3c675c5cc}, !- Target Object
@@ -7874,7 +7722,6 @@ OS:Node,
 
 OS:Connection,
   {1c2d9c83-81e2-4569-ab63-36119a856468}, !- Handle
-  {480dce85-6ad2-429f-a690-119ac3ac3650}, !- Name
   {c461b05f-b8dd-4d8d-b397-5ac898f706a0}, !- Source Object
   3,                                      !- Outlet Port
   {9adf73ab-46a5-4baf-adb2-580e9687db3b}, !- Target Object
@@ -7882,7 +7729,6 @@ OS:Connection,
 
 OS:Connection,
   {915c9605-248d-47bf-b495-a2aac023c9fa}, !- Handle
-  {f401b381-aaf5-4f47-9f33-9daf25ca1e6a}, !- Name
   {9adf73ab-46a5-4baf-adb2-580e9687db3b}, !- Source Object
   3,                                      !- Outlet Port
   {d112a07d-a981-4613-968d-e4804fc09b71}, !- Target Object
@@ -7890,7 +7736,6 @@ OS:Connection,
 
 OS:Connection,
   {5022caf8-9d1e-43d2-b874-c7d92028bedf}, !- Handle
-  {2ce89b8b-f4cc-4809-95d3-4b14869e3c41}, !- Name
   {d112a07d-a981-4613-968d-e4804fc09b71}, !- Source Object
   3,                                      !- Outlet Port
   {c10a0282-a760-48fe-a516-b877ffc8c940}, !- Target Object
@@ -7940,7 +7785,6 @@ OS:Node,
 
 OS:Connection,
   {dd12d38c-38e3-4dd2-98ab-1cb1c5ec4a31}, !- Handle
-  {87944d8c-d2b3-4a86-9d7a-0dcc36ede324}, !- Name
   {69aba425-f44f-4acb-8eb7-31994adfe0cb}, !- Source Object
   3,                                      !- Outlet Port
   {6b1aefe5-cdab-478e-9270-d8da3214d870}, !- Target Object
@@ -7948,7 +7792,6 @@ OS:Connection,
 
 OS:Connection,
   {d73a9052-4490-49f5-9428-401d64105709}, !- Handle
-  {77583aff-0014-4f11-bf9d-41ef58ebf6d0}, !- Name
   {a2dab80e-4653-4ccd-aebf-c957b841255f}, !- Source Object
   3,                                      !- Outlet Port
   {143b039f-f9cf-4610-a0b8-092476f7d9ed}, !- Target Object
@@ -7962,7 +7805,6 @@ OS:Node,
 
 OS:Connection,
   {1fdb5d15-9dc5-4fdd-a032-9102d61a2c02}, !- Handle
-  {7ba0d2b7-ae1d-4765-98ca-02eb02c26fe0}, !- Name
   {1a1b620c-595d-4c55-a4d5-046e8ae87f8c}, !- Source Object
   4,                                      !- Outlet Port
   {3f3c278f-f19e-4506-b553-7c301d769279}, !- Target Object
@@ -7970,7 +7812,6 @@ OS:Connection,
 
 OS:Connection,
   {bdc364bc-f6d7-4c8b-b3c4-07c8d7dda2b7}, !- Handle
-  {10180a3e-0f89-45cb-af04-ca7b0a46cc54}, !- Name
   {3f3c278f-f19e-4506-b553-7c301d769279}, !- Source Object
   3,                                      !- Outlet Port
   {c6ef7cc0-4ce5-46e0-963e-45d91f54e420}, !- Target Object
@@ -7978,7 +7819,6 @@ OS:Connection,
 
 OS:Connection,
   {9852838f-40e3-458e-904c-cd9b2593cd4f}, !- Handle
-  {f7d90fae-3339-4770-9a2b-fe9c3798e8f8}, !- Name
   {c6ef7cc0-4ce5-46e0-963e-45d91f54e420}, !- Source Object
   12,                                     !- Outlet Port
   {69aba425-f44f-4acb-8eb7-31994adfe0cb}, !- Target Object
@@ -7986,7 +7826,6 @@ OS:Connection,
 
 OS:Connection,
   {efeda043-c6af-4616-aaa3-110dc23daaec}, !- Handle
-  {7895c519-03c7-4c1d-b013-4e768339de08}, !- Name
   {143b039f-f9cf-4610-a0b8-092476f7d9ed}, !- Source Object
   3,                                      !- Outlet Port
   {9adf73ab-46a5-4baf-adb2-580e9687db3b}, !- Target Object
@@ -8036,7 +7875,6 @@ OS:Node,
 
 OS:Connection,
   {f0a843c9-0c38-4569-b25a-ac87a7e8da03}, !- Handle
-  {a6e562d0-2b89-4ed0-9ba1-cce723742dcf}, !- Name
   {df08a0b9-51c5-48c7-88f2-3392ad48cb39}, !- Source Object
   3,                                      !- Outlet Port
   {09a4db56-83c8-4a19-977e-0184b0a48a4d}, !- Target Object
@@ -8044,7 +7882,6 @@ OS:Connection,
 
 OS:Connection,
   {3025691e-7c2a-498d-b847-60c201c8c483}, !- Handle
-  {75970c32-073c-43ed-89b9-0d422fb50f51}, !- Name
   {10607835-c28a-40c6-9d85-e12f82fdba79}, !- Source Object
   3,                                      !- Outlet Port
   {49b44117-941f-4d92-a44f-f78ba5a73491}, !- Target Object
@@ -8058,7 +7895,6 @@ OS:Node,
 
 OS:Connection,
   {fd415167-febf-4e58-8042-09e48bbcdede}, !- Handle
-  {e872df07-bb74-4d8f-9070-2637ebcbdfd4}, !- Name
   {1a1b620c-595d-4c55-a4d5-046e8ae87f8c}, !- Source Object
   5,                                      !- Outlet Port
   {0eca712c-0b85-4610-9fb2-499d4d9b805d}, !- Target Object
@@ -8066,7 +7902,6 @@ OS:Connection,
 
 OS:Connection,
   {93c482d7-ef9b-4df7-b638-a8182ebd4467}, !- Handle
-  {43ccdc78-3f2b-4828-b999-0fe44539fba3}, !- Name
   {0eca712c-0b85-4610-9fb2-499d4d9b805d}, !- Source Object
   3,                                      !- Outlet Port
   {047c9bb4-4819-4416-ba7b-902286f27cd3}, !- Target Object
@@ -8074,7 +7909,6 @@ OS:Connection,
 
 OS:Connection,
   {294ea6a0-3dac-4b78-875b-c3457b57b072}, !- Handle
-  {d5c623b6-00d7-404d-b7cb-7412e0213024}, !- Name
   {047c9bb4-4819-4416-ba7b-902286f27cd3}, !- Source Object
   12,                                     !- Outlet Port
   {df08a0b9-51c5-48c7-88f2-3392ad48cb39}, !- Target Object
@@ -8082,7 +7916,6 @@ OS:Connection,
 
 OS:Connection,
   {b7b08e41-3f86-4680-912a-e8f55342e269}, !- Handle
-  {4ca40d1d-e2c7-4785-a65d-e65ec27b3750}, !- Name
   {49b44117-941f-4d92-a44f-f78ba5a73491}, !- Source Object
   3,                                      !- Outlet Port
   {9adf73ab-46a5-4baf-adb2-580e9687db3b}, !- Target Object
@@ -8132,7 +7965,6 @@ OS:Node,
 
 OS:Connection,
   {e528edef-9681-47bb-b6ad-4add1825652b}, !- Handle
-  {acd1dbbb-3b14-4fb6-b7a6-648d1477b005}, !- Name
   {dbf81db2-31bd-45e6-8ccf-a8e8fdd5b365}, !- Source Object
   3,                                      !- Outlet Port
   {ab0b5476-99c4-4193-8718-61c40e8ef8f7}, !- Target Object
@@ -8140,7 +7972,6 @@ OS:Connection,
 
 OS:Connection,
   {01f4f57c-482a-4533-a1d5-df870199dec8}, !- Handle
-  {f5f64725-6a6b-4524-a325-0965dfa86e1c}, !- Name
   {5f8123e5-d09c-4231-ab03-8d1ffce76708}, !- Source Object
   3,                                      !- Outlet Port
   {185077e5-a302-4f8e-92f0-72dd033dbcaf}, !- Target Object
@@ -8154,7 +7985,6 @@ OS:Node,
 
 OS:Connection,
   {ef888216-30ee-4676-9808-47a4d9383a5c}, !- Handle
-  {ebed118c-c167-49cd-84c9-d2a00fc61c50}, !- Name
   {1a1b620c-595d-4c55-a4d5-046e8ae87f8c}, !- Source Object
   6,                                      !- Outlet Port
   {8fb2f177-7fbd-4edf-bc52-2f59a8c79e68}, !- Target Object
@@ -8162,7 +7992,6 @@ OS:Connection,
 
 OS:Connection,
   {ac61d56d-c69a-4ffc-94b0-c8d9b30275ab}, !- Handle
-  {4cbbda97-133f-4018-a696-916927851229}, !- Name
   {8fb2f177-7fbd-4edf-bc52-2f59a8c79e68}, !- Source Object
   3,                                      !- Outlet Port
   {29445c47-40f2-4319-81e9-29b7f51d1b6b}, !- Target Object
@@ -8170,7 +7999,6 @@ OS:Connection,
 
 OS:Connection,
   {9fb3b278-a2f8-4093-a400-fda96e2b8d0b}, !- Handle
-  {0980a149-5775-40af-90aa-026e706b8276}, !- Name
   {29445c47-40f2-4319-81e9-29b7f51d1b6b}, !- Source Object
   12,                                     !- Outlet Port
   {dbf81db2-31bd-45e6-8ccf-a8e8fdd5b365}, !- Target Object
@@ -8178,7 +8006,6 @@ OS:Connection,
 
 OS:Connection,
   {d22c4c77-652c-4f2b-b09f-bd9e8f021cf0}, !- Handle
-  {76d0849b-e211-49c9-9699-78d6c63e328f}, !- Name
   {185077e5-a302-4f8e-92f0-72dd033dbcaf}, !- Source Object
   3,                                      !- Outlet Port
   {9adf73ab-46a5-4baf-adb2-580e9687db3b}, !- Target Object
@@ -8228,7 +8055,6 @@ OS:Node,
 
 OS:Connection,
   {8d862e4a-16ec-4aaa-977c-902fc9ba15ab}, !- Handle
-  {21fb75ac-b57f-44d4-9c10-014eab18244f}, !- Name
   {cbba72d0-5a81-4545-ba42-b054e5702d31}, !- Source Object
   3,                                      !- Outlet Port
   {f074a4b7-18eb-451d-8a66-2fd7cf8614b3}, !- Target Object
@@ -8236,7 +8062,6 @@ OS:Connection,
 
 OS:Connection,
   {88b7d75c-5091-4e95-977d-54595e1db97a}, !- Handle
-  {d620b671-5223-4d68-90e6-363648847676}, !- Name
   {d6edb003-be23-4714-affb-7cf8527c1527}, !- Source Object
   3,                                      !- Outlet Port
   {bf38e885-b55d-4e03-a1a4-c7c3faa870f3}, !- Target Object
@@ -8250,7 +8075,6 @@ OS:Node,
 
 OS:Connection,
   {76da1069-9ad6-40b6-aa33-372039c58e03}, !- Handle
-  {64a44c1a-9059-42f0-90b5-44bd40e2845b}, !- Name
   {1a1b620c-595d-4c55-a4d5-046e8ae87f8c}, !- Source Object
   7,                                      !- Outlet Port
   {deef3830-f457-4a09-919f-d8afd371647d}, !- Target Object
@@ -8258,7 +8082,6 @@ OS:Connection,
 
 OS:Connection,
   {6e333880-2ab0-426e-b2f3-7e2335e911a4}, !- Handle
-  {b997acc8-bdb5-427c-907b-37ecf72feb37}, !- Name
   {deef3830-f457-4a09-919f-d8afd371647d}, !- Source Object
   3,                                      !- Outlet Port
   {811c40e1-a14d-41f5-a92a-ea61b85f91aa}, !- Target Object
@@ -8266,7 +8089,6 @@ OS:Connection,
 
 OS:Connection,
   {f013ec00-7dbb-40a0-9731-ed1f8d5bd3f2}, !- Handle
-  {c7aa213f-d835-408a-9767-db8acaef1029}, !- Name
   {811c40e1-a14d-41f5-a92a-ea61b85f91aa}, !- Source Object
   12,                                     !- Outlet Port
   {cbba72d0-5a81-4545-ba42-b054e5702d31}, !- Target Object
@@ -8274,7 +8096,6 @@ OS:Connection,
 
 OS:Connection,
   {a8924366-c81f-4e39-9088-969300d00bed}, !- Handle
-  {04f2a1f4-0050-416d-b13b-cab3488f956b}, !- Name
   {bf38e885-b55d-4e03-a1a4-c7c3faa870f3}, !- Source Object
   3,                                      !- Outlet Port
   {9adf73ab-46a5-4baf-adb2-580e9687db3b}, !- Target Object
@@ -8316,7 +8137,6 @@ OS:Node,
 
 OS:Connection,
   {4ab57a94-72ca-422e-93f6-f5151983a20a}, !- Handle
-  {ad9845d7-9f17-437a-abba-163bfba76c81}, !- Name
   {ab216ac1-a300-48ba-8f26-8aae869b1542}, !- Source Object
   9,                                      !- Outlet Port
   {3c0d7aea-8228-432e-94f7-89a76b26fa94}, !- Target Object
@@ -8324,7 +8144,6 @@ OS:Connection,
 
 OS:Connection,
   {b0a70833-5c4f-426c-a376-758a2d5d25f6}, !- Handle
-  {6afb7f8f-6b21-471f-9e87-3726c462d396}, !- Name
   {583ed9bf-45c0-480f-a2f3-a40453edc1ec}, !- Source Object
   3,                                      !- Outlet Port
   {ab216ac1-a300-48ba-8f26-8aae869b1542}, !- Target Object
@@ -8350,7 +8169,6 @@ OS:Node,
 
 OS:Connection,
   {6bbb9e1b-d86c-468f-8a21-f98f3fc5e9ca}, !- Handle
-  {07852c13-5ee5-4de3-8fa1-af0cb5007171}, !- Name
   {ab216ac1-a300-48ba-8f26-8aae869b1542}, !- Source Object
   11,                                     !- Outlet Port
   {86e1acac-c6dc-450b-9f5d-6485835edd04}, !- Target Object
@@ -8358,7 +8176,6 @@ OS:Connection,
 
 OS:Connection,
   {43ca0346-f49b-405e-bb4d-7e0ca9d66521}, !- Handle
-  {4dd562fd-e9e6-4e59-b894-9e687a3f048f}, !- Name
   {a44ec1ed-15c5-4697-b6b8-0fed65a3928c}, !- Source Object
   3,                                      !- Outlet Port
   {ab216ac1-a300-48ba-8f26-8aae869b1542}, !- Target Object
@@ -8383,7 +8200,6 @@ OS:AirLoopHVAC:ZoneMixer,
 
 OS:Connection,
   {8f109c3f-0241-469e-a04b-f5c189337c3c}, !- Handle
-  {12904425-ca81-430e-8fdf-36f91cc87380}, !- Name
   {86e1acac-c6dc-450b-9f5d-6485835edd04}, !- Source Object
   3,                                      !- Outlet Port
   {b3922e28-afdf-499f-9e28-0d258213b783}, !- Target Object
@@ -8391,7 +8207,6 @@ OS:Connection,
 
 OS:Connection,
   {79e4a5f9-3315-401d-a384-613577a2247d}, !- Handle
-  {318a59ff-95f7-4c4d-bfab-8a87758a9d63}, !- Name
   {db3e3d83-97a2-4294-9949-408101c69f23}, !- Source Object
   2,                                      !- Outlet Port
   {a44ec1ed-15c5-4697-b6b8-0fed65a3928c}, !- Target Object
@@ -8474,7 +8289,6 @@ OS:Fan:VariableVolume,
 
 OS:Connection,
   {6257aefc-c400-4a60-b455-b876781ad702}, !- Handle
-  {51aacdd7-8da4-4c56-9ce2-d5c40310cd25}, !- Name
   {67353932-8cea-4eb8-adb8-2bca95b05d53}, !- Source Object
   17,                                     !- Outlet Port
   {583ed9bf-45c0-480f-a2f3-a40453edc1ec}, !- Target Object
@@ -8501,7 +8315,6 @@ OS:Node,
 
 OS:Connection,
   {7efaa154-7f7b-4dda-97d6-d5eb2a291b84}, !- Handle
-  {9f4d2271-105f-45f3-905c-9a6fc686ad37}, !- Name
   {a0bf4017-fe06-4750-ac1e-3a9affcca23a}, !- Source Object
   6,                                      !- Outlet Port
   {f7ac7253-2817-41eb-96b7-dd7e3a1bb7c2}, !- Target Object
@@ -8509,7 +8322,6 @@ OS:Connection,
 
 OS:Connection,
   {2ab8d8e7-aea6-46e4-b9b0-7a90b056aa6c}, !- Handle
-  {7af03aaf-416b-4024-91eb-6a5e94d169bb}, !- Name
   {f7ac7253-2817-41eb-96b7-dd7e3a1bb7c2}, !- Source Object
   3,                                      !- Outlet Port
   {67353932-8cea-4eb8-adb8-2bca95b05d53}, !- Target Object
@@ -8560,7 +8372,6 @@ OS:Node,
 
 OS:Connection,
   {31d9e9f8-dfcd-4b46-9c0e-a6c6ea534b15}, !- Handle
-  {25ab0d3d-b337-4356-a8bd-5f74863d07d7}, !- Name
   {a421311d-e98b-4d41-a29c-c6e7068eead8}, !- Source Object
   9,                                      !- Outlet Port
   {7e76bd4a-dd4f-4d73-bfb0-55b285faa73a}, !- Target Object
@@ -8568,7 +8379,6 @@ OS:Connection,
 
 OS:Connection,
   {9f4536c0-d7c1-46ed-b61a-ae5a4b7d3e46}, !- Handle
-  {252b4e98-f3d4-4cfb-a126-876e96625da4}, !- Name
   {7e76bd4a-dd4f-4d73-bfb0-55b285faa73a}, !- Source Object
   3,                                      !- Outlet Port
   {a0bf4017-fe06-4750-ac1e-3a9affcca23a}, !- Target Object
@@ -8629,7 +8439,6 @@ OS:Node,
 
 OS:Connection,
   {e3c45946-1776-42df-87df-a7335d431c77}, !- Handle
-  {710f26e5-602e-4a1d-9114-d73eb576b989}, !- Name
   {7ce4e2b0-23b3-4622-a72c-5c44172d8987}, !- Source Object
   3,                                      !- Outlet Port
   {2c229314-16bd-4be8-8319-d6de205a1b21}, !- Target Object
@@ -8643,7 +8452,6 @@ OS:Node,
 
 OS:Connection,
   {1d966cca-5694-4348-865a-333cabd6c488}, !- Handle
-  {555f0c9c-ccee-409f-9cb0-45570c1a0204}, !- Name
   {2c229314-16bd-4be8-8319-d6de205a1b21}, !- Source Object
   7,                                      !- Outlet Port
   {9d214e74-e158-4b4a-a792-f3c51dbf8ef9}, !- Target Object
@@ -8657,7 +8465,6 @@ OS:Node,
 
 OS:Connection,
   {64a8d30e-c4c7-4797-a631-b940104f753b}, !- Handle
-  {f6ab3e73-2020-4f01-9370-fe305502a58a}, !- Name
   {3c0d7aea-8228-432e-94f7-89a76b26fa94}, !- Source Object
   3,                                      !- Outlet Port
   {2c229314-16bd-4be8-8319-d6de205a1b21}, !- Target Object
@@ -8665,7 +8472,6 @@ OS:Connection,
 
 OS:Connection,
   {0ef3bbf9-87ea-4cac-b9e5-f594b9d1ad1f}, !- Handle
-  {ae196150-f5af-4ada-b1b0-96506612bd3b}, !- Name
   {2c229314-16bd-4be8-8319-d6de205a1b21}, !- Source Object
   5,                                      !- Outlet Port
   {d76e94b7-8fcb-43c0-b4df-21e352d146b5}, !- Target Object
@@ -8673,7 +8479,6 @@ OS:Connection,
 
 OS:Connection,
   {0f3a6f94-cae7-4db3-bdf2-34ced79c0e73}, !- Handle
-  {aa3aefff-abb7-4f5d-b3ab-2265b7294e5d}, !- Name
   {d76e94b7-8fcb-43c0-b4df-21e352d146b5}, !- Source Object
   3,                                      !- Outlet Port
   {a421311d-e98b-4d41-a29c-c6e7068eead8}, !- Target Object
@@ -8747,7 +8552,6 @@ OS:Node,
 
 OS:Connection,
   {3aeb7ff4-92dc-416c-a807-710775274000}, !- Handle
-  {ef037367-0091-45fa-ab01-96be90580ac0}, !- Name
   {54a8a130-b579-4664-8270-82d111c8b8de}, !- Source Object
   3,                                      !- Outlet Port
   {5d9c885d-e357-4e7b-89a1-a10d28582695}, !- Target Object
@@ -8755,7 +8559,6 @@ OS:Connection,
 
 OS:Connection,
   {851c842c-00cf-457d-a571-efffeca18897}, !- Handle
-  {47dfbdaf-7ad9-4281-b6ba-c3707841b052}, !- Name
   {5bf6af23-802f-4111-8ed8-21323ddcbe5f}, !- Source Object
   3,                                      !- Outlet Port
   {ca9ae372-4b7f-494b-b60d-225690fb9cca}, !- Target Object
@@ -8769,7 +8572,6 @@ OS:Node,
 
 OS:Connection,
   {309bdc45-fcf6-4013-b762-60bc9020ef03}, !- Handle
-  {e7b168bf-fd4e-408a-ae01-d67146bd4da2}, !- Name
   {b3922e28-afdf-499f-9e28-0d258213b783}, !- Source Object
   3,                                      !- Outlet Port
   {3be4405b-4bcd-481f-8d22-5d0af11a17d7}, !- Target Object
@@ -8777,7 +8579,6 @@ OS:Connection,
 
 OS:Connection,
   {626a0169-6a29-4d89-a16b-f00a7ac84bc1}, !- Handle
-  {3221c3ff-1d4d-4782-a9ea-858bdfe1f16f}, !- Name
   {3be4405b-4bcd-481f-8d22-5d0af11a17d7}, !- Source Object
   3,                                      !- Outlet Port
   {9b0e5908-d872-4745-9e0d-3b42dba81953}, !- Target Object
@@ -8785,7 +8586,6 @@ OS:Connection,
 
 OS:Connection,
   {2f87418e-55f2-49ca-a967-dce1bd811e62}, !- Handle
-  {9257b05e-59c9-48c7-8b14-a60b86e4d5f1}, !- Name
   {9b0e5908-d872-4745-9e0d-3b42dba81953}, !- Source Object
   12,                                     !- Outlet Port
   {54a8a130-b579-4664-8270-82d111c8b8de}, !- Target Object
@@ -8811,7 +8611,6 @@ OS:Node,
 
 OS:Connection,
   {7b4799fe-e445-4052-ab8d-80456a125e04}, !- Handle
-  {d2147f6a-34d8-4356-82ae-e46b0cdc2c2d}, !- Name
   {ca9ae372-4b7f-494b-b60d-225690fb9cca}, !- Source Object
   3,                                      !- Outlet Port
   {66245608-de48-495c-8750-aa3c2d429edd}, !- Target Object
@@ -8819,7 +8618,6 @@ OS:Connection,
 
 OS:Connection,
   {39c85ec5-168c-4396-9c0a-0c4bcd6d9aa2}, !- Handle
-  {d2c68510-799d-4580-a258-109e120ad5c4}, !- Name
   {66245608-de48-495c-8750-aa3c2d429edd}, !- Source Object
   3,                                      !- Outlet Port
   {ad6fd5f3-38ba-4110-b6fd-58fc99acc5a0}, !- Target Object
@@ -8827,7 +8625,6 @@ OS:Connection,
 
 OS:Connection,
   {ee3f5ce9-88dc-4037-a2a5-8a160c9a234d}, !- Handle
-  {f0a4dc94-6859-4d49-8c68-4a3bb8348a28}, !- Name
   {ad6fd5f3-38ba-4110-b6fd-58fc99acc5a0}, !- Source Object
   3,                                      !- Outlet Port
   {db3e3d83-97a2-4294-9949-408101c69f23}, !- Target Object
@@ -8877,7 +8674,6 @@ OS:Node,
 
 OS:Connection,
   {65fec694-7efa-41ff-a599-b8b5034693da}, !- Handle
-  {d87968cc-900f-4960-9eec-3279973c4511}, !- Name
   {262857be-e90f-4c0e-ab7b-db1957c370e5}, !- Source Object
   3,                                      !- Outlet Port
   {ced0b434-1cfd-4015-a7b5-e6762f6e05c7}, !- Target Object
@@ -8885,7 +8681,6 @@ OS:Connection,
 
 OS:Connection,
   {1cf31472-94c0-4aab-a954-8c82e64659e2}, !- Handle
-  {4b95587e-350d-45ed-b07a-de330a11a749}, !- Name
   {cec00aa4-99a0-48a1-87d8-0f6b82db2a3a}, !- Source Object
   3,                                      !- Outlet Port
   {d6ad32a6-16fb-45db-9702-9850d7fbbf2f}, !- Target Object
@@ -8899,7 +8694,6 @@ OS:Node,
 
 OS:Connection,
   {45d28359-e4c4-4dad-a25f-388cc5f38a51}, !- Handle
-  {abb061d2-d880-4830-b3f0-bbb34ec3e51f}, !- Name
   {b3922e28-afdf-499f-9e28-0d258213b783}, !- Source Object
   4,                                      !- Outlet Port
   {e303f5d4-8938-449c-b673-30ae9056e43a}, !- Target Object
@@ -8907,7 +8701,6 @@ OS:Connection,
 
 OS:Connection,
   {d737ff6f-3e11-4c38-a4ff-69631de90f9c}, !- Handle
-  {ad57ceaa-7da0-4fcd-8d43-9acaa4310548}, !- Name
   {e303f5d4-8938-449c-b673-30ae9056e43a}, !- Source Object
   3,                                      !- Outlet Port
   {16d0fa62-6d39-4f68-a74e-faab3366505c}, !- Target Object
@@ -8915,7 +8708,6 @@ OS:Connection,
 
 OS:Connection,
   {228f95f2-f3fc-432b-8e60-78c256f57267}, !- Handle
-  {5129e7a1-ca76-4752-ad01-47757a6674f3}, !- Name
   {16d0fa62-6d39-4f68-a74e-faab3366505c}, !- Source Object
   12,                                     !- Outlet Port
   {262857be-e90f-4c0e-ab7b-db1957c370e5}, !- Target Object
@@ -8923,7 +8715,6 @@ OS:Connection,
 
 OS:Connection,
   {770a9a27-a732-4417-861c-70d305e7ceb9}, !- Handle
-  {7f6c7a3b-caca-45fc-898b-12fd4da8b5b9}, !- Name
   {d6ad32a6-16fb-45db-9702-9850d7fbbf2f}, !- Source Object
   3,                                      !- Outlet Port
   {66245608-de48-495c-8750-aa3c2d429edd}, !- Target Object
@@ -8973,7 +8764,6 @@ OS:Node,
 
 OS:Connection,
   {662d9d99-4d62-473d-95da-1186f12bb03c}, !- Handle
-  {5359f3f2-a6e2-454f-b033-cc2dfa5ea512}, !- Name
   {deddbbf7-d7bf-4055-ac00-621cf6d085a9}, !- Source Object
   3,                                      !- Outlet Port
   {a08ff2c5-18c3-4530-8bd5-df0f62c0b7ed}, !- Target Object
@@ -8981,7 +8771,6 @@ OS:Connection,
 
 OS:Connection,
   {3bd87746-1082-494f-9468-88e816689be6}, !- Handle
-  {5be48029-c926-4442-aaf8-e8674d2c597e}, !- Name
   {5b049d78-475c-4ccb-830e-81c77040a8a4}, !- Source Object
   3,                                      !- Outlet Port
   {3c4925b6-145d-498b-b834-23643bad328d}, !- Target Object
@@ -8995,7 +8784,6 @@ OS:Node,
 
 OS:Connection,
   {3303c0f2-848d-4173-af40-2724a87fecd1}, !- Handle
-  {7ce151df-c3fb-452d-945e-021965cd97cf}, !- Name
   {b3922e28-afdf-499f-9e28-0d258213b783}, !- Source Object
   5,                                      !- Outlet Port
   {87bb433e-f5a1-4361-a1cc-25953f715580}, !- Target Object
@@ -9003,7 +8791,6 @@ OS:Connection,
 
 OS:Connection,
   {6ebe5670-c2ab-4975-b80c-f9dc0ffd666d}, !- Handle
-  {6fd22095-8274-47a9-9810-f569e6c5390f}, !- Name
   {87bb433e-f5a1-4361-a1cc-25953f715580}, !- Source Object
   3,                                      !- Outlet Port
   {cebd2a70-3ba8-4c86-a21b-5906ffc947f2}, !- Target Object
@@ -9011,7 +8798,6 @@ OS:Connection,
 
 OS:Connection,
   {ffd11f7e-beeb-4a58-b9f3-d9f6e3aa006b}, !- Handle
-  {5674e643-abdf-482d-8c0c-69feca929d54}, !- Name
   {cebd2a70-3ba8-4c86-a21b-5906ffc947f2}, !- Source Object
   12,                                     !- Outlet Port
   {deddbbf7-d7bf-4055-ac00-621cf6d085a9}, !- Target Object
@@ -9019,7 +8805,6 @@ OS:Connection,
 
 OS:Connection,
   {aa8d0bb3-866c-4837-a1b6-468312eb5f11}, !- Handle
-  {0f3b7c5a-780d-4edc-ba6f-0a2221bd76d7}, !- Name
   {3c4925b6-145d-498b-b834-23643bad328d}, !- Source Object
   3,                                      !- Outlet Port
   {66245608-de48-495c-8750-aa3c2d429edd}, !- Target Object
@@ -9069,7 +8854,6 @@ OS:Node,
 
 OS:Connection,
   {9ddebf8e-2a81-4923-b215-3b986bd714a0}, !- Handle
-  {05d17adb-b8c8-437d-96a8-816d747ae170}, !- Name
   {18d1e60f-6c46-4096-8bdd-eee67f0495fc}, !- Source Object
   3,                                      !- Outlet Port
   {3888499d-63f7-48d9-b864-2a535f16466d}, !- Target Object
@@ -9077,7 +8861,6 @@ OS:Connection,
 
 OS:Connection,
   {c4023c8f-7099-4421-9ce6-81ef0eeef4a4}, !- Handle
-  {53035324-df98-4bb0-b701-a0e4139d5583}, !- Name
   {be9761b7-5def-449b-b746-23f3ef68b82f}, !- Source Object
   3,                                      !- Outlet Port
   {8dcf78eb-a1ab-41e1-91d6-d5edaca8ed32}, !- Target Object
@@ -9091,7 +8874,6 @@ OS:Node,
 
 OS:Connection,
   {b7bbe7ea-03af-4afc-a1f1-3d4ce6823287}, !- Handle
-  {5928c947-9821-4ee3-b4c4-788b69e4a30e}, !- Name
   {b3922e28-afdf-499f-9e28-0d258213b783}, !- Source Object
   6,                                      !- Outlet Port
   {a082c551-2107-431e-a7a1-dc9e5acbf23e}, !- Target Object
@@ -9099,7 +8881,6 @@ OS:Connection,
 
 OS:Connection,
   {8332dae9-b3f4-4522-9aba-d421640307aa}, !- Handle
-  {f9f52814-8698-401a-9f80-1a0fc7f2d5b2}, !- Name
   {a082c551-2107-431e-a7a1-dc9e5acbf23e}, !- Source Object
   3,                                      !- Outlet Port
   {0e90acb6-6512-4df4-8f07-eb0dd94e6a47}, !- Target Object
@@ -9107,7 +8888,6 @@ OS:Connection,
 
 OS:Connection,
   {6ba1ba44-5be1-442a-919d-b6fe94baa2b3}, !- Handle
-  {4a65d9e2-9f9a-4a88-a188-b1e29de3f328}, !- Name
   {0e90acb6-6512-4df4-8f07-eb0dd94e6a47}, !- Source Object
   12,                                     !- Outlet Port
   {18d1e60f-6c46-4096-8bdd-eee67f0495fc}, !- Target Object
@@ -9115,7 +8895,6 @@ OS:Connection,
 
 OS:Connection,
   {0c5cd507-f867-41bc-baf3-e080fa6cd89f}, !- Handle
-  {694ea968-6b7d-46e6-b495-f57f4f1fee26}, !- Name
   {8dcf78eb-a1ab-41e1-91d6-d5edaca8ed32}, !- Source Object
   3,                                      !- Outlet Port
   {66245608-de48-495c-8750-aa3c2d429edd}, !- Target Object
@@ -9165,7 +8944,6 @@ OS:Node,
 
 OS:Connection,
   {628df57c-7748-4849-94ed-a4007a1113d4}, !- Handle
-  {1b5ec57c-54d6-48df-a9a0-08db92193d43}, !- Name
   {ecf9d36b-2d74-4943-ac1c-a4d14deeda9b}, !- Source Object
   3,                                      !- Outlet Port
   {f3df7832-3122-4ac4-9e30-3e59178203b2}, !- Target Object
@@ -9173,7 +8951,6 @@ OS:Connection,
 
 OS:Connection,
   {1118897b-e27e-44ff-96dd-e52045d6faec}, !- Handle
-  {85900334-3cc4-4ceb-947e-a25b816c8431}, !- Name
   {20faac00-59de-4312-9781-b758fa6e5805}, !- Source Object
   3,                                      !- Outlet Port
   {c97b1094-8fa3-4df3-967c-7b2a3c65f7c3}, !- Target Object
@@ -9187,7 +8964,6 @@ OS:Node,
 
 OS:Connection,
   {2360366f-db35-45ae-8da9-92c3ec2845c6}, !- Handle
-  {6ed50b41-3eff-4e43-b709-ec83a16fb0c2}, !- Name
   {b3922e28-afdf-499f-9e28-0d258213b783}, !- Source Object
   7,                                      !- Outlet Port
   {eb5dba0a-e93b-40a5-8e2a-fd062871a8ba}, !- Target Object
@@ -9195,7 +8971,6 @@ OS:Connection,
 
 OS:Connection,
   {7ae1b130-c8d0-4b81-8950-f739c4d34f11}, !- Handle
-  {3789439b-49c3-41c9-a229-9d49083897ca}, !- Name
   {eb5dba0a-e93b-40a5-8e2a-fd062871a8ba}, !- Source Object
   3,                                      !- Outlet Port
   {09f9888c-18b5-4719-84e2-f71e2145abfe}, !- Target Object
@@ -9203,7 +8978,6 @@ OS:Connection,
 
 OS:Connection,
   {3815b41d-9262-4f37-917a-58063f1aa91d}, !- Handle
-  {70688b86-85c0-41e9-89c9-a3c882636dce}, !- Name
   {09f9888c-18b5-4719-84e2-f71e2145abfe}, !- Source Object
   12,                                     !- Outlet Port
   {ecf9d36b-2d74-4943-ac1c-a4d14deeda9b}, !- Target Object
@@ -9211,7 +8985,6 @@ OS:Connection,
 
 OS:Connection,
   {117952d1-e372-492c-9567-a149ae0c08ec}, !- Handle
-  {5a0cafbf-a358-41d8-9816-4b4e6b2417d7}, !- Name
   {c97b1094-8fa3-4df3-967c-7b2a3c65f7c3}, !- Source Object
   3,                                      !- Outlet Port
   {66245608-de48-495c-8750-aa3c2d429edd}, !- Target Object
@@ -10713,13 +10486,13 @@ OS:Node,
   {a8d7c91e-cc97-4c78-b50a-6c571a76845d}, !- Handle
   100gal Natural Gas Water Heater - 100kBtu/hr 0.808 Therm Eff Supply Inlet Water Node, !- Name
   {9aeb8548-8852-4f42-9373-33dbebfa4a1d}, !- Inlet Port
-  {d0b5cd24-df5d-446b-b700-2662ab683d7b}; !- Outlet Port
+  {b4077732-e55d-47b5-bf84-28e71d8bec04}; !- Outlet Port
 
 OS:Connector:Mixer,
   {4936b6de-9250-4999-820f-c9ccee54eb0b}, !- Handle
   Connector Mixer 1,                      !- Name
   {0d27d62d-83af-4c55-9674-f09c03e12e09}, !- Outlet Branch Name
-  {2b6a3ba0-c428-4431-a9d8-6ddeded8b0ad}, !- Inlet Branch Name 1
+  {bbdaa280-5f49-4ecf-8f65-f338b7248513}, !- Inlet Branch Name 1
   {074fd176-4221-40d8-9362-c17bbfff8b85}; !- Inlet Branch Name 2
 
 OS:Connector:Splitter,
@@ -10731,7 +10504,6 @@ OS:Connector:Splitter,
 
 OS:Connection,
   {f316be0f-78a5-4f33-89b4-be23f1495609}, !- Handle
-  {e5fb4190-be1f-415f-8542-9fe7c6d062fa}, !- Name
   {c5d38bd9-1041-48f5-9145-2b4372ddc533}, !- Source Object
   14,                                     !- Outlet Port
   {6a01372c-7c75-4162-a422-ee033715b60a}, !- Target Object
@@ -10739,7 +10511,6 @@ OS:Connection,
 
 OS:Connection,
   {9aeb8548-8852-4f42-9373-33dbebfa4a1d}, !- Handle
-  {f1080441-8c3c-4aac-9a64-40fd41226d16}, !- Name
   {36097abf-f96e-46d4-80c7-9b902d23b758}, !- Source Object
   3,                                      !- Outlet Port
   {a8d7c91e-cc97-4c78-b50a-6c571a76845d}, !- Target Object
@@ -10747,7 +10518,6 @@ OS:Connection,
 
 OS:Connection,
   {2b6e79d2-a68c-4499-8bc3-462ac092767c}, !- Handle
-  {4ec491a3-51ff-4922-93e8-310a54ea3125}, !- Name
   {9baa28e1-82ff-498c-8053-41789380dff2}, !- Source Object
   3,                                      !- Outlet Port
   {c5d38bd9-1041-48f5-9145-2b4372ddc533}, !- Target Object
@@ -10815,7 +10585,6 @@ OS:Connector:Splitter,
 
 OS:Connection,
   {e28bc123-c7b3-4365-99c5-8e2211916556}, !- Handle
-  {bc3d03fa-6a7c-4638-bd62-68d91d834c85}, !- Name
   {c5d38bd9-1041-48f5-9145-2b4372ddc533}, !- Source Object
   17,                                     !- Outlet Port
   {fc3e0c07-4d4b-4988-930a-5708c783b561}, !- Target Object
@@ -10823,7 +10592,6 @@ OS:Connection,
 
 OS:Connection,
   {8381d427-c918-4d51-9ec4-fd5fe0c86f3e}, !- Handle
-  {c0fcf964-531a-402a-b6eb-6a22a32c2b34}, !- Name
   {fc3e0c07-4d4b-4988-930a-5708c783b561}, !- Source Object
   3,                                      !- Outlet Port
   {c321792c-9a40-4749-a601-48519b1fbb6e}, !- Target Object
@@ -10831,7 +10599,6 @@ OS:Connection,
 
 OS:Connection,
   {cd2e8bb9-9c65-43f5-b24b-e62aa4da250f}, !- Handle
-  {e0704f77-8baa-4724-bbc2-864dbc96dfb5}, !- Name
   {c321792c-9a40-4749-a601-48519b1fbb6e}, !- Source Object
   3,                                      !- Outlet Port
   {570df3fc-c477-4ee2-acab-5c47d3a947cd}, !- Target Object
@@ -10839,7 +10606,6 @@ OS:Connection,
 
 OS:Connection,
   {a996e193-7387-4cdb-ba39-33391c0f4dca}, !- Handle
-  {2026705f-9010-4010-b5a4-b4721536c285}, !- Name
   {ded0a4dc-2e44-4ae9-a2a1-1d5e85039214}, !- Source Object
   3,                                      !- Outlet Port
   {c5d38bd9-1041-48f5-9145-2b4372ddc533}, !- Target Object
@@ -10919,7 +10685,6 @@ OS:Node,
 
 OS:Connection,
   {3db4df27-03f6-42f9-9bd9-e7be9a43c158}, !- Handle
-  {235d45ce-486d-41d8-a018-5c1a58e89ba4}, !- Name
   {6a01372c-7c75-4162-a422-ee033715b60a}, !- Source Object
   3,                                      !- Outlet Port
   {368a0be4-3c58-4d05-a57f-462ddd7a58c9}, !- Target Object
@@ -10927,7 +10692,6 @@ OS:Connection,
 
 OS:Connection,
   {f1be7ded-bde3-4a81-8dc8-c7b74756d257}, !- Handle
-  {9a68362e-daa0-4448-85b1-45dbab7324a1}, !- Name
   {368a0be4-3c58-4d05-a57f-462ddd7a58c9}, !- Source Object
   3,                                      !- Outlet Port
   {6b48d4df-c3fb-48f2-92a1-9c73867cc9f9}, !- Target Object
@@ -10935,56 +10699,10 @@ OS:Connection,
 
 OS:Connection,
   {4914e047-d2f1-4baa-bdcf-dac526d61838}, !- Handle
-  {2eedae8a-4fc5-417f-9d7c-0ab19cb32e4f}, !- Name
   {6b48d4df-c3fb-48f2-92a1-9c73867cc9f9}, !- Source Object
   3,                                      !- Outlet Port
   {36097abf-f96e-46d4-80c7-9b902d23b758}, !- Target Object
   2;                                      !- Inlet Port
-
-OS:WaterHeater:Mixed,
-  {9c45a26a-a853-46ad-84d7-060739884a78}, !- Handle
-  100gal Natural Gas Water Heater - 100kBtu/hr 0.808 Therm Eff, !- Name
-  0.378541178396985,                      !- Tank Volume {m3}
-  {b080d849-3043-453c-96d2-c2097a1cf880}, !- Setpoint Temperature Schedule Name
-  2,                                      !- Deadband Temperature Difference {deltaC}
-  60.0000000000001,                       !- Maximum Temperature Limit {C}
-  Cycle,                                  !- Heater Control Type
-  29307.1070172222,                       !- Heater Maximum Capacity {W}
-  ,                                       !- Heater Minimum Capacity {W}
-  ,                                       !- Heater Ignition Minimum Flow Rate {m3/s}
-  ,                                       !- Heater Ignition Delay {s}
-  NaturalGas,                             !- Heater Fuel Type
-  0.8084525184,                           !- Heater Thermal Efficiency
-  ,                                       !- Part Load Factor Curve Name
-  2003.43021539038,                       !- Off Cycle Parasitic Fuel Consumption Rate {W}
-  NaturalGas,                             !- Off Cycle Parasitic Fuel Type
-  0,                                      !- Off Cycle Parasitic Heat Fraction to Tank
-  2003.43021539038,                       !- On Cycle Parasitic Fuel Consumption Rate {W}
-  NaturalGas,                             !- On Cycle Parasitic Fuel Type
-  0,                                      !- On Cycle Parasitic Heat Fraction to Tank
-  ThermalZone,                            !- Ambient Temperature Indicator
-  ,                                       !- Ambient Temperature Schedule Name
-  {9ea7a624-1dcb-4c04-b27d-03215e68f02a}, !- Ambient Temperature Thermal Zone Name
-  ,                                       !- Ambient Temperature Outdoor Air Node Name
-  7.962391970802,                         !- Off Cycle Loss Coefficient to Ambient Temperature {W/K}
-  ,                                       !- Off Cycle Loss Fraction to Thermal Zone
-  7.962391970802,                         !- On Cycle Loss Coefficient to Ambient Temperature {W/K}
-  ,                                       !- On Cycle Loss Fraction to Thermal Zone
-  ,                                       !- Peak Use Flow Rate {m3/s}
-  ,                                       !- Use Flow Rate Fraction Schedule Name
-  ,                                       !- Cold Water Supply Temperature Schedule Name
-  {d0b5cd24-df5d-446b-b700-2662ab683d7b}, !- Use Side Inlet Node Name
-  {77a32fd8-15fc-46d8-8b82-1e928cd75052}, !- Use Side Outlet Node Name
-  1,                                      !- Use Side Effectiveness
-  ,                                       !- Source Side Inlet Node Name
-  ,                                       !- Source Side Outlet Node Name
-  1,                                      !- Source Side Effectiveness
-  autosize,                               !- Use Side Design Flow Rate {m3/s}
-  autosize,                               !- Source Side Design Flow Rate {m3/s}
-  1.5,                                    !- Indirect Water Heating Recovery Time {hr}
-  IndirectHeatPrimarySetpoint,            !- Source Side Flow Control Mode
-  ,                                       !- Indirect Alternate Setpoint Temperature Schedule Name
-  General;                                !- End-Use Subcategory
 
 OS:Schedule:Day,
   {b82ed9f7-5f9c-45ea-9e7c-93e0138308a9}, !- Handle
@@ -11004,36 +10722,6 @@ OS:Schedule:Day,
   0,                                      !- Minute 1
   60;                                     !- Value Until Time 1
 
-OS:Node,
-  {149f5eb1-75be-4581-ab82-ec7f6897172b}, !- Handle
-  100gal Natural Gas Water Heater - 100kBtu/hr 0.808 Therm Eff Supply Outlet Water Node, !- Name
-  {77a32fd8-15fc-46d8-8b82-1e928cd75052}, !- Inlet Port
-  {2b6a3ba0-c428-4431-a9d8-6ddeded8b0ad}; !- Outlet Port
-
-OS:Connection,
-  {d0b5cd24-df5d-446b-b700-2662ab683d7b}, !- Handle
-  {0169327b-7037-4dfc-a454-7331a4bf7662}, !- Name
-  {a8d7c91e-cc97-4c78-b50a-6c571a76845d}, !- Source Object
-  3,                                      !- Outlet Port
-  {9c45a26a-a853-46ad-84d7-060739884a78}, !- Target Object
-  31;                                     !- Inlet Port
-
-OS:Connection,
-  {77a32fd8-15fc-46d8-8b82-1e928cd75052}, !- Handle
-  {a58a7597-bfff-4624-977a-222b43bee444}, !- Name
-  {9c45a26a-a853-46ad-84d7-060739884a78}, !- Source Object
-  32,                                     !- Outlet Port
-  {149f5eb1-75be-4581-ab82-ec7f6897172b}, !- Target Object
-  2;                                      !- Inlet Port
-
-OS:Connection,
-  {2b6a3ba0-c428-4431-a9d8-6ddeded8b0ad}, !- Handle
-  {6aee18b3-1377-4b99-a3bb-cdd494d86308}, !- Name
-  {149f5eb1-75be-4581-ab82-ec7f6897172b}, !- Source Object
-  3,                                      !- Outlet Port
-  {4936b6de-9250-4999-820f-c9ccee54eb0b}, !- Target Object
-  3;                                      !- Inlet Port
-
 OS:Pipe:Adiabatic,
   {fa229bfa-3b9f-41ee-9097-ae497d3c04a2}, !- Handle
   Pipe Adiabatic 1,                       !- Name
@@ -11048,7 +10736,6 @@ OS:Node,
 
 OS:Connection,
   {05251a4e-37a9-4488-b537-23243b01dd95}, !- Handle
-  {e28effff-6e27-466a-aa4a-1ee46256cb52}, !- Name
   {36097abf-f96e-46d4-80c7-9b902d23b758}, !- Source Object
   4,                                      !- Outlet Port
   {72a96128-02cd-433a-9b98-b1fb6523e22c}, !- Target Object
@@ -11062,7 +10749,6 @@ OS:Node,
 
 OS:Connection,
   {364062a2-207d-4f5e-9bf6-ca179cdb164a}, !- Handle
-  {8ddeeeb6-2345-45d6-8edf-e858e6d0b397}, !- Name
   {72a96128-02cd-433a-9b98-b1fb6523e22c}, !- Source Object
   3,                                      !- Outlet Port
   {fa229bfa-3b9f-41ee-9097-ae497d3c04a2}, !- Target Object
@@ -11070,7 +10756,6 @@ OS:Connection,
 
 OS:Connection,
   {684ef8d3-1f7b-425f-a289-47bb89037041}, !- Handle
-  {033b69ee-b34f-472f-bb73-374641c7475b}, !- Name
   {fa229bfa-3b9f-41ee-9097-ae497d3c04a2}, !- Source Object
   3,                                      !- Outlet Port
   {c41d7b5d-a351-44f9-8c7b-31addf42f6dd}, !- Target Object
@@ -11078,7 +10763,6 @@ OS:Connection,
 
 OS:Connection,
   {074fd176-4221-40d8-9362-c17bbfff8b85}, !- Handle
-  {95692501-806b-4b4f-96f2-45210046816c}, !- Name
   {c41d7b5d-a351-44f9-8c7b-31addf42f6dd}, !- Source Object
   3,                                      !- Outlet Port
   {4936b6de-9250-4999-820f-c9ccee54eb0b}, !- Target Object
@@ -11098,7 +10782,6 @@ OS:Node,
 
 OS:Connection,
   {79c1abfc-e627-4d28-8a8e-512ebff67c40}, !- Handle
-  {66ebe142-1643-469c-ab99-eb5f16ac7462}, !- Name
   {570df3fc-c477-4ee2-acab-5c47d3a947cd}, !- Source Object
   3,                                      !- Outlet Port
   {b3e0fe82-29de-41f8-b37c-8e1f7c5b8049}, !- Target Object
@@ -11106,7 +10789,6 @@ OS:Connection,
 
 OS:Connection,
   {a3bd4b3a-5839-4cb4-937c-aaef1d56999a}, !- Handle
-  {7eae94bf-e96d-459a-a2d6-7d214d1b133a}, !- Name
   {b3e0fe82-29de-41f8-b37c-8e1f7c5b8049}, !- Source Object
   3,                                      !- Outlet Port
   {8327243a-041a-4a5f-8904-588201c89405}, !- Target Object
@@ -11114,7 +10796,6 @@ OS:Connection,
 
 OS:Connection,
   {186bb6ec-b927-4b09-b8fb-680e6584d5af}, !- Handle
-  {97e64cab-af14-4a22-a207-f97b9e98727e}, !- Name
   {8327243a-041a-4a5f-8904-588201c89405}, !- Source Object
   3,                                      !- Outlet Port
   {87a940d4-9ece-4c5a-abd1-7a6f26e19bdc}, !- Target Object
@@ -11134,7 +10815,6 @@ OS:Node,
 
 OS:Connection,
   {0d27d62d-83af-4c55-9674-f09c03e12e09}, !- Handle
-  {07695be0-7101-4f0a-a276-357d570a9242}, !- Name
   {4936b6de-9250-4999-820f-c9ccee54eb0b}, !- Source Object
   2,                                      !- Outlet Port
   {5a3b78d0-60ed-49df-bd17-d85144f38076}, !- Target Object
@@ -11142,7 +10822,6 @@ OS:Connection,
 
 OS:Connection,
   {fe671744-b770-44e1-93f9-b7b4102c3cea}, !- Handle
-  {143164b0-9f69-40ad-82d2-ffb74dd4d62f}, !- Name
   {5a3b78d0-60ed-49df-bd17-d85144f38076}, !- Source Object
   3,                                      !- Outlet Port
   {792e0b0e-14d7-4f67-9409-5304e9a68874}, !- Target Object
@@ -11150,7 +10829,6 @@ OS:Connection,
 
 OS:Connection,
   {e1d6dfeb-bf48-426d-a08b-4b3499440e3f}, !- Handle
-  {635d3b22-2661-4cbc-bcca-c86905171db7}, !- Name
   {792e0b0e-14d7-4f67-9409-5304e9a68874}, !- Source Object
   3,                                      !- Outlet Port
   {9baa28e1-82ff-498c-8053-41789380dff2}, !- Target Object
@@ -11170,7 +10848,6 @@ OS:Node,
 
 OS:Connection,
   {a631463b-62e9-4d12-a7c9-d16621545666}, !- Handle
-  {b677e2c5-b288-4787-ac9e-e7a33e8158c7}, !- Name
   {87a940d4-9ece-4c5a-abd1-7a6f26e19bdc}, !- Source Object
   2,                                      !- Outlet Port
   {dd343ed4-a795-4c3f-8609-bce04cf74189}, !- Target Object
@@ -11178,7 +10855,6 @@ OS:Connection,
 
 OS:Connection,
   {a2758764-bb32-42f8-b1d3-f3b92e36db97}, !- Handle
-  {af29c09e-b187-4a2b-93bf-f249f08e227e}, !- Name
   {dd343ed4-a795-4c3f-8609-bce04cf74189}, !- Source Object
   3,                                      !- Outlet Port
   {73469bb2-1951-40a0-b9cd-f21a1f66ebb3}, !- Target Object
@@ -11186,7 +10862,6 @@ OS:Connection,
 
 OS:Connection,
   {e7b2fadb-9977-4ba1-b513-cdb880e8b364}, !- Handle
-  {9ebe548b-a40f-4ab2-bf1a-be538c427df7}, !- Name
   {73469bb2-1951-40a0-b9cd-f21a1f66ebb3}, !- Source Object
   3,                                      !- Outlet Port
   {ded0a4dc-2e44-4ae9-a2a1-1d5e85039214}, !- Target Object
@@ -11564,7 +11239,6 @@ OS:Node,
 
 OS:Connection,
   {895b63cf-94b0-4dce-bb24-b196dc04ebcc}, !- Handle
-  {65034bfb-e9ea-4841-a97e-957799a630d3}, !- Name
   {c321792c-9a40-4749-a601-48519b1fbb6e}, !- Source Object
   4,                                      !- Outlet Port
   {4ede7c2e-ace3-42a8-8e3b-08ed7232e3ff}, !- Target Object
@@ -11578,7 +11252,6 @@ OS:Node,
 
 OS:Connection,
   {6dbb8d21-090c-416a-91ef-e337f467bed7}, !- Handle
-  {9287f15b-5361-4e33-a236-5b2bb8891cef}, !- Name
   {4ede7c2e-ace3-42a8-8e3b-08ed7232e3ff}, !- Source Object
   3,                                      !- Outlet Port
   {b2b8d99b-c5ee-4770-b940-4236a4b0f1ac}, !- Target Object
@@ -11586,7 +11259,6 @@ OS:Connection,
 
 OS:Connection,
   {66233a77-026b-4276-acf7-d8ac78fb262a}, !- Handle
-  {938039e9-371e-49f8-b84c-f564695a6561}, !- Name
   {b2b8d99b-c5ee-4770-b940-4236a4b0f1ac}, !- Source Object
   3,                                      !- Outlet Port
   {678b2611-5bdf-4009-9099-1703cf113510}, !- Target Object
@@ -11594,7 +11266,6 @@ OS:Connection,
 
 OS:Connection,
   {6644b8d5-a936-4028-9983-2b23d2b35d89}, !- Handle
-  {03a68f7c-d49c-45b8-bdb4-ad6bc5d7595f}, !- Name
   {678b2611-5bdf-4009-9099-1703cf113510}, !- Source Object
   3,                                      !- Outlet Port
   {87a940d4-9ece-4c5a-abd1-7a6f26e19bdc}, !- Target Object
@@ -11653,7 +11324,6 @@ OS:Node,
 
 OS:Connection,
   {608794c5-b832-4b91-9e03-438ef32d1cd8}, !- Handle
-  {3b56ed27-5d63-4041-b5f5-bc38a4a93bb3}, !- Name
   {c321792c-9a40-4749-a601-48519b1fbb6e}, !- Source Object
   5,                                      !- Outlet Port
   {2f1992d2-c8d0-4743-b295-4ce71bd9463b}, !- Target Object
@@ -11667,7 +11337,6 @@ OS:Node,
 
 OS:Connection,
   {5e2522b8-0454-4d70-b8cb-240ea4297882}, !- Handle
-  {6cfbd678-25a1-4daa-819b-2846e7681df8}, !- Name
   {2f1992d2-c8d0-4743-b295-4ce71bd9463b}, !- Source Object
   3,                                      !- Outlet Port
   {2a97df62-a5bd-44c9-84e3-3c2fd321e78d}, !- Target Object
@@ -11675,7 +11344,6 @@ OS:Connection,
 
 OS:Connection,
   {aeea4fbc-3542-4cd1-9a96-563261022d7e}, !- Handle
-  {7ae8b733-2865-492d-ac47-49e624ba2e40}, !- Name
   {2a97df62-a5bd-44c9-84e3-3c2fd321e78d}, !- Source Object
   3,                                      !- Outlet Port
   {b8631f86-b64e-4fd0-a43d-d28fcb67799c}, !- Target Object
@@ -11683,7 +11351,6 @@ OS:Connection,
 
 OS:Connection,
   {16f539a3-a078-4601-bef1-28420c3e66c5}, !- Handle
-  {4039edad-3c79-4fbc-9b95-d02380d88a00}, !- Name
   {b8631f86-b64e-4fd0-a43d-d28fcb67799c}, !- Source Object
   3,                                      !- Outlet Port
   {87a940d4-9ece-4c5a-abd1-7a6f26e19bdc}, !- Target Object
@@ -11742,7 +11409,6 @@ OS:Node,
 
 OS:Connection,
   {0d795ab2-c832-4b4e-b758-ecc04ba2abed}, !- Handle
-  {6803d36c-a991-4c53-8d96-b62400517468}, !- Name
   {c321792c-9a40-4749-a601-48519b1fbb6e}, !- Source Object
   6,                                      !- Outlet Port
   {60f80d82-7f42-448b-b60c-477c8c40af58}, !- Target Object
@@ -11756,7 +11422,6 @@ OS:Node,
 
 OS:Connection,
   {6ddaef94-e9f2-4c33-bfdc-a42b2e4751bf}, !- Handle
-  {75ba15f0-be39-4dde-b553-1b4517796aaa}, !- Name
   {60f80d82-7f42-448b-b60c-477c8c40af58}, !- Source Object
   3,                                      !- Outlet Port
   {2034d6a2-dd8e-43f1-84ec-70d6bc6a965c}, !- Target Object
@@ -11764,7 +11429,6 @@ OS:Connection,
 
 OS:Connection,
   {83a98964-4a8d-4459-acf4-c80e14749092}, !- Handle
-  {52601d64-a9bb-436f-aa67-706514263712}, !- Name
   {2034d6a2-dd8e-43f1-84ec-70d6bc6a965c}, !- Source Object
   3,                                      !- Outlet Port
   {874e37c7-44ca-48c1-a34c-e661e05b48b9}, !- Target Object
@@ -11772,7 +11436,6 @@ OS:Connection,
 
 OS:Connection,
   {3ba53ce2-0417-4748-881a-3ef587ecdbc4}, !- Handle
-  {c38291c5-84ff-497a-8101-0ebcad5f82b3}, !- Name
   {874e37c7-44ca-48c1-a34c-e661e05b48b9}, !- Source Object
   3,                                      !- Outlet Port
   {87a940d4-9ece-4c5a-abd1-7a6f26e19bdc}, !- Target Object
@@ -11831,7 +11494,6 @@ OS:Node,
 
 OS:Connection,
   {99d5a7a9-a821-46be-80a9-5f7dd1f5d8d4}, !- Handle
-  {673fdfe6-8899-43f4-9d79-96d188553af5}, !- Name
   {c321792c-9a40-4749-a601-48519b1fbb6e}, !- Source Object
   7,                                      !- Outlet Port
   {dd43bc7d-8b32-4ecf-a785-3b8a05636c45}, !- Target Object
@@ -11845,7 +11507,6 @@ OS:Node,
 
 OS:Connection,
   {b456f4dc-dcb3-44d4-9382-c27117f73bec}, !- Handle
-  {c9014c10-bbeb-44df-9b9f-086e18f7e92b}, !- Name
   {dd43bc7d-8b32-4ecf-a785-3b8a05636c45}, !- Source Object
   3,                                      !- Outlet Port
   {bbb118e7-f600-489a-9a08-6f17feb1a7a2}, !- Target Object
@@ -11853,7 +11514,6 @@ OS:Connection,
 
 OS:Connection,
   {b63003b0-368f-4d52-9ab3-65518a84afb7}, !- Handle
-  {158e55f1-13bf-4e49-8992-98b9016b4b20}, !- Name
   {bbb118e7-f600-489a-9a08-6f17feb1a7a2}, !- Source Object
   3,                                      !- Outlet Port
   {991fb0c9-cf80-44dc-9096-456f9beebfcb}, !- Target Object
@@ -11861,7 +11521,6 @@ OS:Connection,
 
 OS:Connection,
   {650e3976-b2ed-4fea-af55-add2a24791ba}, !- Handle
-  {02356d02-8a5e-483d-9e29-50feb05332f1}, !- Name
   {991fb0c9-cf80-44dc-9096-456f9beebfcb}, !- Source Object
   3,                                      !- Outlet Port
   {87a940d4-9ece-4c5a-abd1-7a6f26e19bdc}, !- Target Object
@@ -11920,7 +11579,6 @@ OS:Node,
 
 OS:Connection,
   {c0ba8e39-2f73-4896-939f-c5a1796c9538}, !- Handle
-  {7a112775-2ed4-4b54-82cc-b919e7856675}, !- Name
   {c321792c-9a40-4749-a601-48519b1fbb6e}, !- Source Object
   8,                                      !- Outlet Port
   {ba83fc16-4231-44ea-8ac6-13a66268f125}, !- Target Object
@@ -11934,7 +11592,6 @@ OS:Node,
 
 OS:Connection,
   {a0141d17-bb15-4d53-aed3-f09694574027}, !- Handle
-  {457c8e96-1d51-47f7-a7d7-bf2b668417a1}, !- Name
   {ba83fc16-4231-44ea-8ac6-13a66268f125}, !- Source Object
   3,                                      !- Outlet Port
   {b264b306-fa77-4d2a-9ca0-abc287a0c816}, !- Target Object
@@ -11942,7 +11599,6 @@ OS:Connection,
 
 OS:Connection,
   {7c28d1ad-8a1f-4849-bec7-51fe31190d42}, !- Handle
-  {3a63cb78-8c4b-4d17-bc7d-cb879e9faed1}, !- Name
   {b264b306-fa77-4d2a-9ca0-abc287a0c816}, !- Source Object
   3,                                      !- Outlet Port
   {0df41b7e-fd2c-4b5d-ab05-e61b74e60e27}, !- Target Object
@@ -11950,7 +11606,6 @@ OS:Connection,
 
 OS:Connection,
   {173b70e7-ef46-44f0-bd78-a4ef2295c6e4}, !- Handle
-  {2b3d7140-e444-4eac-8d62-1ad95cc1e8fb}, !- Name
   {0df41b7e-fd2c-4b5d-ab05-e61b74e60e27}, !- Source Object
   3,                                      !- Outlet Port
   {87a940d4-9ece-4c5a-abd1-7a6f26e19bdc}, !- Target Object
@@ -12009,7 +11664,6 @@ OS:Node,
 
 OS:Connection,
   {e28af0e0-c7b1-4645-b7f5-bb2bbccaf1e6}, !- Handle
-  {cbb70de4-c260-410c-b39a-2c0aa0380bd0}, !- Name
   {c321792c-9a40-4749-a601-48519b1fbb6e}, !- Source Object
   9,                                      !- Outlet Port
   {12bc8cd6-8f8f-4ff1-a66a-b72452df065b}, !- Target Object
@@ -12023,7 +11677,6 @@ OS:Node,
 
 OS:Connection,
   {5b9ef0b5-2ae9-4e61-839b-62f2e25b41bf}, !- Handle
-  {34b5da38-c3da-4ac4-913e-f742c1ba3fe7}, !- Name
   {12bc8cd6-8f8f-4ff1-a66a-b72452df065b}, !- Source Object
   3,                                      !- Outlet Port
   {a53f284a-189f-4247-9249-faae106a1a87}, !- Target Object
@@ -12031,7 +11684,6 @@ OS:Connection,
 
 OS:Connection,
   {3dfdb356-4c9a-4b61-99e4-047e79338f04}, !- Handle
-  {7c8818eb-080e-471b-b514-a92a09a0c0ad}, !- Name
   {a53f284a-189f-4247-9249-faae106a1a87}, !- Source Object
   3,                                      !- Outlet Port
   {a5a4b458-d0a9-4d3e-b58d-669be9f1eba9}, !- Target Object
@@ -12039,7 +11691,6 @@ OS:Connection,
 
 OS:Connection,
   {aa2e18d3-79bf-4a50-bc32-5410d7fd7d83}, !- Handle
-  {2f885579-059b-4c43-a318-77fa1682bc9d}, !- Name
   {a5a4b458-d0a9-4d3e-b58d-669be9f1eba9}, !- Source Object
   3,                                      !- Outlet Port
   {87a940d4-9ece-4c5a-abd1-7a6f26e19bdc}, !- Target Object
@@ -12098,7 +11749,6 @@ OS:Node,
 
 OS:Connection,
   {ab80f75b-2132-452e-a37f-88914e1266ae}, !- Handle
-  {9b565621-3062-43b6-a7c9-a49712c462c8}, !- Name
   {c321792c-9a40-4749-a601-48519b1fbb6e}, !- Source Object
   10,                                     !- Outlet Port
   {977c017f-4813-4bb5-945c-11fba05d5287}, !- Target Object
@@ -12112,7 +11762,6 @@ OS:Node,
 
 OS:Connection,
   {0f443b23-d91b-4a7b-a4fa-bb9c40e573f3}, !- Handle
-  {bec1e73e-93d8-46c9-8ec5-b3f98b1e396e}, !- Name
   {977c017f-4813-4bb5-945c-11fba05d5287}, !- Source Object
   3,                                      !- Outlet Port
   {44391a69-6ec0-47dd-8e3c-600acae0b149}, !- Target Object
@@ -12120,7 +11769,6 @@ OS:Connection,
 
 OS:Connection,
   {ca36a235-cb7f-4754-8749-50233c55c80b}, !- Handle
-  {73ce4bd2-f0a8-4725-b30a-ac8d4609799d}, !- Name
   {44391a69-6ec0-47dd-8e3c-600acae0b149}, !- Source Object
   3,                                      !- Outlet Port
   {57fa0da8-3238-4c3c-9bb8-1ec9d20d9b63}, !- Target Object
@@ -12128,7 +11776,6 @@ OS:Connection,
 
 OS:Connection,
   {928bb8b5-843d-4834-88f5-3e3b0f54cf42}, !- Handle
-  {a693d027-6313-41d3-ab6e-429b8a5f2f78}, !- Name
   {57fa0da8-3238-4c3c-9bb8-1ec9d20d9b63}, !- Source Object
   3,                                      !- Outlet Port
   {87a940d4-9ece-4c5a-abd1-7a6f26e19bdc}, !- Target Object
@@ -12187,7 +11834,6 @@ OS:Node,
 
 OS:Connection,
   {4db788ef-dba3-450d-99ad-259f624cbfda}, !- Handle
-  {4e006571-e85c-44ec-9bda-1735b98cae4d}, !- Name
   {c321792c-9a40-4749-a601-48519b1fbb6e}, !- Source Object
   11,                                     !- Outlet Port
   {0d6b1e2a-87f2-4c58-b956-b42e62198a1e}, !- Target Object
@@ -12201,7 +11847,6 @@ OS:Node,
 
 OS:Connection,
   {a5612366-09bb-49d3-971d-5ab08a4ad427}, !- Handle
-  {aea35930-8ce1-4b2f-8ea1-c1d1677e5bed}, !- Name
   {0d6b1e2a-87f2-4c58-b956-b42e62198a1e}, !- Source Object
   3,                                      !- Outlet Port
   {5bb30c21-5c46-4ed9-a738-8534a326ef1c}, !- Target Object
@@ -12209,7 +11854,6 @@ OS:Connection,
 
 OS:Connection,
   {6a2e0330-8d40-4dd2-b56f-9fdf67e6dd36}, !- Handle
-  {629ae980-3bc6-4a53-8053-eb8623b0168e}, !- Name
   {5bb30c21-5c46-4ed9-a738-8534a326ef1c}, !- Source Object
   3,                                      !- Outlet Port
   {61fd3f7a-d216-4710-a20a-ed7bc3d99613}, !- Target Object
@@ -12217,7 +11861,6 @@ OS:Connection,
 
 OS:Connection,
   {fcc4a7ff-b9a2-4cfd-9808-95b059a200fa}, !- Handle
-  {809adb35-e7a9-4603-be31-96952b78500a}, !- Name
   {61fd3f7a-d216-4710-a20a-ed7bc3d99613}, !- Source Object
   3,                                      !- Outlet Port
   {87a940d4-9ece-4c5a-abd1-7a6f26e19bdc}, !- Target Object
@@ -12276,7 +11919,6 @@ OS:Node,
 
 OS:Connection,
   {05876dba-038d-4720-834d-b87a1293f45f}, !- Handle
-  {e7d28ff6-ec85-47e9-a399-4aa7797c0f1e}, !- Name
   {c321792c-9a40-4749-a601-48519b1fbb6e}, !- Source Object
   12,                                     !- Outlet Port
   {f6889c5e-7a30-494a-95f8-55a5838c8c11}, !- Target Object
@@ -12290,7 +11932,6 @@ OS:Node,
 
 OS:Connection,
   {b2aa8848-7b46-4d9d-9ca5-a6654404fd3f}, !- Handle
-  {77d0907e-9913-4118-a2fb-03438d76dddf}, !- Name
   {f6889c5e-7a30-494a-95f8-55a5838c8c11}, !- Source Object
   3,                                      !- Outlet Port
   {ea0656c9-c841-4c2d-b11c-eaa652678dd3}, !- Target Object
@@ -12298,7 +11939,6 @@ OS:Connection,
 
 OS:Connection,
   {114438fd-1c65-4433-9d41-b77ff7a9c014}, !- Handle
-  {1e928d6f-70dd-4bbe-9e9c-c4c2e4271f17}, !- Name
   {ea0656c9-c841-4c2d-b11c-eaa652678dd3}, !- Source Object
   3,                                      !- Outlet Port
   {743c0adc-bdaf-449f-a527-034984a40166}, !- Target Object
@@ -12306,7 +11946,6 @@ OS:Connection,
 
 OS:Connection,
   {d8ece591-8093-4e42-9499-370e35cc1a40}, !- Handle
-  {cfe3007f-35c2-443d-8752-0a4077189741}, !- Name
   {743c0adc-bdaf-449f-a527-034984a40166}, !- Source Object
   3,                                      !- Outlet Port
   {87a940d4-9ece-4c5a-abd1-7a6f26e19bdc}, !- Target Object
@@ -12365,7 +12004,6 @@ OS:Node,
 
 OS:Connection,
   {58b30167-5eba-4830-bf39-154de7c8c5f4}, !- Handle
-  {cb4a7b3c-9679-43d6-9eb6-ffb85bd900cf}, !- Name
   {c321792c-9a40-4749-a601-48519b1fbb6e}, !- Source Object
   13,                                     !- Outlet Port
   {8196fca4-5c68-4d29-9a79-2046889d1be9}, !- Target Object
@@ -12379,7 +12017,6 @@ OS:Node,
 
 OS:Connection,
   {583964d3-8f47-47a0-852b-f0c6675e2694}, !- Handle
-  {aa875d8f-c703-4c31-a8ac-517b4ece3a05}, !- Name
   {8196fca4-5c68-4d29-9a79-2046889d1be9}, !- Source Object
   3,                                      !- Outlet Port
   {8d3c839d-752e-456e-8542-03ffb2bd3b72}, !- Target Object
@@ -12387,7 +12024,6 @@ OS:Connection,
 
 OS:Connection,
   {b313d850-007b-4e7b-959d-198356e55707}, !- Handle
-  {9abec0f3-abb9-42ca-b73c-71f3bef03696}, !- Name
   {8d3c839d-752e-456e-8542-03ffb2bd3b72}, !- Source Object
   3,                                      !- Outlet Port
   {f0545111-db82-4770-82e6-0487481f9764}, !- Target Object
@@ -12395,7 +12031,6 @@ OS:Connection,
 
 OS:Connection,
   {40fd0631-b358-4aaf-8ef2-003c90b67128}, !- Handle
-  {57510606-3c45-43c3-a147-80bdff63ac0f}, !- Name
   {f0545111-db82-4770-82e6-0487481f9764}, !- Source Object
   3,                                      !- Outlet Port
   {87a940d4-9ece-4c5a-abd1-7a6f26e19bdc}, !- Target Object
@@ -12454,7 +12089,6 @@ OS:Node,
 
 OS:Connection,
   {701719a6-3e49-4902-9c2a-f51c28e635c3}, !- Handle
-  {ff9f0048-dc00-44d0-97be-f171f5f118d2}, !- Name
   {c321792c-9a40-4749-a601-48519b1fbb6e}, !- Source Object
   14,                                     !- Outlet Port
   {d0876181-653e-4f0b-9ce9-ca97363061cb}, !- Target Object
@@ -12468,7 +12102,6 @@ OS:Node,
 
 OS:Connection,
   {4f7bb4ea-f86f-41fc-8e20-38e53f0f9a4a}, !- Handle
-  {53f31c6a-2c37-4159-a962-a51b393269cd}, !- Name
   {d0876181-653e-4f0b-9ce9-ca97363061cb}, !- Source Object
   3,                                      !- Outlet Port
   {20d8cc5c-bb0d-460f-b298-afdbe935c399}, !- Target Object
@@ -12476,7 +12109,6 @@ OS:Connection,
 
 OS:Connection,
   {b673f396-4eaa-4a3f-a2f1-7ff8577c19b4}, !- Handle
-  {5d8ea3e4-17fc-4de1-87fc-2e1058856bd6}, !- Name
   {20d8cc5c-bb0d-460f-b298-afdbe935c399}, !- Source Object
   3,                                      !- Outlet Port
   {d5376b80-88fe-43f7-b2b7-7ea3f6b61eb8}, !- Target Object
@@ -12484,7 +12116,6 @@ OS:Connection,
 
 OS:Connection,
   {6e319074-a2f5-42ef-a646-4bd7036f47fe}, !- Handle
-  {9a2be0e7-b610-4693-a0bf-d262e82d1d74}, !- Name
   {d5376b80-88fe-43f7-b2b7-7ea3f6b61eb8}, !- Source Object
   3,                                      !- Outlet Port
   {87a940d4-9ece-4c5a-abd1-7a6f26e19bdc}, !- Target Object
@@ -12543,7 +12174,6 @@ OS:Node,
 
 OS:Connection,
   {8b43a0d3-3004-4932-b985-67d409fa1d64}, !- Handle
-  {cb48ccc9-b9e4-4f67-91ca-ea6f532daab1}, !- Name
   {c321792c-9a40-4749-a601-48519b1fbb6e}, !- Source Object
   15,                                     !- Outlet Port
   {82522eb6-99dc-448f-ac97-d2c9afa38c99}, !- Target Object
@@ -12557,7 +12187,6 @@ OS:Node,
 
 OS:Connection,
   {13e06e60-743e-47bc-abed-eb2bad095172}, !- Handle
-  {66ddc576-53a3-457a-a847-9f18408b2131}, !- Name
   {82522eb6-99dc-448f-ac97-d2c9afa38c99}, !- Source Object
   3,                                      !- Outlet Port
   {6fdde804-3262-4b68-877b-c96eb812cf32}, !- Target Object
@@ -12565,7 +12194,6 @@ OS:Connection,
 
 OS:Connection,
   {8aa57136-34b6-4573-8e2b-922b35e74b25}, !- Handle
-  {a7b9a626-2f1b-412b-ab75-3981505b2bf1}, !- Name
   {6fdde804-3262-4b68-877b-c96eb812cf32}, !- Source Object
   3,                                      !- Outlet Port
   {6aeb6d9d-7e5a-44d4-917b-8010e042b497}, !- Target Object
@@ -12573,7 +12201,6 @@ OS:Connection,
 
 OS:Connection,
   {36cff53b-9fb7-4520-8b2b-b5307c56fc82}, !- Handle
-  {ce4e9eb0-59c6-4a1c-8452-61cf06e0cf53}, !- Name
   {6aeb6d9d-7e5a-44d4-917b-8010e042b497}, !- Source Object
   3,                                      !- Outlet Port
   {87a940d4-9ece-4c5a-abd1-7a6f26e19bdc}, !- Target Object
@@ -12632,7 +12259,6 @@ OS:Node,
 
 OS:Connection,
   {212f2d8a-6da1-4785-9051-8b977558492e}, !- Handle
-  {08ee1128-5d6a-46df-90d6-097eee3221ea}, !- Name
   {c321792c-9a40-4749-a601-48519b1fbb6e}, !- Source Object
   16,                                     !- Outlet Port
   {afecdbbe-9df6-4d8d-a601-5db7a7e26d30}, !- Target Object
@@ -12646,7 +12272,6 @@ OS:Node,
 
 OS:Connection,
   {85a38661-b700-48d5-8f4a-62536ce76034}, !- Handle
-  {100da46f-5650-4325-94f1-2336eae9d6f0}, !- Name
   {afecdbbe-9df6-4d8d-a601-5db7a7e26d30}, !- Source Object
   3,                                      !- Outlet Port
   {9b199db0-4b93-42fe-9d5b-7c3c7fbc2553}, !- Target Object
@@ -12654,7 +12279,6 @@ OS:Connection,
 
 OS:Connection,
   {9b34111a-960f-4e3f-9928-9192e218bfff}, !- Handle
-  {fc16bce4-ef34-4557-85dd-e6c7424e50ad}, !- Name
   {9b199db0-4b93-42fe-9d5b-7c3c7fbc2553}, !- Source Object
   3,                                      !- Outlet Port
   {0ecf71f4-f821-4646-b044-fd137cd033be}, !- Target Object
@@ -12662,7 +12286,6 @@ OS:Connection,
 
 OS:Connection,
   {5a89907f-61c1-4996-8aa0-85a5c3950600}, !- Handle
-  {0441856a-4bf7-4173-80f3-25957698a4a0}, !- Name
   {0ecf71f4-f821-4646-b044-fd137cd033be}, !- Source Object
   3,                                      !- Outlet Port
   {87a940d4-9ece-4c5a-abd1-7a6f26e19bdc}, !- Target Object
@@ -12721,7 +12344,6 @@ OS:Node,
 
 OS:Connection,
   {d684f3f2-294a-47b8-98bd-ea1f54632952}, !- Handle
-  {3bf6c216-88d4-4212-833d-8a5949629aa6}, !- Name
   {c321792c-9a40-4749-a601-48519b1fbb6e}, !- Source Object
   17,                                     !- Outlet Port
   {14744ad8-6c0d-4975-8981-50a3ab8f2c8d}, !- Target Object
@@ -12735,7 +12357,6 @@ OS:Node,
 
 OS:Connection,
   {8f01f07a-559b-44c7-9a00-a70cc1bcefb3}, !- Handle
-  {6b896769-2864-47ec-9fe9-40fcfa6aecb2}, !- Name
   {14744ad8-6c0d-4975-8981-50a3ab8f2c8d}, !- Source Object
   3,                                      !- Outlet Port
   {f33dbfe4-13ff-47eb-917f-75d655195c3d}, !- Target Object
@@ -12743,7 +12364,6 @@ OS:Connection,
 
 OS:Connection,
   {3860b502-cf99-497e-baae-b3075ec8fd19}, !- Handle
-  {4b745cd2-b931-4035-ae3d-b827a7700bc0}, !- Name
   {f33dbfe4-13ff-47eb-917f-75d655195c3d}, !- Source Object
   3,                                      !- Outlet Port
   {7f6bda14-cfb4-4064-87fd-0c51e1f75c97}, !- Target Object
@@ -12751,7 +12371,6 @@ OS:Connection,
 
 OS:Connection,
   {70dd4a92-0d02-4ee8-9369-9dbdf4c54598}, !- Handle
-  {ac84397a-8958-44ba-a92d-3001885a230b}, !- Name
   {7f6bda14-cfb4-4064-87fd-0c51e1f75c97}, !- Source Object
   3,                                      !- Outlet Port
   {87a940d4-9ece-4c5a-abd1-7a6f26e19bdc}, !- Target Object
@@ -12810,7 +12429,6 @@ OS:Node,
 
 OS:Connection,
   {108170b2-c5fd-466f-9178-6906d225fbd4}, !- Handle
-  {6eda816b-41bb-4877-80d3-c609727c9e35}, !- Name
   {c321792c-9a40-4749-a601-48519b1fbb6e}, !- Source Object
   18,                                     !- Outlet Port
   {683dc342-903c-49ec-9f0a-9bdb0a0e24f1}, !- Target Object
@@ -12824,7 +12442,6 @@ OS:Node,
 
 OS:Connection,
   {88ac3991-8e4a-49f5-b62e-7e5f10d838e7}, !- Handle
-  {79ddfdb3-5c1d-458a-9731-9a88f4ea105c}, !- Name
   {683dc342-903c-49ec-9f0a-9bdb0a0e24f1}, !- Source Object
   3,                                      !- Outlet Port
   {b7a75547-3b46-4488-a7ae-72862cf94234}, !- Target Object
@@ -12832,7 +12449,6 @@ OS:Connection,
 
 OS:Connection,
   {1003554b-5458-4686-8f85-bdf4b9f06cb2}, !- Handle
-  {7c5134ae-88b3-41b9-bd58-d79e2b4aacf7}, !- Name
   {b7a75547-3b46-4488-a7ae-72862cf94234}, !- Source Object
   3,                                      !- Outlet Port
   {a5c4dbd3-a376-45a7-829d-edcf216ef789}, !- Target Object
@@ -12840,7 +12456,6 @@ OS:Connection,
 
 OS:Connection,
   {541682da-5193-46f6-91d5-f0d99cc0f978}, !- Handle
-  {d1653655-e386-4a6d-9a22-d0c725241f36}, !- Name
   {a5c4dbd3-a376-45a7-829d-edcf216ef789}, !- Source Object
   3,                                      !- Outlet Port
   {87a940d4-9ece-4c5a-abd1-7a6f26e19bdc}, !- Target Object
@@ -12961,7 +12576,6 @@ OS:Exterior:Lights,
   AstronomicalClock,                      !- Control Option
   ,                                       !- Multiplier
   General;                                !- End-Use Subcategory
-
 
 OS:Site:GroundTemperature:FCfactorMethod,
   {1b16657e-c5d2-4c64-9471-daf866235858}, !- Handle
@@ -13206,10 +12820,6 @@ OS:Curve:Quadratic,
   0,                                      !- Coefficient3 x**2
   0,                                      !- Minimum Value of x
   1;                                      !- Maximum Value of x
-
-OS:AdditionalProperties,
-  {49adc38f-0ba8-44e6-b235-9e632db69265}, !- Handle
-  {9c45a26a-a853-46ad-84d7-060739884a78}; !- Object Name
 
 OS:Daylighting:Control,
   {56f51e19-42c6-440f-8508-ed22909d2a34}, !- Handle
@@ -13666,4 +13276,586 @@ OS:Daylighting:Control,
   1,                                      !- Probability Lighting will be Reset When Needed in Manual Stepped Control
   ,                                       !- Number of Daylighting Views
   22;                                     !- Maximum Allowable Discomfort Glare Index
+
+OS:Output:Variable,
+  {a0879bfc-a431-4f21-bea1-748c28bb23e6}, !- Handle
+  Output Variable 1,                      !- Name
+  ,                                       !- Key Value
+  Facility Total Electricity Demand Rate, !- Variable Name
+  timestep;                               !- Reporting Frequency
+
+OS:Schedule:Ruleset,
+  {e8a6b24a-9da8-467c-9fa3-0b8074003763}, !- Handle
+  Tank Electric Heater Setpoint,          !- Name
+  {92ef7819-a2ea-4b8b-aba9-eb237dcee0d7}, !- Schedule Type Limits Name
+  {9769b230-6a15-4f97-8b01-209b126b7a1e}; !- Default Day Schedule Name
+
+OS:Schedule:Day,
+  {9769b230-6a15-4f97-8b01-209b126b7a1e}, !- Handle
+  Tank Electric Heater Setpoint Default,  !- Name
+  {92ef7819-a2ea-4b8b-aba9-eb237dcee0d7}, !- Schedule Type Limits Name
+  ,                                       !- Interpolate to Timestep
+  24,                                     !- Hour 1
+  0,                                      !- Minute 1
+  55.2222222222222;                       !- Value Until Time 1
+
+OS:Schedule:Ruleset,
+  {9d8a1e9c-6fda-4260-b9f6-9c6235d99070}, !- Handle
+  Heat Pump Heating Temperature Setpoint, !- Name
+  {be45d33a-62d0-43ea-9cca-9e43d7e6f770}, !- Schedule Type Limits Name
+  {ed96568d-2342-407e-8820-f7ad97b4cc2a}; !- Default Day Schedule Name
+
+OS:Schedule:Day,
+  {ed96568d-2342-407e-8820-f7ad97b4cc2a}, !- Handle
+  Heat Pump Heating Temperature Setpoint Default, !- Name
+  {be45d33a-62d0-43ea-9cca-9e43d7e6f770}, !- Schedule Type Limits Name
+  ,                                       !- Interpolate to Timestep
+  24,                                     !- Hour 1
+  0,                                      !- Minute 1
+  60.0000000000001;                       !- Value Until Time 1
+
+OS:WaterHeater:HeatPump,
+  {faf572b2-90d2-4060-b11e-c1072d62be80}, !- Handle
+  100gal Heat Pump Water Heater - 31kBtu/hr, !- Name
+  ,                                       !- Availability Schedule
+  {9d8a1e9c-6fda-4260-b9f6-9c6235d99070}, !- Compressor Setpoint Temperature Schedule
+  2.77777777777778,                       !- Dead Band Temperature Difference {deltaC}
+  autosize,                               !- Condenser Water Flow Rate {m3/s}
+  autosize,                               !- Evaporator Air Flow Rate {m3/s}
+  ZoneAirOnly,                            !- Inlet Air Configuration
+  {edd1befa-9808-4ef9-b4f6-b8ba1576731c}, !- Air Inlet Node
+  {6e982ab4-dd00-4939-8bda-054466672aa3}, !- Air Outlet Node
+  ,                                       !- Outdoor Air Node
+  {c807b2d7-39ca-4131-9abe-d2943cf54796}, !- Inlet Air Temperature Schedule
+  {8adc3ba8-56d5-47f4-97ff-a52f6dd71951}, !- Inlet Air Humidity Schedule
+  {df870b53-9bae-49bf-9e26-a1c527029bab}, !- Tank
+  {b22cb043-51ea-4c66-a7b3-cb8f078751ff}, !- DX Coil
+  10,                                     !- Minimum Inlet Air Temperature for Compressor Operation {C}
+  48.89,                                  !- Maximum Inlet Air Temperature for Compressor Operation {C}
+  Zone,                                   !- Compressor Location
+  {688d3d00-52c6-4adf-b654-9ec5d23e90a1}, !- Compressor Ambient Temperature Schedule
+  {debcd2d1-8dec-4098-9585-86d97b1e60fa}, !- Fan
+  DrawThrough,                            !- Fan Placement
+  0,                                      !- On Cycle Parasitic Electric Load {W}
+  0,                                      !- Off Cycle Parasitic Electric Load {W}
+  Outdoors,                               !- Parasitic Heat Rejection Location
+  {e765a9d9-939e-421d-9e0b-60c88feff800}, !- Inlet Air Mixer Schedule
+  Heater1;                                !- Control Sensor Location In Stratified Tank
+
+OS:Coil:WaterHeating:AirToWaterHeatPump,
+  {b22cb043-51ea-4c66-a7b3-cb8f078751ff}, !- Handle
+  100gal Heat Pump Water Heater - 31kBtu/hr Coil, !- Name
+  9156.25,                                !- Rated Heating Capacity {W}
+  3.2,                                    !- Rated COP {W/W}
+  0.88,                                   !- Rated Sensible Heat Ratio
+  19.7222222222223,                       !- Rated Evaporator Inlet Air Dry-Bulb Temperature {C}
+  13.5700000000001,                       !- Rated Evaporator Inlet Air Wet-Bulb Temperature {C}
+  55.72,                                  !- Rated Condenser Inlet Water Temperature {C}
+  autosize,                               !- Rated Evaporator Air Flow Rate {m3/s}
+  autosize,                               !- Rated Condenser Water Flow Rate {m3/s}
+  Yes,                                    !- Evaporator Fan Power Included in Rated COP
+  No,                                     !- Condenser Pump Power Included in Rated COP
+  No,                                     !- Condenser Pump Heat Included in Rated Heating Capacity and Rated COP
+  150,                                    !- Condenser Water Pump Power {W}
+  0.1,                                    !- Fraction of Condenser Pump Heat to Water
+  ,                                       !- Evaporator Air Inlet Node Name
+  ,                                       !- Evaporator Air Outlet Node Name
+  ,                                       !- Condenser Water Inlet Node
+  ,                                       !- Condenser Water Outlet Node
+  100,                                    !- Crankcase Heater Capacity {W}
+  0,                                      !- Maximum Ambient Temperature for Crankcase Heater Operation {C}
+  WetBulbTemperature,                     !- Evaporator Air Temperature Type for Curve Objects
+  {4cc0c6f6-79e7-40cb-a153-dc0b0c01d190}, !- Heating Capacity Function of Temperature Curve
+  {bc5b4f8b-fc90-462d-a3b5-22f157b57dcd}, !- Heating Capacity Function of Air Flow Fraction Curve
+  {56c04cf9-39cb-4189-997f-9a99a18e258a}, !- Heating Capacity Function of Water Flow Fraction Curve
+  {a41a400e-5f28-41a8-8765-152e015eb7c3}, !- Heating COP Function of Temperature Curve
+  {82ad7947-5fc9-41f0-bf2a-9e7d23987a5b}, !- Heating COP Function of Air Flow Fraction Curve
+  {38fa324a-c246-4aad-b0ad-05b2b02bc01e}, !- Heating COP Function of Water Flow Fraction Curve
+  {9690311e-cb16-4842-914d-e2c268eef14e}; !- Part Load Fraction Correlation Curve
+
+OS:Curve:Biquadratic,
+  {7f89d746-8c44-43fc-8c2c-098dfd4da060}, !- Handle
+  Curve Biquadratic 1,                    !- Name
+  0.369827,                               !- Coefficient1 Constant
+  0.043341,                               !- Coefficient2 x
+  -0.00023,                               !- Coefficient3 x**2
+  0.000466,                               !- Coefficient4 y
+  2.6e-05,                                !- Coefficient5 y**2
+  -0.00027,                               !- Coefficient6 x*y
+  0,                                      !- Minimum Value of x
+  40,                                     !- Maximum Value of x
+  20,                                     !- Minimum Value of y
+  90,                                     !- Maximum Value of y
+  ,                                       !- Minimum Curve Output
+  ,                                       !- Maximum Curve Output
+  Temperature,                            !- Input Unit Type for X
+  Temperature,                            !- Input Unit Type for Y
+  Dimensionless;                          !- Output Unit Type
+
+OS:Curve:Quadratic,
+  {bc5b4f8b-fc90-462d-a3b5-22f157b57dcd}, !- Handle
+  Curve Quadratic 1,                      !- Name
+  1,                                      !- Coefficient1 Constant
+  0,                                      !- Coefficient2 x
+  0,                                      !- Coefficient3 x**2
+  0,                                      !- Minimum Value of x
+  1;                                      !- Maximum Value of x
+
+OS:Curve:Quadratic,
+  {56c04cf9-39cb-4189-997f-9a99a18e258a}, !- Handle
+  Curve Quadratic 2,                      !- Name
+  1,                                      !- Coefficient1 Constant
+  0,                                      !- Coefficient2 x
+  0,                                      !- Coefficient3 x**2
+  0,                                      !- Minimum Value of x
+  1;                                      !- Maximum Value of x
+
+OS:Curve:Biquadratic,
+  {b1c734fa-068b-4f77-9a3f-79cc003f8378}, !- Handle
+  Curve Biquadratic 2,                    !- Name
+  1.19713,                                !- Coefficient1 Constant
+  0.077849,                               !- Coefficient2 x
+  -1.6e-06,                               !- Coefficient3 x**2
+  -0.02675,                               !- Coefficient4 y
+  0.000296,                               !- Coefficient5 y**2
+  -0.00112,                               !- Coefficient6 x*y
+  0,                                      !- Minimum Value of x
+  40,                                     !- Maximum Value of x
+  20,                                     !- Minimum Value of y
+  90,                                     !- Maximum Value of y
+  ,                                       !- Minimum Curve Output
+  ,                                       !- Maximum Curve Output
+  Temperature,                            !- Input Unit Type for X
+  Temperature,                            !- Input Unit Type for Y
+  Dimensionless;                          !- Output Unit Type
+
+OS:Curve:Quadratic,
+  {82ad7947-5fc9-41f0-bf2a-9e7d23987a5b}, !- Handle
+  Curve Quadratic 3,                      !- Name
+  1,                                      !- Coefficient1 Constant
+  0,                                      !- Coefficient2 x
+  0,                                      !- Coefficient3 x**2
+  0,                                      !- Minimum Value of x
+  1;                                      !- Maximum Value of x
+
+OS:Curve:Quadratic,
+  {38fa324a-c246-4aad-b0ad-05b2b02bc01e}, !- Handle
+  Curve Quadratic 4,                      !- Name
+  1,                                      !- Coefficient1 Constant
+  0,                                      !- Coefficient2 x
+  0,                                      !- Coefficient3 x**2
+  0,                                      !- Minimum Value of x
+  1;                                      !- Maximum Value of x
+
+OS:Curve:Quadratic,
+  {9690311e-cb16-4842-914d-e2c268eef14e}, !- Handle
+  Curve Quadratic 5,                      !- Name
+  0.75,                                   !- Coefficient1 Constant
+  0.25,                                   !- Coefficient2 x
+  0,                                      !- Coefficient3 x**2
+  0,                                      !- Minimum Value of x
+  1;                                      !- Maximum Value of x
+
+OS:WaterHeater:Mixed,
+  {df870b53-9bae-49bf-9e26-a1c527029bab}, !- Handle
+  100gal Heat Pump Water Heater - 31kBtu/hr Tank, !- Name
+  0.340687060557286,                      !- Tank Volume {m3}
+  {e8a6b24a-9da8-467c-9fa3-0b8074003763}, !- Setpoint Temperature Schedule Name
+  3.89,                                   !- Deadband Temperature Difference {deltaC}
+  90,                                     !- Maximum Temperature Limit {C}
+  Cycle,                                  !- Heater Control Type
+  29300,                                  !- Heater Maximum Capacity {W}
+  ,                                       !- Heater Minimum Capacity {W}
+  ,                                       !- Heater Ignition Minimum Flow Rate {m3/s}
+  ,                                       !- Heater Ignition Delay {s}
+  Electricity,                            !- Heater Fuel Type
+  1,                                      !- Heater Thermal Efficiency
+  ,                                       !- Part Load Factor Curve Name
+  3,                                      !- Off Cycle Parasitic Fuel Consumption Rate {W}
+  Electricity,                            !- Off Cycle Parasitic Fuel Type
+  0.8,                                    !- Off Cycle Parasitic Heat Fraction to Tank
+  3,                                      !- On Cycle Parasitic Fuel Consumption Rate {W}
+  Electricity,                            !- On Cycle Parasitic Fuel Type
+  ,                                       !- On Cycle Parasitic Heat Fraction to Tank
+  ThermalZone,                            !- Ambient Temperature Indicator
+  ,                                       !- Ambient Temperature Schedule Name
+  {9ea7a624-1dcb-4c04-b27d-03215e68f02a}, !- Ambient Temperature Thermal Zone Name
+  ,                                       !- Ambient Temperature Outdoor Air Node Name
+  6,                                      !- Off Cycle Loss Coefficient to Ambient Temperature {W/K}
+  ,                                       !- Off Cycle Loss Fraction to Thermal Zone
+  6,                                      !- On Cycle Loss Coefficient to Ambient Temperature {W/K}
+  ,                                       !- On Cycle Loss Fraction to Thermal Zone
+  ,                                       !- Peak Use Flow Rate {m3/s}
+  ,                                       !- Use Flow Rate Fraction Schedule Name
+  ,                                       !- Cold Water Supply Temperature Schedule Name
+  {b4077732-e55d-47b5-bf84-28e71d8bec04}, !- Use Side Inlet Node Name
+  {e9319a8b-2ff4-4c23-94ca-6169308797fe}, !- Use Side Outlet Node Name
+  1,                                      !- Use Side Effectiveness
+  ,                                       !- Source Side Inlet Node Name
+  ,                                       !- Source Side Outlet Node Name
+  1,                                      !- Source Side Effectiveness
+  autosize,                               !- Use Side Design Flow Rate {m3/s}
+  autosize,                               !- Source Side Design Flow Rate {m3/s}
+  1.5,                                    !- Indirect Water Heating Recovery Time {hr}
+  IndirectHeatPrimarySetpoint,            !- Source Side Flow Control Mode
+  ,                                       !- Indirect Alternate Setpoint Temperature Schedule Name
+  Service Hot Water;                      !- End-Use Subcategory
+
+OS:Schedule:Ruleset,
+  {bb5ed85f-f621-4f52-bd22-0f47cff73ce0}, !- Handle
+  Schedule Ruleset 1,                     !- Name
+  {92ef7819-a2ea-4b8b-aba9-eb237dcee0d7}, !- Schedule Type Limits Name
+  {f14ad916-df5f-4ee0-ad35-f68456bc324f}; !- Default Day Schedule Name
+
+OS:Schedule:Day,
+  {f14ad916-df5f-4ee0-ad35-f68456bc324f}, !- Handle
+  Schedule Day 1,                         !- Name
+  {92ef7819-a2ea-4b8b-aba9-eb237dcee0d7}, !- Schedule Type Limits Name
+  ,                                       !- Interpolate to Timestep
+  24,                                     !- Hour 1
+  0,                                      !- Minute 1
+  22;                                     !- Value Until Time 1
+
+OS:Schedule:Ruleset,
+  {a0ea8591-0d29-4729-8dc8-682619f51498}, !- Handle
+  Schedule Ruleset 2,                     !- Name
+  {92ef7819-a2ea-4b8b-aba9-eb237dcee0d7}, !- Schedule Type Limits Name
+  {e8925e63-5c97-4fa9-bfc1-52084927fb3c}; !- Default Day Schedule Name
+
+OS:Schedule:Day,
+  {e8925e63-5c97-4fa9-bfc1-52084927fb3c}, !- Handle
+  Schedule Day 2,                         !- Name
+  {92ef7819-a2ea-4b8b-aba9-eb237dcee0d7}, !- Schedule Type Limits Name
+  ,                                       !- Interpolate to Timestep
+  24,                                     !- Hour 1
+  0,                                      !- Minute 1
+  60;                                     !- Value Until Time 1
+
+OS:WaterHeater:Sizing,
+  {55a58332-210a-498e-9954-52d95e856e88}, !- Handle
+  {df870b53-9bae-49bf-9e26-a1c527029bab}, !- WaterHeater Name
+  PeakDraw,                               !- Design Mode
+  0.538503,                               !- Time Storage Can Meet Peak Draw {hr}
+  0,                                      !- Time for Tank Recovery {hr}
+  1;                                      !- Nominal Tank Volume for Autosizing Plant Connections {m3}
+
+OS:Fan:OnOff,
+  {debcd2d1-8dec-4098-9585-86d97b1e60fa}, !- Handle
+  100gal Heat Pump Water Heater - 31kBtu/hr Fan, !- Name
+  {caa8d877-bc04-445c-b8e9-85a98907b891}, !- Availability Schedule Name
+  0.663995320519481,                      !- Fan Total Efficiency
+  65,                                     !- Pressure Rise {Pa}
+  0.0854224872192,                        !- Maximum Flow Rate {m3/s}
+  1,                                      !- Motor Efficiency
+  1,                                      !- Motor In Airstream Fraction
+  ,                                       !- Air Inlet Node Name
+  ,                                       !- Air Outlet Node Name
+  {9fa7bb89-c701-4a8a-a4c2-428f8e64dba9}, !- Fan Power Ratio Function of Speed Ratio Curve Name
+  {94fbf3ec-7527-48ad-b8a4-911ee68d42cc}, !- Fan Efficiency Ratio Function of Speed Ratio Curve Name
+  Service Hot Water;                      !- End-Use Subcategory
+
+OS:Curve:Exponent,
+  {9fa7bb89-c701-4a8a-a4c2-428f8e64dba9}, !- Handle
+  Fan On Off Power Curve,                 !- Name
+  1,                                      !- Coefficient1 Constant
+  0,                                      !- Coefficient2 Constant
+  0,                                      !- Coefficient3 Constant
+  0,                                      !- Minimum Value of x
+  1,                                      !- Maximum Value of x
+  ,                                       !- Minimum Curve Output
+  ,                                       !- Maximum Curve Output
+  ,                                       !- Input Unit Type for X
+  ;                                       !- Output Unit Type
+
+OS:Curve:Cubic,
+  {94fbf3ec-7527-48ad-b8a4-911ee68d42cc}, !- Handle
+  Fan On Off Efficiency Curve,            !- Name
+  1,                                      !- Coefficient1 Constant
+  0,                                      !- Coefficient2 x
+  0,                                      !- Coefficient3 x**2
+  0,                                      !- Coefficient4 x**3
+  0,                                      !- Minimum Value of x
+  1;                                      !- Maximum Value of x
+
+OS:Schedule:Ruleset,
+  {e2728a1f-29d2-400c-a72f-bec564ec61f0}, !- Handle
+  Schedule Ruleset 3,                     !- Name
+  {92ef7819-a2ea-4b8b-aba9-eb237dcee0d7}, !- Schedule Type Limits Name
+  {adc7363e-f648-4406-a5e8-553f3bf5e2b8}; !- Default Day Schedule Name
+
+OS:Schedule:Day,
+  {adc7363e-f648-4406-a5e8-553f3bf5e2b8}, !- Handle
+  Schedule Day 3,                         !- Name
+  {92ef7819-a2ea-4b8b-aba9-eb237dcee0d7}, !- Schedule Type Limits Name
+  ,                                       !- Interpolate to Timestep
+  24,                                     !- Hour 1
+  0,                                      !- Minute 1
+  60;                                     !- Value Until Time 1
+
+OS:Schedule:Ruleset,
+  {e765a9d9-939e-421d-9e0b-60c88feff800}, !- Handle
+  Schedule Ruleset 4,                     !- Name
+  {04b3a39c-1973-489a-a286-e1307e4b1393}, !- Schedule Type Limits Name
+  {f7ecde36-9efd-4c89-a201-4dbe7750833e}; !- Default Day Schedule Name
+
+OS:Schedule:Day,
+  {f7ecde36-9efd-4c89-a201-4dbe7750833e}, !- Handle
+  Schedule Day 4,                         !- Name
+  {04b3a39c-1973-489a-a286-e1307e4b1393}, !- Schedule Type Limits Name
+  ,                                       !- Interpolate to Timestep
+  24,                                     !- Hour 1
+  0,                                      !- Minute 1
+  0.2;                                    !- Value Until Time 1
+
+OS:Schedule:Ruleset,
+  {c807b2d7-39ca-4131-9abe-d2943cf54796}, !- Handle
+  Schedule Ruleset 5,                     !- Name
+  {92ef7819-a2ea-4b8b-aba9-eb237dcee0d7}, !- Schedule Type Limits Name
+  {356bd904-1c1a-420a-b070-5032dffee562}; !- Default Day Schedule Name
+
+OS:Schedule:Day,
+  {356bd904-1c1a-420a-b070-5032dffee562}, !- Handle
+  Schedule Day 6,                         !- Name
+  {92ef7819-a2ea-4b8b-aba9-eb237dcee0d7}, !- Schedule Type Limits Name
+  ,                                       !- Interpolate to Timestep
+  24,                                     !- Hour 1
+  0,                                      !- Minute 1
+  19.7;                                   !- Value Until Time 1
+
+OS:Schedule:Ruleset,
+  {8adc3ba8-56d5-47f4-97ff-a52f6dd71951}, !- Handle
+  Schedule Ruleset 6,                     !- Name
+  {89cd26dd-cda4-47da-9f27-e72d6834c970}, !- Schedule Type Limits Name
+  {81c73762-c914-4d89-bc4c-0c855489a204}; !- Default Day Schedule Name
+
+OS:Schedule:Day,
+  {81c73762-c914-4d89-bc4c-0c855489a204}, !- Handle
+  Schedule Day 7,                         !- Name
+  {89cd26dd-cda4-47da-9f27-e72d6834c970}, !- Schedule Type Limits Name
+  ,                                       !- Interpolate to Timestep
+  24,                                     !- Hour 1
+  0,                                      !- Minute 1
+  0.5;                                    !- Value Until Time 1
+
+OS:ScheduleTypeLimits,
+  {89cd26dd-cda4-47da-9f27-e72d6834c970}, !- Handle
+  Dimensionless,                          !- Name
+  0,                                      !- Lower Limit Value
+  ,                                       !- Upper Limit Value
+  Continuous;                             !- Numeric Type
+
+OS:Schedule:Ruleset,
+  {688d3d00-52c6-4adf-b654-9ec5d23e90a1}, !- Handle
+  Schedule Ruleset 7,                     !- Name
+  {92ef7819-a2ea-4b8b-aba9-eb237dcee0d7}, !- Schedule Type Limits Name
+  {c5972393-2491-4bd5-9e2d-2330cd6546f6}; !- Default Day Schedule Name
+
+OS:Schedule:Day,
+  {c5972393-2491-4bd5-9e2d-2330cd6546f6}, !- Handle
+  Schedule Day 9,                         !- Name
+  {92ef7819-a2ea-4b8b-aba9-eb237dcee0d7}, !- Schedule Type Limits Name
+  ,                                       !- Interpolate to Timestep
+  24,                                     !- Hour 1
+  0,                                      !- Minute 1
+  21;                                     !- Value Until Time 1
+
+OS:Curve:Biquadratic,
+  {4cc0c6f6-79e7-40cb-a153-dc0b0c01d190}, !- Handle
+  HPWH-Cap-fT,                            !- Name
+  0.563,                                  !- Coefficient1 Constant
+  0.0437,                                 !- Coefficient2 x
+  3.9e-05,                                !- Coefficient3 x**2
+  0.0055,                                 !- Coefficient4 y
+  -0.000148,                              !- Coefficient5 y**2
+  -0.000145,                              !- Coefficient6 x*y
+  0,                                      !- Minimum Value of x
+  100,                                    !- Maximum Value of x
+  0,                                      !- Minimum Value of y
+  100;                                    !- Maximum Value of y
+
+OS:Curve:Biquadratic,
+  {a41a400e-5f28-41a8-8765-152e015eb7c3}, !- Handle
+  HPWH-COP-fT,                            !- Name
+  1.1332,                                 !- Coefficient1 Constant
+  0.063,                                  !- Coefficient2 x
+  -9.79e-05,                              !- Coefficient3 x**2
+  -0.00972,                               !- Coefficient4 y
+  -2.14e-05,                              !- Coefficient5 y**2
+  -0.000686,                              !- Coefficient6 x*y
+  0,                                      !- Minimum Value of x
+  100,                                    !- Maximum Value of x
+  0,                                      !- Minimum Value of y
+  100;                                    !- Maximum Value of y
+
+OS:Node,
+  {b2afb962-e9a1-40e6-a7c3-4e317f3772f5}, !- Handle
+  Node 1,                                 !- Name
+  {6f13f5fa-7a5e-457e-baa9-d376d6f9574a}, !- Inlet Port
+  {edd1befa-9808-4ef9-b4f6-b8ba1576731c}; !- Outlet Port
+
+OS:Connection,
+  {6f13f5fa-7a5e-457e-baa9-d376d6f9574a}, !- Handle
+  {d76cccbf-2fa0-41b1-a9f3-a93948eede1f}, !- Source Object
+  2,                                      !- Outlet Port
+  {b2afb962-e9a1-40e6-a7c3-4e317f3772f5}, !- Target Object
+  2;                                      !- Inlet Port
+
+OS:Connection,
+  {edd1befa-9808-4ef9-b4f6-b8ba1576731c}, !- Handle
+  {b2afb962-e9a1-40e6-a7c3-4e317f3772f5}, !- Source Object
+  3,                                      !- Outlet Port
+  {faf572b2-90d2-4060-b11e-c1072d62be80}, !- Target Object
+  8;                                      !- Inlet Port
+
+OS:Node,
+  {8dee504e-655d-406b-9a3e-f1f65b41c538}, !- Handle
+  Node 2,                                 !- Name
+  {6e982ab4-dd00-4939-8bda-054466672aa3}, !- Inlet Port
+  {988cfba3-6ad0-43e3-8050-089c6aa57dd1}; !- Outlet Port
+
+OS:Connection,
+  {988cfba3-6ad0-43e3-8050-089c6aa57dd1}, !- Handle
+  {8dee504e-655d-406b-9a3e-f1f65b41c538}, !- Source Object
+  3,                                      !- Outlet Port
+  {f0cfab27-1d4b-477c-8bd6-64ea83b28475}, !- Target Object
+  3;                                      !- Inlet Port
+
+OS:Connection,
+  {6e982ab4-dd00-4939-8bda-054466672aa3}, !- Handle
+  {faf572b2-90d2-4060-b11e-c1072d62be80}, !- Source Object
+  9,                                      !- Outlet Port
+  {8dee504e-655d-406b-9a3e-f1f65b41c538}, !- Target Object
+  2;                                      !- Inlet Port
+
+OS:Node,
+  {1db89ce1-833c-459e-bc5c-1535e710f2fb}, !- Handle
+  Node 3,                                 !- Name
+  {e9319a8b-2ff4-4c23-94ca-6169308797fe}, !- Inlet Port
+  {bbdaa280-5f49-4ecf-8f65-f338b7248513}; !- Outlet Port
+
+OS:Connection,
+  {b4077732-e55d-47b5-bf84-28e71d8bec04}, !- Handle
+  {a8d7c91e-cc97-4c78-b50a-6c571a76845d}, !- Source Object
+  3,                                      !- Outlet Port
+  {df870b53-9bae-49bf-9e26-a1c527029bab}, !- Target Object
+  31;                                     !- Inlet Port
+
+OS:Connection,
+  {e9319a8b-2ff4-4c23-94ca-6169308797fe}, !- Handle
+  {df870b53-9bae-49bf-9e26-a1c527029bab}, !- Source Object
+  32,                                     !- Outlet Port
+  {1db89ce1-833c-459e-bc5c-1535e710f2fb}, !- Target Object
+  2;                                      !- Inlet Port
+
+OS:Connection,
+  {bbdaa280-5f49-4ecf-8f65-f338b7248513}, !- Handle
+  {1db89ce1-833c-459e-bc5c-1535e710f2fb}, !- Source Object
+  3,                                      !- Outlet Port
+  {4936b6de-9250-4999-820f-c9ccee54eb0b}, !- Target Object
+  3;                                      !- Inlet Port
+
+OS:Output:Variable,
+  {e818db1c-7835-47e9-83ed-fa6a04ff4eb2}, !- Handle
+  Output Variable 2,                      !- Name
+  ,                                       !- Key Value
+  Cooling Coil Total Cooling Rate,        !- Variable Name
+  TimeStep;                               !- Reporting Frequency
+
+OS:Output:Variable,
+  {66f92d61-9486-403c-bff9-12945360f343}, !- Handle
+  Output Variable 3,                      !- Name
+  ,                                       !- Key Value
+  Cooling Coil Total Water Heating Rate,  !- Variable Name
+  TimeStep;                               !- Reporting Frequency
+
+OS:Output:Variable,
+  {227950a3-da2e-45b1-ab0c-8322f23c435c}, !- Handle
+  Output Variable 4,                      !- Name
+  ,                                       !- Key Value
+  Cooling Coil Water Heating Electric Power, !- Variable Name
+  TimeStep;                               !- Reporting Frequency
+
+OS:Output:Variable,
+  {64a76063-ce68-4451-8904-bc4871a715f5}, !- Handle
+  Output Variable 5,                      !- Name
+  ,                                       !- Key Value
+  Cooling Coil Crankcase Heater Electric Power, !- Variable Name
+  TimeStep;                               !- Reporting Frequency
+
+OS:Output:Variable,
+  {b808ce13-d81e-459f-8ee1-27303611016b}, !- Handle
+  Output Variable 6,                      !- Name
+  ,                                       !- Key Value
+  Water Heater Tank Temperature,          !- Variable Name
+  TimeStep;                               !- Reporting Frequency
+
+OS:Output:Variable,
+  {e13f6696-bec2-463d-8d28-e064af469859}, !- Handle
+  Output Variable 7,                      !- Name
+  ,                                       !- Key Value
+  Water Heater Heat Loss Rate,            !- Variable Name
+  TimeStep;                               !- Reporting Frequency
+
+OS:Output:Variable,
+  {3cc9cba1-c7fa-42f9-acc3-830d2732ea6b}, !- Handle
+  Output Variable 8,                      !- Name
+  ,                                       !- Key Value
+  Water Heater Heating Rate,              !- Variable Name
+  TimeStep;                               !- Reporting Frequency
+
+OS:Output:Variable,
+  {123129e7-1fa9-48fa-b9e2-efe3eea96e15}, !- Handle
+  Output Variable 9,                      !- Name
+  ,                                       !- Key Value
+  Water Heater Use Side Heat Transfer Rate, !- Variable Name
+  TimeStep;                               !- Reporting Frequency
+
+OS:Output:Variable,
+  {e8d43678-0978-42b0-8096-dcdc5e98dab9}, !- Handle
+  Output Variable 10,                     !- Name
+  ,                                       !- Key Value
+  Water Heater Source Side Heat Transfer Rate, !- Variable Name
+  TimeStep;                               !- Reporting Frequency
+
+OS:Output:Variable,
+  {f407f737-3f5e-4b83-abc8-512ac78f34e0}, !- Handle
+  Output Variable 11,                     !- Name
+  ,                                       !- Key Value
+  Water Heater Unmet Demand Heat Transfer Rate, !- Variable Name
+  TimeStep;                               !- Reporting Frequency
+
+OS:Output:Variable,
+  {7b359c89-8321-4e7a-822c-e285cf06521d}, !- Handle
+  Output Variable 12,                     !- Name
+  ,                                       !- Key Value
+  Water Heater Electricity Rate,          !- Variable Name
+  TimeStep;                               !- Reporting Frequency
+
+OS:Output:Variable,
+  {65e8f13a-96a9-49ab-8242-10475d71db11}, !- Handle
+  Output Variable 13,                     !- Name
+  ,                                       !- Key Value
+  Water Heater Water Volume Flow Rate,    !- Variable Name
+  TimeStep;                               !- Reporting Frequency
+
+OS:Output:Variable,
+  {4f39b28d-544d-412a-9a6f-0f501e718983}, !- Handle
+  Output Variable 14,                     !- Name
+  ,                                       !- Key Value
+  Water Use Connections Hot Water Temperature, !- Variable Name
+  TimeStep;                               !- Reporting Frequency
+
+OS:Output:Variable,
+  {1d96086b-1db7-4798-bc91-03dea54cd4f6}, !- Handle
+  Output Variable 15,                     !- Name
+  Heat Pump Heating Temperature Setpoint, !- Key Value
+  Schedule Value,                         !- Variable Name
+  TimeStep;                               !- Reporting Frequency
+
+OS:Output:Variable,
+  {98ea0fb5-9b9c-4e1f-bdc6-70cc355545dd}, !- Handle
+  Output Variable 16,                     !- Name
+  Tank Electric Heater Setpoint,          !- Key Value
+  Schedule Value,                         !- Variable Name
+  TimeStep;                               !- Reporting Frequency
 
