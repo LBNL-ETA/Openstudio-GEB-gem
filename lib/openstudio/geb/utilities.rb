@@ -67,6 +67,17 @@ def get_run_env
   return new_env
 end
 
+def rm_old_folder_and_create_new(folder_path)
+  if File.exist? folder_path
+    FileUtils.rm_rf(folder_path)
+    sleep(0.1)
+  end
+
+  unless File.directory?(folder_path)
+    FileUtils.mkdir_p(folder_path)
+  end
+end
+
 def postprocess_out_osw(outdir)
 
   out_osw = File.join(outdir, 'out.osw')

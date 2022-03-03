@@ -19,44 +19,60 @@ ModelMeasure
 ## Arguments
 
 
-### Degrees Fahrenheit to Adjust Cooling Setpoint By
+### Degrees Fahrenheit to Adjust Heating Setpoint By
 
-**Name:** cooling_adjustment,
+**Name:** heating_adjustment,
 **Type:** Double,
 **Units:** ,
 **Required:** true,
 **Model Dependent:** false
 
-### Start Time for Pre-cooling
-In HH:MM:SS format
-**Name:** starttime_cooling,
-**Type:** String,
-**Units:** ,
-**Required:** true,
-**Model Dependent:** false
-
-### End Time for Pre-cooling
-In HH:MM:SS format
-**Name:** endtime_cooling,
-**Type:** String,
-**Units:** ,
-**Required:** true,
-**Model Dependent:** false
-
-### Start Date for Pre-cooling
+### First Start Date for Pre-heating
 In MM-DD format
-**Name:** cooling_startdate,
+**Name:** heating_startdate1,
 **Type:** String,
 **Units:** ,
 **Required:** false,
 **Model Dependent:** false
 
-### End Date for Pre-cooling
+### First End Date for Pre-heating
 In MM-DD format
-**Name:** cooling_enddate,
+**Name:** heating_enddate1,
 **Type:** String,
 **Units:** ,
 **Required:** false,
+**Model Dependent:** false
+
+### Second Start Date for Pre-heating
+In MM-DD format
+**Name:** heating_startdate2,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### First End Date for Pre-heating
+In MM-DD format
+**Name:** heating_enddate2,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### Start Time for Pre-heating
+In HH:MM:SS format
+**Name:** starttime_heating,
+**Type:** String,
+**Units:** ,
+**Required:** true,
+**Model Dependent:** false
+
+### End Time for Pre-heating
+In HH:MM:SS format
+**Name:** endtime_heating,
+**Type:** String,
+**Units:** ,
+**Required:** true,
 **Model Dependent:** false
 
 ### Enable Climate-specific Periods Setting ?

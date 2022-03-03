@@ -4,10 +4,10 @@
 # http://nrel.github.io/OpenStudio-user-documentation/reference/measure_writing_guide/
 
 # start the measure
-class ReduceEPDByPercentageForPeakHoursCopy < OpenStudio::Measure::ModelMeasure
+class ReduceEPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
   # human readable name
   def name
-    return "Reduce EPD by Percentage for Peak Hours Copy"
+    return "Reduce EPD by Percentage for Peak Hours"
   end
   # human readable description
   def description
@@ -307,143 +307,152 @@ class ReduceEPDByPercentageForPeakHoursCopy < OpenStudio::Measure::ModelMeasure
       os_end_date3 = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(end_month3), end_day3)
     end
 
+    # Check model's daylight saving period, if cooling period is within daylight saving period, shift the cooling start time and end time by one hour later
+    # only check the first period now, assuming majority will only modify for a single period
+    if model.getObjectsByType('OS:RunPeriodControl:DaylightSavingTime'.to_IddObjectType).size >= 1
+      runperiodctrl_daylgtsaving = model.getRunPeriodControlDaylightSavingTime
+      daylight_saving_startdate = runperiodctrl_daylgtsaving.startDate
+      daylight_saving_enddate = runperiodctrl_daylgtsaving.endDate
+      if os_start_date1 >= OpenStudio::Date.new(daylight_saving_startdate.monthOfYear, daylight_saving_startdate.dayOfMonth, os_start_date1.year) && os_end_date1 <= OpenStudio::Date.new(daylight_saving_enddate.monthOfYear, daylight_saving_enddate.dayOfMonth, os_start_date1.year)
+        shift_time1 += OpenStudio::Time.new(0,1,0,0)
+        shift_time2 += OpenStudio::Time.new(0,1,0,0)
+      end
+    end
 
     epd_factor = 1 - (epd_reduce_percent/100)
     applicable =  false
-    space_types = model.getSpaceTypes
-    space_types.each do |space_type|
-      runner.registerInfo("-- For space #{space_type.name.get}:")
-      # for each space, create a hash to map the old schedule name to the new schedule
-      equip_set_schedules = {}
-      space_type_equipments = space_type.electricEquipment
-      space_type_equipments.each do |space_type_equip|
-        equip_set_sch = space_type_equip.schedule
-        if equip_set_sch.empty?
-          runner.registerWarning("#{space_type_equip.name} doesn't have a schedule.")
+    equipments = model.getElectricEquipments
+    # create a hash to map the old schedule name to the new schedule
+    equip_schedules = {}
+    equipments.each do |equip|
+      equip_sch = equip.schedule
+      if equip_sch.empty?
+        runner.registerWarning("#{equip.name} doesn't have a schedule.")
+      else
+        if equip_schedules.key?(equip_sch.get.name.to_s)
+          new_equip_sch = equip_schedules[equip_sch.get.name.to_s]
         else
-          if equip_set_schedules.key?(equip_set_sch.get.name.to_s)
-            new_equip_set_sch = equip_set_schedules[equip_set_sch.get.name.to_s]
-          else
-            new_equip_set_sch = equip_set_sch.get.clone(model)
-            new_equip_set_sch = new_equip_set_sch.to_Schedule.get
-            new_equip_set_sch.setName("#{equip_set_sch.get.name.to_s} adjusted #{epd_factor}")
-            # add to the hash
-            equip_set_schedules[equip_set_sch.get.name.to_s] = new_equip_set_sch
-          end
-          space_type_equip.setSchedule(new_equip_set_sch)
+          new_equip_sch = equip_sch.get.clone(model)
+          new_equip_sch = new_equip_sch.to_Schedule.get
+          new_equip_sch.setName("#{equip_sch.get.name.to_s} adjusted #{epd_factor}")
+          # add to the hash
+          equip_schedules[equip_sch.get.name.to_s] = new_equip_sch
         end
-      end
-
-      equip_set_schedules.each do |old_name, equip_sch|
-        if equip_sch.to_ScheduleRuleset.empty?
-          runner.registerWarning("Schedule #{old_name} isn't a ScheduleRuleset object and won't be altered by this measure.")
-          equip_sch.remove # remove un-used cloned schedule
-        else
-          schedule_set = equip_sch.to_ScheduleRuleset.get
-          default_rule = schedule_set.defaultDaySchedule
-          rules = schedule_set.scheduleRules
-          days_covered = Array.new(7, false)
-          original_rule_number = rules.length
-          if original_rule_number > 0
-            runner.registerInfo("------------ schedule rule set #{old_name} has #{original_rule_number} rules.")
-            current_index = 0
-            # rules are in order of priority
-            rules.each do |rule|
-              runner.registerInfo("------------ Rule #{rule.ruleIndex}: #{rule.daySchedule.name.to_s}")
-              rule_period1 = rule.clone(model).to_ScheduleRule.get # OpenStudio::Model::ScheduleRule.new(schedule_set, rule.daySchedule)
-              rule_period1.setStartDate(os_start_date1)
-              rule_period1.setEndDate(os_end_date1)
-              checkDaysCovered(rule_period1, days_covered)
-              runner.registerInfo("--------------- current days of week coverage: #{days_covered}")
-
-              # set the order of the new cloned schedule rule, to make sure the modified rule has a higher priority than the original one
-              # and different copies keep the same priority as their original orders
-              unless schedule_set.setScheduleRuleIndex(rule_period1, current_index)
-                runner.registerError("Fail to set rule index for #{day_rule_period1.name.to_s}.")
-              end
-              current_index += 1
-
-              day_rule_period1 = rule_period1.daySchedule
-              day_time_vector1 = day_rule_period1.times
-              day_value_vector1 = day_rule_period1.values
-              runner.registerInfo("    ------------ time: #{day_time_vector1.map {|os_time| os_time.toString}}")
-              runner.registerInfo("    ------------ values: #{day_value_vector1}")
-              unless day_value_vector1.empty?
-                applicable = true
-              end
-              day_rule_period1.clearValues
-              day_rule_period1 = updateDaySchedule(day_rule_period1, day_time_vector1, day_value_vector1, shift_time1, shift_time2, epd_factor)
-              runner.registerInfo("    ------------ updated time: #{day_rule_period1.times.map {|os_time| os_time.toString}}")
-              runner.registerInfo("    ------------ updated values: #{day_rule_period1.values}")
-              runner.registerInfo("--------------- schedule updated for #{rule_period1.startDate.get} to #{rule_period1.endDate.get}")
-
-              if os_start_date2 and os_end_date2
-                rule_period2 = copy_sch_rule_for_period(model, rule_period1, rule_period1.daySchedule, os_start_date2, os_end_date2)
-                unless schedule_set.setScheduleRuleIndex(rule_period2, 0)
-                  runner.registerError("Fail to set rule index for #{rule_period2.daySchedule.name.to_s}.")
-                end
-                current_index += 1
-                runner.registerInfo("--------------- schedule updated for #{rule_period2.startDate.get} to #{rule_period2.endDate.get}")
-              end
-
-              if os_start_date3 and os_end_date3
-                rule_period3 = copy_sch_rule_for_period(model, rule_period1, rule_period1.daySchedule, os_start_date3, os_end_date3)
-                unless schedule_set.setScheduleRuleIndex(rule_period3, 0)
-                  runner.registerError("Fail to set rule index for #{rule_period3.daySchedule.name.to_s}.")
-                end
-                current_index += 1
-                runner.registerInfo("--------------- schedule updated for #{rule_period3.startDate.get} to #{rule_period3.endDate.get}")
-              end
-
-              # The original rule will be shifted to have the currently lowest priority
-              unless schedule_set.setScheduleRuleIndex(rule, original_rule_number + current_index - 1)
-                runner.registerError("Fail to set rule index for #{rule.daySchedule.name.to_s}.")
-              end
-
-            end
-          else
-            runner.registerWarning("Electric equipment schedule #{old_name} is a ScheduleRuleSet, but has no ScheduleRules associated. It won't be altered by this measure.")
-          end
-          if days_covered.include?(false)
-            new_default_rule = OpenStudio::Model::ScheduleRule.new(schedule_set)
-            new_default_rule.setStartDate(os_start_date1)
-            new_default_rule.setEndDate(os_end_date1)
-            coverMissingDays(new_default_rule, days_covered)
-            checkDaysCovered(new_default_rule, days_covered)
-
-            cloned_default_day = default_rule.clone(model)
-            cloned_default_day.setParent(new_default_rule)
-
-            new_default_day = new_default_rule.daySchedule
-            day_time_vector = new_default_day.times
-            day_value_vector = new_default_day.values
-            new_default_day.clearValues
-            new_default_day = updateDaySchedule(new_default_day, day_time_vector, day_value_vector, shift_time1, shift_time2, epd_factor)
-            if os_start_date2 and os_end_date2
-              copy_sch_rule_for_period(model, new_default_rule, new_default_day, os_start_date2, os_end_date2)
-            end
-            if os_start_date3 and os_end_date3
-              copy_sch_rule_for_period(model, new_default_rule, new_default_day, os_start_date3, os_end_date3)
-            end
-
-          end
-
-        end
-
-      end
-
-      runner.registerInfo("------------------------FINAL--------------------")
-      space_type.electricEquipment.each do |equip|
-        lgt_schedule_set = equip.schedule
-        unless lgt_schedule_set.empty?
-          runner.registerInfo("Schedule #{lgt_schedule_set.get.name.to_s}:")
-          sch_set = lgt_schedule_set.get.to_Schedule.get
-          sch_set.to_ScheduleRuleset.get.scheduleRules.each do |rule|
-            runner.registerInfo("  rule #{rule.ruleIndex}: #{rule.daySchedule.name.to_s} from #{rule.startDate.get} to #{rule.endDate.get}")
-          end
-        end
+        equip.setSchedule(new_equip_sch)
       end
     end
+
+    equip_schedules.each do |old_name, equip_sch|
+      if equip_sch.to_ScheduleRuleset.empty?
+        runner.registerWarning("Schedule #{old_name} isn't a ScheduleRuleset object and won't be altered by this measure.")
+        equip_sch.remove # remove un-used cloned schedule
+      else
+        schedule_set = equip_sch.to_ScheduleRuleset.get
+        default_rule = schedule_set.defaultDaySchedule
+        rules = schedule_set.scheduleRules
+        days_covered = Array.new(7, false)
+        original_rule_number = rules.length
+        if original_rule_number > 0
+          runner.registerInfo("------------ schedule rule set #{old_name} has #{original_rule_number} rules.")
+          current_index = 0
+          # rules are in order of priority
+          rules.each do |rule|
+            runner.registerInfo("------------ Rule #{rule.ruleIndex}: #{rule.daySchedule.name.to_s}")
+            rule_period1 = rule.clone(model).to_ScheduleRule.get # OpenStudio::Model::ScheduleRule.new(schedule_set, rule.daySchedule)
+            rule_period1.setStartDate(os_start_date1)
+            rule_period1.setEndDate(os_end_date1)
+            checkDaysCovered(rule_period1, days_covered)
+            runner.registerInfo("--------------- current days of week coverage: #{days_covered}")
+
+            # set the order of the new cloned schedule rule, to make sure the modified rule has a higher priority than the original one
+            # and different copies keep the same priority as their original orders
+            unless schedule_set.setScheduleRuleIndex(rule_period1, current_index)
+              runner.registerError("Fail to set rule index for #{day_rule_period1.name.to_s}.")
+            end
+            current_index += 1
+
+            day_rule_period1 = rule_period1.daySchedule
+            day_time_vector1 = day_rule_period1.times
+            day_value_vector1 = day_rule_period1.values
+            runner.registerInfo("    ------------ time: #{day_time_vector1.map {|os_time| os_time.toString}}")
+            runner.registerInfo("    ------------ values: #{day_value_vector1}")
+            unless day_value_vector1.empty?
+              applicable = true
+            end
+            day_rule_period1.clearValues
+            day_rule_period1 = updateDaySchedule(day_rule_period1, day_time_vector1, day_value_vector1, shift_time1, shift_time2, epd_factor)
+            runner.registerInfo("    ------------ updated time: #{day_rule_period1.times.map {|os_time| os_time.toString}}")
+            runner.registerInfo("    ------------ updated values: #{day_rule_period1.values}")
+            runner.registerInfo("--------------- schedule updated for #{rule_period1.startDate.get} to #{rule_period1.endDate.get}")
+
+            if os_start_date2 and os_end_date2
+              rule_period2 = copy_sch_rule_for_period(model, rule_period1, rule_period1.daySchedule, os_start_date2, os_end_date2)
+              unless schedule_set.setScheduleRuleIndex(rule_period2, 0)
+                runner.registerError("Fail to set rule index for #{rule_period2.daySchedule.name.to_s}.")
+              end
+              current_index += 1
+              runner.registerInfo("--------------- schedule updated for #{rule_period2.startDate.get} to #{rule_period2.endDate.get}")
+            end
+
+            if os_start_date3 and os_end_date3
+              rule_period3 = copy_sch_rule_for_period(model, rule_period1, rule_period1.daySchedule, os_start_date3, os_end_date3)
+              unless schedule_set.setScheduleRuleIndex(rule_period3, 0)
+                runner.registerError("Fail to set rule index for #{rule_period3.daySchedule.name.to_s}.")
+              end
+              current_index += 1
+              runner.registerInfo("--------------- schedule updated for #{rule_period3.startDate.get} to #{rule_period3.endDate.get}")
+            end
+
+            # The original rule will be shifted to have the currently lowest priority
+            unless schedule_set.setScheduleRuleIndex(rule, original_rule_number + current_index - 1)
+              runner.registerError("Fail to set rule index for #{rule.daySchedule.name.to_s}.")
+            end
+
+          end
+        else
+          runner.registerWarning("Electric equipment schedule #{old_name} is a ScheduleRuleSet, but has no ScheduleRules associated. It won't be altered by this measure.")
+        end
+        if days_covered.include?(false)
+          new_default_rule = OpenStudio::Model::ScheduleRule.new(schedule_set)
+          new_default_rule.setStartDate(os_start_date1)
+          new_default_rule.setEndDate(os_end_date1)
+          coverMissingDays(new_default_rule, days_covered)
+          checkDaysCovered(new_default_rule, days_covered)
+
+          cloned_default_day = default_rule.clone(model)
+          cloned_default_day.setParent(new_default_rule)
+
+          new_default_day = new_default_rule.daySchedule
+          day_time_vector = new_default_day.times
+          day_value_vector = new_default_day.values
+          new_default_day.clearValues
+          new_default_day = updateDaySchedule(new_default_day, day_time_vector, day_value_vector, shift_time1, shift_time2, epd_factor)
+          if os_start_date2 and os_end_date2
+            copy_sch_rule_for_period(model, new_default_rule, new_default_day, os_start_date2, os_end_date2)
+          end
+          if os_start_date3 and os_end_date3
+            copy_sch_rule_for_period(model, new_default_rule, new_default_day, os_start_date3, os_end_date3)
+          end
+
+        end
+
+      end
+
+    end
+
+      # doesn't work for models without scheduleRules
+      # runner.registerInfo("------------------------FINAL--------------------")
+      # space_type.electricEquipment.each do |equip|
+      #   lgt_schedule_set = equip.schedule
+      #   unless lgt_schedule_set.empty?
+      #     runner.registerInfo("Schedule #{lgt_schedule_set.get.name.to_s}:")
+      #     sch_set = lgt_schedule_set.get.to_Schedule.get
+      #     sch_set.to_ScheduleRuleset.get.scheduleRules.each do |rule|
+      #       runner.registerInfo("  rule #{rule.ruleIndex}: #{rule.daySchedule.name.to_s} from #{rule.startDate.get} to #{rule.endDate.get}")
+      #     end
+      #   end
+      # end
+
     unless applicable
       runner.registerAsNotApplicable('No electric equipment schedule in the model could be altered.')
     end
@@ -552,4 +561,4 @@ class ReduceEPDByPercentageForPeakHoursCopy < OpenStudio::Measure::ModelMeasure
 end
 
 # register the measure to be used by the application
-ReduceEPDByPercentageForPeakHoursCopy.new.registerWithApplication
+ReduceEPDByPercentageForPeakHours.new.registerWithApplication

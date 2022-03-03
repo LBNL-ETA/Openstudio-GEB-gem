@@ -1,0 +1,411 @@
+<measure>
+  <schema_version>3.0</schema_version>
+  <name>add_hpwh</name>
+  <uid>518cde6f-1806-4b9a-bee9-ccaac49c7a53</uid>
+  <version_id>4b7a1852-f3bc-421a-987f-5402f0cf0a7f</version_id>
+  <version_modified>20211210T190247Z</version_modified>
+  <xml_checksum>A374667A</xml_checksum>
+  <class_name>AddHpwh</class_name>
+  <display_name>Add HPWH for Domestic Hot Water</display_name>
+  <description>This measure adds or replaces existing domestic hot water heater with air source heat pump system and allows for the addition of multiple daily flexible control time windows. The heater/tank system may charge at maximum capacity up to an elevated temperature, or float without any heat addition for a specified timeframe down to a minimum tank temperature.</description>
+  <modeler_description>This measure allows selection between three heat pump water heater modeling approaches in EnergyPlus.The user may select between the pumped-condenser or wrapped-condenser objects. They may also elect to use a simplified calculation which does not use the heat pump objects, but instead used an electric resistance heater and approximates the equivalent electrical input that would be required from a heat pump. This expedites simulation at the expense of accuracy. 
+The flexibility of the system is based on user-defined temperatures and times, which are converted into schedule objects. There are four flexibility options. (1) None: normal operation of the DHW system at a fixed tank temperature setpoint. (2) Charge - Heat Pump: the tank is charged to a maximum temperature using only the heat pump. (3) Charge - Electric: the tank is charged using internal electric resistance heaters to a maximum temperature. (4) Float: all heating elements are turned-off for a user-defined time period unless the tank temperature falls below a minimum value. The heat pump will be prioritized in a low tank temperature event, with the electric resistance heaters serving as back-up. 
+Due to the heat pump interaction with zone conditioning as well as tank heating, users may experience simulation errors if the heat pump is too large and placed in an already conditioned zoned. Try using multiple smaller units, modifying the heat pump location within the model, or adjusting the zone thermostat constraints. Use mulitiple instances of the measure to add multiple heat pump water heaters. </modeler_description>
+  <arguments>
+    <argument>
+      <name>remove_wh</name>
+      <display_name>Remove existing water heater?</display_name>
+      <description></description>
+      <type>Boolean</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>true</default_value>
+      <choices>
+        <choice>
+          <value>true</value>
+          <display_name>true</display_name>
+        </choice>
+        <choice>
+          <value>false</value>
+          <display_name>false</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>wh</name>
+      <display_name>Select 40+ gallon water heater to replace or augment</display_name>
+      <description>All can only be used with the 'Simplified' model</description>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>All Water Heaters (Simplified Only)</default_value>
+      <choices>
+        <choice>
+          <value>All Water Heaters (Simplified Only)</value>
+          <display_name>All Water Heaters (Simplified Only)</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>vol</name>
+      <display_name>Set hot water tank volume [gal]</display_name>
+      <description>Enter 0 to use existing tank volume(s). Values less than 5 are treated as sizing multipliers.</description>
+      <type>Double</type>
+      <units>gal</units>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0</default_value>
+    </argument>
+    <argument>
+      <name>type</name>
+      <display_name>Select heat pump water heater type</display_name>
+      <description></description>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>Simplified</default_value>
+      <choices>
+        <choice>
+          <value>Simplified</value>
+          <display_name>Simplified</display_name>
+        </choice>
+        <choice>
+          <value>PumpedCondenser</value>
+          <display_name>PumpedCondenser</display_name>
+        </choice>
+        <choice>
+          <value>WrappedCondenser</value>
+          <display_name>WrappedCondenser</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>zone_name</name>
+      <display_name>Select thermal zone for HP evaporator</display_name>
+      <description>Does not apply to 'Simplified' cases</description>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>N/A - Simplified</default_value>
+      <choices>
+        <choice>
+          <value>N/A - Simplified</value>
+          <display_name>N/A - Simplified</display_name>
+        </choice>
+        <choice>
+          <value>Error: No Thermal Zones Found</value>
+          <display_name>Error: No Thermal Zones Found</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>cap</name>
+      <display_name>Set heat pump heating capacity</display_name>
+      <description>[kW]</description>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>23.4</default_value>
+    </argument>
+    <argument>
+      <name>cop</name>
+      <display_name>Set heat pump rated COP (heating)</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>3.2</default_value>
+    </argument>
+    <argument>
+      <name>bu_cap</name>
+      <display_name>Set electric backup heating capacity</display_name>
+      <description>[kW]</description>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>23.4</default_value>
+    </argument>
+    <argument>
+      <name>max_temp</name>
+      <display_name>Set maximum tank temperature</display_name>
+      <description>[F]</description>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>160</default_value>
+    </argument>
+    <argument>
+      <name>min_temp</name>
+      <display_name>Set minimum tank temperature during float</display_name>
+      <description>[F]</description>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>120</default_value>
+    </argument>
+    <argument>
+      <name>db_temp</name>
+      <display_name>Set deadband temperature difference between heat pump and electric backup</display_name>
+      <description>[F]</description>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>5</default_value>
+    </argument>
+    <argument>
+      <name>sched</name>
+      <display_name>Select reference tank setpoint temperature schedule</display_name>
+      <description></description>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>Use Existing Setpoint Schedule</default_value>
+      <choices>
+        <choice>
+          <value>Use Existing Setpoint Schedule</value>
+          <display_name>Use Existing Setpoint Schedule</display_name>
+        </choice>
+        <choice>
+          <value>--Create New @ 140F--</value>
+          <display_name>--Create New @ 140F--</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>flex0</name>
+      <display_name>Daily Flex Period 1:</display_name>
+      <description>Applies every day in the full run period.</description>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>None</default_value>
+      <choices>
+        <choice>
+          <value>None</value>
+          <display_name>None</display_name>
+        </choice>
+        <choice>
+          <value>Charge - Heat Pump</value>
+          <display_name>Charge - Heat Pump</display_name>
+        </choice>
+        <choice>
+          <value>Charge - Electric</value>
+          <display_name>Charge - Electric</display_name>
+        </choice>
+        <choice>
+          <value>Float</value>
+          <display_name>Float</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>flex_hrs0</name>
+      <display_name>Use 24-Hour Format</display_name>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>HH:MM - HH:MM</default_value>
+    </argument>
+    <argument>
+      <name>flex1</name>
+      <display_name>Daily Flex Period 2:</display_name>
+      <description>Applies every day in the full run period.</description>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>None</default_value>
+      <choices>
+        <choice>
+          <value>None</value>
+          <display_name>None</display_name>
+        </choice>
+        <choice>
+          <value>Charge - Heat Pump</value>
+          <display_name>Charge - Heat Pump</display_name>
+        </choice>
+        <choice>
+          <value>Charge - Electric</value>
+          <display_name>Charge - Electric</display_name>
+        </choice>
+        <choice>
+          <value>Float</value>
+          <display_name>Float</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>flex_hrs1</name>
+      <display_name>Use 24-Hour Format</display_name>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>HH:MM - HH:MM</default_value>
+    </argument>
+    <argument>
+      <name>flex2</name>
+      <display_name>Daily Flex Period 3:</display_name>
+      <description>Applies every day in the full run period.</description>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>None</default_value>
+      <choices>
+        <choice>
+          <value>None</value>
+          <display_name>None</display_name>
+        </choice>
+        <choice>
+          <value>Charge - Heat Pump</value>
+          <display_name>Charge - Heat Pump</display_name>
+        </choice>
+        <choice>
+          <value>Charge - Electric</value>
+          <display_name>Charge - Electric</display_name>
+        </choice>
+        <choice>
+          <value>Float</value>
+          <display_name>Float</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>flex_hrs2</name>
+      <display_name>Use 24-Hour Format</display_name>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>HH:MM - HH:MM</default_value>
+    </argument>
+    <argument>
+      <name>flex3</name>
+      <display_name>Daily Flex Period 4:</display_name>
+      <description>Applies every day in the full run period.</description>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>None</default_value>
+      <choices>
+        <choice>
+          <value>None</value>
+          <display_name>None</display_name>
+        </choice>
+        <choice>
+          <value>Charge - Heat Pump</value>
+          <display_name>Charge - Heat Pump</display_name>
+        </choice>
+        <choice>
+          <value>Charge - Electric</value>
+          <display_name>Charge - Electric</display_name>
+        </choice>
+        <choice>
+          <value>Float</value>
+          <display_name>Float</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>flex_hrs3</name>
+      <display_name>Use 24-Hour Format</display_name>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>HH:MM - HH:MM</default_value>
+    </argument>
+  </arguments>
+  <outputs/>
+  <provenances/>
+  <tags>
+    <tag>Service Water Heating.Water Heating</tag>
+  </tags>
+  <attributes>
+    <attribute>
+      <name>Measure Type</name>
+      <value>ModelMeasure</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Apply Measure Now</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>OpenStudio Application</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Parametric Analysis Tool</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Use Case</name>
+      <value>Model Articulation</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Use Case</name>
+      <value>New Construction EE</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Use Case</name>
+      <value>Retrofit EE</value>
+      <datatype>string</datatype>
+    </attribute>
+  </attributes>
+  <files>
+    <file>
+      <filename>README.md.erb</filename>
+      <filetype>erb</filetype>
+      <usage_type>readmeerb</usage_type>
+      <checksum>703C9964</checksum>
+    </file>
+    <file>
+      <filename>LICENSE.md</filename>
+      <filetype>md</filetype>
+      <usage_type>license</usage_type>
+      <checksum>E0468DD6</checksum>
+    </file>
+    <file>
+      <filename>Flexible Domestic Hot Water Implementation Guide.pdf</filename>
+      <filetype>pdf</filetype>
+      <usage_type>doc</usage_type>
+      <checksum>F610A0B3</checksum>
+    </file>
+    <file>
+      <filename>SmallHotel-2A.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>21334FFF</checksum>
+    </file>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>3.0.0</identifier>
+        <min_compatible>2.8.0</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>8D508D19</checksum>
+    </file>
+    <file>
+      <filename>add_hpwh_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>72BCB712</checksum>
+    </file>
+    <file>
+      <filename>CZ06RV2.epw</filename>
+      <filetype>epw</filetype>
+      <usage_type>test</usage_type>
+      <checksum>52282D70</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>C5978CDF</checksum>
+    </file>
+  </files>
+</measure>

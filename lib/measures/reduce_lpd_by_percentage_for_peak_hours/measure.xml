@@ -1,10 +1,9 @@
-<?xml version="1.0"?>
 <measure>
   <schema_version>3.0</schema_version>
   <name>reduce_lpd_by_percentage_for_peak_hours</name>
   <uid>a305ea88-b32c-4e91-bdd0-4ea7d41d7388</uid>
-  <version_id>c476f158-f59b-4ab7-a70b-627c5eeb8bc2</version_id>
-  <version_modified>20210819T052419Z</version_modified>
+  <version_id>db7957d2-3baf-4c04-a3ff-2adf85c7b948</version_id>
+  <version_modified>20210915T221802Z</version_modified>
   <xml_checksum>81C5D8E7</xml_checksum>
   <class_name>ReduceLPDByPercentageForPeakHours</class_name>
   <display_name>Reduce LPD by Percentage for Peak Hours</display_name>
@@ -112,8 +111,8 @@
       <default_value></default_value>
     </argument>
   </arguments>
-  <outputs />
-  <provenances />
+  <outputs/>
+  <provenances/>
   <tags>
     <tag>Electric Lighting.Electric Lighting Controls</tag>
   </tags>
@@ -171,12 +170,6 @@
       <checksum>53D14E69</checksum>
     </file>
     <file>
-      <filename>README.md</filename>
-      <filetype>md</filetype>
-      <usage_type>readme</usage_type>
-      <checksum>66D5DFAC</checksum>
-    </file>
-    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>3.1.0</identifier>
@@ -185,7 +178,13 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>E9F18590</checksum>
+      <checksum>DEFC33B4</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>66D5DFAC</checksum>
     </file>
   </files>
 </measure>

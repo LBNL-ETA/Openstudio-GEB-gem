@@ -1,10 +1,9 @@
-<?xml version="1.0"?>
 <measure>
   <schema_version>3.0</schema_version>
   <name>precooling</name>
   <uid>58a80cd6-4b78-44f1-8b5b-b589b92f94e2</uid>
-  <version_id>df2e4889-10e9-40af-a6d4-25ce1506c07e</version_id>
-  <version_modified>20210819T122037Z</version_modified>
+  <version_id>274f4f33-5a67-4115-b574-8ef80d1eef24</version_id>
+  <version_modified>20210915T221802Z</version_modified>
   <xml_checksum>037F7E44</xml_checksum>
   <class_name>Precooling</class_name>
   <display_name>Precooling</display_name>
@@ -61,7 +60,7 @@
       <type>Boolean</type>
       <required>true</required>
       <model_dependent>false</model_dependent>
-      <default_value>true</default_value>
+      <default_value>false</default_value>
       <choices>
         <choice>
           <value>true</value>
@@ -92,8 +91,8 @@
       </choices>
     </argument>
   </arguments>
-  <outputs />
-  <provenances />
+  <outputs/>
+  <provenances/>
   <tags>
     <tag>HVAC.HVAC Controls</tag>
   </tags>
@@ -157,7 +156,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>A47A6915</checksum>
+      <checksum>0AC5E340</checksum>
     </file>
   </files>
 </measure>

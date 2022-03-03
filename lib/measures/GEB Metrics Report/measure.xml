@@ -1,0 +1,123 @@
+<measure>
+  <schema_version>3.0</schema_version>
+  <name>geb_metrics_report</name>
+  <uid>de3dd145-8762-4f1d-b4b5-a3b90c985c19</uid>
+  <version_id>971a5513-db31-4095-a075-e7378d6db178</version_id>
+  <version_modified>20210824T211750Z</version_modified>
+  <xml_checksum>5EE3671C</xml_checksum>
+  <class_name>GEBMetricsReport</class_name>
+  <display_name>GEB Metrics Report</display_name>
+  <description>This measure calculates GEB-related (mainly DF) metrics and reports them.</description>
+  <modeler_description>GEB metrics compare between baseline and GEB measures. To enable the GEB metrics calculation, please make sure the output variable -Facility Total Electric Demand Power- is added to both baseline and retrofit models.</modeler_description>
+  <arguments>
+    <argument>
+      <name>event_date</name>
+      <display_name>The event date for GEB metrics reporting purpose</display_name>
+      <description>In MM-DD format</description>
+      <type>String</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+    </argument>
+    <argument>
+      <name>baseline_run_output_path</name>
+      <display_name>Output path</display_name>
+      <type>Path</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+    </argument>
+  </arguments>
+  <outputs/>
+  <provenances/>
+  <tags>
+    <tag>Reporting.QAQC</tag>
+  </tags>
+  <attributes>
+    <attribute>
+      <name>Measure Type</name>
+      <value>ReportingMeasure</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>OpenStudio Application</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Parametric Analysis Tool</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Use Case</name>
+      <value>Automatic Report Generation</value>
+      <datatype>string</datatype>
+    </attribute>
+  </attributes>
+  <files>
+    <file>
+      <filename>LICENSE.md</filename>
+      <filetype>md</filetype>
+      <usage_type>license</usage_type>
+      <checksum>CD7F5672</checksum>
+    </file>
+    <file>
+      <filename>README.md.erb</filename>
+      <filetype>erb</filetype>
+      <usage_type>readmeerb</usage_type>
+      <checksum>703C9964</checksum>
+    </file>
+    <file>
+      <filename>.gitkeep</filename>
+      <filetype>gitkeep</filetype>
+      <usage_type>doc</usage_type>
+      <checksum>00000000</checksum>
+    </file>
+    <file>
+      <filename>os_lib_helper_methods.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>0B5DED0D</checksum>
+    </file>
+    <file>
+      <filename>small_office_simple_w_CO2_daylighting.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>106D8627</checksum>
+    </file>
+    <file>
+      <filename>occupant_centric_kpi_report_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>17377BB4</checksum>
+    </file>
+    <file>
+      <filename>report.html.erb</filename>
+      <filetype>erb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>846988AF</checksum>
+    </file>
+    <file>
+      <filename>os_lib_reporting.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>4E947F52</checksum>
+    </file>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>2.9.1</identifier>
+        <min_compatible>2.9.1</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>48057114</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>76505336</checksum>
+    </file>
+  </files>
+</measure>

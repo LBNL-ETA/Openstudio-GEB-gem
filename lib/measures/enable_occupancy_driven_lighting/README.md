@@ -19,12 +19,20 @@ ModelMeasure
 ## Arguments
 
 
-### New space name
-This name will be used as the name of the new space.
-**Name:** space_name,
+### Number of minutes of delay for turning off lights
+
+**Name:** minutes_delay,
+**Type:** Integer,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### Alternative output path for pre-run
+If not specified, write to the ./generated_files directory
+**Name:** run_output_path,
 **Type:** String,
 **Units:** ,
-**Required:** true,
+**Required:** false,
 **Model Dependent:** false
 
 

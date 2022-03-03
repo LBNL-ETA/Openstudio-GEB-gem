@@ -12962,10 +12962,6 @@ OS:Exterior:Lights,
   ,                                       !- Multiplier
   General;                                !- End-Use Subcategory
 
-OS:RunPeriodControl:DaylightSavingTime,
-  {ae641cb3-d10d-472f-b4a9-a08743bc35e1}, !- Handle
-  2nd Sunday in March,                    !- Start Date
-  1st Sunday in November;                 !- End Date
 
 OS:Site:GroundTemperature:FCfactorMethod,
   {1b16657e-c5d2-4c64-9471-daf866235858}, !- Handle

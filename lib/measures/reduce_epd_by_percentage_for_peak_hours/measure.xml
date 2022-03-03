@@ -1,13 +1,12 @@
-<?xml version="1.0"?>
 <measure>
   <schema_version>3.0</schema_version>
-  <name>reduce_epd_by_percentage_for_peak_hours_copy</name>
+  <name>reduce_epd_by_percentage_for_peak_hours</name>
   <uid>d8b88a6d-a5ec-4187-844f-0ac050979aab</uid>
-  <version_id>6e9dc169-d006-42c5-a3ac-d0cd9166920c</version_id>
-  <version_modified>20210819T065725Z</version_modified>
+  <version_id>9fb17ece-5c39-43fd-ad78-afa49f651171</version_id>
+  <version_modified>20210915T221935Z</version_modified>
   <xml_checksum>8FF5BF06</xml_checksum>
-  <class_name>ReduceEPDByPercentageForPeakHoursCopy</class_name>
-  <display_name>Reduce EPD by Percentage for Peak Hours Copy</display_name>
+  <class_name>ReduceEPDByPercentageForPeakHours</class_name>
+  <display_name>Reduce EPD by Percentage for Peak Hours</display_name>
   <description>This measure reduces electric equipment loads by a user-specified percentage for a user-specified time period (usually the peak hours). The reduction can be applied to at most three periods throughout out the year specified by the user. This is applied throughout the entire building.</description>
   <modeler_description>The original schedules for equipment in the building will be found and copied. The copies will be modified to have the percentage reduction during the specified hours, and be applied to the specified date periods through out the year. The rest of the year will keep using the original schedules.</modeler_description>
   <arguments>
@@ -112,8 +111,8 @@
       <default_value></default_value>
     </argument>
   </arguments>
-  <outputs />
-  <provenances />
+  <outputs/>
+  <provenances/>
   <tags>
     <tag>Equipment.Electric Equipment</tag>
   </tags>
@@ -183,13 +182,13 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>0FC6FC3C</checksum>
+      <checksum>9AD49EEE</checksum>
     </file>
     <file>
       <filename>README.md</filename>
       <filetype>md</filetype>
       <usage_type>readme</usage_type>
-      <checksum>B1050B82</checksum>
+      <checksum>4E787ECA</checksum>
     </file>
   </files>
 </measure>

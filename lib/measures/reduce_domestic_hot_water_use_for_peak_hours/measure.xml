@@ -1,0 +1,155 @@
+<measure>
+  <schema_version>3.0</schema_version>
+  <name>reduce_domestic_hot_water_use_for_peak_hours</name>
+  <uid>796c7748-278a-4042-a86c-429049e55de5</uid>
+  <version_id>82a88416-28d5-4ba8-bd75-798bb7dea04f</version_id>
+  <version_modified>20220125T212728Z</version_modified>
+  <xml_checksum>14B0AE11</xml_checksum>
+  <class_name>ReduceDomesticHotWaterUseForPeakHours</class_name>
+  <display_name>Reduce domestic hot water use for peak hours</display_name>
+  <description>This measure reduces the domestic hot water usage by a user-specified percentage for a user-specified time period (usually the peak hours). This is applied to the whole building.</description>
+  <modeler_description>This measure will clone the flow rate fraction schedules of all the WaterUseEquipment. Then the schedules are adjusted by the specified percentage during the specified time period. </modeler_description>
+  <arguments>
+    <argument>
+      <name>water_use_reduce_percent</name>
+      <display_name>Percentage Reduction of Domestic Hot Water Use (%)</display_name>
+      <description>Enter a value between 0 and 100</description>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>50</default_value>
+    </argument>
+    <argument>
+      <name>start_time</name>
+      <display_name>Start Time for the Reduction</display_name>
+      <description>In HH:MM:SS format</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>16:00:00</default_value>
+    </argument>
+    <argument>
+      <name>end_time</name>
+      <display_name>End Time for the Reduction</display_name>
+      <description>In HH:MM:SS format</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>21:00:00</default_value>
+    </argument>
+  </arguments>
+  <outputs/>
+  <provenances/>
+  <tags>
+    <tag>Service Water Heating.Water Use</tag>
+  </tags>
+  <attributes>
+    <attribute>
+      <name>Measure Type</name>
+      <value>ModelMeasure</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Apply Measure Now</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>OpenStudio Application</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Parametric Analysis Tool</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Use Case</name>
+      <value>Model Articulation</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Use Case</name>
+      <value>Calibration</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Use Case</name>
+      <value>New Construction EE</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Use Case</name>
+      <value>Retrofit EE</value>
+      <datatype>string</datatype>
+    </attribute>
+  </attributes>
+  <files>
+    <file>
+      <filename>LICENSE.md</filename>
+      <filetype>md</filetype>
+      <usage_type>license</usage_type>
+      <checksum>CD7F5672</checksum>
+    </file>
+    <file>
+      <filename>README.md.erb</filename>
+      <filetype>erb</filetype>
+      <usage_type>readmeerb</usage_type>
+      <checksum>703C9964</checksum>
+    </file>
+    <file>
+      <filename>.gitkeep</filename>
+      <filetype>gitkeep</filetype>
+      <usage_type>doc</usage_type>
+      <checksum>00000000</checksum>
+    </file>
+    <file>
+      <filename>example_model.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>53D14E69</checksum>
+    </file>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>2.9.1</identifier>
+        <min_compatible>2.9.1</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>75B88B2B</checksum>
+    </file>
+    <file>
+      <filename>reduce_domestic_hot_water_use_for_peak_hours_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>A13DB609</checksum>
+    </file>
+    <file>
+      <filename>CZ06RV2.epw</filename>
+      <filetype>epw</filetype>
+      <usage_type>test</usage_type>
+      <checksum>52282D70</checksum>
+    </file>
+    <file>
+      <filename>SmallHotel-2A-HPWH.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>AC291BEB</checksum>
+    </file>
+    <file>
+      <filename>SmallHotel-2A.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>21334FFF</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>3D2DFDCF</checksum>
+    </file>
+  </files>
+</measure>
