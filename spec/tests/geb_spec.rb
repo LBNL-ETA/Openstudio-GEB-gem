@@ -55,7 +55,7 @@ RSpec.describe OpenStudio::Geb do
 
   it "can apply and run single measure" do
     # provide baseline path
-    baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/SF-CACZ6-HPWH-pre1978.osm")
+    baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/SFD_1story_UB_UA_ASHP2_HPWH.osm")
     all_measures = list_all_geb_measures
     # puts JSON.pretty_generate(all_measures)
     run_output_path = File.join(File.dirname(__FILE__ ), "../output")
@@ -138,12 +138,18 @@ RSpec.describe OpenStudio::Geb do
       #     "flex_stp_3" => '120'
       #   }
       # },
-      "Reduce domestic hot water use for peak hours" => {
-        "measure_dir_name" => all_measures["Reduce domestic hot water use for peak hours"]["measure_dir_name"],
+      # "Reduce domestic hot water use for peak hours" => {
+      #   "measure_dir_name" => all_measures["Reduce domestic hot water use for peak hours"]["measure_dir_name"],
+      #   "arguments" => {
+      #     "water_use_reduce_percent" => 50,
+      #     "start_time" => '16:00:00',
+      #     "end_time" => '21:00:00'
+      #   }
+      # },
+      "Add Electrochromic Window" => {
+        "measure_dir_name" => all_measures["Add Electrochromic Window"]["measure_dir_name"],
         "arguments" => {
-          "water_use_reduce_percent" => 50,
-          "start_time" => '16:00:00',
-          "end_time" => '21:00:00'
+          "ctrl_type" => 'MeetDaylightIlluminanceSetpoint'
         }
       },
       # TODO: test overnight take period
