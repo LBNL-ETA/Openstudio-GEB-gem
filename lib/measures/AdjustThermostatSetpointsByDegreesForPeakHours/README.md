@@ -8,7 +8,7 @@
 This measure adjusts heating and cooling setpoints by a user-specified number of degrees and a user-specified time period. This is applied throughout the entire building.
 
 ## Modeler Description
-This measure will clone all of the schedules that are used as heating and cooling setpoints for thermal zones. The clones are hooked up to the thermostat in place of the original schedules. Then the schedules are adjusted by the specified values during a specified time period. There is a checkbox to determine if the thermostat for design days should be altered.
+This measure will clone all of the schedules that are used as heating and cooling setpoints for thermal zones. The clones are hooked up to the thermostat in place of the original schedules. Then the schedules are adjusted by the specified values during a specified time period. 
 
 ## Measure Type
 ModelMeasure
@@ -123,7 +123,7 @@ ModelMeasure
 **Required:** false,
 **Model Dependent:** false
 
-### Enable Climate-specific Periods Setting?
+### Enable Default Climate-specific Periods Setting?
 
 **Name:** auto_date,
 **Type:** Boolean,
@@ -131,13 +131,7 @@ ModelMeasure
 **Required:** false,
 **Model Dependent:** false
 
-### Alternate Peak and Take Periods
 
-**Name:** alt_periods,
-**Type:** Boolean,
-**Units:** ,
-**Required:** false,
-**Model Dependent:** false
 
 
 

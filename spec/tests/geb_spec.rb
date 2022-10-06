@@ -80,16 +80,16 @@ RSpec.describe OpenStudio::Geb do
       #     "auto_date" => false
       #   }
       # },
-      # "Reduce LPD by Percentage for Peak Hours" => {
-      #   "measure_dir_name" => all_measures["Reduce LPD by Percentage for Peak Hours"]["measure_dir_name"],
-      #   "arguments" => {
-      #     "lpd_reduce_percent" => 25,
-      #     "start_time" => "14:00:00",
-      #     "end_time" => "18:00:00",
-      #     "start_date1" => '06-01',
-      #     "end_date1" => '09-30'
-      #   }
-      # },
+      "Reduce LPD by Percentage for Peak Hours" => {
+        "measure_dir_name" => all_measures["Reduce LPD by Percentage for Peak Hours"]["measure_dir_name"],
+        "arguments" => {
+          "lpd_reduce_percent" => 25,
+          "start_time" => "14:00:00",
+          "end_time" => "18:00:00",
+          "start_date1" => '06-01',
+          "end_date1" => '09-30'
+        }
+      },
       # "Reduce EPD by Percentage for Peak Hours" => {
       #   "measure_dir_name" => all_measures["Reduce EPD by Percentage for Peak Hours"]["measure_dir_name"],
       #   "arguments" => {
@@ -138,14 +138,14 @@ RSpec.describe OpenStudio::Geb do
       #     "flex_stp_3" => '120'
       #   }
       # },
-      "Reduce domestic hot water use for peak hours" => {
-        "measure_dir_name" => all_measures["Reduce domestic hot water use for peak hours"]["measure_dir_name"],
-        "arguments" => {
-          "water_use_reduce_percent" => 50,
-          "start_time" => '16:00:00',
-          "end_time" => '21:00:00'
-        }
-      },
+      # "Reduce domestic hot water use for peak hours" => {
+      #   "measure_dir_name" => all_measures["Reduce domestic hot water use for peak hours"]["measure_dir_name"],
+      #   "arguments" => {
+      #     "water_use_reduce_percent" => 50,
+      #     "start_time" => '16:00:00',
+      #     "end_time" => '21:00:00'
+      #   }
+      # },
       # TODO: test overnight take period
       # TODO: test no shed period and take period
       # TODO: test shed period only
