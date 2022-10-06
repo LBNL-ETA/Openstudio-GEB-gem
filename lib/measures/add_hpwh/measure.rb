@@ -45,10 +45,10 @@
 # start the measure
 class AddHpwh < OpenStudio::Measure::ModelMeasure
   # require 'openstudio-standards'
+
+  # (03/02/2022 note) Public release of openstudio-standards gem has bug in model_add_heatpump_water_heater and model_add_water_heater
+  # so temporarily require this local customized version. The bug has been fixed in developing branch so should be publicly available soon
   require '/Users/sky/.rvm/gems/ruby-2.7.2/gems/openstudio-standards-0.2.15/lib/openstudio-standards'
-  puts "*"*250
-  puts "in AddHpwh"
-  puts $:
 
   # human readable name
   def name

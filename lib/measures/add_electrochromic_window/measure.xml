@@ -1,0 +1,391 @@
+<measure>
+  <schema_version>3.0</schema_version>
+  <name>add_electrochromic_window</name>
+  <uid>11cac3d1-3688-4bb8-bf2c-f4db89339799</uid>
+  <version_id>0a703d62-e95a-464c-a369-d1a69b0ea3b0</version_id>
+  <version_modified>20220311T224631Z</version_modified>
+  <xml_checksum>3AB77CF4</xml_checksum>
+  <class_name>AddElectrochromicWindow</class_name>
+  <display_name>Add Electrochromic Window</display_name>
+  <description>This measure replaces existing window construction to electrochromic window, and allows a few control strategies such as by glare, solar radiation, schedule, and illuminance. This measure models two states of the electrochromic window, the light and dark states.</description>
+  <modeler_description>This measure implements the electrochromic window as a three-layer construction, which includes a typical 3mm glass layer, an air gap, and an electrochromic layer. The control strategies are implemented via WindowShadingControl object. For the electrochromic window layer performance, the user could either use default values,  which we got from View manufacturer data, or enter their own product performance.</modeler_description>
+  <arguments>
+    <argument>
+      <name>thickness_electro_glass</name>
+      <display_name>Thickness of the electrochromic glass layer in mm</display_name>
+      <type>Double</type>
+      <units>m</units>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.0058</default_value>
+    </argument>
+    <argument>
+      <name>thickness_air_gap</name>
+      <display_name>Thickness of the air gap between electrochromic glass layer and inside clear glass layer in meter</display_name>
+      <type>Double</type>
+      <units>m</units>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.0125</default_value>
+    </argument>
+    <argument>
+      <name>thickness_clear_glass</name>
+      <display_name>Thickness of the inside clear glass layer in meter</display_name>
+      <type>Double</type>
+      <units>m</units>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.003</default_value>
+    </argument>
+    <argument>
+      <name>tc_electro_glass</name>
+      <display_name>Thermal conductivity of the electrochromic glass layer in W/m.K</display_name>
+      <type>Double</type>
+      <units>W/m.K</units>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.9</default_value>
+    </argument>
+    <argument>
+      <name>solar_trans_light</name>
+      <display_name>Electrochromic glass solar transmittance - light state</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.444</default_value>
+    </argument>
+    <argument>
+      <name>solar_ref_f_light</name>
+      <display_name>Electrochromic glass solar reflectance - front side - light state</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.134</default_value>
+    </argument>
+    <argument>
+      <name>solar_ref_b_light</name>
+      <display_name>Electrochromic glass solar reflectance - back side - light state</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.196</default_value>
+    </argument>
+    <argument>
+      <name>vis_trans_light</name>
+      <display_name>Electrochromic glass visible transmittance - light state</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.696</default_value>
+    </argument>
+    <argument>
+      <name>vis_ref_f_light</name>
+      <display_name>Electrochromic glass visible reflectance - front side - light state</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.119</default_value>
+    </argument>
+    <argument>
+      <name>vis_ref_b_light</name>
+      <display_name>Electrochromic glass visible reflectance - back side - light state</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.133</default_value>
+    </argument>
+    <argument>
+      <name>ir_trans_light</name>
+      <display_name>Electrochromic glass infrared transmittance - light state</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0</default_value>
+    </argument>
+    <argument>
+      <name>ir_emis_f_light</name>
+      <display_name>Electrochromic glass infrared emissivity - front side - light state</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.84</default_value>
+    </argument>
+    <argument>
+      <name>ir_emis_b_light</name>
+      <display_name>Electrochromic glass infrared emissivity - back side - light state</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.159</default_value>
+    </argument>
+    <argument>
+      <name>solar_trans_dark</name>
+      <display_name>Electrochromic glass solar transmittance - dark state</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.006</default_value>
+    </argument>
+    <argument>
+      <name>solar_ref_f_dark</name>
+      <display_name>Electrochromic glass solar reflectance - front side - dark state</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.121</default_value>
+    </argument>
+    <argument>
+      <name>solar_ref_b_dark</name>
+      <display_name>Electrochromic glass solar reflectance - back side - dark state</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.194</default_value>
+    </argument>
+    <argument>
+      <name>vis_trans_dark</name>
+      <display_name>Electrochromic glass visible transmittance - dark state</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.012</default_value>
+    </argument>
+    <argument>
+      <name>vis_ref_f_dark</name>
+      <display_name>Electrochromic glass visible reflectance - front side - dark state</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.098</default_value>
+    </argument>
+    <argument>
+      <name>vis_ref_b_dark</name>
+      <display_name>Electrochromic glass visible reflectance - back side - dark state</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.114</default_value>
+    </argument>
+    <argument>
+      <name>ir_trans_dark</name>
+      <display_name>Electrochromic glass infrared transmittance - dark state</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0</default_value>
+    </argument>
+    <argument>
+      <name>ir_emis_f_dark</name>
+      <display_name>Electrochromic glass infrared emissivity - front side - dark state</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.84</default_value>
+    </argument>
+    <argument>
+      <name>ir_emis_b_dark</name>
+      <display_name>Electrochromic glass infrared emissivity - back side - dark state</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.16</default_value>
+    </argument>
+    <argument>
+      <name>gas_type</name>
+      <display_name>Select the type of air gap for the electrochromic window</display_name>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>Air</default_value>
+      <choices>
+        <choice>
+          <value>Air</value>
+          <display_name>Air</display_name>
+        </choice>
+        <choice>
+          <value>Argon</value>
+          <display_name>Argon</display_name>
+        </choice>
+        <choice>
+          <value>Krypton</value>
+          <display_name>Krypton</display_name>
+        </choice>
+        <choice>
+          <value>Xenon</value>
+          <display_name>Xenon</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>ctrl_type</name>
+      <display_name>Select control strategy for electrochromic window</display_name>
+      <description>Setpoint of glare, radiation, or illuminance should also be set based on selected control strategy</description>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>OnIfHighGlare</default_value>
+      <choices>
+        <choice>
+          <value>OnIfHighGlare</value>
+          <display_name>OnIfHighGlare</display_name>
+        </choice>
+        <choice>
+          <value>OnIfHighSolarOnWindow</value>
+          <display_name>OnIfHighSolarOnWindow</display_name>
+        </choice>
+        <choice>
+          <value>MeetDaylightIlluminanceSetpoint</value>
+          <display_name>MeetDaylightIlluminanceSetpoint</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>glare_stp</name>
+      <display_name>Maximum allowable discomfort glare index</display_name>
+      <description>Electrochromic window will turn to dark state when glare index is above this value.</description>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>22</default_value>
+    </argument>
+    <argument>
+      <name>solar_rad_stp</name>
+      <display_name>Total (beam plus diffuse) solar radiation setpoint</display_name>
+      <description>Electrochromic window will turn to dark state when total solar radiation is above this value.</description>
+      <type>Double</type>
+      <units>W/m2</units>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>800</default_value>
+    </argument>
+    <argument>
+      <name>illum_stp</name>
+      <display_name>Illuminance setpoint</display_name>
+      <description>The transmittance of the electrochromic window will be adjusted to just meet the daylight illuminance setpoint.</description>
+      <type>Double</type>
+      <units>lux</units>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>300</default_value>
+    </argument>
+  </arguments>
+  <outputs/>
+  <provenances/>
+  <tags>
+    <tag>Envelope.Fenestration</tag>
+  </tags>
+  <attributes>
+    <attribute>
+      <name>Measure Type</name>
+      <value>ModelMeasure</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Apply Measure Now</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>OpenStudio Application</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Parametric Analysis Tool</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Use Case</name>
+      <value>Model Articulation</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Use Case</name>
+      <value>Calibration</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Use Case</name>
+      <value>Sensitivity Analysis</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Use Case</name>
+      <value>New Construction EE</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Use Case</name>
+      <value>Retrofit EE</value>
+      <datatype>string</datatype>
+    </attribute>
+  </attributes>
+  <files>
+    <file>
+      <filename>LICENSE.md</filename>
+      <filetype>md</filetype>
+      <usage_type>license</usage_type>
+      <checksum>CD7F5672</checksum>
+    </file>
+    <file>
+      <filename>README.md.erb</filename>
+      <filetype>erb</filetype>
+      <usage_type>readmeerb</usage_type>
+      <checksum>703C9964</checksum>
+    </file>
+    <file>
+      <filename>.gitkeep</filename>
+      <filetype>gitkeep</filetype>
+      <usage_type>doc</usage_type>
+      <checksum>00000000</checksum>
+    </file>
+    <file>
+      <filename>example_model.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>53D14E69</checksum>
+    </file>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>2.9.1</identifier>
+        <min_compatible>2.9.1</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>8FFFC61E</checksum>
+    </file>
+    <file>
+      <filename>add_electrochromic_window_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>63E63C75</checksum>
+    </file>
+    <file>
+      <filename>CZ06RV2.epw</filename>
+      <filetype>epw</filetype>
+      <usage_type>test</usage_type>
+      <checksum>52282D70</checksum>
+    </file>
+    <file>
+      <filename>SFD_1story_UB_UA_ASHP2_HPWH.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>F0332415</checksum>
+    </file>
+    <file>
+      <filename>MediumOffice-90.1-2010-ASHRAE 169-2013-5A.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>A364A953</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>D4BD56A8</checksum>
+    </file>
+  </files>
+</measure>
