@@ -20,8 +20,8 @@ module OpenStudio
         baseline_osw_result_folder = File.join(@run_output_path, "baseline")
         rm_old_folder_and_create_new(baseline_osw_result_folder)
 
-        # add facility demand as output variable to the baseline
-        demand_var = OpenStudio::Model::OutputVariable.new('Facility Total Electricity Demand Rate', @baseline_osm)
+        # add facility net purchased electricity rate as output variable to the baseline
+        demand_var = OpenStudio::Model::OutputVariable.new('Facility Net Purchased Electricity Rate', @baseline_osm)
         demand_var.setReportingFrequency('timestep')
         @baseline_osm.getTimestep.setNumberOfTimestepsPerHour(4)  # change to 15min timestep
         @baseline_dir_str = File.join(baseline_osw_result_folder, "baseline.osm")  # update baseline model

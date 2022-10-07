@@ -152,6 +152,12 @@ RSpec.describe OpenStudio::Geb do
           "ctrl_type" => 'MeetDaylightIlluminanceSetpoint'
         }
       },
+      # "Add Rooftop PV" => {
+      #   "measure_dir_name" => all_measures["Add Rooftop PV"]["measure_dir_name"],
+      #   "arguments" => {
+      #     "fraction_of_surface" => 0.35
+      #   }
+      # },
       # TODO: test overnight take period
       # TODO: test no shed period and take period
       # TODO: test shed period only
@@ -159,9 +165,9 @@ RSpec.describe OpenStudio::Geb do
         "measure_dir_name" => all_measures["GEB Metrics Report"]["measure_dir_name"],
         "arguments" => {
           "event_date" => "07-21",
-          "baseline_run_output_path" => run_output_path,
-          "shed_start" => '16:00:00',
-          "shed_end" => '21:00:00'
+          "baseline_run_output_path" => run_output_path
+          # "shed_start" => '09:00:00',
+          # "shed_end" => '17:00:00'
           # "take_start" => '09:00:00',
           # "take_end" => '12:00:00'
         }

@@ -24,7 +24,7 @@ class GEBMetricsReport < OpenStudio::Measure::ReportingMeasure
 
   # human readable description of modeling approach
   def modeler_description
-    return 'GEB metrics compare between baseline and GEB measures. To enable the GEB metrics calculation, please make sure the output variable -Facility Total Electric Demand Power- is added to both baseline and retrofit models.'
+    return 'GEB metrics compare between baseline and GEB measures. To enable the GEB metrics calculation, please make sure the output variable -Facility Net Purchased Electricity Rate- is added to both baseline and retrofit models.'
   end
 
 

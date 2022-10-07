@@ -467,7 +467,6 @@ class AddElectrochromicWindow < OpenStudio::Measure::ModelMeasure
         zone = space.thermalZone
         if zone.is_initialized
           zone = zone.get
-          puts "zone: #{zone.name.to_s}"
           # set primary daylighting control
           unless zone.primaryDaylightingControl.is_initialized
             if space.daylightingControls.length == 1
@@ -481,7 +480,6 @@ class AddElectrochromicWindow < OpenStudio::Measure::ModelMeasure
             end
 
           end
-          puts "primarydaylightingcontrol: #{zone.primaryDaylightingControl.get.name.to_s}"
         else
           runner.registerWarning("No thermal zone defined for space #{space.name}, can't assign daylighting control.")
         end
