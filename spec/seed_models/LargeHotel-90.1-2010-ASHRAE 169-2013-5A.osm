@@ -19,7 +19,7 @@ OS:ScheduleTypeLimits,
 
 OS:Site,
   {c57bbf3e-5555-4e8f-a064-f03eb5a0e42f}, !- Handle
-  Buffalo Niagara Intl AP_NY_USA,         !- Name
+  Buffalo Niagara Intl AP,                !- Name
   42.93,                                  !- Latitude {deg}
   -78.73,                                 !- Longitude {deg}
   -5,                                     !- Time Zone {hr}
@@ -4735,7 +4735,11 @@ OS:ClimateZones,
   ASHRAE,                                 !- Climate Zone Institution Name 1
   ANSI/ASHRAE Standard 169,               !- Climate Zone Document Name 1
   2006,                                   !- Climate Zone Document Year 1
-  5A;                                     !- Climate Zone Value 1
+  5A,                                     !- Climate Zone Value 1
+  CEC,                                    !- Climate Zone Institution Name 2
+  California Climate Zone Descriptions,   !- Climate Zone Document Name 2
+  1995,                                   !- Climate Zone Document Year 2
+  ;                                       !- Climate Zone Value 2
 
 OS:DefaultScheduleSet,
   {e6dd3e35-cffd-4b7e-bcf9-f01c1631b399}, !- Handle
@@ -11373,20 +11377,6 @@ OS:ThermostatSetpoint:DualSetpoint,
   LargeHotel Storage Thermostat 1,        !- Name
   {09e5d8c3-a54c-424e-a87c-3a01f26f4b62}, !- Heating Setpoint Temperature Schedule Name
   {e5164705-1185-4288-8a19-cedb2106e4a6}; !- Cooling Setpoint Temperature Schedule Name
-
-OS:WeatherFile,
-  {28c9d5fa-915f-432e-b082-d12152e63bea}, !- Handle
-  Buffalo Niagara Intl AP,                !- City
-  NY,                                     !- State Province Region
-  USA,                                    !- Country
-  TMY3,                                   !- Data Source
-  725280,                                 !- WMO Number
-  42.93,                                  !- Latitude {deg}
-  -78.73,                                 !- Longitude {deg}
-  -5,                                     !- Time Zone {hr}
-  215,                                    !- Elevation {m}
-  C:/Ruby25-x64/lib/ruby/gems/2.5.0/gems/openstudio-standards-0.2.12/data/weather/USA_NY_Buffalo.Niagara.Intl.AP.725280_TMY3.epw, !- Url
-  3A15D82B;                               !- Checksum
 
 OS:Site:WaterMainsTemperature,
   {2b30b1e8-c379-4108-9631-f8a2c7878014}, !- Handle
@@ -25413,4 +25403,184 @@ OS:Daylighting:Control,
   1,                                      !- Probability Lighting will be Reset When Needed in Manual Stepped Control
   ,                                       !- Number of Daylighting Views
   22;                                     !- Maximum Allowable Discomfort Glare Index
+
+OS:LifeCycleCost:Parameters,
+  {43940c6f-f25a-451a-bdb7-ddfe4c6a8422}, !- Handle
+  ,                                       !- Analysis Type
+  ,                                       !- Discounting Convention
+  ,                                       !- Inflation Approach
+  ,                                       !- Real Discount Rate
+  ,                                       !- Nominal Discount Rate
+  ,                                       !- Inflation
+  ,                                       !- Base Date Month
+  ,                                       !- Base Date Year
+  ,                                       !- Service Date Month
+  ,                                       !- Service Date Year
+  ;                                       !- Length of Study Period in Years
+
+OS:StandardsInformation:Material,
+  {899b96dc-0693-46a3-9c7d-c836a7dd8b90}, !- Handle
+  {5a2dab6c-6d8e-48ec-ab26-69c681932611}; !- Material Name
+
+OS:StandardsInformation:Material,
+  {cb4dac40-da57-4735-9d28-1f902a1db31d}, !- Handle
+  {ae4264c3-d6de-4f30-b012-119e4d6a541a}; !- Material Name
+
+OS:StandardsInformation:Material,
+  {cf9d0ced-a7d6-4973-bb1f-99f3e8eac24d}, !- Handle
+  {423eaeb7-1aba-403b-b798-fddc5bc75269}; !- Material Name
+
+OS:StandardsInformation:Material,
+  {350a89de-4ce0-463f-b6d4-2992139b164a}, !- Handle
+  {2ee51916-d60f-4647-b3c6-d078e80b9976}; !- Material Name
+
+OS:StandardsInformation:Construction,
+  {9ff8e001-a8d4-42bf-b79d-3fb28e01d4df}, !- Handle
+  {56c8c200-5111-4ec3-a7bb-22279585fd97}; !- Construction Name
+
+OS:StandardsInformation:Material,
+  {ac9c8278-eac3-42ad-9f5a-112d568f5e7c}, !- Handle
+  {913d3348-e3c2-4974-ba6f-a9f508b6f21b}; !- Material Name
+
+OS:StandardsInformation:Construction,
+  {369bf465-d9bb-426c-8866-28352984a048}, !- Handle
+  {4171bdea-5658-4cbf-bc45-45b0fa614473}; !- Construction Name
+
+OS:StandardsInformation:Material,
+  {0ca65f17-93d7-447a-b950-e70ff61bece8}, !- Handle
+  {dfc0b3ad-594d-4572-8bba-04728c056a90}; !- Material Name
+
+OS:StandardsInformation:Material,
+  {64118f63-3461-46c7-b034-5d8a976b8835}, !- Handle
+  {4cb80299-4433-4e59-b417-fd90a80b2259}; !- Material Name
+
+OS:StandardsInformation:Construction,
+  {3d4ffe5e-45a7-4a93-8685-4975660378fe}, !- Handle
+  {4c75f31c-9ac7-4d75-9590-915d71cd7e8f}; !- Construction Name
+
+OS:StandardsInformation:Construction,
+  {5a58b1dc-0b45-44fc-984c-8b2a401b74fc}, !- Handle
+  {36d268e1-2f5e-4626-8c8f-376489d12cf3}; !- Construction Name
+
+OS:StandardsInformation:Material,
+  {9b53c189-5d7b-4574-ad1a-debd596ad187}, !- Handle
+  {1ab909ce-7433-48f5-8f08-dd55fee2e504}; !- Material Name
+
+OS:StandardsInformation:Material,
+  {f15e73a5-d553-47b4-a649-71e4c8ccc423}, !- Handle
+  {2a56d626-e6a4-4265-a3d0-ad0df93cd2b8}; !- Material Name
+
+OS:StandardsInformation:Material,
+  {cea5fa8b-dfe1-46c4-8954-3194e8ad12d3}, !- Handle
+  {f81141ea-aa68-4f37-b795-a220edc946c3}; !- Material Name
+
+OS:StandardsInformation:Material,
+  {b268447b-ad0d-4c90-8aa7-e392aba129fd}, !- Handle
+  {67705376-9f6b-4ac3-b55f-f6c9e50003fd}; !- Material Name
+
+OS:StandardsInformation:Material,
+  {869d960e-a538-4ef8-b20f-46bfc07e2f04}, !- Handle
+  {3c48a7d9-eeeb-4ec4-934d-797e6ad996f3}; !- Material Name
+
+OS:StandardsInformation:Material,
+  {d6653cf3-377d-4ffb-a088-581a30a63d8d}, !- Handle
+  {03bbb129-5706-44e9-b183-667113df33f3}; !- Material Name
+
+OS:StandardsInformation:Material,
+  {be110d04-02c9-4b01-a1d1-9f1820847b27}, !- Handle
+  {ff34a5fd-b205-49a9-bd90-468ef6bdb1b3}; !- Material Name
+
+OS:StandardsInformation:Material,
+  {2e700847-c38b-4dd5-9f84-c95f80edb820}, !- Handle
+  {5ad79541-06a7-46bb-984c-4adb4d84e7d5}; !- Material Name
+
+OS:StandardsInformation:Material,
+  {bf089ca1-ba75-4a96-af53-df02fca06ee0}, !- Handle
+  {a1af6dfe-1919-41b2-b332-c115d459241d}; !- Material Name
+
+OS:StandardsInformation:Material,
+  {2756d925-35a6-4621-a053-5e5fdac5d454}, !- Handle
+  {404e0f8a-1fcc-4bb2-9fc2-e06f44b9a6e5}; !- Material Name
+
+OS:StandardsInformation:Material,
+  {eccfde0e-5efd-41fe-89a3-204b5aa93fb5}, !- Handle
+  {1328edfe-1b73-4538-9e3c-00073a1c5923}; !- Material Name
+
+OS:StandardsInformation:Material,
+  {2fab68f1-3169-4517-a633-34f6638d5434}, !- Handle
+  {e067061b-3bbd-482c-95f6-89675eb91ea9}; !- Material Name
+
+OS:StandardsInformation:Material,
+  {885c8b74-351c-48fd-8bed-2eb34b4498b5}, !- Handle
+  {d5affc31-df4f-4920-a966-71d29162c421}; !- Material Name
+
+OS:StandardsInformation:Material,
+  {4be9f571-391e-4b26-ac37-0c9a5e7a2e68}, !- Handle
+  {d2cef12e-d676-40b9-86b5-05727196a4da}; !- Material Name
+
+OS:StandardsInformation:Material,
+  {1374bdb2-1bb4-485e-a638-e20a0352209f}, !- Handle
+  {1889ce57-a0e1-42e5-a28d-9a3b4a5b28ef}; !- Material Name
+
+OS:StandardsInformation:Material,
+  {98ba60e4-cccc-4307-81b2-7ab3d19d2c05}, !- Handle
+  {ea76b583-ff81-473f-8b65-ab418c8b6b39}; !- Material Name
+
+OS:StandardsInformation:Material,
+  {4cf257cc-958b-4533-93fd-a0d730181c26}, !- Handle
+  {702e5a80-2fbb-483d-b41f-af5b9a2c538d}; !- Material Name
+
+OS:StandardsInformation:Material,
+  {31eba017-279a-4889-b848-539eb6903552}, !- Handle
+  {8b57e443-a9ad-4f1e-b74e-79d026bfffcd}; !- Material Name
+
+OS:StandardsInformation:Material,
+  {5490c3f0-e236-4446-acb2-0d72647f0830}, !- Handle
+  {5a65e44f-3f9f-4116-a4f9-a3a13dc4aa51}; !- Material Name
+
+OS:StandardsInformation:Material,
+  {7cb323b2-937f-4e3c-9e06-1684d1cadcfd}, !- Handle
+  {3a379919-da75-440c-a52e-ddecb2822ddc}; !- Material Name
+
+OS:StandardsInformation:Material,
+  {ff37de9f-453b-4a6c-8290-55dc170c2600}, !- Handle
+  {e9cf621a-0d77-47a4-85e5-5cbef3f8c2ac}; !- Material Name
+
+OS:StandardsInformation:Material,
+  {538756f0-f6aa-4c70-ba2b-2047da47141f}, !- Handle
+  {52b62bd8-79a6-4cc7-8a73-0438aa466223}; !- Material Name
+
+OS:StandardsInformation:Material,
+  {2a866b98-c172-4777-8223-719428073af7}, !- Handle
+  {12fdb04e-0c64-4be0-8892-210b2c0bb70e}; !- Material Name
+
+OS:StandardsInformation:Material,
+  {fcf5b201-69e6-49b3-b230-fa686d0dbfac}, !- Handle
+  {bf53bf94-eb4a-4919-9a53-903ed40f8037}; !- Material Name
+
+OS:StandardsInformation:Material,
+  {293f789f-5b55-4f1f-b62a-58b92da26806}, !- Handle
+  {17168735-b68f-48f7-b2f3-fcd615c843c9}; !- Material Name
+
+OS:StandardsInformation:Material,
+  {15c6b3d4-e90f-47f7-8152-10e91841a008}, !- Handle
+  {14606eb9-7ddc-4c28-a8e6-63eb0769ee37}; !- Material Name
+
+OS:StandardsInformation:Construction,
+  {754f9dbe-4538-4877-bf44-8456edbb596e}, !- Handle
+  {793812bb-687c-43c0-8782-8dd5757f9ce8}; !- Construction Name
+
+OS:WeatherFile,
+  {14a4ac28-14db-4820-ae6d-a30b8eb4deb8}, !- Handle
+  Buffalo Niagara Intl AP,                !- City
+  NY,                                     !- State Province Region
+  USA,                                    !- Country
+  TMY3,                                   !- Data Source
+  725280,                                 !- WMO Number
+  42.93,                                  !- Latitude {deg}
+  -78.73,                                 !- Longitude {deg}
+  -5,                                     !- Time Zone {hr}
+  215,                                    !- Elevation {m}
+  USA_NY_Buffalo.Niagara.Intl.AP.725280_TMY3.epw, !- Url
+  3A15D82B;                               !- Checksum
 

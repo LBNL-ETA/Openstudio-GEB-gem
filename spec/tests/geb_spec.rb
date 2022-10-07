@@ -58,7 +58,7 @@ RSpec.describe OpenStudio::Geb do
     baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/SFD_1story_UB_UA_ASHP2_HPWH.osm")
     all_measures = list_all_geb_measures
     # puts JSON.pretty_generate(all_measures)
-    run_output_path = File.join(File.dirname(__FILE__ ), "../output")
+    run_output_path = File.join(File.dirname(__FILE__ ), "../output2")
     # provide weather file path
     weather_file_path = File.join(File.dirname(__FILE__ ), "../seed_models/USA_NY_Buffalo.Niagara.Intl.AP.725280_TMY3.epw")
     measure_dict = {
@@ -80,16 +80,16 @@ RSpec.describe OpenStudio::Geb do
       #     "auto_date" => false
       #   }
       # },
-      "Reduce LPD by Percentage for Peak Hours" => {
-        "measure_dir_name" => all_measures["Reduce LPD by Percentage for Peak Hours"]["measure_dir_name"],
-        "arguments" => {
-          "lpd_reduce_percent" => 25,
-          "start_time" => "14:00:00",
-          "end_time" => "18:00:00",
-          "start_date1" => '06-01',
-          "end_date1" => '09-30'
-        }
-      },
+      # "Reduce LPD by Percentage for Peak Hours" => {
+      #   "measure_dir_name" => all_measures["Reduce LPD by Percentage for Peak Hours"]["measure_dir_name"],
+      #   "arguments" => {
+      #     "lpd_reduce_percent" => 25,
+      #     "start_time" => "14:00:00",
+      #     "end_time" => "18:00:00",
+      #     "start_date1" => '06-01',
+      #     "end_date1" => '09-30'
+      #   }
+      # },
       # "Reduce EPD by Percentage for Peak Hours" => {
       #   "measure_dir_name" => all_measures["Reduce EPD by Percentage for Peak Hours"]["measure_dir_name"],
       #   "arguments" => {

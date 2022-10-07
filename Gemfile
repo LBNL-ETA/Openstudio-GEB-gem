@@ -10,11 +10,12 @@ gemspec
 # checkout the latest version (develop) from github.
 allow_local = ENV['FAVOR_LOCAL_GEMS']
 
-if allow_local && File.exists?('../OpenStudio-extension-gem')
+if allow_local && File.exists?('C:/sites/openstudio-extension-gem')
   # gem 'openstudio-extension', github: 'NREL/OpenStudio-extension-gem', branch: 'develop'
-  gem 'openstudio-extension', path: '../OpenStudio-extension-gem'
+  gem 'openstudio-extension', path: 'C:/sites/openstudio-extension-gem'
 else
-  gem 'openstudio-extension', github: 'NREL/OpenStudio-extension-gem', tag: 'v0.4.2'
+  gem 'openstudio-extension', '= 0.4.2'
+  # gem 'openstudio-extension', github: 'NREL/OpenStudio-extension-gem', tag: 'v0.4.2'
 end
 
 gem 'openstudio_measure_tester', '= 0.3.1' # This includes the dependencies for running unit tests, coverage, and rubocop
