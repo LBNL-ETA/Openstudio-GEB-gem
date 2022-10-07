@@ -67,6 +67,13 @@ class EnableOccupancyDrivenLighting < OpenStudio::Measure::ModelMeasure
     prerun_osw_path = File.join(prerun_dir, 'sizing.osm')
     model.save(prerun_osw_path, true)  # true is overwrite
 
+    outputVariable = OpenStudio::Model::OutputVariable.new("People Occupant Count", model)
+    outputVariable.setReportingFrequency("timestep")
+    outputVariable.setKeyValue("*")
+    runner.registerInfo("Adding output variable for #{outputVariable.variableName} reporting at each timestep.")
+
+
+
     if File.exist?(model.weatherFile.get.path.get.to_s)
       epw_path = model.weatherFile.get.path.get
     else
@@ -75,11 +82,13 @@ class EnableOccupancyDrivenLighting < OpenStudio::Measure::ModelMeasure
     osw = {}
     osw["weather_file"] = epw_path
     osw["seed_file"] = prerun_osw_path
-    output_measure_input = {
-        "measure_dir_name": "Add Output Variable",
-        "arguments": {"variable_name": "People Occupant Count", "reporting_frequency": "timestep", "key_value": "*"}
-    }
-    osw["steps"] = [output_measure_input]
+
+
+    # output_measure_input = {
+    #     "measure_dir_name": "Add Output Variable",
+    #     "arguments": {"variable_name": "People Occupant Count", "reporting_frequency": "timestep", "key_value": "*"}
+    # }
+    # osw["steps"] = [output_measure_input]
     osw_path = File.join(prerun_dir, "pre-run.osw")
     File.open(osw_path, 'w') do |f|
       f << JSON.pretty_generate(osw)
