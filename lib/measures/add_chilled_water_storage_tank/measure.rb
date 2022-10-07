@@ -118,7 +118,7 @@ class AddChilledWaterStorageTank < OpenStudio::Measure::ModelMeasure
 
     # Make string argument for ctes seasonal availabilty
     thermal_storage_season = OpenStudio::Measure::OSArgument.makeStringArgument('thermal_storage_season', true)
-    thermal_storage_season.setDisplayName('Enter Seasonal Availabity of Chilled Water Storage:')
+    thermal_storage_season.setDisplayName('Enter Seasonal Availability of Chilled Water Storage:')
     thermal_storage_season.setDescription('Use MM/DD-MM/DD format, e.g., 04/01-10/31, default is full year.')
     thermal_storage_season.setDefaultValue('01/01-12/31')
     args << thermal_storage_season
