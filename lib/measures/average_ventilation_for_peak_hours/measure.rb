@@ -135,9 +135,10 @@ class AverageVentilationForPeakHours < OpenStudio::Measure::ModelMeasure
 
     schedules = {}
     design_spec_outdoor_air_objects.each do |outdoor_air_object|
-      oa_sch = outdoor_air_object.schedule
+      oa_sch = outdoor_air_object.outdoorAirFlowRateFractionSchedule
       if oa_sch.empty?
         runner.registerWarning("#{outdoor_air_object.name} doesn't have a schedule.")
+
       else
         if schedules.key?(oa_sch.get.name.to_s)
           new_oa_sch = schedules[oa_sch.get.name.to_s]
