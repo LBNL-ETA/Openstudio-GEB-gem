@@ -196,7 +196,7 @@ module OsLib_Reporting
   end
 
   def self.get_ts_by_var(runner, sqlFile, var_k_name, freq = 'Zone Timestep', get_datetime = false)
-    # OsLib_Reporting.get_ts_by_var(runner, base_sqlFile, 'Facility Total Electric Demand Power', 'Timestep')
+    # OsLib_Reporting.get_ts_by_var(runner, base_sqlFile, 'Facility Net Purchased Electricity Rate', 'Timestep')
     hash_result = {}
     v_datetimes = []
     ann_env_pd = OsLib_Reporting.ann_env_pd(sqlFile)
@@ -457,10 +457,10 @@ module OsLib_Reporting
     if name_only
       return @geb_metrics_section
     end
-    base_results = OsLib_Reporting.get_ts_by_var_key(runner, base_sqlFile, 'Facility Total Electricity Demand Rate', 'Zone Timestep', true)
+    base_results = OsLib_Reporting.get_ts_by_var_key(runner, base_sqlFile, 'Facility Net Purchased Electricity Rate', 'Zone Timestep', true)
     base_demand_ts_annual = base_results[0].values[0]
     datetimes = base_results[1].map { |date| Time.parse(date.to_s) }
-    geb_results = OsLib_Reporting.get_ts_by_var_key(runner, sqlFile, 'Facility Total Electricity Demand Rate', 'Zone Timestep', false)
+    geb_results = OsLib_Reporting.get_ts_by_var_key(runner, sqlFile, 'Facility Net Purchased Electricity Rate', 'Zone Timestep', false)
     geb_demand_ts_annual = geb_results.values[0]
 
     # initialize the result vars
@@ -589,7 +589,7 @@ module OsLib_Reporting
 
     # plot: event day timestep demand profiles of baseline and GEB measures
     bldg_demand_chart = {}
-    bldg_demand_chart[:title] = 'Whole Building Power Demand (W)'
+    bldg_demand_chart[:title] = 'Whole Building Net Electricity Consumption on selected day (W)'
     bldg_demand_chart[:chart_div] = 'bldg_demand_chart'
     bldg_demand_chart[:xaxis_label] = 'Time'
     bldg_demand_chart[:yaxis_label] = 'W'
@@ -602,8 +602,6 @@ module OsLib_Reporting
         bldg_demand_chart[:take_range] = [take_start.strftime("%H:%M"), take_end.strftime("%H:%M")]
       end
     end
-
-    puts "*****We are here"
 
     bldg_demand_chart[:chart_data] << JSON.generate(
       type: "scatter",
