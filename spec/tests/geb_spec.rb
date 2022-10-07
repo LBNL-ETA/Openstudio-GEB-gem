@@ -55,10 +55,18 @@ RSpec.describe OpenStudio::Geb do
 
   it "can apply and run single measure" do
     # provide baseline path
-    baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/SFD_1story_UB_UA_ASHP2_HPWH.osm")
+    baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/MediumOffice-90.1-2010-ASHRAE 169-2013-5A.osm")
     all_measures = list_all_geb_measures
     # puts JSON.pretty_generate(all_measures)
-    run_output_path = File.join(File.dirname(__FILE__ ), "../output2")
+    run_output_path = File.join(File.dirname(__FILE__ ), "../output")
+    if File.exist? run_output_path
+      FileUtils.rm_rf(run_output_path)
+      sleep(0.1)
+    end
+    unless File.directory?(run_output_path)
+      FileUtils.mkdir_p(run_output_path)
+    end
+
     # provide weather file path
     weather_file_path = File.join(File.dirname(__FILE__ ), "../seed_models/USA_NY_Buffalo.Niagara.Intl.AP.725280_TMY3.epw")
     measure_dict = {
