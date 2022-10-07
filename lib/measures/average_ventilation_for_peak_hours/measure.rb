@@ -4,7 +4,11 @@
 # http://nrel.github.io/OpenStudio-user-documentation/reference/measure_writing_guide/
 
 # start the measure
+require 'openstudio/extension/core/os_lib_helper_methods'
+require 'openstudio/extension/core/os_lib_schedules'
 class AverageVentilationForPeakHours < OpenStudio::Measure::ModelMeasure
+  include OsLib_HelperMethods
+  include OsLib_Schedules
   # human readable name
   def name
     return "Average Ventilation for Peak Hours"
@@ -15,7 +19,7 @@ class AverageVentilationForPeakHours < OpenStudio::Measure::ModelMeasure
   end
   # human readable description of modeling approach
   def modeler_description
-    return "The outdoor air flow rate will be reduced by the percentage specified by the user during the peak hours specified by the user. Then the decreased air flow rate will be added to the hours before the peak time."
+    return "The outdoor air flow rate will be reduced by the percentage specified by the user during the peak hours specified by the user. Then the decreased air flow rate will be added to the hours after the peak time."
   end
   # define the arguments that the user will input
   def arguments(model)
@@ -30,14 +34,14 @@ class AverageVentilationForPeakHours < OpenStudio::Measure::ModelMeasure
     start_time = OpenStudio::Measure::OSArgument.makeStringArgument('start_time', false)
     start_time.setDisplayName('Start Time for the Reduction')
     start_time.setDescription('In HH:MM:SS format')
-    start_time.setDefaultValue('11:00:00')
+    start_time.setDefaultValue('14:00:00')
     args << start_time
 
     # make an argument for the end time of the reduction
     end_time = OpenStudio::Measure::OSArgument.makeStringArgument('end_time', false)
     end_time.setDisplayName('End Time for the Reduction')
     end_time.setDescription('In HH:MM:SS format')
-    end_time.setDefaultValue('13:00:00')
+    end_time.setDefaultValue('16:00:00')
     args << end_time
 
     # make an argument for the start date of the reduction
@@ -84,14 +88,14 @@ class AverageVentilationForPeakHours < OpenStudio::Measure::ModelMeasure
     if /(\d\d):(\d\d):(\d\d)/.match(start_time)
       shift_time1 = OpenStudio::Time.new(start_time)
     else
-      runner.registerError('Start time must be in HH-MM-SS format.')
+      runner.registerError('Start time must be in HH:MM:SS format.')
       return false
     end
 
     if /(\d\d):(\d\d):(\d\d)/.match(end_time)
       shift_time2 = OpenStudio::Time.new(end_time)
     else
-      runner.registerError('End time must be in HH-MM-SS format.')
+      runner.registerError('End time must be in HH:MM:SS format.')
       return false
     end
 
@@ -134,11 +138,42 @@ class AverageVentilationForPeakHours < OpenStudio::Measure::ModelMeasure
     end
 
     schedules = {}
+    vent_factor = 1 - (vent_reduce_percent * 0.01)
     design_spec_outdoor_air_objects.each do |outdoor_air_object|
       oa_sch = outdoor_air_object.outdoorAirFlowRateFractionSchedule
       if oa_sch.empty?
-        runner.registerWarning("#{outdoor_air_object.name} doesn't have a schedule.")
-
+        new_oa_sch_name = "#{outdoor_air_object.name} fraction schedule"
+        runner.registerInfo("#{outdoor_air_object.name} doesn't have a schedule. A new schedule '#{new_oa_sch_name}' will be added.")
+        # The fraction schedule cannot have value > 1
+        outdoor_air_object.setOutdoorAirFlowperPerson(outdoor_air_object.outdoorAirFlowperPerson * (1+vent_reduce_percent*0.01))
+        outdoor_air_object.setOutdoorAirFlowperFloorArea(outdoor_air_object.outdoorAirFlowperFloorArea * (1+vent_reduce_percent*0.01))
+        outdoor_air_object.setOutdoorAirFlowAirChangesperHour(outdoor_air_object.outdoorAirFlowAirChangesperHour * (1+vent_reduce_percent*0.01))
+        outdoor_air_object.setOutdoorAirFlowRate(outdoor_air_object.outdoorAirFlowRate * (1+vent_reduce_percent*0.01))
+        percent_back = 1/(1+vent_reduce_percent*0.01)
+        percent_reduce = percent_back * vent_factor
+        h, m, s  = start_time.split(':')
+        start_hour = h.to_i +  m.to_i/60
+        h, m, s  = end_time.split(':')
+        end_hour = h.to_i +  m.to_i/60
+        time_span = end_hour - start_hour
+        end_hour_2 = end_hour + time_span
+        if end_hour_2 > 24.0
+          end_hour_2 -= 24.0
+        end
+        if end_hour_2 < start_hour
+          adjusted_day_data_pairs = [[end_hour_2, 1], [start_hour, percent_back], [end_hour, percent_reduce], [24, 1]]
+        else
+          adjusted_day_data_pairs = [[start_hour, percent_back], [end_hour, percent_reduce], [end_hour_2, 1], [24, percent_back]]
+        end
+        normal_day_data_pairs = [[24, percent_back]]
+        options = { 'name' => new_oa_sch_name,
+                    'winter_design_day' => normal_day_data_pairs,
+                    'summer_design_day' => normal_day_data_pairs,
+                    'default_day' => ["default day"] + normal_day_data_pairs,
+                    'rules' => [['Adjusted days', "#{start_month1}/#{start_day1}-#{end_month1}/#{end_day1}",
+                                 'Sun/Mon/Tue/Wed/Thu/Fri/Sat'] + adjusted_day_data_pairs] }
+        new_oa_sch = OsLib_Schedules.createComplexSchedule(model, options)
+        outdoor_air_object.setOutdoorAirFlowRateFractionSchedule(new_oa_sch)
       else
         if schedules.key?(oa_sch.get.name.to_s)
           new_oa_sch = schedules[oa_sch.get.name.to_s]
@@ -153,8 +188,7 @@ class AverageVentilationForPeakHours < OpenStudio::Measure::ModelMeasure
       end
     end
     # create a new outdoor air schedule based on the input
-    vent_factor = 1 - (vent_reduce_percent/100)
-    applicable = false
+
     schedules.each do |old_sch_name, oa_schedule|
       if oa_schedule.to_ScheduleRuleset.empty?
         runner.registerWarning("Schedule #{old_sch_name} isn't a ScheduleRuleset object and won't be altered by this measure.")
@@ -181,9 +215,6 @@ class AverageVentilationForPeakHours < OpenStudio::Measure::ModelMeasure
             day_value_vector1 = day_rule_period1.values
             runner.registerInfo("    ------------ time: #{day_time_vector1.map {|os_time| os_time.toString}}")
             runner.registerInfo("    ------------ values: #{day_value_vector1}")
-            unless day_value_vector1.empty?
-              applicable = true
-            end
             day_rule_period1.clearValues
             day_rule_period1 = updateDaySchedule(day_rule_period1, day_time_vector1, day_value_vector1, shift_time1, shift_time2, vent_factor)
             # set the order of the new cloned schedule rule, to make sure the modified rule has a higher priority than the original one
@@ -232,9 +263,6 @@ class AverageVentilationForPeakHours < OpenStudio::Measure::ModelMeasure
     #   end
     # end
 
-    unless applicable
-      runner.registerAsNotApplicable('No OA schedule in the model could be altered.')
-    end
 
     return true
   end
