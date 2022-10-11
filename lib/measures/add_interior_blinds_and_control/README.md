@@ -2,13 +2,13 @@
 
 ###### (Automatically generated documentation)
 
-# add_exterior_blinds_and_control
+# add_interior_blinds_and_control
 
 ## Description
-This measure add shading control with exterior blinds to all exterior windows of the building. 
+This measure add shading control with interior blinds to all exterior windows of the building. 
 
 ## Modeler Description
-The measure will loop through all exterior windows and remove existing shadings if any. Then add a shading control with blinds to each window.
+The measure will create a new shading control object with interior blinds for each space, and apply that shading control object to all exterior windows within that space. A new shading schedule will be created and applied to all shading control objects based on the active time provided in user inputs.
 
 ## Measure Type
 ModelMeasure
@@ -19,12 +19,36 @@ ModelMeasure
 ## Arguments
 
 
-### New space name
-This name will be used as the name of the new space.
-**Name:** space_name,
+### Start Time for Shading
+In HH:MM:SS format
+**Name:** start_time,
 **Type:** String,
 **Units:** ,
-**Required:** true,
+**Required:** false,
+**Model Dependent:** false
+
+### End Time for Shading
+In HH:MM:SS format
+**Name:** end_time,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### Start date for Shading
+In MM-DD format
+**Name:** start_date,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### End date for Shading
+In MM-DD format
+**Name:** end_date,
+**Type:** String,
+**Units:** ,
+**Required:** false,
 **Model Dependent:** false
 
 

@@ -22,7 +22,7 @@ class AddExteriorBlindsAndControl < OpenStudio::Measure::ModelMeasure
 
   # human readable description of modeling approach
   def modeler_description
-    return 'The measure will create a new exterior blinds shading control object and loop through all exterior windows add the shading control with blinds.'
+    return 'The measure will create a new exterior blinds shading control object for each space, and apply that shading control object to all exterior windows within that space. A new shading schedule will be created and applied to all shading control objects based on the active time provided in user inputs.'
   end
 
   # define the arguments that the user will input
@@ -46,14 +46,14 @@ class AddExteriorBlindsAndControl < OpenStudio::Measure::ModelMeasure
     start_date = OpenStudio::Ruleset::OSArgument.makeStringArgument('start_date', false)
     start_date.setDisplayName('Start date for Shading')
     start_date.setDescription('In MM-DD format')
-    start_date.setDefaultValue('06-01')
+    start_date.setDefaultValue('07-01')
     args << start_date
 
     # make an argument for the end date of the reduction
     end_date = OpenStudio::Ruleset::OSArgument.makeStringArgument('end_date', false)
     end_date.setDisplayName('End date for Shading')
     end_date.setDescription('In MM-DD format')
-    end_date.setDefaultValue('09-30')
+    end_date.setDefaultValue('08-30')
     args << end_date
 
     return args
@@ -72,16 +72,12 @@ class AddExteriorBlindsAndControl < OpenStudio::Measure::ModelMeasure
     start_date = runner.getStringArgumentValue('start_date', user_arguments)
     end_date = runner.getStringArgumentValue('end_date', user_arguments)
 
-    if /(\d\d):(\d\d):(\d\d)/.match(start_time)
-      shift_time1 = OpenStudio::Time.new(start_time)
-    else
+    unless /(\d\d):(\d\d):(\d\d)/.match(start_time)
       runner.registerError('Start time must be in HH-MM-SS format.')
       return false
     end
 
-    if /(\d\d):(\d\d):(\d\d)/.match(end_time)
-      shift_time2 = OpenStudio::Time.new(end_time)
-    else
+    unless /(\d\d):(\d\d):(\d\d)/.match(end_time)
       runner.registerError('End time must be in HH-MM-SS format.')
       return false
     end
@@ -113,38 +109,63 @@ class AddExteriorBlindsAndControl < OpenStudio::Measure::ModelMeasure
       return false
     end
 
-    shading_material = OpenStudio::Model::Blind.new(model)
-    # create shading control object
-    shading_control = OpenStudio::Model::ShadingControl.new(shading_material)
-    shading_control.setShadingType("ExteriorBlind")
-    shading_control.setName("Exterior blinds shading control")
-    shading_control.setShadingControlType('OnIfScheduleAllows')
-    # create a new shading schedule
-    normal_day_data_pairs = [[24, 0]]
-    h, m, s  = start_time.split(':')
-    start_hour = h.to_i +  m.to_i/60
-    h, m, s  = end_time.split(':')
-    end_hour = h.to_i +  m.to_i/60
-    adjusted_day_data_pairs = [[start_hour, 0], [end_hour, 1], [24, 0]]
-    options = { 'name' => "Exterior blinds schedule",
-                'winter_design_day' => normal_day_data_pairs,
-                'summer_design_day' => normal_day_data_pairs,
-                'default_day' => ["default day"] + normal_day_data_pairs,
-                'rules' => [['Adjusted days', "#{start_month}/#{start_day}-#{end_month}/#{end_day}",
-                             'Sun/Mon/Tue/Wed/Thu/Fri/Sat'] + adjusted_day_data_pairs] }
-    new_shading_sch = OsLib_Schedules.createComplexSchedule(model, options)
-    shading_control.setSchedule(new_shading_sch)
-    runner.registerInfo("New schedule 'Exterior blinds schedule' has been created for shading control object #{shading_control.name}")
 
-    # apply shading control to all exterior windows
+
+    # create a shading control for each space
+    # All windows using one shading control object will cause duplicated objects (with the same zone name) when translated into idf,
+    # which may crash EP
     windows_applied = 0
-    model.getSubSurfaces.each do |sub_surface|
-      if (sub_surface.outsideBoundaryCondition == 'Outdoors') && (sub_surface.subSurfaceType.include?'Window')
-        sub_surface.setShadingControl(shading_control)
-        windows_applied += 1
+    # All shading control objects share one schedule
+    global_shading_schedule = nil
+    model.getSpaces.each do |space|
+      # One shading control object for each space if it has any exterior windows
+      space_shading_control = nil
+      space.surfaces.each do |surface|
+        surface.subSurfaces.each do |sub_surface|
+          if (sub_surface.outsideBoundaryCondition == 'Outdoors') && (sub_surface.subSurfaceType.include?'Window')
+            # create schedule and shading control object only if an exterior window is found
+            # (avoid any modifications if no exterior window exists in the model)
+            unless global_shading_schedule
+              # create a new shading schedule
+              normal_day_data_pairs = [[24, 0]]
+              h, m, s  = start_time.split(':')
+              start_hour = h.to_i +  m.to_i/60
+              h, m, s  = end_time.split(':')
+              end_hour = h.to_i +  m.to_i/60
+              adjusted_day_data_pairs = [[start_hour, 0], [end_hour, 1], [24, 0]]
+              options = { 'name' => "Exterior blinds schedule",
+                          'winter_design_day' => normal_day_data_pairs,
+                          'summer_design_day' => normal_day_data_pairs,
+                          'default_day' => ["default day"] + normal_day_data_pairs,
+                          'rules' => [['Adjusted days', "#{start_month}/#{start_day}-#{end_month}/#{end_day}",
+                                       'Sun/Mon/Tue/Wed/Thu/Fri/Sat'] + adjusted_day_data_pairs] }
+              global_shading_schedule = OsLib_Schedules.createComplexSchedule(model, options)
+              runner.registerInfo("A new schedule 'Exterior blinds schedule' has been created for new shading control objects.")
+            end
+            unless space_shading_control
+              shading_material = OpenStudio::Model::Blind.new(model)
+              # create shading control object
+              space_shading_control = OpenStudio::Model::ShadingControl.new(shading_material)
+              space_shading_control.setShadingType("ExteriorBlind")
+              space_shading_control.setName("#{space.name} exterior blinds shading control")
+              space_shading_control.setShadingControlType('OnIfScheduleAllows')
+              space_shading_control.setSchedule(global_shading_schedule)
+            end
+
+            sub_surface.setShadingControl(space_shading_control)
+            runner.registerInfo("Exterior blinds shading '#{space_shading_control.name}' has been added to window #{sub_surface.name}.")
+            windows_applied += 1
+          end
+        end
       end
     end
-    runner.registerInfo("#{windows_applied} exterior windows have been applied with exterior blinds shading")
+
+    if windows_applied == 0
+      runner.registerAsNotApplicable("There's no exterior window in the model, so the measure didn't make any change.")
+    else
+      runner.registerFinalCondition("In total #{windows_applied} exterior windows have been applied with exterior blinds shading.")
+    end
+
     return true
   end
 end

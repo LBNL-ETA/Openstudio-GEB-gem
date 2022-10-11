@@ -1,23 +1,63 @@
 <?xml version="1.0"?>
 <measure>
   <schema_version>3.0</schema_version>
-  <name>add_exterior_blinds_and_control</name>
-  <uid>5fe15d72-04ce-43a1-81b1-a64d1ee42eb0</uid>
-  <version_id>e06bf4bc-f03e-4448-ae2f-4c4f77dfdf7f</version_id>
-  <version_modified>20221007T043746Z</version_modified>
+  <name>add_interior_blinds_and_control</name>
+  <uid>6bb8b1ea-b29d-459c-a6fa-603096f09905</uid>
+  <version_id>1d8e8e6c-564a-4d22-a409-c93b765e3e95</version_id>
+  <version_modified>20221011T001531Z</version_modified>
   <xml_checksum>81FBCAB4</xml_checksum>
-  <class_name>AddExteriorBlindsAndControl</class_name>
-  <display_name>add_exterior_blinds_and_control</display_name>
-  <description>This measure add shading control with exterior blinds to all exterior windows of the building. </description>
-  <modeler_description>The measure will loop through all exterior windows and remove existing shadings if any. Then add a shading control with blinds to each window.</modeler_description>
+  <class_name>AddInteriorBlindsAndControl</class_name>
+  <display_name>add_interior_blinds_and_control</display_name>
+  <description>This measure add shading control with interior blinds to all exterior windows of the building. </description>
+  <modeler_description>The measure will create a new shading control object with interior blinds for each space, and apply that shading control object to all exterior windows within that space. A new shading schedule will be created and applied to all shading control objects based on the active time provided in user inputs.</modeler_description>
   <arguments>
     <argument>
-      <name>space_name</name>
-      <display_name>New space name</display_name>
-      <description>This name will be used as the name of the new space.</description>
+      <name>start_time</name>
+      <display_name>Start Time for Shading</display_name>
+      <description>In HH:MM:SS format</description>
       <type>String</type>
-      <required>true</required>
+      <units></units>
+      <required>false</required>
       <model_dependent>false</model_dependent>
+      <default_value>12:00:00</default_value>
+      <min_value></min_value>
+      <max_value></max_value>
+    </argument>
+    <argument>
+      <name>end_time</name>
+      <display_name>End Time for Shading</display_name>
+      <description>In HH:MM:SS format</description>
+      <type>String</type>
+      <units></units>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>15:00:00</default_value>
+      <min_value></min_value>
+      <max_value></max_value>
+    </argument>
+    <argument>
+      <name>start_date</name>
+      <display_name>Start date for Shading</display_name>
+      <description>In MM-DD format</description>
+      <type>String</type>
+      <units></units>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>07-01</default_value>
+      <min_value></min_value>
+      <max_value></max_value>
+    </argument>
+    <argument>
+      <name>end_date</name>
+      <display_name>End date for Shading</display_name>
+      <description>In MM-DD format</description>
+      <type>String</type>
+      <units></units>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>08-30</default_value>
+      <min_value></min_value>
+      <max_value></max_value>
     </argument>
   </arguments>
   <outputs />
@@ -69,17 +109,6 @@
   </attributes>
   <files>
     <file>
-      <version>
-        <software_program>OpenStudio</software_program>
-        <identifier>3.1.0</identifier>
-        <min_compatible>3.1.0</min_compatible>
-      </version>
-      <filename>measure.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>script</usage_type>
-      <checksum>7EFC8EB6</checksum>
-    </file>
-    <file>
       <filename>LICENSE.md</filename>
       <filetype>md</filetype>
       <usage_type>license</usage_type>
@@ -110,10 +139,21 @@
       <checksum>53D14E69</checksum>
     </file>
     <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>3.1.0</identifier>
+        <min_compatible>3.1.0</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>F06A4F22</checksum>
+    </file>
+    <file>
       <filename>README.md</filename>
       <filetype>md</filetype>
       <usage_type>readme</usage_type>
-      <checksum>5CC2C5BA</checksum>
+      <checksum>EB6151C3</checksum>
     </file>
   </files>
 </measure>
