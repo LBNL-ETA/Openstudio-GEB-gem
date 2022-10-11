@@ -74,7 +74,7 @@ RSpec.describe OpenStudio::Geb do
       #   "measure_dir_name" => all_measures["Adjust thermostat setpoint by degrees for peak hours"]["measure_dir_name"],
       #   "arguments" => {
       #     "cooling_adjustment" => 4,
-      #     "cooling_daily_starttime" => '14:00:00',
+      #     "cooling_daily_starttime" => '13:00:00',
       #     "cooling_daily_endtime" => '17:00:00',
       #     "cooling_startdate" => '06-01',
       #     "cooling_enddate" => '09-30',
@@ -124,8 +124,8 @@ RSpec.describe OpenStudio::Geb do
       #     "objective" => "Partial Storage",
       #     "run_output_path" => run_output_path,
       #     "epw_path" => weather_file_path,
-      #     "discharge_start" => '12:00:00',
-      #     "discharge_end" => '18:00:00',
+      #     "discharge_start" => '13:00:00',
+      #     "discharge_end" => '17:00:00',
       #     "charge_start" => '23:00:00',
       #     "charge_end" => '07:00:00'
       #   }
@@ -175,17 +175,8 @@ RSpec.describe OpenStudio::Geb do
       #     "end_date1" => '07-21'
       #   }
       # },
-      # "add_exterior_blinds_and_control" => {
-      #   "measure_dir_name" => all_measures["add_exterior_blinds_and_control"]["measure_dir_name"],
-      #   "arguments" => {
-      #     "start_time" => '13:00:00',
-      #     "end_time" => '17:00:00',
-      #     "start_date" => '07-21',
-      #     "end_date" => '07-21'
-      #   }
-      # },
-      "add_interior_blinds_and_control" => {
-        "measure_dir_name" => all_measures["add_interior_blinds_and_control"]["measure_dir_name"],
+      "add_exterior_blinds_and_control" => {
+        "measure_dir_name" => all_measures["add_exterior_blinds_and_control"]["measure_dir_name"],
         "arguments" => {
           "start_time" => '13:00:00',
           "end_time" => '17:00:00',
@@ -193,6 +184,15 @@ RSpec.describe OpenStudio::Geb do
           "end_date" => '07-21'
         }
       },
+      # "add_interior_blinds_and_control" => {
+      #   "measure_dir_name" => all_measures["add_interior_blinds_and_control"]["measure_dir_name"],
+      #   "arguments" => {
+      #     "start_time" => '13:00:00',
+      #     "end_time" => '17:00:00',
+      #     "start_date" => '07-21',
+      #     "end_date" => '07-21'
+      #   }
+      # },
       # TODO: test overnight take period
       # TODO: test no shed period and take period
       # TODO: test shed period only

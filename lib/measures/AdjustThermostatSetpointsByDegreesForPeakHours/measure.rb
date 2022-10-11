@@ -392,16 +392,17 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
     shift_time_heating_start = OpenStudio::Time.new(heating_daily_starttime)
     shift_time_heating_end = OpenStudio::Time.new(heating_daily_endtime)
 
-    # Check model's daylight saving period, if cooling period is within daylight saving period, shift the cooling start time and end time by one hour later
-    if model.getObjectsByType('OS:RunPeriodControl:DaylightSavingTime'.to_IddObjectType).size >= 1
-      runperiodctrl_daylgtsaving = model.getRunPeriodControlDaylightSavingTime
-      daylight_saving_startdate = runperiodctrl_daylgtsaving.startDate
-      daylight_saving_enddate = runperiodctrl_daylgtsaving.endDate
-      if summerStartDate >= OpenStudio::Date.new(daylight_saving_startdate.monthOfYear, daylight_saving_startdate.dayOfMonth, summerStartDate.year) && summerEndDate <= OpenStudio::Date.new(daylight_saving_enddate.monthOfYear, daylight_saving_enddate.dayOfMonth, summerStartDate.year)
-        shift_time_cooling_start += OpenStudio::Time.new(0,1,0,0)
-        shift_time_cooling_end += OpenStudio::Time.new(0,1,0,0)
-      end
-    end
+    # daylightsaving adjustment added in visualization, so deprecated here
+    # # Check model's daylight saving period, if cooling period is within daylight saving period, shift the cooling start time and end time by one hour later
+    # if model.getObjectsByType('OS:RunPeriodControl:DaylightSavingTime'.to_IddObjectType).size >= 1
+    #   runperiodctrl_daylgtsaving = model.getRunPeriodControlDaylightSavingTime
+    #   daylight_saving_startdate = runperiodctrl_daylgtsaving.startDate
+    #   daylight_saving_enddate = runperiodctrl_daylgtsaving.endDate
+    #   if summerStartDate >= OpenStudio::Date.new(daylight_saving_startdate.monthOfYear, daylight_saving_startdate.dayOfMonth, summerStartDate.year) && summerEndDate <= OpenStudio::Date.new(daylight_saving_enddate.monthOfYear, daylight_saving_enddate.dayOfMonth, summerStartDate.year)
+    #     shift_time_cooling_start += OpenStudio::Time.new(0,1,0,0)
+    #     shift_time_cooling_end += OpenStudio::Time.new(0,1,0,0)
+    #   end
+    # end
 
     # make cooling schedule adjustments and rename. Put in check to skip and warn if schedule not ruleset
     clg_set_schs.each do |sch_name, os_sch| # old name and new object for schedule

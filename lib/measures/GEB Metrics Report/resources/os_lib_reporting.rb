@@ -495,6 +495,20 @@ module OsLib_Reporting
         winter_demand_geb_values << geb_demand_ts_annual[idx]
       end
     end
+
+    # Check model's daylight saving period, if event date is within daylight saving period,
+    # for visualization purpose, shift the profile one hour later
+    eventDate = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(event_month), event_day)
+    if model.getObjectsByType('OS:RunPeriodControl:DaylightSavingTime'.to_IddObjectType).size >= 1
+      runperiodctrl_daylgtsaving = model.getRunPeriodControlDaylightSavingTime
+      daylight_saving_startdate = runperiodctrl_daylgtsaving.startDate
+      daylight_saving_enddate = runperiodctrl_daylgtsaving.endDate
+      if eventDate >= OpenStudio::Date.new(daylight_saving_startdate.monthOfYear, daylight_saving_startdate.dayOfMonth, eventDate.year) && eventDate <= OpenStudio::Date.new(daylight_saving_enddate.monthOfYear, daylight_saving_enddate.dayOfMonth, eventDate.year)
+        event_day_base_values = event_day_base_values.rotate(-4)  # shift the load profile one hour later, 15min output so rotate the last four to the front
+        event_day_geb_values = event_day_geb_values.rotate(-4)
+      end
+    end
+
     puts "event_day_times: #{event_day_times.inspect}"
     puts "event_day_base_values: #{event_day_base_values.inspect}"
     puts "event_day_geb_values: #{event_day_geb_values.inspect}"

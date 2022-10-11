@@ -307,17 +307,18 @@ class ReduceEPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
       os_end_date3 = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(end_month3), end_day3)
     end
 
-    # Check model's daylight saving period, if cooling period is within daylight saving period, shift the cooling start time and end time by one hour later
-    # only check the first period now, assuming majority will only modify for a single period
-    if model.getObjectsByType('OS:RunPeriodControl:DaylightSavingTime'.to_IddObjectType).size >= 1
-      runperiodctrl_daylgtsaving = model.getRunPeriodControlDaylightSavingTime
-      daylight_saving_startdate = runperiodctrl_daylgtsaving.startDate
-      daylight_saving_enddate = runperiodctrl_daylgtsaving.endDate
-      if os_start_date1 >= OpenStudio::Date.new(daylight_saving_startdate.monthOfYear, daylight_saving_startdate.dayOfMonth, os_start_date1.year) && os_end_date1 <= OpenStudio::Date.new(daylight_saving_enddate.monthOfYear, daylight_saving_enddate.dayOfMonth, os_start_date1.year)
-        shift_time1 += OpenStudio::Time.new(0,1,0,0)
-        shift_time2 += OpenStudio::Time.new(0,1,0,0)
-      end
-    end
+    # daylightsaving adjustment added in visualization, so deprecated here
+    # # Check model's daylight saving period, if cooling period is within daylight saving period, shift the cooling start time and end time by one hour later
+    # # only check the first period now, assuming majority will only modify for a single period
+    # if model.getObjectsByType('OS:RunPeriodControl:DaylightSavingTime'.to_IddObjectType).size >= 1
+    #   runperiodctrl_daylgtsaving = model.getRunPeriodControlDaylightSavingTime
+    #   daylight_saving_startdate = runperiodctrl_daylgtsaving.startDate
+    #   daylight_saving_enddate = runperiodctrl_daylgtsaving.endDate
+    #   if os_start_date1 >= OpenStudio::Date.new(daylight_saving_startdate.monthOfYear, daylight_saving_startdate.dayOfMonth, os_start_date1.year) && os_end_date1 <= OpenStudio::Date.new(daylight_saving_enddate.monthOfYear, daylight_saving_enddate.dayOfMonth, os_start_date1.year)
+    #     shift_time1 += OpenStudio::Time.new(0,1,0,0)
+    #     shift_time2 += OpenStudio::Time.new(0,1,0,0)
+    #   end
+    # end
 
     epd_factor = 1 - (epd_reduce_percent/100)
     applicable =  false
