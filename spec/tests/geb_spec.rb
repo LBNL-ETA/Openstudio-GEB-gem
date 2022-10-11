@@ -166,13 +166,31 @@ RSpec.describe OpenStudio::Geb do
       #     "fraction_of_surface" => 0.35
       #   }
       # },
-      "Average Ventilation for Peak Hours" => {
-        "measure_dir_name" => all_measures["Average Ventilation for Peak Hours"]["measure_dir_name"],
+      # "Average Ventilation for Peak Hours" => {
+      #   "measure_dir_name" => all_measures["Average Ventilation for Peak Hours"]["measure_dir_name"],
+      #   "arguments" => {
+      #     "start_time" => '13:00:00',
+      #     "end_time" => '17:00:00',
+      #     "start_date1" => '07-21',
+      #     "end_date1" => '07-21'
+      #   }
+      # },
+      # "add_exterior_blinds_and_control" => {
+      #   "measure_dir_name" => all_measures["add_exterior_blinds_and_control"]["measure_dir_name"],
+      #   "arguments" => {
+      #     "start_time" => '13:00:00',
+      #     "end_time" => '17:00:00',
+      #     "start_date" => '07-21',
+      #     "end_date" => '07-21'
+      #   }
+      # },
+      "add_interior_blinds_and_control" => {
+        "measure_dir_name" => all_measures["add_interior_blinds_and_control"]["measure_dir_name"],
         "arguments" => {
           "start_time" => '13:00:00',
           "end_time" => '17:00:00',
-          "start_date1" => '07-21',
-          "end_date1" => '07-21'
+          "start_date" => '07-21',
+          "end_date" => '07-21'
         }
       },
       # TODO: test overnight take period
@@ -185,8 +203,8 @@ RSpec.describe OpenStudio::Geb do
           "baseline_run_output_path" => run_output_path,
           "shed_start" => '13:00:00',
           "shed_end" => '17:00:00',
-          "take_start" => '09:00:00',
-          "take_end" => '13:00:00'
+          # "take_start" => '17:00:00',
+          # "take_end" => '21:00:00'
         }
       }
     }
