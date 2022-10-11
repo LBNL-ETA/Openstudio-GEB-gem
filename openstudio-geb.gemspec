@@ -6,12 +6,12 @@ require 'openstudio/geb/version'
 Gem::Specification.new do |spec|
   spec.name          = 'openstudio-geb'
   spec.version       = OpenStudio::Geb::VERSION
-  spec.authors       = ['']
-  spec.email         = ['']
+  spec.authors       = ['Kaiyu Sun', 'Wanni Zhang']
+  spec.email         = ['ksun@lbl.gov', 'wannizhang@lbl.gov']
 
-  spec.summary       = 'library and measures for OpenStudio'
-  spec.description   = 'library and measures for OpenStudio'
-  spec.homepage      = 'https://openstudio.net'
+  spec.summary       = 'OpenStudio measures for grid-interactive efficient buildings'
+  spec.description   = 'This is a Ruby gem that implemented a series of OpenStudio measures for grid-interactive efficient buildings as well as a measure for reporting and visualization.'
+  spec.homepage      = 'https://github.com/LBNL-ETA/Openstudio-GEB-gem'
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.

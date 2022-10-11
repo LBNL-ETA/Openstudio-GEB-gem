@@ -31,3 +31,6 @@ lib/measures/*/tests/baseline
 
 # runner conf
 runner.conf
+
+# built gem file
+*.gem
