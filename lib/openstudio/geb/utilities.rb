@@ -1,4 +1,4 @@
-require 'nokogiri'
+require 'oga'
 require 'json'
 
 # load openstudio model
@@ -30,14 +30,16 @@ def list_all_geb_measures
   measure_folders_name.each do |measure_folder|
     # read the measure.xml file, get measure's metadata
     measure_xml = File.join(measures_path,measure_folder,'measure.xml')
-    data = File.open(measure_xml) { |f| Nokogiri::XML(f) }
+    handle = File.open(measure_xml)
+    data = Oga.parse_xml(handle)
+
     # get measure's display name
-    measure_name = data.xpath("//display_name").first.content
+    measure_name = data.xpath("//display_name").first.text
     # get measure's ruby class name
-    class_name = data.xpath("//class_name").first.content
+    class_name = data.xpath("//class_name").first.text
     # get parameter name list
     para_names = []
-    data.xpath("measure//arguments//argument//name").each{|ele| para_names << ele.content}
+    data.xpath("measure//arguments//argument//name").each{|ele| para_names << ele.text}
     measure_list[measure_name] = {}
     measure_list[measure_name]['measure_dir_name'] = File.join(measures_path, measure_folder)
     measure_list[measure_name]['class_name'] = class_name
