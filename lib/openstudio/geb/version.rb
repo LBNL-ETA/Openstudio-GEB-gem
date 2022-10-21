@@ -35,6 +35,6 @@
 
 module OpenStudio
   module Geb
-    VERSION = '0.0.1rc'.freeze
+    VERSION = '0.0.3'.freeze
   end
 end
