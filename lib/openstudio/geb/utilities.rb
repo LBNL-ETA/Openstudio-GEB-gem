@@ -1,4 +1,4 @@
-require 'oga'
+# require 'oga'
 require 'json'
 
 # load openstudio model
@@ -25,7 +25,32 @@ def list_all_geb_measures
   measure_list = {}
 
   # get the absolute path of measures folder
-  measures_path = File.expand_path("../../../measures/", __FILE__ )
+  measures_dir = File.expand_path("../../../measures/", __FILE__ )
+
+  # use partial codes from function list_measures in OS Extension Runner to get the list of measures
+  # this is a temporary solution for the geb gem to be adopted by URBANopt workflow due to gem complexity
+  # (previously use nokogiri/oga as dependency and it didn't work in the integration process)
+  if measures_dir.nil? || measures_dir.empty?
+    puts 'Measures dir is nil or empty'
+    return true
+  end
+
+  # this is to accommodate a single measures dir (like most gems)
+  # or a repo with multiple directories fo measures (like OpenStudio-measures)
+  measures = Dir.glob(File.join(measures_dir, '**/measure.rb'))
+  if measures.empty?
+    # also try nested 2-deep to support openstudio-measures
+    measures = Dir.glob(File.join(measures_dir, '**/**/measure.rb'))
+  end
+  puts "#{measures.length} MEASURES FOUND"
+  puts measures.inspect
+  measures.each do |measure|
+    measure_name = measure.split('/')[-2]
+    measure_list[measure_name] = {}
+    measure_list[measure_name]['measure_dir_name'] = File.dirname(measure)
+  end
+
+=begin
   measure_folders_name = Dir.entries(measures_path).select {|entry| File.directory? File.join(measures_path,entry) and !(entry =='.' || entry == '..') }
   measure_folders_name.each do |measure_folder|
     # read the measure.xml file, get measure's metadata
@@ -46,6 +71,7 @@ def list_all_geb_measures
     measure_list[measure_name]['para_names'] = para_names
     # puts JSON.pretty_generate(measure_list)
   end
+=end
 
   return measure_list
 end

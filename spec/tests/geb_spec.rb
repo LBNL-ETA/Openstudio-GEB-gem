@@ -70,8 +70,8 @@ RSpec.describe OpenStudio::Geb do
     # provide weather file path
     weather_file_path = File.join(File.dirname(__FILE__ ), "../seed_models/USA_NY_Buffalo.Niagara.Intl.AP.725280_TMY3.epw")
     measure_dict = {
-      # "Adjust thermostat setpoint by degrees for peak hours" => {
-      #   "measure_dir_name" => all_measures["Adjust thermostat setpoint by degrees for peak hours"]["measure_dir_name"],
+      # "AdjustThermostatSetpointsByDegreesForPeakHours" => {
+      #   "measure_dir_name" => all_measures["AdjustThermostatSetpointsByDegreesForPeakHours"]["measure_dir_name"],
       #   "arguments" => {
       #     "cooling_adjustment" => 4,
       #     "cooling_daily_starttime" => '13:00:00',
@@ -88,8 +88,8 @@ RSpec.describe OpenStudio::Geb do
       #     "auto_date" => false
       #   }
       # },
-      # "Reduce LPD by Percentage for Peak Hours" => {
-      #   "measure_dir_name" => all_measures["Reduce LPD by Percentage for Peak Hours"]["measure_dir_name"],
+      # "reduce_lpd_by_percentage_for_peak_hours" => {
+      #   "measure_dir_name" => all_measures["reduce_lpd_by_percentage_for_peak_hours"]["measure_dir_name"],
       #   "arguments" => {
       #     "lpd_reduce_percent" => 25,
       #     "start_time" => "14:00:00",
@@ -98,8 +98,8 @@ RSpec.describe OpenStudio::Geb do
       #     "end_date1" => '09-30'
       #   }
       # },
-      # "Reduce EPD by Percentage for Peak Hours" => {
-      #   "measure_dir_name" => all_measures["Reduce EPD by Percentage for Peak Hours"]["measure_dir_name"],
+      # "reduce_epd_by_percentage_for_peak_hours" => {
+      #   "measure_dir_name" => all_measures["reduce_epd_by_percentage_for_peak_hours"]["measure_dir_name"],
       #   "arguments" => {
       #     "epd_reduce_percent" => 30,
       #     "start_time" => "14:00:00",
@@ -108,8 +108,8 @@ RSpec.describe OpenStudio::Geb do
       #     "end_date1" => '09-30'
       #   }
       # },
-      # "Precooling" => {
-      #   "measure_dir_name" => all_measures["Precooling"]["measure_dir_name"],
+      # "precooling" => {
+      #   "measure_dir_name" => all_measures["precooling"]["measure_dir_name"],
       #   "arguments" => {
       #     "cooling_adjustment" => -4,
       #     "starttime_cooling" => '09:00:00',
@@ -118,8 +118,8 @@ RSpec.describe OpenStudio::Geb do
       #     "cooling_enddate" => '09-01'
       #   }
       # },
-      # "Add Chilled Water Storage Tank" => {
-      #   "measure_dir_name" => all_measures["Add Chilled Water Storage Tank"]["measure_dir_name"],
+      # "add_chilled_water_storage_tank" => {
+      #   "measure_dir_name" => all_measures["add_chilled_water_storage_tank"]["measure_dir_name"],
       #   "arguments" => {
       #     "objective" => "Partial Storage",
       #     "run_output_path" => run_output_path,
@@ -130,14 +130,14 @@ RSpec.describe OpenStudio::Geb do
       #     "charge_end" => '07:00:00'
       #   }
       # },
-      # "Add HPWH for Domestic Hot Water" => {
-      #   "measure_dir_name" => all_measures["Add HPWH for Domestic Hot Water"]["measure_dir_name"],
+      # "add_heat_pump_water_heater" => {
+      #   "measure_dir_name" => all_measures["add_heat_pump_water_heater"]["measure_dir_name"],
       #   "arguments" => {
       #     "type" => "PumpedCondenser"
       #   }
       # },
-      # "Adjust DHW setpoint" => {
-      #   "measure_dir_name" => all_measures["Adjust DHW setpoint"]["measure_dir_name"],
+      # "adjust_dhw_setpoint" => {
+      #   "measure_dir_name" => all_measures["adjust_dhw_setpoint"]["measure_dir_name"],
       #   "arguments" => {
       #     "stp_adj_method" => 'By Absolute Temperature',   # 'By Setback Degree'
       #     # "flex_hrs_2" => '00:00-14:00',
@@ -146,28 +146,28 @@ RSpec.describe OpenStudio::Geb do
       #     "flex_stp_3" => '120'
       #   }
       # },
-      # "Reduce domestic hot water use for peak hours" => {
-      #   "measure_dir_name" => all_measures["Reduce domestic hot water use for peak hours"]["measure_dir_name"],
+      # "reduce_domestic_hot_water_use_for_peak_hours" => {
+      #   "measure_dir_name" => all_measures["reduce_domestic_hot_water_use_for_peak_hours"]["measure_dir_name"],
       #   "arguments" => {
       #     "water_use_reduce_percent" => 50,
       #     "start_time" => '16:00:00',
       #     "end_time" => '21:00:00'
       #   }
       # },
-      # "Add Electrochromic Window" => {
-      #   "measure_dir_name" => all_measures["Add Electrochromic Window"]["measure_dir_name"],
-      #   "arguments" => {
-      #     "ctrl_type" => 'MeetDaylightIlluminanceSetpoint'
-      #   }
-      # },
-      # "Add Rooftop PV" => {
-      #   "measure_dir_name" => all_measures["Add Rooftop PV"]["measure_dir_name"],
+      "add_electrochromic_window" => {
+        "measure_dir_name" => all_measures["add_electrochromic_window"]["measure_dir_name"],
+        "arguments" => {
+          "ctrl_type" => 'MeetDaylightIlluminanceSetpoint'
+        }
+      },
+      # "add_rooftop_pv_simple" => {
+      #   "measure_dir_name" => all_measures["add_rooftop_pv_simple"]["measure_dir_name"],
       #   "arguments" => {
       #     "fraction_of_surface" => 0.35
       #   }
       # },
-      # "Average Ventilation for Peak Hours" => {
-      #   "measure_dir_name" => all_measures["Average Ventilation for Peak Hours"]["measure_dir_name"],
+      # "average_ventilation_for_peak_hours" => {
+      #   "measure_dir_name" => all_measures["average_ventilation_for_peak_hours"]["measure_dir_name"],
       #   "arguments" => {
       #     "start_time" => '13:00:00',
       #     "end_time" => '17:00:00',
@@ -175,15 +175,15 @@ RSpec.describe OpenStudio::Geb do
       #     "end_date1" => '07-21'
       #   }
       # },
-      "add_exterior_blinds_and_control" => {
-        "measure_dir_name" => all_measures["add_exterior_blinds_and_control"]["measure_dir_name"],
-        "arguments" => {
-          "start_time" => '13:00:00',
-          "end_time" => '17:00:00',
-          "start_date" => '07-21',
-          "end_date" => '07-21'
-        }
-      },
+      # "add_exterior_blinds_and_control" => {
+      #   "measure_dir_name" => all_measures["add_exterior_blinds_and_control"]["measure_dir_name"],
+      #   "arguments" => {
+      #     "start_time" => '13:00:00',
+      #     "end_time" => '17:00:00',
+      #     "start_date" => '07-21',
+      #     "end_date" => '07-21'
+      #   }
+      # },
       # "add_interior_blinds_and_control" => {
       #   "measure_dir_name" => all_measures["add_interior_blinds_and_control"]["measure_dir_name"],
       #   "arguments" => {
@@ -233,8 +233,8 @@ RSpec.describe OpenStudio::Geb do
     weather_file_path = File.join(File.dirname(__FILE__ ), "../seed_models/USA_NY_Buffalo.Niagara.Intl.AP.725280_TMY3.epw")
 
     measure_dict = {
-      # "Adjust thermostat setpoint by degrees for peak hours" => {
-      #   "measure_dir_name" => all_measures["Adjust thermostat setpoint by degrees for peak hours"]["measure_dir_name"],
+      # "Adjust therAdjustThermostatSetpointsByDegreesForPeakHours" => {
+      #   "measure_dir_name" => all_measures["AdjustThermostatSetpointsByDegreesForPeakHours"]["measure_dir_name"],
       #   "arguments" => {
       #     "cooling_adjustment" => 4,
       #     "cooling_daily_starttime" => '14:00:00',
@@ -251,8 +251,8 @@ RSpec.describe OpenStudio::Geb do
       #     "auto_date" => false
       #   }
       # },
-      # "Reduce LPD by Percentage for Peak Hours" => {
-      #   "measure_dir_name" => all_measures["Reduce LPD by Percentage for Peak Hours"]["measure_dir_name"],
+      # "reduce_lpd_by_percentage_for_peak_hours" => {
+      #   "measure_dir_name" => all_measures["reduce_lpd_by_percentage_for_peak_hours"]["measure_dir_name"],
       #   "arguments" => {
       #     "lpd_reduce_percent" => 25,
       #     "start_time" => "14:00:00",
@@ -261,8 +261,8 @@ RSpec.describe OpenStudio::Geb do
       #     "end_date1" => '09-30'
       #   }
       # },
-      # "Reduce EPD by Percentage for Peak Hours" => {
-      #   "measure_dir_name" => all_measures["Reduce EPD by Percentage for Peak Hours"]["measure_dir_name"],
+      # "reduce_epd_by_percentage_for_peak_hours" => {
+      #   "measure_dir_name" => all_measures["reduce_epd_by_percentage_for_peak_hours"]["measure_dir_name"],
       #   "arguments" => {
       #     "epd_reduce_percent" => 30,
       #     "start_time" => "14:00:00",
@@ -271,8 +271,8 @@ RSpec.describe OpenStudio::Geb do
       #     "end_date1" => '09-30'
       #   }
       # },
-      # "Precooling" => {
-      #   "measure_dir_name" => all_measures["Precooling"]["measure_dir_name"],
+      # "precooling" => {
+      #   "measure_dir_name" => all_measures["precooling"]["measure_dir_name"],
       #   "arguments" => {
       #     "cooling_adjustment" => -4,
       #     "starttime_cooling" => '09:00:00',
@@ -281,8 +281,8 @@ RSpec.describe OpenStudio::Geb do
       #     "cooling_enddate" => '09-01'
       #   }
       # },
-      # "Add Chilled Water Storage Tank" => {
-      #   "measure_dir_name" => all_measures["Add Chilled Water Storage Tank"]["measure_dir_name"],
+      # "add_chilled_water_storage_tank" => {
+      #   "measure_dir_name" => all_measures["add_chilled_water_storage_tank"]["measure_dir_name"],
       #   "arguments" => {
       #     "objective" => "Partial Storage",
       #     "run_output_path" => run_output_path,
@@ -293,14 +293,14 @@ RSpec.describe OpenStudio::Geb do
       #     "charge_end" => '07:00:00'
       #   }
       # },
-      "Add HPWH for Domestic Hot Water" => {
-        "measure_dir_name" => all_measures["Add HPWH for Domestic Hot Water"]["measure_dir_name"],
+      "add_heat_pump_water_heater" => {
+        "measure_dir_name" => all_measures["add_heat_pump_water_heater"]["measure_dir_name"],
         "arguments" => {
           "type" => "PumpedCondenser"
         }
       },
-      "Adjust DHW setpoint" => {
-        "measure_dir_name" => all_measures["Adjust DHW setpoint"]["measure_dir_name"],
+      "adjust_dhw_setpoint" => {
+        "measure_dir_name" => all_measures["adjust_dhw_setpoint"]["measure_dir_name"],
         "arguments" => {
           "stp_adj_method" => 'By Absolute Temperature',   # 'By Setback Degree'
           "flex_hrs_2" => '10:00-14:00',

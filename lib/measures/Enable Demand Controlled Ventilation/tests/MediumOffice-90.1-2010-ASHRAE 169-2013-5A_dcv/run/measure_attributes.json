@@ -1,6 +1,0 @@
-{
-  "Enable Demand Controlled Ventilation": {
-    "dcv_type": "EnableDCV",
-    "applicable": true
-  }
-}
