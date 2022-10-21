@@ -51,14 +51,14 @@ class ReduceEPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
     start_date1 = OpenStudio::Ruleset::OSArgument.makeStringArgument('start_date1', false)
     start_date1.setDisplayName('First start date for the Reduction')
     start_date1.setDescription('In MM-DD format')
-    start_date1.setDefaultValue('03-01')
+    start_date1.setDefaultValue('07-01')
     args << start_date1
 
     # make an argument for the end date of the reduction
     end_date1 = OpenStudio::Ruleset::OSArgument.makeStringArgument('end_date1', false)
     end_date1.setDisplayName('First end date for the Reduction')
     end_date1.setDescription('In MM-DD format')
-    end_date1.setDefaultValue('05-01')
+    end_date1.setDefaultValue('08-31')
     args << end_date1
 
 
@@ -71,21 +71,21 @@ class ReduceEPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
 
     # make an argument for the second end date of the reduction
     end_date2 = OpenStudio::Ruleset::OSArgument.makeStringArgument('end_date2', false)
-    end_date2.setDisplayName('Second end date for the Reduction')
+    end_date2.setDisplayName('Second end date for the Reduction (optional)')
     end_date2.setDescription('Specify a date in MM-DD format if you want a second period of reduction; leave blank if not needed. If either the start or end date is blank, the period is considered not used.')
     end_date2.setDefaultValue('')
     args << end_date2
 
     # make an argument for the third start date of the reduction
     start_date3 = OpenStudio::Ruleset::OSArgument.makeStringArgument('start_date3', false)
-    start_date3.setDisplayName('Second start date for the Reduction (optional)')
+    start_date3.setDisplayName('Third start date for the Reduction (optional)')
     start_date3.setDescription('Specify a date in MM-DD format if you want a third period of reduction; leave blank if not needed.')
     start_date3.setDefaultValue('')
     args << start_date3
 
     # make an argument for the third end date of the reduction
     end_date3 = OpenStudio::Ruleset::OSArgument.makeStringArgument('end_date3', false)
-    end_date3.setDisplayName('Second end date for the Reduction')
+    end_date3.setDisplayName('Third end date for the Reduction')
     end_date3.setDescription('Specify a date in MM-DD format if you want a third period of reduction; leave blank if not needed. If either the start or end date is blank, the period is considered not used.')
     end_date3.setDefaultValue('')
     args << end_date3

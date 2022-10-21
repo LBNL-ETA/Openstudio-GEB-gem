@@ -51,7 +51,7 @@ class AddChilledWaterStorageTank < OpenStudio::Measure::ModelMeasure
     end
 
     # Make choice argument for primary loop selection
-    selected_primary_loop_name = OpenStudio::Measure::OSArgument.makeChoiceArgument('selected_primary_loop_name', loop_choices, true)
+    selected_primary_loop_name = OpenStudio::Measure::OSArgument.makeChoiceArgument('selected_primary_loop_name', loop_choices, false)
     selected_primary_loop_name.setDisplayName('Select Primary Loop:')
     selected_primary_loop_name.setDescription('This is the primary cooling loop on which the chilled water tank will be added.')
     pri_loop_name = nil
@@ -156,12 +156,13 @@ class AddChilledWaterStorageTank < OpenStudio::Measure::ModelMeasure
     args << wknds
 
     # Output path, for sizing run
-    run_output_path = OpenStudio::Measure::OSArgument.makePathArgument('run_output_path', true, "")
+    run_output_path = OpenStudio::Measure::OSArgument.makePathArgument('run_output_path', true, "", false)
     run_output_path.setDisplayName('Output path for tank sizing run (if tank volume is not provided)')
+    run_output_path.setDefaultValue(".")
     args << run_output_path
 
     # epw file path, for sizing run
-    epw_path = OpenStudio::Measure::OSArgument.makePathArgument('epw_path', true, "")
+    epw_path = OpenStudio::Measure::OSArgument.makePathArgument('epw_path', true, "", false)
     epw_path.setDisplayName('epw file path for tank sizing run (if tank volume is not provided)')
     args << epw_path
 
@@ -187,6 +188,34 @@ class AddChilledWaterStorageTank < OpenStudio::Measure::ModelMeasure
     # assign the user inputs to variables
     objective = runner.getStringArgumentValue('objective', user_arguments)
     selected_primary_loop_name = runner.getStringArgumentValue('selected_primary_loop_name', user_arguments)
+    if selected_primary_loop_name
+      # get the primary cooling loop
+      selected_primary_loop = model.getModelObjectByName(selected_primary_loop_name)
+      if selected_primary_loop.is_initialized
+        selected_primary_loop = selected_primary_loop.get.to_PlantLoop.get
+      else
+        # The provided value is not a plant loop in the model
+        runner.registerError("The provided primary loop name doesn't exist in the model.")
+        return false
+      end
+    else
+      loop_choices = []
+      model.getPlantLoops.each do |loop|
+        if loop.sizingPlant.loopType.to_s == 'Cooling'
+          loop_choices << loop.name.to_s
+        end
+      end
+      if loop_choices.empty?
+        # No cooling loop; the measure is not applicable
+        runner.registerAsNotApplicable("No cooling loop in the model. The measure is not applicable.")
+        return true
+      else
+        # There is cooling loop in the model but user didn't specify one,
+        # and the cooling loop name does not include 'chilled water loop'
+        runner.registerError("Please select a primary loop name to run the measure. The available cooling loop(s) in the model is #{loop_choices.join(', ')}")
+        return false
+      end
+    end
     primary_loop_sp = runner.getDoubleArgumentValue('primary_loop_sp', user_arguments)
     secondary_loop_sp = runner.getDoubleArgumentValue('secondary_loop_sp', user_arguments)
     tank_charge_sp = runner.getDoubleArgumentValue('tank_charge_sp', user_arguments)
@@ -198,6 +227,7 @@ class AddChilledWaterStorageTank < OpenStudio::Measure::ModelMeasure
     charge_start = runner.getStringArgumentValue('charge_start', user_arguments)
     charge_end = runner.getStringArgumentValue('charge_end', user_arguments)
     wknds = runner.getBoolArgumentValue('wknds', user_arguments)
+
 
     # check time format
     begin
@@ -293,14 +323,7 @@ class AddChilledWaterStorageTank < OpenStudio::Measure::ModelMeasure
       return false
     end
 
-    # get the primary cooling loop
-    selected_primary_loop = model.getModelObjectByName(selected_primary_loop_name)
-    if selected_primary_loop.is_initialized
-      selected_primary_loop = selected_primary_loop.get.to_PlantLoop.get
-    else
-      runner.registerError("Error: No Primary Cooling Loop Found. ")
-      return false
-    end
+
     # report initial condition of model
     runner.registerInitialCondition("Original primary chilled water loop: #{selected_primary_loop.name}.")
 
@@ -312,17 +335,112 @@ class AddChilledWaterStorageTank < OpenStudio::Measure::ModelMeasure
       primary_delta_t = selected_primary_loop.sizingPlant.loopDesignTemperatureDifference
     end
 
+    # get the condenser water loop
+    cw_loop = nil
+    model.getPlantLoops.each do |loop|
+      if loop.sizingPlant.loopType.to_s.downcase == 'condenser'
+        cw_loop = loop if cw_loop.nil?
+        # confirm if this condenser loop contains demand component of chiller that is in the selected_primary_loop
+        common_comps = cw_loop.demandComponents & selected_primary_loop.supplyComponents
+        chiller_in_both_loops = false
+        common_comps.each do |comp|
+          chiller_in_both_loops = true if comp.to_ChillerElectricEIR.is_initialized || comp.to_ChillerAbsorption.is_initialized || comp.to_ChillerAbsorptionIndirect.is_initialized
+        end
+        cw_loop = nil unless chiller_in_both_loops
+      end
+    end
+    # not necessarily can find a cw_loop as the existing primary chiller might be air cooled.
+
+    def hardsize_cooling_tower_two_speed(tower)
+      # implement the applySizingValues function for CoolingTowerTwoSpeed here since it's not yet implemented in OS standards
+      rated_water_flow_rate = tower.autosizedDesignWaterFlowRate
+      if rated_water_flow_rate.is_initialized
+        tower.setDesignWaterFlowRate(rated_water_flow_rate.get)
+      end
+
+      high_fan_speed_fan_power = tower.autosizedHighFanSpeedFanPower
+      if high_fan_speed_fan_power.is_initialized
+        tower.setHighFanSpeedFanPower(high_fan_speed_fan_power.get)
+      end
+
+      high_fan_speed_air_flow_rate = tower.autosizedHighFanSpeedAirFlowRate
+      if high_fan_speed_air_flow_rate.is_initialized
+        tower.setHighFanSpeedAirFlowRate(high_fan_speed_air_flow_rate.get)
+      end
+
+      high_fan_speed_u_factor_times_area_value = tower.autosizedHighFanSpeedUFactorTimesAreaValue
+      if high_fan_speed_u_factor_times_area_value.is_initialized
+        tower.setHighFanSpeedUFactorTimesAreaValue(high_fan_speed_u_factor_times_area_value.get)
+      end
+
+      low_fan_speed_air_flow_rate = tower.autosizedLowFanSpeedAirFlowRate
+      if low_fan_speed_air_flow_rate.is_initialized
+        tower.setLowFanSpeedAirFlowRate(low_fan_speed_air_flow_rate.get)
+      end
+
+      low_fan_speed_fan_power = tower.autosizedLowFanSpeedFanPower
+      if low_fan_speed_fan_power.is_initialized
+        tower.setLowFanSpeedFanPower(low_fan_speed_fan_power.get)
+      end
+
+      low_fan_speed_u_factor_times_area_value = tower.autosizedLowFanSpeedUFactorTimesAreaValue
+      if low_fan_speed_u_factor_times_area_value.is_initialized
+        tower.setLowFanSpeedUFactorTimesAreaValue(low_fan_speed_u_factor_times_area_value.get)
+      end
+
+      free_convection_regime_air_flow_rate = tower.autosizedFreeConvectionRegimeAirFlowRate
+      if free_convection_regime_air_flow_rate.is_initialized
+        tower.setFreeConvectionRegimeAirFlowRate(free_convection_regime_air_flow_rate.get)
+      end
+
+      free_convection_regime_u_factor_times_area_value = tower.autosizedFreeConvectionRegimeUFactorTimesAreaValue
+      if free_convection_regime_u_factor_times_area_value.is_initialized
+        tower.setFreeConvectionRegimeUFactorTimesAreaValue(free_convection_regime_u_factor_times_area_value.get)
+      end
+    end
+
     # if user provides this input, if not, do autosizing
     if user_arguments['tank_vol'].hasValue
       tank_vol = runner.getDoubleArgumentValue('tank_vol', user_arguments)
-    else
-      unless user_arguments['run_output_path'].hasValue
-        runner.registerError("Need to provide run output path for sizing run of tank volume. ")
-        return false
+      if cw_loop
+        # autosize cooling tower in the condenser loop to avoid invalid hard-sized parameters
+        cw_loop.supplyComponents.each do |comp|
+          if comp.to_CoolingTowerSingleSpeed.is_initialized
+            cooling_tower = comp.to_CoolingTowerSingleSpeed.get
+            cooling_tower.autosizeDesignWaterFlowRate
+            cooling_tower.autosizeFanPoweratDesignAirFlowRate
+            cooling_tower.autosizeDesignAirFlowRate
+            cooling_tower.autosizeUFactorTimesAreaValueatDesignAirFlowRate
+            cooling_tower.autosizeAirFlowRateinFreeConvectionRegime
+            cooling_tower.autosizeUFactorTimesAreaValueatFreeConvectionAirFlowRate
+            runner.registerInfo("CoolingTowerSingleSpeed #{cooling_tower.name} has been set to autosize.")
+          elsif comp.to_CoolingTowerTwoSpeed.is_initialized
+            cooling_tower = comp.to_CoolingTowerTwoSpeed.get
+            cooling_tower.autosizeDesignWaterFlowRate
+            cooling_tower.autosizeHighFanSpeedFanPower
+            cooling_tower.autosizeHighFanSpeedAirFlowRate
+            cooling_tower.autosizeHighFanSpeedUFactorTimesAreaValue
+            cooling_tower.autosizeLowFanSpeedAirFlowRate
+            cooling_tower.autosizeLowFanSpeedFanPower
+            cooling_tower.autosizeLowFanSpeedUFactorTimesAreaValue
+            cooling_tower.autosizeFreeConvectionRegimeAirFlowRate
+            cooling_tower.autosizeFreeConvectionRegimeUFactorTimesAreaValue
+            runner.registerInfo("CoolingTowerTwoSpeed #{cooling_tower.name} has been set to autosize.")
+          elsif comp.to_CoolingTowerVariableSpeed.is_initialized
+            cooling_tower = comp.to_CoolingTowerVariableSpeed.get
+            cooling_tower.autosize
+            runner.registerInfo("CoolingTowerVariableSpeed #{cooling_tower.name} has been set to autosize.")
+          end
+        end
       end
+    else
+      # unless user_arguments['run_output_path'].hasValue
+      #   runner.registerError("Need to provide run output path for sizing run of tank volume. ")
+      #   return false
+      # end
       run_output_path = runner.getPathArgumentValue('run_output_path', user_arguments)
       Dir.mkdir(run_output_path.to_s) unless File.exists?(run_output_path.to_s)
-      sizing_output_path = File.join(run_output_path.to_s, 'sizing_run')
+      sizing_output_path = File.expand_path(File.join(run_output_path.to_s, 'sizing_run'))
       Dir.mkdir(sizing_output_path.to_s) unless File.exists?(sizing_output_path.to_s)
 
       # Change the simulation to only run the sizing days
@@ -351,11 +469,18 @@ class AddChilledWaterStorageTank < OpenStudio::Measure::ModelMeasure
       File.open(osw_path, 'w') do |f|
         f << JSON.pretty_generate(osw)
       end
+      model.resetSqlFile
       run_osw(osw_path)
       sleep(1)
-      sql = model.sqlFile
-      unless sql.is_initialized
-        model.setSqlFile(OpenStudio::SqlFile.new(OpenStudio::Path.new(File.join(sizing_output_path.to_s, "run", "eplusout.sql"))))
+      sql_path = OpenStudio::Path.new(File.join(sizing_output_path.to_s, "run", "eplusout.sql"))
+      if OpenStudio.exists(sql_path)
+        sql = OpenStudio::SqlFile.new(sql_path)
+        unless sql.connectionOpen
+          runner.registerError("The sizing run failed without valid a sql file. Look at the eplusout.err file in #{File.dirname(sql_path.to_s)} to see the cause.")
+          return false
+        end
+        # Attach the sql file from the run to the model
+        model.setSqlFile(sql)
       end
 
       total_cooling_cap = 0  # initial
@@ -366,6 +491,24 @@ class AddChilledWaterStorageTank < OpenStudio::Measure::ModelMeasure
           total_cooling_cap += comp.to_ChillerAbsorption.get.autosizedNominalCapacity.get
         elsif comp.to_ChillerAbsorptionIndirect.is_initialized
           total_cooling_cap += comp.to_ChillerAbsorptionIndirect.get.autosizedNominalCapacity.get
+        end
+      end
+      if cw_loop
+        # hard size cooling tower in the condenser loop
+        cw_loop.supplyComponents.each do |comp|
+          if comp.to_CoolingTowerSingleSpeed.is_initialized
+            cooling_tower = comp.to_CoolingTowerSingleSpeed.get
+            cooling_tower.applySizingValues
+            runner.registerInfo("Autosized parameters from the sizing run have been set to CoolingTowerSingleSpeed #{cooling_tower.name}")
+          elsif comp.to_CoolingTowerTwoSpeed.is_initialized
+            cooling_tower = comp.to_CoolingTowerTwoSpeed.get
+            hardsize_cooling_tower_two_speed(cooling_tower)
+            runner.registerInfo("Autosized parameters from the sizing run have been set to CoolingTowerTwoSpeed #{cooling_tower.name}")
+          elsif comp.to_CoolingTowerVariableSpeed.is_initialized
+            cooling_tower = comp.to_CoolingTowerVariableSpeed.get
+            cooling_tower.applySizingValues
+            runner.registerInfo("Autosized parameters from the sizing run have been set to CoolingTowerVariableSpeed #{cooling_tower.name}")
+          end
         end
       end
 
@@ -380,7 +523,6 @@ class AddChilledWaterStorageTank < OpenStudio::Measure::ModelMeasure
 
     sec_loop = OpenStudio::Model::PlantLoop.new(model)
     sec_loop.setName("Chilled Water Secondary Loop")
-    selected_primary_loop = model.getPlantLoopByName("Chilled Water Loop").get
     selected_primary_loop.setName("Chilled Water Primary Loop")
     sizing_sec_plant = sec_loop.sizingPlant
     sizing_sec_plant.setLoopType('Cooling')
@@ -391,21 +533,7 @@ class AddChilledWaterStorageTank < OpenStudio::Measure::ModelMeasure
     sizing_pri_plant.setDesignLoopExitTemperature(primary_loop_sp)
     sizing_pri_plant.setLoopDesignTemperatureDifference(primary_delta_t)
 
-    # get the condenser water loop
-    cw_loop = nil
-    model.getPlantLoops.each do |loop|
-      if loop.sizingPlant.loopType.to_s.downcase == 'condenser'
-        cw_loop = loop if cw_loop.nil?
-        # confirm if this condenser loop contains demand component of chiller that is in the selected_primary_loop
-        common_comps = cw_loop.demandComponents & selected_primary_loop.supplyComponents
-        chiller_in_both_loops = false
-        common_comps.each do |comp|
-          chiller_in_both_loops = true if comp.to_ChillerElectricEIR.is_initialized || comp.to_ChillerAbsorption.is_initialized || comp.to_ChillerAbsorptionIndirect.is_initialized
-        end
-        cw_loop = nil unless chiller_in_both_loops
-      end
-    end
-    # not necessarily can find a cw_loop as the existing primary chiller might be air cooled.
+
 
     # add chilled water tank to the primary loop as demand and secondary loop as supply
     chw_storage_tank = OpenStudio::Model::ThermalStorageChilledWaterStratified.new(model)
