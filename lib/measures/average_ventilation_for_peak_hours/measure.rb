@@ -19,7 +19,7 @@ class AverageVentilationForPeakHours < OpenStudio::Measure::ModelMeasure
   end
   # human readable description of modeling approach
   def modeler_description
-    return "The outdoor air flow rate will be reduced by the percentage specified by the user during the peak hours specified by the user. Then the decreased air flow rate will be added to the hours after the peak time."
+    return "The outdoor air flow rate will be reduced by the percentage specified by the user during the peak hours specified by the user. Then the decreased air flow rate will be added to the same number of hours before the peak time."
   end
   # define the arguments that the user will input
   def arguments(model)
@@ -34,14 +34,14 @@ class AverageVentilationForPeakHours < OpenStudio::Measure::ModelMeasure
     start_time = OpenStudio::Measure::OSArgument.makeStringArgument('start_time', false)
     start_time.setDisplayName('Start Time for the Reduction')
     start_time.setDescription('In HH:MM:SS format')
-    start_time.setDefaultValue('14:00:00')
+    start_time.setDefaultValue('12:00:00')
     args << start_time
 
     # make an argument for the end time of the reduction
     end_time = OpenStudio::Measure::OSArgument.makeStringArgument('end_time', false)
     end_time.setDisplayName('End Time for the Reduction')
     end_time.setDescription('In HH:MM:SS format')
-    end_time.setDefaultValue('16:00:00')
+    end_time.setDefaultValue('14:00:00')
     args << end_time
 
     # make an argument for the start date of the reduction
@@ -55,7 +55,7 @@ class AverageVentilationForPeakHours < OpenStudio::Measure::ModelMeasure
     end_date1 = OpenStudio::Ruleset::OSArgument.makeStringArgument('end_date1', false)
     end_date1.setDisplayName('End Date for Average Ventilation')
     end_date1.setDescription('In MM-DD format')
-    end_date1.setDefaultValue('08-01')
+    end_date1.setDefaultValue('08-31')
     args << end_date1
 
 
@@ -144,7 +144,8 @@ class AverageVentilationForPeakHours < OpenStudio::Measure::ModelMeasure
       if oa_sch.empty?
         new_oa_sch_name = "#{outdoor_air_object.name} fraction schedule"
         runner.registerInfo("#{outdoor_air_object.name} doesn't have a schedule. A new schedule '#{new_oa_sch_name}' will be added.")
-        # The fraction schedule cannot have value > 1
+        # The fraction schedule cannot have value > 1,
+        # so in order to increase the ventilation rate before peak hours, the original base value need to be increased
         outdoor_air_object.setOutdoorAirFlowperPerson(outdoor_air_object.outdoorAirFlowperPerson * (1+vent_reduce_percent*0.01))
         outdoor_air_object.setOutdoorAirFlowperFloorArea(outdoor_air_object.outdoorAirFlowperFloorArea * (1+vent_reduce_percent*0.01))
         outdoor_air_object.setOutdoorAirFlowAirChangesperHour(outdoor_air_object.outdoorAirFlowAirChangesperHour * (1+vent_reduce_percent*0.01))
@@ -156,15 +157,25 @@ class AverageVentilationForPeakHours < OpenStudio::Measure::ModelMeasure
         h, m, s  = end_time.split(':')
         end_hour = h.to_i +  m.to_i/60
         time_span = end_hour - start_hour
-        end_hour_2 = end_hour + time_span
-        if end_hour_2 > 24.0
-          end_hour_2 -= 24.0
+        increase_start_hour = start_hour - time_span
+        if increase_start_hour < 0
+          increase_start_hour += 24
         end
-        if end_hour_2 < start_hour
-          adjusted_day_data_pairs = [[end_hour_2, 1], [start_hour, percent_back], [end_hour, percent_reduce], [24, 1]]
+        if increase_start_hour < start_hour
+          adjusted_day_data_pairs = [[increase_start_hour, percent_back], [start_hour, 1], [end_hour, percent_reduce], [24, percent_back]]
         else
-          adjusted_day_data_pairs = [[start_hour, percent_back], [end_hour, percent_reduce], [end_hour_2, 1], [24, percent_back]]
+          adjusted_day_data_pairs = [[start_hour, 1], [end_hour, percent_reduce], [increase_start_hour, percent_back], [24, 1]]
         end
+        # end_hour_2 = end_hour + time_span
+        # if end_hour_2 > 24.0
+        #   end_hour_2 -= 24.0
+        # end
+        # if end_hour_2 < start_hour
+        #   adjusted_day_data_pairs = [[end_hour_2, 1], [start_hour, percent_back], [end_hour, percent_reduce], [24, 1]]
+        # else
+        #   adjusted_day_data_pairs = [[start_hour, percent_back], [end_hour, percent_reduce], [end_hour_2, 1], [24, percent_back]]
+        # end
+
         normal_day_data_pairs = [[24, percent_back]]
         options = { 'name' => new_oa_sch_name,
                     'winter_design_day' => normal_day_data_pairs,

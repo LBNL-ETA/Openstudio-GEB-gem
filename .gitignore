@@ -34,3 +34,5 @@ runner.conf
 
 # built gem file
 *.gem
+
+.DS_Store
