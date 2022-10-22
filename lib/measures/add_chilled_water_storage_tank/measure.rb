@@ -49,7 +49,7 @@ class AddChilledWaterStorageTank < OpenStudio::Measure::ModelMeasure
         loop_choices << loop.name.to_s
       end
     end
-
+    loop_choices << ""
     # Make choice argument for primary loop selection
     selected_primary_loop_name = OpenStudio::Measure::OSArgument.makeChoiceArgument('selected_primary_loop_name', loop_choices, false)
     selected_primary_loop_name.setDisplayName('Select Primary Loop:')
@@ -62,6 +62,7 @@ class AddChilledWaterStorageTank < OpenStudio::Measure::ModelMeasure
       selected_primary_loop_name.setDefaultValue(pri_loop_name)
     else
       selected_primary_loop_name.setDescription('Error: No Cooling Loop Found')
+      selected_primary_loop_name.setDefaultValue("")
     end
     args << selected_primary_loop_name
 
@@ -188,7 +189,9 @@ class AddChilledWaterStorageTank < OpenStudio::Measure::ModelMeasure
     # assign the user inputs to variables
     objective = runner.getStringArgumentValue('objective', user_arguments)
     selected_primary_loop_name = runner.getStringArgumentValue('selected_primary_loop_name', user_arguments)
-    if selected_primary_loop_name
+    # if user_arguments['selected_primary_loop_name'].hasValue
+    #   selected_primary_loop_name = runner.getStringArgumentValue('selected_primary_loop_name', user_arguments)
+    if !selected_primary_loop_name.empty?
       # get the primary cooling loop
       selected_primary_loop = model.getModelObjectByName(selected_primary_loop_name)
       if selected_primary_loop.is_initialized

@@ -673,7 +673,7 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
       elsif vec_time[i]>time_begin && vec_time[i]<=time_end && count==1
         sch_day.addValue(vec_time[i], vec_value[i])
       elsif vec_time[i]>time_end && count == 1
-        sch_day.addValue(time_end, target_temp_si)
+        sch_day.addValue(time_end, target_temp_si.value)
         sch_day.addValue(vec_time[i], vec_value[i])
         count = 2
       else
