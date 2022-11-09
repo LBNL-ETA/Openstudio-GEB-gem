@@ -536,8 +536,6 @@ class AddChilledWaterStorageTank < OpenStudio::Measure::ModelMeasure
     sizing_pri_plant.setDesignLoopExitTemperature(primary_loop_sp)
     sizing_pri_plant.setLoopDesignTemperatureDifference(primary_delta_t)
 
-
-
     # add chilled water tank to the primary loop as demand and secondary loop as supply
     chw_storage_tank = OpenStudio::Model::ThermalStorageChilledWaterStratified.new(model)
     tank_temp_sch = OpenStudio::Model::ScheduleRuleset.new(model)
@@ -546,6 +544,16 @@ class AddChilledWaterStorageTank < OpenStudio::Measure::ModelMeasure
     chw_storage_tank.setSetpointTemperatureSchedule(tank_temp_sch)
     sec_loop.addSupplyBranchForComponent(chw_storage_tank)
     selected_primary_loop.addDemandBranchForComponent(chw_storage_tank)
+
+    # create discharging and charging schedule and apply to chilled water tank and primary loop
+    discharge_sch = create_sch(model, 'Chilled water tank discharge schedule', discharge_start, discharge_end, thermal_storage_season, wknds)
+    charge_sch = create_sch(model, 'Chilled water tank charge schedule', charge_start, charge_end, thermal_storage_season, wknds)
+    chw_storage_tank.setUseSideAvailabilitySchedule(discharge_sch)
+    chw_storage_tank.setSourceSideAvailabilitySchedule(charge_sch)
+    avm_sch =  OpenStudio::Model::AvailabilityManagerScheduled.new(model)
+    avm_sch.setSchedule(charge_sch)
+    selected_primary_loop.addAvailabilityManager(avm_sch)
+
     if objective == "Partial Storage"
       sec_chiller = OpenStudio::Model::ChillerElectricEIR.new(model)  # use default curves
       sec_chiller.setName("CoolSysSecondary Chiller")
@@ -558,26 +566,28 @@ class AddChilledWaterStorageTank < OpenStudio::Measure::ModelMeasure
       end
 
       # add plant equipment operation schema if partial storage
-      clg_op_scheme = OpenStudio::Model::PlantEquipmentOperationCoolingLoad.new(model)
-      tank_supply_watt = 2.0 * (4182 * tank_vol * 1000 * secondary_delta_t / (3600 * lasting_hrs))   # double the cooling cap in case thermal storage is not used at larger cooling load.
-      # the sequence of addEquipment and addLoadRange can't be switched
-      clg_op_scheme.addEquipment(sec_chiller)
-      clg_op_scheme.addLoadRange(tank_supply_watt, [chw_storage_tank])
-      sec_loop.setPlantEquipmentOperationCoolingLoad(clg_op_scheme)
+      clg_op_scheme_tank = OpenStudio::Model::PlantEquipmentOperationCoolingLoad.new(model)
+      clg_op_scheme_tank.addEquipment(chw_storage_tank)
+      clg_op_scheme_sec_chiller = OpenStudio::Model::PlantEquipmentOperationCoolingLoad.new(model)
+      clg_op_scheme_sec_chiller.addEquipment(sec_chiller)
+      undischarge_sch = create_sch(model, 'Chilled water tank not discharge schedule', discharge_end, discharge_start, thermal_storage_season, wknds)
+      # in this way, sequence in E+ will be tank first then chiller. In fact the sequence here doesn't matter as each schema is coupled with schedule
+      sec_loop.setPlantEquipmentOperationCoolingLoad(clg_op_scheme_tank)
+      sec_loop.setPlantEquipmentOperationCoolingLoadSchedule(discharge_sch)
+      sec_loop.setPrimaryPlantEquipmentOperationScheme(clg_op_scheme_sec_chiller)
+      sec_loop.setPrimaryPlantEquipmentOperationSchemeSchedule(undischarge_sch)
+
+      # clg_op_scheme = OpenStudio::Model::PlantEquipmentOperationCoolingLoad.new(model)
+      # tank_supply_watt = 2.0 * (4182 * tank_vol * 1000 * secondary_delta_t / (3600 * lasting_hrs))   # double the cooling cap in case thermal storage is not used at larger cooling load.
+      # # the sequence of addEquipment and addLoadRange can't be switched
+      # clg_op_scheme.addEquipment(sec_chiller)
+      # clg_op_scheme.addLoadRange(tank_supply_watt, [chw_storage_tank])
+      # sec_loop.setPlantEquipmentOperationCoolingLoad(clg_op_scheme)
     end
     # add secondary loop bypass pipe
     sec_supply_bypass = OpenStudio::Model::PipeAdiabatic.new(model)
     sec_supply_bypass.setName("Chilled Water Secondary Loop Supply Bypass Pipe")
     sec_loop.addSupplyBranchForComponent(sec_supply_bypass)
-
-    # create discharging and charging schedule and apply to chilled water tank and primary loop
-    discharge_sch = create_sch(model, 'Chilled water tank discharge schedule', discharge_start, discharge_end, thermal_storage_season, wknds)
-    charge_sch = create_sch(model, 'Chilled water tank charge schedule', charge_start, charge_end, thermal_storage_season, wknds)
-    chw_storage_tank.setUseSideAvailabilitySchedule(discharge_sch)
-    chw_storage_tank.setSourceSideAvailabilitySchedule(charge_sch)
-    avm_sch =  OpenStudio::Model::AvailabilityManagerScheduled.new(model)
-    avm_sch.setSchedule(charge_sch)
-    selected_primary_loop.addAvailabilityManager(avm_sch)
 
     # move all primary loop demand components (except inlet and outlet pipes) to the secondary loop
     selected_primary_loop.demandComponents(selected_primary_loop.demandSplitter, selected_primary_loop.demandMixer).each do |demand_comp|
