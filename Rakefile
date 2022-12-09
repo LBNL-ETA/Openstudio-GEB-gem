@@ -10,6 +10,6 @@ RuboCop::RakeTask.new
 require 'openstudio/extension/rake_task'
 require 'openstudio/geb'
 os_extension = OpenStudio::Extension::RakeTask.new
-os_extension.set_extension_class(OpenStudio::Geb::Geb)
+os_extension.set_extension_class(OpenStudio::Geb::Extension)
 
 task default: :spec

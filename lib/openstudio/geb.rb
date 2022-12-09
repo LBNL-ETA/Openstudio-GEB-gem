@@ -33,24 +33,5 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # *******************************************************************************
 
-require 'openstudio/extension'
-require 'openstudio-standards'
-
 require 'openstudio/geb/version'
-require 'openstudio/geb/run'
 require 'openstudio/geb/extension'
-require 'openstudio/geb/logging'
-require 'openstudio/geb/utilities'
-
-module OpenStudio
-  module Geb
-    class Geb < OpenStudio::Extension::Extension
-      # Override parent class
-      def initialize
-        super
-
-        @root_dir = File.absolute_path(File.join(File.dirname(__FILE__), '..', '..'))
-      end
-    end
-  end
-end
