@@ -28,6 +28,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop', '~> 1.15.0'
   # spec.add_development_dependency 'oga', '~>3.4'
 
-  spec.add_dependency 'openstudio-extension', '~> 0.5.1'
-  spec.add_dependency 'openstudio-standards', '~> 0.2.9'
+  spec.add_dependency 'openstudio-extension', '~> 0.6.0'
+  spec.add_dependency 'openstudio-standards', '~> 0.3.0'
 end
