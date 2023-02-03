@@ -1,0 +1,226 @@
+<?xml version="1.0"?>
+<measure>
+  <schema_version>3.0</schema_version>
+  <name>add_ceiling_fan</name>
+  <uid>a025ba5b-fb89-472e-a9e3-9edc14a631b0</uid>
+  <version_id>e6178d22-fadd-4f50-b119-81e6822a8e5a</version_id>
+  <version_modified>20230121T045557Z</version_modified>
+  <xml_checksum>FD8E710D</xml_checksum>
+  <class_name>AddCeilingFan</class_name>
+  <display_name>Add Ceiling Fan</display_name>
+  <description>Install ceiling fans in buildings to increase air circulation. Ceiling fans effectively cool by introducing slow movement to induce evaporative cooling, rather than directly conditioning the air. A diversity factor is added to consider the simultaneous usage among the household.</description>
+  <modeler_description>Ceiling fan is modeled by increasing air velocity in the People objects and adding electric equipment to consider extra fan energy use. Cooling setpoint is increased by certain degrees in the presence of ceiling fans. A schedule is also introduced to simulate ceiling fan operation. A diversity factor (different in commercial and residential buildings) is added to consider the simultaneous usage among the building/household.</modeler_description>
+  <arguments>
+    <argument>
+      <name>bldg_type</name>
+      <display_name>Select building type:</display_name>
+      <description>Building type (residential or commercial)</description>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>commercial</default_value>
+      <choices>
+        <choice>
+          <value>residential</value>
+          <display_name>residential</display_name>
+        </choice>
+        <choice>
+          <value>commercial</value>
+          <display_name>commercial</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>cool_stp_increase_C</name>
+      <display_name>Cooling setpoint increase - C</display_name>
+      <description>Cooling setpoint increase in degree C</description>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>3</default_value>
+    </argument>
+    <argument>
+      <name>motor_type</name>
+      <display_name>Select ceiling fan motor type:</display_name>
+      <description>Ceiling fan motor type</description>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>DC</default_value>
+      <choices>
+        <choice>
+          <value>DC</value>
+          <display_name>DC</display_name>
+        </choice>
+        <choice>
+          <value>AC</value>
+          <display_name>AC</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>watts_per_m2</name>
+      <display_name>Ceiling fan EUI in watts per floor area</display_name>
+      <description>Ceiling fan watts per m2</description>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+    </argument>
+    <argument>
+      <name>start_date</name>
+      <display_name>First start date for the Reduction</display_name>
+      <description>In MM-DD format</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>05-01</default_value>
+    </argument>
+    <argument>
+      <name>end_date</name>
+      <display_name>First end date for the Reduction</display_name>
+      <description>In MM-DD format</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>09-30</default_value>
+    </argument>
+    <argument>
+      <name>start_time</name>
+      <display_name>Start Time for the Reduction</display_name>
+      <description>In HH:MM:SS format</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>08:00:00</default_value>
+    </argument>
+    <argument>
+      <name>end_time</name>
+      <display_name>End Time for the Reduction</display_name>
+      <description>In HH:MM:SS format</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>18:00:00</default_value>
+    </argument>
+    <argument>
+      <name>diversity_factor</name>
+      <display_name>Diversity factor</display_name>
+      <description>Diversity factor</description>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+    </argument>
+    <argument>
+      <name>people_air_velocity</name>
+      <display_name>People air velocity</display_name>
+      <description>Air velocity surrounding people (m/s)</description>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.8</default_value>
+    </argument>
+  </arguments>
+  <outputs />
+  <provenances />
+  <tags>
+    <tag>Equipment.Electric Equipment</tag>
+  </tags>
+  <attributes>
+    <attribute>
+      <name>Measure Type</name>
+      <value>ModelMeasure</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Apply Measure Now</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>OpenStudio Application</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Parametric Analysis Tool</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Use Case</name>
+      <value>Model Articulation</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Use Case</name>
+      <value>New Construction EE</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Use Case</name>
+      <value>Retrofit EE</value>
+      <datatype>string</datatype>
+    </attribute>
+  </attributes>
+  <files>
+    <file>
+      <filename>LICENSE.md</filename>
+      <filetype>md</filetype>
+      <usage_type>license</usage_type>
+      <checksum>CD7F5672</checksum>
+    </file>
+    <file>
+      <filename>README.md.erb</filename>
+      <filetype>erb</filetype>
+      <usage_type>readmeerb</usage_type>
+      <checksum>F1C26127</checksum>
+    </file>
+    <file>
+      <filename>.gitkeep</filename>
+      <filetype>gitkeep</filetype>
+      <usage_type>doc</usage_type>
+      <checksum>00000000</checksum>
+    </file>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>3.4.0</identifier>
+        <min_compatible>3.4.0</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>3996DD06</checksum>
+    </file>
+    <file>
+      <filename>add_ceiling_fan_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>95E98B69</checksum>
+    </file>
+    <file>
+      <filename>CZ06RV2.epw</filename>
+      <filetype>epw</filetype>
+      <usage_type>test</usage_type>
+      <checksum>52282D70</checksum>
+    </file>
+    <file>
+      <filename>SFD_1story_UB_UA_ASHP2_HPWH.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>F0332415</checksum>
+    </file>
+    <file>
+      <filename>MediumOffice-90.1-2010-ASHRAE 169-2013-5A.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>A364A953</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>251293B0</checksum>
+    </file>
+  </files>
+</measure>
