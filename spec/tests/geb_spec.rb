@@ -194,15 +194,25 @@ RSpec.describe OpenStudio::Geb do
       #     "end_date" => '07-21'
       #   }
       # },
-      "add_ceiling_fan" => {
-        "measure_dir_name" => all_measures["add_ceiling_fan"]["measure_dir_name"],
+      # "add_ceiling_fan" => {
+      #   "measure_dir_name" => all_measures["add_ceiling_fan"]["measure_dir_name"],
+      #   "arguments" => {
+      #     "bldg_type" => 'commercial',
+      #     "motor_type" => 'DC',
+      #     "start_time" => '08:00:00',
+      #     "end_time" => '18:00:00',
+      #     "start_date" => '05-01',
+      #     "end_date" => '09-30'
+      #   }
+      # },
+      "reduce_exterior_lighting_loads" => {
+        "measure_dir_name" => all_measures["reduce_exterior_lighting_loads"]["measure_dir_name"],
         "arguments" => {
-          "bldg_type" => 'commercial',
-          "motor_type" => 'DC',
-          "start_time" => '08:00:00',
-          "end_time" => '18:00:00',
-          "start_date" => '05-01',
-          "end_date" => '09-30'
+          # "use_daylight_control" => true,
+          # "use_occupancy_sensing" => true,
+          "on_frac_in_defined_period" => 0,
+          "user_defined_start_time" => '22:00:00',
+          "user_defined_end_time" => '04:00:00'
         }
       },
       # TODO: test overnight take period
@@ -212,9 +222,9 @@ RSpec.describe OpenStudio::Geb do
         "measure_dir_name" => all_measures["GEB Metrics Report"]["measure_dir_name"],
         "arguments" => {
           "event_date" => "07-21",
-          "baseline_run_output_path" => run_output_path,
-          "shed_start" => '13:00:00',
-          "shed_end" => '17:00:00',
+          "baseline_run_output_path" => run_output_path
+          # "shed_start" => '08:00:00',
+          # "shed_end" => '18:00:00'
           # "take_start" => '17:00:00',
           # "take_end" => '21:00:00'
         }

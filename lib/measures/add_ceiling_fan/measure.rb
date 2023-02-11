@@ -404,7 +404,6 @@ class AddCeilingFan < OpenStudio::Measure::ModelMeasure
     end
 
     def adjust_cool_sch(model, sch, cool_stp_inc, start_date, end_date, start_time, end_time)
-      # clone of not already in hash
       new_sch = sch.get.clone(model)
       new_sch = new_sch.to_Schedule.get
       new_sch.setName("#{sch.get.name.to_s} increased by #{cool_stp_inc}C due to ceiling fan")
