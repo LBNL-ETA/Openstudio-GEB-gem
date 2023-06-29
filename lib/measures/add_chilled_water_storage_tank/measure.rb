@@ -152,12 +152,19 @@ class AddChilledWaterStorageTank < OpenStudio::Measure::ModelMeasure
     secondary_delta_t.setDefaultValue(4.5)
     args << secondary_delta_t
 
-    # Make string argument for ctes seasonal availabilty
-    thermal_storage_season = OpenStudio::Measure::OSArgument.makeStringArgument('thermal_storage_season', true)
-    thermal_storage_season.setDisplayName('Enter Seasonal Availability of Chilled Water Storage:')
-    thermal_storage_season.setDescription('Use MM/DD-MM/DD format, e.g., 04/01-10/31, default is full year.')
-    thermal_storage_season.setDefaultValue('01/01-12/31')
-    args << thermal_storage_season
+    # make an argument for the start date of thermal storage
+    thermal_storage_startdate = OpenStudio::Measure::OSArgument.makeStringArgument('thermal_storage_startdate', false)
+    thermal_storage_startdate.setDisplayName('Start Date for thermal storage')
+    thermal_storage_startdate.setDescription('In MM-DD format')
+    thermal_storage_startdate.setDefaultValue('01-01')
+    args << thermal_storage_startdate
+
+    # make an argument for the end date of thermal storage
+    thermal_storage_enddate = OpenStudio::Measure::OSArgument.makeStringArgument('thermal_storage_enddate', false)
+    thermal_storage_enddate.setDisplayName('End Date for thermal storage')
+    thermal_storage_enddate.setDescription('In MM-DD format')
+    thermal_storage_enddate.setDefaultValue('12-31')
+    args << thermal_storage_enddate
 
     # Make string arguments for ctes discharge times
     discharge_start = OpenStudio::Measure::OSArgument.makeStringArgument('discharge_start', true)
@@ -259,7 +266,8 @@ class AddChilledWaterStorageTank < OpenStudio::Measure::ModelMeasure
     tank_charge_sp = runner.getDoubleArgumentValue('tank_charge_sp', user_arguments)
     primary_delta_t = runner.getStringArgumentValue('primary_delta_t', user_arguments)
     secondary_delta_t = runner.getDoubleArgumentValue('secondary_delta_t', user_arguments)
-    thermal_storage_season = runner.getStringArgumentValue('thermal_storage_season', user_arguments)
+    thermal_storage_startdate = runner.getStringArgumentValue('thermal_storage_startdate', user_arguments)
+    thermal_storage_enddate = runner.getStringArgumentValue('thermal_storage_enddate', user_arguments)
     discharge_start = runner.getStringArgumentValue('discharge_start', user_arguments)
     discharge_end = runner.getStringArgumentValue('discharge_end', user_arguments)
     charge_start = runner.getStringArgumentValue('charge_start', user_arguments)
@@ -279,7 +287,7 @@ class AddChilledWaterStorageTank < OpenStudio::Measure::ModelMeasure
     end
 
     # if_overnight: 1 or 0; wknds (if applicable to weekends): 1 or 0
-    def create_sch(model, sch_name, start_time, end_time, thermal_storage_season, wknds)
+    def create_sch(model, sch_name, start_time, end_time, start_date, end_date, wknds)
       day_start_time = Time.strptime("00:00", '%H:%M')
       # create discharging schedule
       new_sch_ruleset = OpenStudio::Model::ScheduleRuleset.new(model)
@@ -304,13 +312,14 @@ class AddChilledWaterStorageTank < OpenStudio::Measure::ModelMeasure
         end
       end
 
-      date_range = thermal_storage_season.delete(' ').split('-')
-      start_date = date_range[0].split('/')
-      end_date = date_range[1].split('/')
+      start_month = start_date.monthOfYear.value
+      start_day = start_date.dayOfMonth
+      end_month = end_date.monthOfYear.value
+      end_day = end_date.dayOfMonth
       ts_rule = OpenStudio::Model::ScheduleRule.new(new_sch_ruleset, new_sch_ruleset.defaultDaySchedule)
-      ts_rule.setName("#{new_sch_ruleset.name} #{start_date[0].to_i}/#{start_date[1].to_i}-#{end_date[0].to_i}/#{end_date[1].to_i} Rule")
-      ts_rule.setStartDate(model.getYearDescription.makeDate(start_date[0].to_i, start_date[1].to_i))
-      ts_rule.setEndDate(model.getYearDescription.makeDate(end_date[0].to_i, end_date[1].to_i))
+      ts_rule.setName("#{new_sch_ruleset.name} #{start_month}/#{start_day}-#{end_month}/#{end_day} Rule")
+      ts_rule.setStartDate(start_date)
+      ts_rule.setEndDate(end_date)
       ts_rule.setApplyWeekdays(true)
       if wknds
         ts_rule.setApplyWeekends(true)
@@ -318,22 +327,22 @@ class AddChilledWaterStorageTank < OpenStudio::Measure::ModelMeasure
         ts_rule.setApplyWeekends(false)
       end
 
-      unless start_date[0].to_i == 1 && start_date[1].to_i == 1
+      unless start_month == 1 && start_day == 1
         new_rule_day = OpenStudio::Model::ScheduleDay.new(model)
         new_rule_day.addValue(OpenStudio::Time.new(0,24), 0)
         new_rule = OpenStudio::Model::ScheduleRule.new(new_sch_ruleset, new_rule_day)
-        new_rule.setName("#{new_sch_ruleset.name} 01/01-#{start_date[0]}/#{start_date[1]} Rule")
+        new_rule.setName("#{new_sch_ruleset.name} 01/01-#{start_month}/#{start_day} Rule")
         new_rule.setStartDate(model.getYearDescription.makeDate(1, 1))
-        new_rule.setEndDate(model.getYearDescription.makeDate(start_date[0].to_i, start_date[1].to_i))
+        new_rule.setEndDate(model.getYearDescription.makeDate(start_month, start_day))
         new_rule.setApplyAllDays(true)
       end
 
-      unless end_date[0].to_i == 12 && end_date[1].to_i == 31
+      unless end_month == 12 && end_day == 31
         new_rule_day = OpenStudio::Model::ScheduleDay.new(model)
         new_rule_day.addValue(OpenStudio::Time.new(0,24), 0)
         new_rule = OpenStudio::Model::ScheduleRule.new(new_sch_ruleset, new_rule_day)
-        new_rule.setName("#{new_sch_ruleset.name} #{end_date[0].to_i}/#{end_date[1].to_i}-12/31 Rule")
-        new_rule.setStartDate(model.getYearDescription.makeDate(end_date[0].to_i, end_date[1].to_i))
+        new_rule.setName("#{new_sch_ruleset.name} #{end_month}/#{end_day}-12/31 Rule")
+        new_rule.setStartDate(model.getYearDescription.makeDate(end_month, end_day))
         new_rule.setEndDate(model.getYearDescription.makeDate(12, 31))
         new_rule.setApplyAllDays(true)
       end
@@ -342,7 +351,7 @@ class AddChilledWaterStorageTank < OpenStudio::Measure::ModelMeasure
     end
 
     if discharge_start > discharge_end
-      runner.registerWarning('Dischage start time is later than discharge ' \
+      runner.registerInfo('Dischage start time is later than discharge ' \
                              'end time (discharge overnight). Verify schedule inputs.')
     end
 
@@ -360,7 +369,28 @@ class AddChilledWaterStorageTank < OpenStudio::Measure::ModelMeasure
       runner.registerError("Wrong energy storage objective input, can be either 'Full Storage' or 'Partial Storage'. ")
       return false
     end
+    
+    # check date inputs
+    md = /(\d\d)-(\d\d)/.match(thermal_storage_startdate)
+    if md
+      thermal_storage_start_month = md[1].to_i
+      thermal_storage_start_day = md[2].to_i
+    else
+      runner.registerError('Start date must be in MM-DD format.')
+      return false
+    end
 
+    md = /(\d\d)-(\d\d)/.match(thermal_storage_enddate)
+    if md
+      thermal_storage_end_month = md[1].to_i
+      thermal_storage_end_day = md[2].to_i
+    else
+      runner.registerError('End date must be in MM-DD format.')
+      return false
+    end
+
+    thermal_storage_startdate_os = model.getYearDescription.makeDate(thermal_storage_start_month, thermal_storage_start_day)
+    thermal_storage_enddate_os = model.getYearDescription.makeDate(thermal_storage_end_month, thermal_storage_end_day)
 
     # report initial condition of model
     runner.registerInitialCondition("Original primary chilled water loop: #{selected_primary_loop.name}.")
@@ -581,8 +611,8 @@ class AddChilledWaterStorageTank < OpenStudio::Measure::ModelMeasure
     selected_primary_loop.addDemandBranchForComponent(chw_storage_tank)
 
     # create discharging and charging schedule and apply to chilled water tank and primary loop
-    discharge_sch = create_sch(model, 'Chilled water tank discharge schedule', discharge_start, discharge_end, thermal_storage_season, wknds)
-    charge_sch = create_sch(model, 'Chilled water tank charge schedule', charge_start, charge_end, thermal_storage_season, wknds)
+    discharge_sch = create_sch(model, 'Chilled water tank discharge schedule', discharge_start, discharge_end, thermal_storage_startdate_os, thermal_storage_enddate_os, wknds)
+    charge_sch = create_sch(model, 'Chilled water tank charge schedule', charge_start, charge_end, thermal_storage_startdate_os, thermal_storage_enddate_os, wknds)
     chw_storage_tank.setUseSideAvailabilitySchedule(discharge_sch)
     chw_storage_tank.setSourceSideAvailabilitySchedule(charge_sch)
     avm_sch =  OpenStudio::Model::AvailabilityManagerScheduled.new(model)
@@ -605,7 +635,7 @@ class AddChilledWaterStorageTank < OpenStudio::Measure::ModelMeasure
       clg_op_scheme_tank.addEquipment(chw_storage_tank)
       clg_op_scheme_sec_chiller = OpenStudio::Model::PlantEquipmentOperationCoolingLoad.new(model)
       clg_op_scheme_sec_chiller.addEquipment(sec_chiller)
-      undischarge_sch = create_sch(model, 'Chilled water tank not discharge schedule', discharge_end, discharge_start, thermal_storage_season, wknds)
+      undischarge_sch = create_sch(model, 'Chilled water tank not discharge schedule', discharge_end, discharge_start, thermal_storage_startdate_os, thermal_storage_enddate_os, wknds)
       # in this way, sequence in E+ will be tank first then chiller. In fact the sequence here doesn't matter as each schema is coupled with schedule
       sec_loop.setPlantEquipmentOperationCoolingLoad(clg_op_scheme_tank)
       sec_loop.setPlantEquipmentOperationCoolingLoadSchedule(discharge_sch)

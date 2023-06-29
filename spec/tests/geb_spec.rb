@@ -205,14 +205,30 @@ RSpec.describe OpenStudio::Geb do
       #     "end_date" => '09-30'
       #   }
       # },
-      "reduce_exterior_lighting_loads" => {
-        "measure_dir_name" => all_measures["reduce_exterior_lighting_loads"]["measure_dir_name"],
+      # "reduce_exterior_lighting_loads" => {
+      #   "measure_dir_name" => all_measures["reduce_exterior_lighting_loads"]["measure_dir_name"],
+      #   "arguments" => {
+      #     # "use_daylight_control" => true,
+      #     # "use_occupancy_sensing" => true,
+      #     "on_frac_in_defined_period" => 0,
+      #     "user_defined_start_time" => '22:00:00',
+      #     "user_defined_end_time" => '04:00:00'
+      #   }
+      # },
+      "add_natural_ventilation_with_hybrid_control" => {
+        "measure_dir_name" => all_measures["add_natural_ventilation_with_hybrid_control"]["measure_dir_name"],
         "arguments" => {
-          # "use_daylight_control" => true,
-          # "use_occupancy_sensing" => true,
-          "on_frac_in_defined_period" => 0,
-          "user_defined_start_time" => '22:00:00',
-          "user_defined_end_time" => '04:00:00'
+          "open_area_fraction" => 0.6,
+          "min_indoor_temp" => 21,
+          "max_indoor_temp" => 24,
+          "min_outdoor_temp" => 20,
+          "max_outdoor_temp" => 24,
+          "delta_temp" => 2,
+          "nv_starttime" => "07:00",
+          "nv_endtime" => "21:00",
+          "nv_startdate" => "03-01",
+          "nv_enddate" => "10-31",
+          "wknds" => true
         }
       },
       # TODO: test overnight take period
@@ -221,7 +237,7 @@ RSpec.describe OpenStudio::Geb do
       "GEB Metrics Report" => {
         "measure_dir_name" => all_measures["GEB Metrics Report"]["measure_dir_name"],
         "arguments" => {
-          "event_date" => "07-21",
+          "event_date" => "05-30",
           "baseline_run_output_path" => run_output_path
           # "shed_start" => '08:00:00',
           # "shed_end" => '18:00:00'

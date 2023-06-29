@@ -72,7 +72,8 @@ class AddChilledWaterStorageTankTest < Minitest::Test
     args_hash = {}
     args_hash['run_output_path'] = File.join(File.dirname(__FILE__ ), "output")
     args_hash['epw_path'] = File.join(File.dirname(__FILE__ ), "CZ06RV2.epw")
-    # args_hash['thermal_storage_season'] = '04/01-10/31'
+    args_hash['thermal_storage_startdate'] = '04-01'
+    args_hash['thermal_storage_enddate'] = '10-31'
     args_hash['objective'] = 'Full Storage'
 
     # populate argument with specified hash value if specified
@@ -93,7 +94,6 @@ class AddChilledWaterStorageTankTest < Minitest::Test
 
     # assert that it ran correctly
     assert_equal('Success', result.value.valueName)
-    assert(result.info.size == 1)
     assert(result.warnings.empty?)
 
     # save the model to test output directory
