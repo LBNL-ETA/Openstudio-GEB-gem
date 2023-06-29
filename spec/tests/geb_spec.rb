@@ -25,7 +25,8 @@ RSpec.describe OpenStudio::Geb do
 
   it "can apply and run single measure" do
     # provide baseline path
-    baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/MediumOffice-90.1-2010-ASHRAE 169-2013-5A.osm")
+    baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/MediumOffice-90.1-2010-ASHRAE 169-2013-5A.osm")   # commercial
+    # baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/SFD_1story_UB_UA_ASHP2_HPWH.osm")  # residential
     all_measures = list_all_geb_measures
     # puts JSON.pretty_generate(all_measures)
     run_output_path = File.join(File.dirname(__FILE__ ), "../output")
@@ -124,12 +125,12 @@ RSpec.describe OpenStudio::Geb do
       #     "end_time" => '21:00:00'
       #   }
       # },
-      "add_electrochromic_window" => {
-        "measure_dir_name" => all_measures["add_electrochromic_window"]["measure_dir_name"],
-        "arguments" => {
-          "ctrl_type" => 'MeetDaylightIlluminanceSetpoint'
-        }
-      },
+      # "add_electrochromic_window" => {
+      #   "measure_dir_name" => all_measures["add_electrochromic_window"]["measure_dir_name"],
+      #   "arguments" => {
+      #     "ctrl_type" => 'MeetDaylightIlluminanceSetpoint'
+      #   }
+      # },
       # "add_rooftop_pv_simple" => {
       #   "measure_dir_name" => all_measures["add_rooftop_pv_simple"]["measure_dir_name"],
       #   "arguments" => {
@@ -163,16 +164,53 @@ RSpec.describe OpenStudio::Geb do
       #     "end_date" => '07-21'
       #   }
       # },
+      # "add_ceiling_fan" => {
+      #   "measure_dir_name" => all_measures["add_ceiling_fan"]["measure_dir_name"],
+      #   "arguments" => {
+      #     "bldg_type" => 'commercial',
+      #     "motor_type" => 'DC',
+      #     "start_time" => '08:00:00',
+      #     "end_time" => '18:00:00',
+      #     "start_date" => '05-01',
+      #     "end_date" => '09-30'
+      #   }
+      # },
+      # "reduce_exterior_lighting_loads" => {
+      #   "measure_dir_name" => all_measures["reduce_exterior_lighting_loads"]["measure_dir_name"],
+      #   "arguments" => {
+      #     # "use_daylight_control" => true,
+      #     # "use_occupancy_sensing" => true,
+      #     "on_frac_in_defined_period" => 0,
+      #     "user_defined_start_time" => '22:00:00',
+      #     "user_defined_end_time" => '04:00:00'
+      #   }
+      # },
+      "add_natural_ventilation_with_hybrid_control" => {
+        "measure_dir_name" => all_measures["add_natural_ventilation_with_hybrid_control"]["measure_dir_name"],
+        "arguments" => {
+          "open_area_fraction" => 0.6,
+          "min_indoor_temp" => 21,
+          "max_indoor_temp" => 24,
+          "min_outdoor_temp" => 20,
+          "max_outdoor_temp" => 24,
+          "delta_temp" => 2,
+          "nv_starttime" => "07:00",
+          "nv_endtime" => "21:00",
+          "nv_startdate" => "03-01",
+          "nv_enddate" => "10-31",
+          "wknds" => true
+        }
+      },
       # TODO: test overnight take period
       # TODO: test no shed period and take period
       # TODO: test shed period only
       "GEB Metrics Report" => {
         "measure_dir_name" => all_measures["GEB Metrics Report"]["measure_dir_name"],
         "arguments" => {
-          "event_date" => "07-21",
-          "baseline_run_output_path" => run_output_path,
-          "shed_start" => '13:00:00',
-          "shed_end" => '17:00:00',
+          "event_date" => "06-16",
+          "baseline_run_output_path" => run_output_path
+          # "shed_start" => '08:00:00',
+          # "shed_end" => '18:00:00'
           # "take_start" => '17:00:00',
           # "take_end" => '21:00:00'
         }

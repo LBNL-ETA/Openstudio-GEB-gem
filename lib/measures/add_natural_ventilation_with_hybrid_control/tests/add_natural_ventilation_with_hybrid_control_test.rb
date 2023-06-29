@@ -3,15 +3,13 @@
 # See also https://openstudio.net/license
 # *******************************************************************************
 
-# insert your copyright here
-
 require 'openstudio'
 require 'openstudio/measure/ShowRunnerOutput'
 require 'minitest/autorun'
 require_relative '../measure.rb'
 require 'fileutils'
 
-class AddChilledWaterStorageTankTest < Minitest::Test
+class AddNaturalVentilationWithHybridControlTest < Minitest::Test
   # def setup
   # end
 
@@ -20,7 +18,7 @@ class AddChilledWaterStorageTankTest < Minitest::Test
 
   def test_good_argument_values
     # create an instance of the measure
-    measure = AddChilledWaterStorageTank.new
+    measure = AddNaturalVentilationWithHybridControl.new
 
     # create runner with empty OSW
     osw = OpenStudio::WorkflowJSON.new
@@ -28,7 +26,8 @@ class AddChilledWaterStorageTankTest < Minitest::Test
 
     # load the test model
     translator = OpenStudio::OSVersion::VersionTranslator.new
-    path = "#{File.dirname(__FILE__)}/example_model.osm"
+    path = "#{File.dirname(__FILE__)}/MediumOffice-90.1-2010-ASHRAE 169-2013-5A.osm"
+    # path = "#{File.dirname(__FILE__)}/SmallHotel-2A.osm"
     model = translator.loadModel(path)
     assert(!model.empty?)
     model = model.get
@@ -40,11 +39,18 @@ class AddChilledWaterStorageTankTest < Minitest::Test
     # create hash of argument values.
     # If the argument has a default that you want to use, you don't need it in the hash
     args_hash = {}
-    args_hash['run_output_path'] = File.join(File.dirname(__FILE__ ), "output")
-    args_hash['epw_path'] = File.join(File.dirname(__FILE__ ), "CZ06RV2.epw")
-    args_hash['thermal_storage_startdate'] = '04-01'
-    args_hash['thermal_storage_enddate'] = '10-31'
-    args_hash['objective'] = 'Full Storage'
+    args_hash['open_area_fraction'] = 0.6
+    args_hash['min_indoor_temp'] = 21
+    args_hash['max_indoor_temp'] = 24
+    args_hash['min_outdoor_temp'] = 20
+    args_hash['max_outdoor_temp'] = 24
+    args_hash['delta_temp'] = 2
+    args_hash['nv_starttime'] = "7:00"
+    args_hash['nv_endtime'] = "21:00"
+    args_hash['nv_startdate'] = "03-01"
+    args_hash['nv_enddate'] = "10-31"
+    args_hash['wknds'] = true
+    # using defaults values from measure.rb for other arguments
 
     # populate argument with specified hash value if specified
     arguments.each do |arg|
@@ -64,6 +70,7 @@ class AddChilledWaterStorageTankTest < Minitest::Test
 
     # assert that it ran correctly
     assert_equal('Success', result.value.valueName)
+    assert(result.info.size == 1)
     assert(result.warnings.empty?)
 
     # save the model to test output directory
@@ -72,7 +79,8 @@ class AddChilledWaterStorageTankTest < Minitest::Test
 
     # test run the modified model
     osw = {}
-    osw["weather_file"] = File.join(File.dirname(__FILE__ ), "CZ06RV2.epw")
+    osw["weather_file"] = File.join(File.dirname(__FILE__ ), "USA_NY_Buffalo.Niagara.Intl.AP.725280_TMY3.epw")  # epw for medium office
+    # osw["weather_file"] = File.join(File.dirname(__FILE__ ), "USA_TX_Houston-Bush.Intercontinental.AP.722430_TMY3.epw")  # epw for small hotel
     osw["seed_file"] = output_file_path
     osw_path = "#{File.dirname(__FILE__)}//output/test_output.osw"
     File.open(osw_path, 'w') do |f|
@@ -84,5 +92,4 @@ class AddChilledWaterStorageTankTest < Minitest::Test
     system(cmd)
 
   end
-
 end

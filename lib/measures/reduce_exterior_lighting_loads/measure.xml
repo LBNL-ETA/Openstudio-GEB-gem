@@ -1,0 +1,195 @@
+<?xml version="1.0"?>
+<measure>
+  <schema_version>3.0</schema_version>
+  <name>reduce_exterior_lighting_loads</name>
+  <uid>6d0fe16a-eab4-4dcc-9eb3-ad38536edf2f</uid>
+  <version_id>9109f446-43d4-405a-a0b7-c6cd78b12356</version_id>
+  <version_modified>20230209T213337Z</version_modified>
+  <xml_checksum>99A5D8AD</xml_checksum>
+  <class_name>ReduceExteriorLightingLoads</class_name>
+  <display_name>Reduce Exterior Lighting Loads</display_name>
+  <description>This measure reduces exterior lighting loads by two ways: (1) upgrading the lighting fixtures to be more efficient, which reduces the design level value, (2) reducing operational durationand/or strength by adjusting control option and schedule based on daylight, occupancy, and/or user designated period.</description>
+  <modeler_description>This measure can (1) reduce design level by percentage if given by the user, (2) update the control option to AstronomicalClock, (3) adjust the schedule by replacing with occupancy schedule of the majority space/spacetype, and/or turn off or dim during user designated period.</modeler_description>
+  <arguments>
+    <argument>
+      <name>design_val_reduce_percent</name>
+      <display_name>Percentage Reduction of Exterior Lighting Design Power (%)</display_name>
+      <description>Enter a value between 0 and 100</description>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+    </argument>
+    <argument>
+      <name>use_daylight_control</name>
+      <display_name>Use daylight control</display_name>
+      <description>If exterior lights will be turned off during the day</description>
+      <type>Boolean</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>false</default_value>
+      <choices>
+        <choice>
+          <value>true</value>
+          <display_name>true</display_name>
+        </choice>
+        <choice>
+          <value>false</value>
+          <display_name>false</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>use_occupancy_sensing</name>
+      <display_name>Use occupancy sensing</display_name>
+      <description>If enabled, this will turn off exterior lights when unoccupied, and dim with partial occupancy</description>
+      <type>Boolean</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>false</default_value>
+      <choices>
+        <choice>
+          <value>true</value>
+          <display_name>true</display_name>
+        </choice>
+        <choice>
+          <value>false</value>
+          <display_name>false</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>on_frac_in_defined_period</name>
+      <display_name>Schedule value representing light on fraction to turn off (0) or dim (&lt;1) during user designated event period</display_name>
+      <description>Enter a value &gt;=0 and &lt;1</description>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+    </argument>
+    <argument>
+      <name>user_defined_start_time</name>
+      <display_name>User Designated Event Start Time for the off/dimming</display_name>
+      <description>In HH:MM:SS format</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>01:00:00</default_value>
+    </argument>
+    <argument>
+      <name>user_defined_end_time</name>
+      <display_name>User Designated Event End Time for the off/dimming</display_name>
+      <description>In HH:MM:SS format</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>04:00:00</default_value>
+    </argument>
+  </arguments>
+  <outputs />
+  <provenances />
+  <tags>
+    <tag>Electric Lighting.Electric Lighting Controls</tag>
+  </tags>
+  <attributes>
+    <attribute>
+      <name>Measure Type</name>
+      <value>ModelMeasure</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Apply Measure Now</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>OpenStudio Application</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Parametric Analysis Tool</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Use Case</name>
+      <value>Model Articulation</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Use Case</name>
+      <value>Calibration</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Use Case</name>
+      <value>New Construction EE</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Use Case</name>
+      <value>Retrofit EE</value>
+      <datatype>string</datatype>
+    </attribute>
+  </attributes>
+  <files>
+    <file>
+      <filename>LICENSE.md</filename>
+      <filetype>md</filetype>
+      <usage_type>license</usage_type>
+      <checksum>CD7F5672</checksum>
+    </file>
+    <file>
+      <filename>README.md.erb</filename>
+      <filetype>erb</filetype>
+      <usage_type>readmeerb</usage_type>
+      <checksum>F1C26127</checksum>
+    </file>
+    <file>
+      <filename>.gitkeep</filename>
+      <filetype>gitkeep</filetype>
+      <usage_type>doc</usage_type>
+      <checksum>00000000</checksum>
+    </file>
+    <file>
+      <filename>example_model.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>53D14E69</checksum>
+    </file>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>3.4.0</identifier>
+        <min_compatible>3.4.0</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>C4C6ADF9</checksum>
+    </file>
+    <file>
+      <filename>reduce_exterior_lighting_loads_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>E5B57905</checksum>
+    </file>
+    <file>
+      <filename>CZ06RV2.epw</filename>
+      <filetype>epw</filetype>
+      <usage_type>test</usage_type>
+      <checksum>52282D70</checksum>
+    </file>
+    <file>
+      <filename>SFD_1story_UB_UA_ASHP2_HPWH.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>F0332415</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>2D0ED49C</checksum>
+    </file>
+  </files>
+</measure>

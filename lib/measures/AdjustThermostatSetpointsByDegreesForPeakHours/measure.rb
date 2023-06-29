@@ -207,7 +207,7 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
     end
     heating_end_month_2 = nil
     heating_end_day_2 = nil
-    md = /(\d\d)-(\d\d)/.match(heating_enddate_1)
+    md = /(\d\d)-(\d\d)/.match(heating_enddate_2)
     if md
       heating_end_month_2 = md[1].to_i
       heating_end_day_2 = md[2].to_i
@@ -218,9 +218,9 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
 
     summerStartDate = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(cooling_start_month), cooling_start_day)
     summerEndDate = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(cooling_end_month), cooling_end_day)
-    winterStartDate1 = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(heating_start_month_1), heating_end_day_1)
+    winterStartDate1 = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(heating_start_month_1), heating_start_day_1)
     winterEndDate1 = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(heating_end_month_1), heating_end_day_1)
-    winterStartDate2 = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(heating_start_month_2), heating_end_day_2)
+    winterStartDate2 = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(heating_start_month_2), heating_start_day_2)
     winterEndDate2 = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(heating_end_month_2), heating_end_day_2)
 
     ######### GET CLIMATE ZONES ################
@@ -333,8 +333,13 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
     thermostats.each do |thermostat|
       # setup new cooling setpoint schedule
       clg_set_sch = thermostat.coolingSetpointTemperatureSchedule
+
       if !clg_set_sch.empty?
         runner.registerInfo("#{clg_set_sch.get.name.to_s}")
+
+        puts "name: #{clg_set_sch.get.name.to_s}"
+        puts clg_set_sch.get
+
         # clone of not already in hash
         if clg_set_schs.key?(clg_set_sch.get.name.to_s)
           new_clg_set_sch = clg_set_schs[clg_set_sch.get.name.to_s]
@@ -342,6 +347,9 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
           new_clg_set_sch = clg_set_sch.get.clone(model)
           new_clg_set_sch = new_clg_set_sch.to_Schedule.get
           new_clg_set_sch.setName("#{clg_set_sch.get.name.to_s} adjusted by #{cooling_adjustment_ip}F")
+
+          puts "cloned new name: #{new_clg_set_sch.name.to_s}"
+          puts new_clg_set_sch
 
           # add to the hash
           clg_set_schs[clg_set_sch.get.name.to_s] = new_clg_set_sch
@@ -447,6 +455,7 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
           winter_rule2 = create_sch_rule_from_default(model, schedule, default_rule, winterStartDate2, winterEndDate2)
 
           coverMissingDays(winter_rule1, days_covered)
+          coverMissingDays(winter_rule2, days_covered) # need to cover missing days for both winter rules
           checkDaysCovered(winter_rule1, days_covered)
 
           summer_rule = copy_sch_rule_for_period(model, winter_rule1, default_rule, summerStartDate, summerEndDate)

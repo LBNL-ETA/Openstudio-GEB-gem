@@ -5,3 +5,4 @@
 
 require 'openstudio/geb/version'
 require 'openstudio/geb/extension'
+require 'openstudio/geb/run'

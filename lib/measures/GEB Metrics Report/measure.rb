@@ -3,6 +3,36 @@
 # See also https://openstudio.net/license
 # *******************************************************************************
 
+require 'erb'
+require 'json'
+
+require "#{File.dirname(__FILE__)}/resources/os_lib_reporting"
+require "#{File.dirname(__FILE__)}/resources/os_lib_helper_methods"
+
+# start the measure
+class GEBMetricsReport < OpenStudio::Measure::ReportingMeasure
+  # human readable name
+  def name
+    # Measure name should be the title case of the class name.
+    return 'GEB Metrics Report'
+  end
+
+  # human readable description
+  def description
+    return 'This measure calculates GEB-related (mainly DF) metrics and reports them.'
+  end
+
+  # human readable description of modeling approach
+  def modeler_description
+    return 'GEB metrics compare between baseline and GEB measures. To enable the GEB metrics calculation, please make sure the output variable -Facility Net Purchased Electricity Rate- is added to both baseline and retrofit models.'
+  end
+
+
+  def possible_sections
+    result = []
+
+    # methods for sections in order that they will appear in report
+    ############################################################################
     result << 'geb_metrics_section'
     # TODO: will incorporate tables and figures later
 

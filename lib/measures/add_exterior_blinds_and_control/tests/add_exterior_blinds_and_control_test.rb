@@ -3,8 +3,6 @@
 # See also https://openstudio.net/license
 # *******************************************************************************
 
-# insert your copyright here
-
 require 'openstudio'
 require 'openstudio/measure/ShowRunnerOutput'
 require 'minitest/autorun'

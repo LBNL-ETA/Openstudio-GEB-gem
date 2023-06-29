@@ -3,24 +3,23 @@
 # See also https://openstudio.net/license
 # *******************************************************************************
 
-# insert your copyright here
-
 require 'openstudio'
 require 'openstudio/measure/ShowRunnerOutput'
 require 'minitest/autorun'
 require_relative '../measure.rb'
 require 'fileutils'
+require 'json'
 
-class AddChilledWaterStorageTankTest < Minitest::Test
+class AddCeilingFanTest < Minitest::Test
   # def setup
   # end
 
   # def teardown
   # end
 
-  def test_good_argument_values
+  def test_add_ceiling_fan
     # create an instance of the measure
-    measure = AddChilledWaterStorageTank.new
+    measure = AddCeilingFan.new
 
     # create runner with empty OSW
     osw = OpenStudio::WorkflowJSON.new
@@ -28,7 +27,7 @@ class AddChilledWaterStorageTankTest < Minitest::Test
 
     # load the test model
     translator = OpenStudio::OSVersion::VersionTranslator.new
-    path = "#{File.dirname(__FILE__)}/example_model.osm"
+    path = "#{File.dirname(__FILE__)}/SFD_1story_UB_UA_ASHP2_HPWH.osm"
     model = translator.loadModel(path)
     assert(!model.empty?)
     model = model.get
@@ -40,11 +39,8 @@ class AddChilledWaterStorageTankTest < Minitest::Test
     # create hash of argument values.
     # If the argument has a default that you want to use, you don't need it in the hash
     args_hash = {}
-    args_hash['run_output_path'] = File.join(File.dirname(__FILE__ ), "output")
-    args_hash['epw_path'] = File.join(File.dirname(__FILE__ ), "CZ06RV2.epw")
-    args_hash['thermal_storage_startdate'] = '04-01'
-    args_hash['thermal_storage_enddate'] = '10-31'
-    args_hash['objective'] = 'Full Storage'
+    args_hash['bldg_type'] = 'commercial'
+    args_hash['motor_type'] = 'DC'
 
     # populate argument with specified hash value if specified
     arguments.each do |arg|
@@ -64,7 +60,6 @@ class AddChilledWaterStorageTankTest < Minitest::Test
 
     # assert that it ran correctly
     assert_equal('Success', result.value.valueName)
-    assert(result.warnings.empty?)
 
     # save the model to test output directory
     output_file_path = "#{File.dirname(__FILE__)}//output/test_output.osm"
@@ -84,5 +79,4 @@ class AddChilledWaterStorageTankTest < Minitest::Test
     system(cmd)
 
   end
-
 end
