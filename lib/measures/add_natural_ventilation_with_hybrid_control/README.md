@@ -46,12 +46,12 @@ The indoor temperature above which ventilation is shutoff.
 **Model Dependent:** false
 
 
-### Maximum Indoor-Outdoor Temperature Difference (degC)
+### Minimum Indoor-Outdoor Temperature Difference (degC)
 This is the temperature difference between the indoor and outdoor air dry-bulb temperatures below which ventilation is shutoff.  For example, a delta temperature of 2 degC means ventilation is available if the outside air temperature is at least 2 degC cooler than the zone air temperature. Values can be negative.
 **Name:** delta_temp,
 **Type:** Double,
 **Units:** ,
-**Required:** true,
+**Required:** false,
 **Model Dependent:** false
 
 
@@ -78,7 +78,7 @@ This is the wind speed above which ventilation is shut off.  The default values 
 **Name:** max_wind_speed,
 **Type:** Double,
 **Units:** ,
-**Required:** true,
+**Required:** false,
 **Model Dependent:** false
 
 
@@ -123,7 +123,7 @@ In MM-DD format
 **Name:** wknds,
 **Type:** Boolean,
 **Units:** ,
-**Required:** true,
+**Required:** false,
 **Model Dependent:** false
 
 

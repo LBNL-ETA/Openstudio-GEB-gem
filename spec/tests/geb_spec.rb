@@ -117,6 +117,20 @@ RSpec.describe OpenStudio::Geb do
       #     "flex_stp_3" => '120'
       #   }
       # },
+      # "AddElectricVehicleChargingLoad" => {
+      #   "measure_dir_name" => all_measures["AddElectricVehicleChargingLoad"]["measure_dir_name"],
+      #   "arguments" => {
+      #     "bldg_use_type" => "workplace",
+      #     "num_ev_chargers" => 3,
+      #     "num_evs" => 10,
+      #     "charger_level" => "Level 1",
+      #     "avg_arrival_time" => "8:30",
+      #     "avg_leave_time" => "17:30",
+      #     "avg_charge_hours" => 4,
+      #     "charge_on_sat" => true,
+      #     "charge_on_sun" => false
+      #   }
+      # },
       # "reduce_domestic_hot_water_use_for_peak_hours" => {
       #   "measure_dir_name" => all_measures["reduce_domestic_hot_water_use_for_peak_hours"]["measure_dir_name"],
       #   "arguments" => {
@@ -241,66 +255,66 @@ RSpec.describe OpenStudio::Geb do
     weather_file_path = File.join(File.dirname(__FILE__ ), "../seed_models/USA_NY_Buffalo.Niagara.Intl.AP.725280_TMY3.epw")
 
     measure_dict = {
-      # "Adjust therAdjustThermostatSetpointsByDegreesForPeakHours" => {
-      #   "measure_dir_name" => all_measures["AdjustThermostatSetpointsByDegreesForPeakHours"]["measure_dir_name"],
-      #   "arguments" => {
-      #     "cooling_adjustment" => 4,
-      #     "cooling_daily_starttime" => '14:00:00',
-      #     "cooling_daily_endtime" => '18:00:00',
-      #     "cooling_startdate" => '06-01',
-      #     "cooling_enddate" => '09-30',
-      #     "heating_daily_starttime" => '13:00:00',
-      #     "heating_daily_endtime" => '15:00:00',
-      #     "heating_startdate_1" => '01-01',
-      #     "heating_enddate_1" => '05-31',
-      #     "heating_startdate_2" => '10-01',
-      #     "heating_enddate_2" => '12-31',
-      #     "heating_adjustment" => -5,
-      #     "auto_date" => false
-      #   }
-      # },
-      # "reduce_lpd_by_percentage_for_peak_hours" => {
-      #   "measure_dir_name" => all_measures["reduce_lpd_by_percentage_for_peak_hours"]["measure_dir_name"],
-      #   "arguments" => {
-      #     "lpd_reduce_percent" => 25,
-      #     "start_time" => "14:00:00",
-      #     "end_time" => "18:00:00",
-      #     "start_date1" => '06-01',
-      #     "end_date1" => '09-30'
-      #   }
-      # },
-      # "reduce_epd_by_percentage_for_peak_hours" => {
-      #   "measure_dir_name" => all_measures["reduce_epd_by_percentage_for_peak_hours"]["measure_dir_name"],
-      #   "arguments" => {
-      #     "epd_reduce_percent" => 30,
-      #     "start_time" => "14:00:00",
-      #     "end_time" => "18:00:00",
-      #     "start_date1" => '06-01',
-      #     "end_date1" => '09-30'
-      #   }
-      # },
-      # "precooling" => {
-      #   "measure_dir_name" => all_measures["precooling"]["measure_dir_name"],
-      #   "arguments" => {
-      #     "cooling_adjustment" => -4,
-      #     "starttime_cooling" => '09:00:00',
-      #     "endtime_cooling" => '12:00:00',
-      #     "cooling_startdate" => '06-01',
-      #     "cooling_enddate" => '09-01'
-      #   }
-      # },
-      # "add_chilled_water_storage_tank" => {
-      #   "measure_dir_name" => all_measures["add_chilled_water_storage_tank"]["measure_dir_name"],
-      #   "arguments" => {
-      #     "objective" => "Partial Storage",
-      #     "run_output_path" => run_output_path,
-      #     "epw_path" => weather_file_path,
-      #     "discharge_start" => '12:00:00',
-      #     "discharge_end" => '18:00:00',
-      #     "charge_start" => '23:00:00',
-      #     "charge_end" => '07:00:00'
-      #   }
-      # },
+      "Adjust therAdjustThermostatSetpointsByDegreesForPeakHours" => {
+        "measure_dir_name" => all_measures["AdjustThermostatSetpointsByDegreesForPeakHours"]["measure_dir_name"],
+        "arguments" => {
+          "cooling_adjustment" => 4,
+          "cooling_daily_starttime" => '14:00:00',
+          "cooling_daily_endtime" => '18:00:00',
+          "cooling_startdate" => '06-01',
+          "cooling_enddate" => '09-30',
+          "heating_daily_starttime" => '13:00:00',
+          "heating_daily_endtime" => '15:00:00',
+          "heating_startdate_1" => '01-01',
+          "heating_enddate_1" => '05-31',
+          "heating_startdate_2" => '10-01',
+          "heating_enddate_2" => '12-31',
+          "heating_adjustment" => -5,
+          "auto_date" => false
+        }
+      },
+      "reduce_lpd_by_percentage_for_peak_hours" => {
+        "measure_dir_name" => all_measures["reduce_lpd_by_percentage_for_peak_hours"]["measure_dir_name"],
+        "arguments" => {
+          "lpd_reduce_percent" => 25,
+          "start_time" => "14:00:00",
+          "end_time" => "18:00:00",
+          "start_date1" => '06-01',
+          "end_date1" => '09-30'
+        }
+      },
+      "reduce_epd_by_percentage_for_peak_hours" => {
+        "measure_dir_name" => all_measures["reduce_epd_by_percentage_for_peak_hours"]["measure_dir_name"],
+        "arguments" => {
+          "epd_reduce_percent" => 30,
+          "start_time" => "14:00:00",
+          "end_time" => "18:00:00",
+          "start_date1" => '06-01',
+          "end_date1" => '09-30'
+        }
+      },
+      "precooling" => {
+        "measure_dir_name" => all_measures["precooling"]["measure_dir_name"],
+        "arguments" => {
+          "cooling_adjustment" => -4,
+          "starttime_cooling" => '09:00:00',
+          "endtime_cooling" => '12:00:00',
+          "cooling_startdate" => '06-01',
+          "cooling_enddate" => '09-01'
+        }
+      },
+      "add_chilled_water_storage_tank" => {
+        "measure_dir_name" => all_measures["add_chilled_water_storage_tank"]["measure_dir_name"],
+        "arguments" => {
+          "objective" => "Partial Storage",
+          "run_output_path" => run_output_path,
+          "epw_path" => weather_file_path,
+          "discharge_start" => '12:00:00',
+          "discharge_end" => '18:00:00',
+          "charge_start" => '23:00:00',
+          "charge_end" => '07:00:00'
+        }
+      },
       "add_heat_pump_water_heater" => {
         "measure_dir_name" => all_measures["add_heat_pump_water_heater"]["measure_dir_name"],
         "arguments" => {
@@ -317,6 +331,20 @@ RSpec.describe OpenStudio::Geb do
           "flex_stp_3" => '120'
         }
       },
+      "AddElectricVehicleChargingLoad" => {
+        "measure_dir_name" => all_measures["AddElectricVehicleChargingLoad"]["measure_dir_name"],
+        "arguments" => {
+          "bldg_use_type" => "workplace",
+          "num_ev_chargers" => 3,
+          "num_evs" => 10,
+          "charger_level" => "Level 1",
+          "avg_arrival_time" => "8:30",
+          "avg_leave_time" => "17:30",
+          "avg_charge_hours" => 4,
+          "charge_on_sat" => true,
+          "charge_on_sun" => false
+        }
+      },
       "GEB Metrics Report" => {
         "measure_dir_name" => all_measures["GEB Metrics Report"]["measure_dir_name"],
         "arguments" => {
@@ -328,20 +356,6 @@ RSpec.describe OpenStudio::Geb do
           "take_end" => '14:00:00'
         }
       }
-      # "AddElectricVehicleChargingLoad" => {
-      #   "measure_dir_name" => all_measures["AddElectricVehicleChargingLoad"]["measure_dir_name"],
-      #   "arguments" => {
-      #     "bldg_use_type" => "workplace",
-      #     "num_ev_chargers" => 3,
-      #     "num_evs" => 10,
-      #     "charger_level" => "Level 1",
-      #     "avg_arrival_time" => "8:30",
-      #     "avg_leave_time" => "17:30",
-      #     "avg_charge_hours" => 4,
-      #     "charge_on_sat" => true,
-      #     "charge_on_sun" => false
-      #   }
-      # }
     }
 
     runner = OpenStudio::Geb::Runner.new(baseline_dir_str, measure_dict, run_output_path, weather_file_path)

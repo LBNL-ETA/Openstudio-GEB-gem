@@ -1,9 +1,10 @@
+<?xml version="1.0"?>
 <measure>
   <schema_version>3.0</schema_version>
   <name>adjust_dhw_setpoint</name>
   <uid>b621a756-b738-4be9-9088-ff74b35f917e</uid>
-  <version_id>49f82c8d-e5de-4b9b-8f5f-d142bee302d4</version_id>
-  <version_modified>20211210T190518Z</version_modified>
+  <version_id>1b463499-0139-4bef-80e7-177ecca035ee</version_id>
+  <version_modified>20230718T215421Z</version_modified>
   <xml_checksum>A374667A</xml_checksum>
   <class_name>AdjustDHWSetpoint</class_name>
   <display_name>Adjust DHW setpoint</display_name>
@@ -101,8 +102,8 @@
       <default_value>0</default_value>
     </argument>
   </arguments>
-  <outputs/>
-  <provenances/>
+  <outputs />
+  <provenances />
   <tags>
     <tag>Service Water Heating.Water Heating</tag>
   </tags>
@@ -145,12 +146,6 @@
   </attributes>
   <files>
     <file>
-      <filename>LICENSE.md</filename>
-      <filetype>md</filetype>
-      <usage_type>license</usage_type>
-      <checksum>CD7F5672</checksum>
-    </file>
-    <file>
       <filename>README.md.erb</filename>
       <filetype>erb</filetype>
       <usage_type>readmeerb</usage_type>
@@ -161,12 +156,6 @@
       <filetype>gitkeep</filetype>
       <usage_type>doc</usage_type>
       <checksum>00000000</checksum>
-    </file>
-    <file>
-      <filename>adjust_dhw_setpoint_test.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>test</usage_type>
-      <checksum>FC8975B2</checksum>
     </file>
     <file>
       <filename>CZ06RV2.epw</filename>
@@ -187,6 +176,24 @@
       <checksum>21334FFF</checksum>
     </file>
     <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>37B87B2E</checksum>
+    </file>
+    <file>
+      <filename>LICENSE.md</filename>
+      <filetype>md</filetype>
+      <usage_type>license</usage_type>
+      <checksum>BFFB1AA6</checksum>
+    </file>
+    <file>
+      <filename>adjust_dhw_setpoint_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>B012E17D</checksum>
+    </file>
+    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>2.9.1</identifier>
@@ -195,13 +202,19 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>7E15DB7A</checksum>
+      <checksum>5906A6B1</checksum>
     </file>
     <file>
-      <filename>README.md</filename>
-      <filetype>md</filetype>
-      <usage_type>readme</usage_type>
-      <checksum>37B87B2E</checksum>
+      <filename>MediumOffice-90.1-2010-ASHRAE 169-2013-5A-HPWH.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>37F0C15D</checksum>
+    </file>
+    <file>
+      <filename>LargeOffice-90.1-2013-ASHRAE 169-2013-5A-HPWH.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>182C28E8</checksum>
     </file>
   </files>
 </measure>

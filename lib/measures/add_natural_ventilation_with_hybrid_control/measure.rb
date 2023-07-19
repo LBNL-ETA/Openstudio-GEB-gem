@@ -59,7 +59,7 @@ class AddNaturalVentilationWithHybridControl < OpenStudio::Measure::ModelMeasure
 
     # make an argument for delta temperature
     delta_temp = OpenStudio::Measure::OSArgument::makeDoubleArgument('delta_temp', false)
-    delta_temp.setDisplayName('Maximum Indoor-Outdoor Temperature Difference (degC)')
+    delta_temp.setDisplayName('Minimum Indoor-Outdoor Temperature Difference (degC)')
     delta_temp.setDescription('This is the temperature difference between the indoor and outdoor air dry-bulb '\
                               'temperatures below which ventilation is shutoff.  For example, a delta temperature '\
                               'of 2 degC means ventilation is available if the outside air temperature is at least '\
@@ -153,7 +153,7 @@ class AddNaturalVentilationWithHybridControl < OpenStudio::Measure::ModelMeasure
       runner.registerError('Window open area fraction should be between 0 and 1. Please double check your input.')
       return false
     elsif open_area_fraction > 1
-      runner.registerError("open_area_fraction #{open_area_fraction} is a larger than 1. Window open area fraction should be between 0 and 1. Please double check your input.")
+      runner.registerError("open_area_fraction #{open_area_fraction} is larger than 1. Window open area fraction should be between 0 and 1. Please double check your input.")
       return false
     elsif open_area_fraction == 0
       runner.registerWarning("open_area_fraction #{open_area_fraction} is set as 0, meaning the windows will not be opened at all. Please double check your input.")

@@ -75,7 +75,7 @@ Specify a date in MM-DD format if you want a second period of reduction; leave b
 **Required:** false,
 **Model Dependent:** false
 
-### Second end date for the Reduction
+### Second end date for the Reduction (optional)
 Specify a date in MM-DD format if you want a second period of reduction; leave blank if not needed. If either the start or end date is blank, the period is considered not used.
 **Name:** end_date2,
 **Type:** String,
@@ -83,7 +83,7 @@ Specify a date in MM-DD format if you want a second period of reduction; leave b
 **Required:** false,
 **Model Dependent:** false
 
-### Second start date for the Reduction (optional)
+### Third start date for the Reduction (optional)
 Specify a date in MM-DD format if you want a third period of reduction; leave blank if not needed.
 **Name:** start_date3,
 **Type:** String,
@@ -91,7 +91,7 @@ Specify a date in MM-DD format if you want a third period of reduction; leave bl
 **Required:** false,
 **Model Dependent:** false
 
-### Second end date for the Reduction
+### Third end date for the Reduction
 Specify a date in MM-DD format if you want a third period of reduction; leave blank if not needed. If either the start or end date is blank, the period is considered not used.
 **Name:** end_date3,
 **Type:** String,

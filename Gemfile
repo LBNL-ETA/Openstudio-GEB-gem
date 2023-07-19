@@ -20,3 +20,8 @@ gem 'openstudio_measure_tester', '= 0.3.1' # This includes the dependencies for 
 
 # simplecov has an unnecessary dependency on native json gem, use fork that does not require this
 gem 'simplecov', '~> 0.18.2'
+
+# pin this dependency to avoid unicode_normalize error
+gem 'addressable', '2.8.1'
+# pin this dependency to avoid using racc dependency (which has native extensions)
+gem 'parser', '3.2.2.2'

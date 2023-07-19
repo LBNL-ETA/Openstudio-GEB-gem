@@ -1,9 +1,11 @@
+<?xml version="1.0"?>
 <measure>
   <schema_version>3.0</schema_version>
+  <error>wrong number of arguments (given 1, expected 0)</error>
   <name>geb_metrics_report</name>
   <uid>de3dd145-8762-4f1d-b4b5-a3b90c985c19</uid>
-  <version_id>971a5513-db31-4095-a075-e7378d6db178</version_id>
-  <version_modified>20210824T211750Z</version_modified>
+  <version_id>9a5d71fc-a377-4290-858b-9b47a4a2e6cc</version_id>
+  <version_modified>20230719T172108Z</version_modified>
   <xml_checksum>5EE3671C</xml_checksum>
   <class_name>GEBMetricsReport</class_name>
   <display_name>GEB Metrics Report</display_name>
@@ -15,19 +17,28 @@
       <display_name>The event date for GEB metrics reporting purpose</display_name>
       <description>In MM-DD format</description>
       <type>String</type>
+      <units></units>
       <required>true</required>
       <model_dependent>false</model_dependent>
+      <default_value></default_value>
+      <min_value></min_value>
+      <max_value></max_value>
     </argument>
     <argument>
       <name>baseline_run_output_path</name>
       <display_name>Output path</display_name>
+      <description></description>
       <type>Path</type>
+      <units></units>
       <required>true</required>
       <model_dependent>false</model_dependent>
+      <default_value></default_value>
+      <min_value></min_value>
+      <max_value></max_value>
     </argument>
   </arguments>
-  <outputs/>
-  <provenances/>
+  <outputs />
+  <provenances />
   <tags>
     <tag>Reporting.QAQC</tag>
   </tags>
@@ -55,12 +66,6 @@
   </attributes>
   <files>
     <file>
-      <filename>LICENSE.md</filename>
-      <filetype>md</filetype>
-      <usage_type>license</usage_type>
-      <checksum>CD7F5672</checksum>
-    </file>
-    <file>
       <filename>README.md.erb</filename>
       <filetype>erb</filetype>
       <usage_type>readmeerb</usage_type>
@@ -73,34 +78,34 @@
       <checksum>00000000</checksum>
     </file>
     <file>
-      <filename>os_lib_helper_methods.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>0B5DED0D</checksum>
-    </file>
-    <file>
       <filename>small_office_simple_w_CO2_daylighting.osm</filename>
       <filetype>osm</filetype>
       <usage_type>test</usage_type>
       <checksum>106D8627</checksum>
     </file>
     <file>
-      <filename>occupant_centric_kpi_report_test.rb</filename>
+      <filename>LICENSE.md</filename>
+      <filetype>md</filetype>
+      <usage_type>license</usage_type>
+      <checksum>BFFB1AA6</checksum>
+    </file>
+    <file>
+      <filename>os_lib_helper_methods.rb</filename>
       <filetype>rb</filetype>
-      <usage_type>test</usage_type>
-      <checksum>17377BB4</checksum>
+      <usage_type>resource</usage_type>
+      <checksum>FEACB9A1</checksum>
     </file>
     <file>
       <filename>report.html.erb</filename>
       <filetype>erb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>846988AF</checksum>
+      <checksum>FFA4B403</checksum>
     </file>
     <file>
       <filename>os_lib_reporting.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>4E947F52</checksum>
+      <checksum>98131F05</checksum>
     </file>
     <file>
       <version>
@@ -111,13 +116,223 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>48057114</checksum>
+      <checksum>B2A084B4</checksum>
+    </file>
+    <file>
+      <filename>CZ06RV2.epw</filename>
+      <filetype>epw</filetype>
+      <usage_type>test</usage_type>
+      <checksum>52282D70</checksum>
+    </file>
+    <file>
+      <filename>baseline/out.osw</filename>
+      <filetype>osw</filetype>
+      <usage_type>test</usage_type>
+      <checksum>81394943</checksum>
+    </file>
+    <file>
+      <filename>baseline/baseline.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>1DAFFE27</checksum>
+    </file>
+    <file>
+      <filename>baseline/baseline.osw</filename>
+      <filetype>osw</filetype>
+      <usage_type>test</usage_type>
+      <checksum>1DA31EB3</checksum>
+    </file>
+    <file>
+      <filename>baseline/run/in.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>E9F1D709</checksum>
+    </file>
+    <file>
+      <filename>baseline/run/eplusout.shd</filename>
+      <filetype>shd</filetype>
+      <usage_type>test</usage_type>
+      <checksum>E865DCFA</checksum>
+    </file>
+    <file>
+      <filename>baseline/run/eplustbl.htm</filename>
+      <filetype>htm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>E530BAF4</checksum>
+    </file>
+    <file>
+      <filename>baseline/run/stdout-expandobject</filename>
+      <filetype></filetype>
+      <usage_type>test</usage_type>
+      <checksum>1A38BEA7</checksum>
+    </file>
+    <file>
+      <filename>baseline/run/eplusout.mdd</filename>
+      <filetype>mdd</filetype>
+      <usage_type>test</usage_type>
+      <checksum>D6E3BBDD</checksum>
+    </file>
+    <file>
+      <filename>baseline/run/eplusout.audit</filename>
+      <filetype>audit</filetype>
+      <usage_type>test</usage_type>
+      <checksum>4634D8ED</checksum>
+    </file>
+    <file>
+      <filename>baseline/run/run.log</filename>
+      <filetype>log</filetype>
+      <usage_type>test</usage_type>
+      <checksum>00000000</checksum>
+    </file>
+    <file>
+      <filename>baseline/run/eplusout.rdd</filename>
+      <filetype>rdd</filetype>
+      <usage_type>test</usage_type>
+      <checksum>125FD099</checksum>
+    </file>
+    <file>
+      <filename>baseline/run/eplusout.eio</filename>
+      <filetype>eio</filetype>
+      <usage_type>test</usage_type>
+      <checksum>BAA66A35</checksum>
+    </file>
+    <file>
+      <filename>baseline/run/eplusssz.csv</filename>
+      <filetype>csv</filetype>
+      <usage_type>test</usage_type>
+      <checksum>57B7E6F9</checksum>
+    </file>
+    <file>
+      <filename>baseline/run/results.json</filename>
+      <filetype>json</filetype>
+      <usage_type>test</usage_type>
+      <checksum>73BEBBA8</checksum>
+    </file>
+    <file>
+      <filename>baseline/run/finished.job</filename>
+      <filetype>job</filetype>
+      <usage_type>test</usage_type>
+      <checksum>1E4958FD</checksum>
+    </file>
+    <file>
+      <filename>baseline/run/eplusout.err</filename>
+      <filetype>err</filetype>
+      <usage_type>test</usage_type>
+      <checksum>5D0C3CC0</checksum>
+    </file>
+    <file>
+      <filename>baseline/run/data_point.zip</filename>
+      <filetype>zip</filetype>
+      <usage_type>test</usage_type>
+      <checksum>D84E1C83</checksum>
+    </file>
+    <file>
+      <filename>baseline/run/stdout-energyplus</filename>
+      <filetype></filetype>
+      <usage_type>test</usage_type>
+      <checksum>104DDC36</checksum>
+    </file>
+    <file>
+      <filename>baseline/run/eplusout.eso</filename>
+      <filetype>eso</filetype>
+      <usage_type>test</usage_type>
+      <checksum>A0791896</checksum>
+    </file>
+    <file>
+      <filename>baseline/run/in.idf</filename>
+      <filetype>idf</filetype>
+      <usage_type>test</usage_type>
+      <checksum>A0ACFC21</checksum>
+    </file>
+    <file>
+      <filename>baseline/run/eplusout.end</filename>
+      <filetype>end</filetype>
+      <usage_type>test</usage_type>
+      <checksum>7AE603B1</checksum>
+    </file>
+    <file>
+      <filename>baseline/run/eplusout.sql</filename>
+      <filetype>sql</filetype>
+      <usage_type>test</usage_type>
+      <checksum>A436973E</checksum>
+    </file>
+    <file>
+      <filename>baseline/run/epluszsz.csv</filename>
+      <filetype>csv</filetype>
+      <usage_type>test</usage_type>
+      <checksum>EECD4641</checksum>
+    </file>
+    <file>
+      <filename>baseline/run/data_point_out.json</filename>
+      <filetype>json</filetype>
+      <usage_type>test</usage_type>
+      <checksum>73BEBBA8</checksum>
+    </file>
+    <file>
+      <filename>baseline/run/started.job</filename>
+      <filetype>job</filetype>
+      <usage_type>test</usage_type>
+      <checksum>92F635F9</checksum>
+    </file>
+    <file>
+      <filename>baseline/run/sqlite.err</filename>
+      <filetype>err</filetype>
+      <usage_type>test</usage_type>
+      <checksum>D834FBC1</checksum>
+    </file>
+    <file>
+      <filename>baseline/run/objectives.json</filename>
+      <filetype>json</filetype>
+      <usage_type>test</usage_type>
+      <checksum>73BEBBA8</checksum>
+    </file>
+    <file>
+      <filename>baseline/run/measure_attributes.json</filename>
+      <filetype>json</filetype>
+      <usage_type>test</usage_type>
+      <checksum>73BEBBA8</checksum>
+    </file>
+    <file>
+      <filename>baseline/run/eplusout.bnd</filename>
+      <filetype>bnd</filetype>
+      <usage_type>test</usage_type>
+      <checksum>2B77D071</checksum>
+    </file>
+    <file>
+      <filename>baseline/run/eplusout.mtd</filename>
+      <filetype>mtd</filetype>
+      <usage_type>test</usage_type>
+      <checksum>F82856DF</checksum>
+    </file>
+    <file>
+      <filename>baseline/run/pre-preprocess.idf</filename>
+      <filetype>idf</filetype>
+      <usage_type>test</usage_type>
+      <checksum>CEF1EA7A</checksum>
+    </file>
+    <file>
+      <filename>baseline/reports/eplustbl.html</filename>
+      <filetype>html</filetype>
+      <usage_type>test</usage_type>
+      <checksum>A3B928F4</checksum>
+    </file>
+    <file>
+      <filename>geb_metrics_report_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>7D0DCE15</checksum>
     </file>
     <file>
       <filename>README.md</filename>
       <filetype>md</filetype>
       <usage_type>readme</usage_type>
-      <checksum>76505336</checksum>
+      <checksum>0B68E96D</checksum>
+    </file>
+    <file>
+      <filename>occupant_centric_kpi_report_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>3D6AD315</checksum>
     </file>
   </files>
 </measure>

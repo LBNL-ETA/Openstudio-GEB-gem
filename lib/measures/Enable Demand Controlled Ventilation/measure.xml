@@ -1,9 +1,10 @@
+<?xml version="1.0"?>
 <measure>
   <schema_version>3.0</schema_version>
   <name>enable_demand_controlled_ventilation</name>
   <uid>3ff4b412-8689-4b11-a588-935c621dc97d</uid>
-  <version_id>6cbb65cc-484e-452c-817b-9e6e66bfb011</version_id>
-  <version_modified>20210915T221802Z</version_modified>
+  <version_id>36048476-a8b9-4789-9954-999b9b6340da</version_id>
+  <version_modified>20230719T172112Z</version_modified>
   <xml_checksum>ECE70A70</xml_checksum>
   <class_name>EnableDemandControlledVentilation</class_name>
   <display_name>Enable Demand Controlled Ventilation</display_name>
@@ -56,8 +57,8 @@ The cost arguments are user arguments that start with a default of $0.</modeler_
       </choices>
     </argument>
   </arguments>
-  <outputs/>
-  <provenances/>
+  <outputs />
+  <provenances />
   <tags>
     <tag>HVAC.Ventilation</tag>
   </tags>
@@ -93,10 +94,16 @@ The cost arguments are user arguments that start with a default of $0.</modeler_
       <checksum>F6CB5CF3</checksum>
     </file>
     <file>
+      <filename>MediumOffice-90.1-2010-ASHRAE 169-2013-5A_dcv.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>4E885A65</checksum>
+    </file>
+    <file>
       <filename>LICENSE.md</filename>
       <filetype>md</filetype>
       <usage_type>license</usage_type>
-      <checksum>E0468DD6</checksum>
+      <checksum>BFFB1AA6</checksum>
     </file>
     <file>
       <version>
@@ -107,19 +114,13 @@ The cost arguments are user arguments that start with a default of $0.</modeler_
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>D051868A</checksum>
+      <checksum>AE953EFB</checksum>
     </file>
     <file>
       <filename>EnableDemandControlledVentilation_Test.rb</filename>
       <filetype>rb</filetype>
       <usage_type>test</usage_type>
-      <checksum>12A588F9</checksum>
-    </file>
-    <file>
-      <filename>MediumOffice-90.1-2010-ASHRAE 169-2013-5A_dcv.osm</filename>
-      <filetype>osm</filetype>
-      <usage_type>test</usage_type>
-      <checksum>4E885A65</checksum>
+      <checksum>FE1D9051</checksum>
     </file>
   </files>
 </measure>

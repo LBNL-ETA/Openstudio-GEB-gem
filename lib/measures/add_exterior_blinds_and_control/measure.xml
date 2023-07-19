@@ -3,8 +3,8 @@
   <schema_version>3.0</schema_version>
   <name>add_exterior_blinds_and_control</name>
   <uid>5fe15d72-04ce-43a1-81b1-a64d1ee42eb0</uid>
-  <version_id>b87a128e-2423-4acc-9511-ff3556e0941e</version_id>
-  <version_modified>20221011T000921Z</version_modified>
+  <version_id>f80f12e3-3128-4eca-ac1f-07b109ec543e</version_id>
+  <version_modified>20230718T215425Z</version_modified>
   <xml_checksum>81FBCAB4</xml_checksum>
   <class_name>AddExteriorBlindsAndControl</class_name>
   <display_name>add_exterior_blinds_and_control</display_name>
@@ -97,12 +97,6 @@
   </attributes>
   <files>
     <file>
-      <filename>LICENSE.md</filename>
-      <filetype>md</filetype>
-      <usage_type>license</usage_type>
-      <checksum>CD7F5672</checksum>
-    </file>
-    <file>
       <filename>README.md.erb</filename>
       <filetype>erb</filetype>
       <usage_type>readmeerb</usage_type>
@@ -115,27 +109,10 @@
       <checksum>00000000</checksum>
     </file>
     <file>
-      <filename>add_exterior_blinds_and_control_test.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>test</usage_type>
-      <checksum>98C609BE</checksum>
-    </file>
-    <file>
       <filename>example_model.osm</filename>
       <filetype>osm</filetype>
       <usage_type>test</usage_type>
       <checksum>53D14E69</checksum>
-    </file>
-    <file>
-      <version>
-        <software_program>OpenStudio</software_program>
-        <identifier>3.1.0</identifier>
-        <min_compatible>3.1.0</min_compatible>
-      </version>
-      <filename>measure.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>script</usage_type>
-      <checksum>39846C1A</checksum>
     </file>
     <file>
       <filename>README.md</filename>
@@ -144,6 +121,18 @@
       <checksum>7AD5756A</checksum>
     </file>
     <file>
+      <filename>LICENSE.md</filename>
+      <filetype>md</filetype>
+      <usage_type>license</usage_type>
+      <checksum>BFFB1AA6</checksum>
+    </file>
+    <file>
+      <filename>add_exterior_blinds_and_control_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>22FAED43</checksum>
+    </file>
+    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>3.1.0</identifier>
@@ -152,7 +141,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>F057586B</checksum>
+      <checksum>C418BA57</checksum>
     </file>
   </files>
 </measure>

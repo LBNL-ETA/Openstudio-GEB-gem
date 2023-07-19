@@ -1,9 +1,10 @@
+<?xml version="1.0"?>
 <measure>
   <schema_version>3.0</schema_version>
   <name>add_electrochromic_window</name>
   <uid>11cac3d1-3688-4bb8-bf2c-f4db89339799</uid>
-  <version_id>0a703d62-e95a-464c-a369-d1a69b0ea3b0</version_id>
-  <version_modified>20220311T224631Z</version_modified>
+  <version_id>3a2ba394-c8fd-4665-9cda-2580fd36cbec</version_id>
+  <version_modified>20230718T215420Z</version_modified>
   <xml_checksum>3AB77CF4</xml_checksum>
   <class_name>AddElectrochromicWindow</class_name>
   <display_name>Add Electrochromic Window</display_name>
@@ -269,8 +270,8 @@
       <default_value>300</default_value>
     </argument>
   </arguments>
-  <outputs/>
-  <provenances/>
+  <outputs />
+  <provenances />
   <tags>
     <tag>Envelope.Fenestration</tag>
   </tags>
@@ -323,12 +324,6 @@
   </attributes>
   <files>
     <file>
-      <filename>LICENSE.md</filename>
-      <filetype>md</filetype>
-      <usage_type>license</usage_type>
-      <checksum>CD7F5672</checksum>
-    </file>
-    <file>
       <filename>README.md.erb</filename>
       <filetype>erb</filetype>
       <usage_type>readmeerb</usage_type>
@@ -345,23 +340,6 @@
       <filetype>osm</filetype>
       <usage_type>test</usage_type>
       <checksum>53D14E69</checksum>
-    </file>
-    <file>
-      <version>
-        <software_program>OpenStudio</software_program>
-        <identifier>2.9.1</identifier>
-        <min_compatible>2.9.1</min_compatible>
-      </version>
-      <filename>measure.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>script</usage_type>
-      <checksum>8FFFC61E</checksum>
-    </file>
-    <file>
-      <filename>add_electrochromic_window_test.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>test</usage_type>
-      <checksum>63E63C75</checksum>
     </file>
     <file>
       <filename>CZ06RV2.epw</filename>
@@ -386,6 +364,29 @@
       <filetype>md</filetype>
       <usage_type>readme</usage_type>
       <checksum>D4BD56A8</checksum>
+    </file>
+    <file>
+      <filename>LICENSE.md</filename>
+      <filetype>md</filetype>
+      <usage_type>license</usage_type>
+      <checksum>BFFB1AA6</checksum>
+    </file>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>2.9.1</identifier>
+        <min_compatible>2.9.1</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>EED95A3E</checksum>
+    </file>
+    <file>
+      <filename>add_electrochromic_window_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>1E202E01</checksum>
     </file>
   </files>
 </measure>

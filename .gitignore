@@ -20,7 +20,8 @@
 .rspec_status
 
 # Ignore IDE files
-/.idea
+*.idea/
+/.idea/
 *.rubocop-http*
 
 # measures tests

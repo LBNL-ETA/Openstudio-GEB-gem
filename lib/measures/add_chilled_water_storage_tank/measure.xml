@@ -1,9 +1,10 @@
+<?xml version="1.0"?>
 <measure>
   <schema_version>3.0</schema_version>
   <name>add_chilled_water_storage_tank</name>
   <uid>8aafeff8-7798-43ab-8075-9cfe59a611b8</uid>
-  <version_id>d5d4158b-d9a1-414f-93c6-927877f8f2f9</version_id>
-  <version_modified>20210624T193338Z</version_modified>
+  <version_id>762ec571-fcf5-4617-a95a-5aaa2951f61d</version_id>
+  <version_modified>20230719T172112Z</version_modified>
   <xml_checksum>6394841D</xml_checksum>
   <class_name>AddChilledWaterStorageTank</class_name>
   <display_name>Add Chilled Water Storage Tank</display_name>
@@ -11,16 +12,176 @@
   <modeler_description>This measure adds a chilled water storage tank and links it to an existing chilled water loop.</modeler_description>
   <arguments>
     <argument>
-      <name>space_name</name>
-      <display_name>New space name</display_name>
-      <description>This name will be used as the name of the new space.</description>
+      <name>tank_vol</name>
+      <display_name>Thermal storage chilled water tank volume in m3</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+    </argument>
+    <argument>
+      <name>objective</name>
+      <display_name>Select Energy Storage Objective:</display_name>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>Partial Storage</default_value>
+      <choices>
+        <choice>
+          <value>Full Storage</value>
+          <display_name>Full Storage</display_name>
+        </choice>
+        <choice>
+          <value>Partial Storage</value>
+          <display_name>Partial Storage</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>selected_primary_loop_name</name>
+      <display_name>Select Primary Loop:</display_name>
+      <description>Error: No Cooling Loop Found</description>
+      <type>Choice</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+      <choices>
+        <choice>
+          <value></value>
+          <display_name></display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>primary_loop_sp</name>
+      <display_name>Primary Loop (charging) Setpoint Temperature degree C:</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>6.7</default_value>
+    </argument>
+    <argument>
+      <name>secondary_loop_sp</name>
+      <display_name>Secondary Loop (discharging) Setpoint Temperature degree C:</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>6.7</default_value>
+    </argument>
+    <argument>
+      <name>tank_charge_sp</name>
+      <display_name>Chilled Water Tank Setpoint Temperature degree C:</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>6.7</default_value>
+    </argument>
+    <argument>
+      <name>primary_delta_t</name>
+      <display_name>Loop Design Temperature Difference degree C:</display_name>
+      <description>Enter numeric value to adjust selected loop settings.</description>
       <type>String</type>
       <required>true</required>
       <model_dependent>false</model_dependent>
+      <default_value>Use Existing Loop Value</default_value>
+    </argument>
+    <argument>
+      <name>secondary_delta_t</name>
+      <display_name>Secondary Loop Design Temperature Difference degree C</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>4.5</default_value>
+    </argument>
+    <argument>
+      <name>thermal_storage_startdate</name>
+      <display_name>Start Date for thermal storage</display_name>
+      <description>In MM-DD format</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>01-01</default_value>
+    </argument>
+    <argument>
+      <name>thermal_storage_enddate</name>
+      <display_name>End Date for thermal storage</display_name>
+      <description>In MM-DD format</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>12-31</default_value>
+    </argument>
+    <argument>
+      <name>discharge_start</name>
+      <display_name>Enter Starting Time for Chilled Water Tank Discharge:</display_name>
+      <description>Use 24 hour format (HR:MM)</description>
+      <type>String</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>08:00</default_value>
+    </argument>
+    <argument>
+      <name>discharge_end</name>
+      <display_name>Enter End Time for Chilled Water Tank Discharge:</display_name>
+      <description>Use 24 hour format (HR:MM)</description>
+      <type>String</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>21:00</default_value>
+    </argument>
+    <argument>
+      <name>charge_start</name>
+      <display_name>Enter Starting Time for Chilled Water Tank charge:</display_name>
+      <description>Use 24 hour format (HR:MM)</description>
+      <type>String</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>23:00</default_value>
+    </argument>
+    <argument>
+      <name>charge_end</name>
+      <display_name>Enter End Time for Chilled Water Tank charge:</display_name>
+      <description>Use 24 hour format (HR:MM)</description>
+      <type>String</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>07:00</default_value>
+    </argument>
+    <argument>
+      <name>wknds</name>
+      <display_name>Allow Chilled Water Tank Work on Weekends</display_name>
+      <type>Boolean</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>false</default_value>
+      <choices>
+        <choice>
+          <value>true</value>
+          <display_name>true</display_name>
+        </choice>
+        <choice>
+          <value>false</value>
+          <display_name>false</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>run_output_path</name>
+      <display_name>Output path for tank sizing run (if tank volume is not provided)</display_name>
+      <type>Path</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>"."</default_value>
+    </argument>
+    <argument>
+      <name>epw_path</name>
+      <display_name>epw file path for tank sizing run (if tank volume is not provided)</display_name>
+      <type>Path</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
     </argument>
   </arguments>
-  <outputs/>
-  <provenances/>
+  <outputs />
+  <provenances />
   <tags>
     <tag>HVAC.Cooling</tag>
   </tags>
@@ -63,23 +224,6 @@
   </attributes>
   <files>
     <file>
-      <version>
-        <software_program>OpenStudio</software_program>
-        <identifier>2.9.1</identifier>
-        <min_compatible>2.9.1</min_compatible>
-      </version>
-      <filename>measure.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>script</usage_type>
-      <checksum>6CEF8C3A</checksum>
-    </file>
-    <file>
-      <filename>LICENSE.md</filename>
-      <filetype>md</filetype>
-      <usage_type>license</usage_type>
-      <checksum>CD7F5672</checksum>
-    </file>
-    <file>
       <filename>README.md.erb</filename>
       <filetype>erb</filetype>
       <usage_type>readmeerb</usage_type>
@@ -92,22 +236,51 @@
       <checksum>00000000</checksum>
     </file>
     <file>
-      <filename>add_chilled_water_storage_tank_test.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>test</usage_type>
-      <checksum>38DDF482</checksum>
-    </file>
-    <file>
       <filename>example_model.osm</filename>
       <filetype>osm</filetype>
       <usage_type>test</usage_type>
       <checksum>53D14E69</checksum>
     </file>
     <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>2.9.1</identifier>
+        <min_compatible>2.9.1</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>EFE2DEC1</checksum>
+    </file>
+    <file>
+      <filename>LICENSE.md</filename>
+      <filetype>md</filetype>
+      <usage_type>license</usage_type>
+      <checksum>BFFB1AA6</checksum>
+    </file>
+    <file>
+      <filename>add_chilled_water_storage_tank_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>AC813F36</checksum>
+    </file>
+    <file>
       <filename>README.md</filename>
       <filetype>md</filetype>
       <usage_type>readme</usage_type>
-      <checksum>1EBF4EB5</checksum>
+      <checksum>107C2731</checksum>
+    </file>
+    <file>
+      <filename>CZ06RV2.epw</filename>
+      <filetype>epw</filetype>
+      <usage_type>test</usage_type>
+      <checksum>52282D70</checksum>
+    </file>
+    <file>
+      <filename>restaurant.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>75E857EB</checksum>
     </file>
   </files>
 </measure>
