@@ -1,0 +1,265 @@
+<?xml version="1.0"?>
+<measure>
+  <schema_version>3.0</schema_version>
+  <name>add_fan_assist_night_ventilation_with_hybrid_control</name>
+  <uid>d92a3755-0116-4cc0-913a-583b7823a6f3</uid>
+  <version_id>b83aa7af-e28a-4856-b35c-d6dd565bbe73</version_id>
+  <version_modified>20230728T183331Z</version_modified>
+  <xml_checksum>5C177E8D</xml_checksum>
+  <class_name>AddFanAssistNightVentilationWithHybridControl</class_name>
+  <display_name>Add fan assist night ventilation with hybrid control</display_name>
+  <description>This measure is modified based on the OS measure "fan_assist_night_ventilation" from "openstudio-ee-gem".  It adds night ventilation that is enabled by opening windows assisted by exhaust fans. Hybrid ventilation  control is added to avoid simultaneous operation of windows and HVAC.</description>
+  <modeler_description>This measure adds a zone ventilation object to each zone with operable windwos. The measure will first  look for a celing opening to find a connection for zone a zone mixing object. If a ceiling isn't found,  then it looks for a wall. The end result is zone ventilation object followed by a path of zone mixing objects.  The exhaust fan consumption is modeled in the zone ventilation object, but no heat is brought in from the fan. 
+ Different from the original 'fan_assist_night_ventilation' measure, this measure can be applied to models  with mechenical systems. HybridVentilationAvailabilityManager is added to airloops and zonal systems to avoid  simultaneous operation of windows and HVAC. The zone ventilation is controlled by a combination of schedule,  indoor and outdoor temperature, and wind speed.</modeler_description>
+  <arguments>
+    <argument>
+      <name>design_night_vent_ach</name>
+      <display_name>Design night ventilation air change rate defined by ACH-air changes per hour</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>3</default_value>
+    </argument>
+    <argument>
+      <name>fan_pressure_rise</name>
+      <display_name>Fan Pressure Rise</display_name>
+      <type>Double</type>
+      <units>Pa</units>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>500</default_value>
+    </argument>
+    <argument>
+      <name>efficiency</name>
+      <display_name>Fan Total Efficiency</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.65</default_value>
+    </argument>
+    <argument>
+      <name>min_indoor_temp</name>
+      <display_name>Minimum Indoor Temperature (degC)</display_name>
+      <description>The indoor temperature below which ventilation is shutoff.</description>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>20</default_value>
+    </argument>
+    <argument>
+      <name>max_indoor_temp</name>
+      <display_name>Maximum Indoor Temperature (degC)</display_name>
+      <description>The indoor temperature above which ventilation is shutoff.</description>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>26</default_value>
+    </argument>
+    <argument>
+      <name>delta_temp</name>
+      <display_name>Minimum Indoor-Outdoor Temperature Difference (degC)</display_name>
+      <description>This is the temperature difference between the indoor and outdoor air dry-bulb temperatures below which ventilation is shutoff.  For example, a delta temperature of 2 degC means ventilation is available if the outside air temperature is at least 2 degC cooler than the zone air temperature. Values can be negative.</description>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>2</default_value>
+    </argument>
+    <argument>
+      <name>min_outdoor_temp</name>
+      <display_name>Minimum Outdoor Temperature (degC)</display_name>
+      <description>The outdoor temperature below which ventilation is shut off.</description>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>18</default_value>
+    </argument>
+    <argument>
+      <name>max_outdoor_temp</name>
+      <display_name>Maximum Outdoor Temperature (degC)</display_name>
+      <description>The outdoor temperature above which ventilation is shut off.</description>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>26</default_value>
+    </argument>
+    <argument>
+      <name>max_wind_speed</name>
+      <display_name>Maximum Wind Speed (m/s)</display_name>
+      <description>This is the wind speed above which ventilation is shut off.  The default values assume windows are closed when wind is above a gentle breeze to avoid blowing around papers in the space.</description>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>40</default_value>
+    </argument>
+    <argument>
+      <name>night_vent_starttime</name>
+      <display_name>Daily Start Time for natural ventilation</display_name>
+      <description>Use 24 hour format (HR:MM)</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>20:00</default_value>
+    </argument>
+    <argument>
+      <name>night_vent_endtime</name>
+      <display_name>Daily End Time for natural ventilation</display_name>
+      <description>Use 24 hour format (HR:MM)</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>08:00</default_value>
+    </argument>
+    <argument>
+      <name>night_vent_startdate</name>
+      <display_name>Start Date for natural ventilation</display_name>
+      <description>In MM-DD format</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>03-01</default_value>
+    </argument>
+    <argument>
+      <name>night_vent_enddate</name>
+      <display_name>End Date for natural ventilation</display_name>
+      <description>In MM-DD format</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>10-31</default_value>
+    </argument>
+    <argument>
+      <name>wknds</name>
+      <display_name>Allow night time ventilation on weekends</display_name>
+      <type>Boolean</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>true</default_value>
+      <choices>
+        <choice>
+          <value>true</value>
+          <display_name>true</display_name>
+        </choice>
+        <choice>
+          <value>false</value>
+          <display_name>false</display_name>
+        </choice>
+      </choices>
+    </argument>
+  </arguments>
+  <outputs />
+  <provenances />
+  <tags>
+    <tag>HVAC.Ventilation</tag>
+  </tags>
+  <attributes>
+    <attribute>
+      <name>Measure Type</name>
+      <value>ModelMeasure</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Apply Measure Now</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>OpenStudio Application</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Parametric Analysis Tool</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Use Case</name>
+      <value>Model Articulation</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Use Case</name>
+      <value>Retrofit EE</value>
+      <datatype>string</datatype>
+    </attribute>
+  </attributes>
+  <files>
+    <file>
+      <filename>README.md.erb</filename>
+      <filetype>erb</filetype>
+      <usage_type>readmeerb</usage_type>
+      <checksum>F1C26127</checksum>
+    </file>
+    <file>
+      <filename>.gitkeep</filename>
+      <filetype>gitkeep</filetype>
+      <usage_type>doc</usage_type>
+      <checksum>00000000</checksum>
+    </file>
+    <file>
+      <filename>LICENSE.md</filename>
+      <filetype>md</filetype>
+      <usage_type>license</usage_type>
+      <checksum>BFFB1AA6</checksum>
+    </file>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>3.4.0</identifier>
+        <min_compatible>3.4.0</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>ABFC22A0</checksum>
+    </file>
+    <file>
+      <filename>add_fan_assist_night_ventilation_with_hybrid_control_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>537C80AD</checksum>
+    </file>
+    <file>
+      <filename>MediumOffice-90.1-2010-ASHRAE 169-2013-5A.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>A364A953</checksum>
+    </file>
+    <file>
+      <filename>SFD_2story_FB_UA_GRG_AC1_UnitHeater_FuelTankWH.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>EE98A148</checksum>
+    </file>
+    <file>
+      <filename>USA_NY_Buffalo.Niagara.Intl.AP.725280_TMY3.epw</filename>
+      <filetype>epw</filetype>
+      <usage_type>test</usage_type>
+      <checksum>3A15D82B</checksum>
+    </file>
+    <file>
+      <filename>SmallHotel-2A.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>21334FFF</checksum>
+    </file>
+    <file>
+      <filename>USA_TX_Houston-Bush.Intercontinental.AP.722430_TMY3.epw</filename>
+      <filetype>epw</filetype>
+      <usage_type>test</usage_type>
+      <checksum>EE565FCC</checksum>
+    </file>
+    <file>
+      <filename>medium_office_with_internal_windows.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>401CD6E0</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>87A78EF5</checksum>
+    </file>
+  </files>
+</measure>

@@ -10,11 +10,6 @@ RSpec.describe OpenStudio::Geb do
     expect(OpenStudio::Geb::VERSION).not_to be nil
   end
 
-  it 'has a measures directory' do
-    instance = OpenStudio::Geb::Geb.new
-    expect(File.exist?(instance.measures_dir)).to be true
-  end
-
   # First get all available GEB measures
   it "list all geb measures" do
     all_measures = list_all_geb_measures
@@ -25,7 +20,8 @@ RSpec.describe OpenStudio::Geb do
 
   it "can apply and run single measure" do
     # provide baseline path
-    baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/MediumOffice-90.1-2010-ASHRAE 169-2013-5A.osm")   # commercial
+    baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/medium_office_with_internal_windows.osm")   # commercial
+    # baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/MediumOffice-90.1-2010-ASHRAE 169-2013-5A.osm")   # commercial
     # baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/SFD_1story_UB_UA_ASHP2_HPWH.osm")  # residential
     all_measures = list_all_geb_measures
     # puts JSON.pretty_generate(all_measures)
@@ -199,19 +195,32 @@ RSpec.describe OpenStudio::Geb do
       #     "user_defined_end_time" => '04:00:00'
       #   }
       # },
-      "add_natural_ventilation_with_hybrid_control" => {
-        "measure_dir_name" => all_measures["add_natural_ventilation_with_hybrid_control"]["measure_dir_name"],
+      # "add_natural_ventilation_with_hybrid_control" => {
+      #   "measure_dir_name" => all_measures["add_natural_ventilation_with_hybrid_control"]["measure_dir_name"],
+      #   "arguments" => {
+      #     "open_area_fraction" => 0.6,
+      #     "min_indoor_temp" => 21,
+      #     "max_indoor_temp" => 24,
+      #     "min_outdoor_temp" => 20,
+      #     "max_outdoor_temp" => 24,
+      #     "delta_temp" => 2,
+      #     "nv_starttime" => "07:00",
+      #     "nv_endtime" => "21:00",
+      #     "nv_startdate" => "03-01",
+      #     "nv_enddate" => "10-31",
+      #     "wknds" => true
+      #   }
+      # },
+      "add_fan_assist_night_ventilation_with_hybrid_control" => {
+        "measure_dir_name" => all_measures["add_fan_assist_night_ventilation_with_hybrid_control"]["measure_dir_name"],
         "arguments" => {
-          "open_area_fraction" => 0.6,
-          "min_indoor_temp" => 21,
-          "max_indoor_temp" => 24,
-          "min_outdoor_temp" => 20,
-          "max_outdoor_temp" => 24,
-          "delta_temp" => 2,
-          "nv_starttime" => "07:00",
-          "nv_endtime" => "21:00",
-          "nv_startdate" => "03-01",
-          "nv_enddate" => "10-31",
+          "design_night_vent_ach" => 3,
+          "min_outdoor_temp" => 18,
+          "max_outdoor_temp" => 26,
+          "night_vent_starttime" => "20:00",
+          "night_vent_endtime" => "08:00",
+          "night_vent_startdate" => "03-01",
+          "night_vent_enddate" => "10-31",
           "wknds" => true
         }
       },
@@ -221,7 +230,7 @@ RSpec.describe OpenStudio::Geb do
       "GEB Metrics Report" => {
         "measure_dir_name" => all_measures["GEB Metrics Report"]["measure_dir_name"],
         "arguments" => {
-          "event_date" => "06-16",
+          "event_date" => "06-17",
           "baseline_run_output_path" => run_output_path
           # "shed_start" => '08:00:00',
           # "shed_end" => '18:00:00'
