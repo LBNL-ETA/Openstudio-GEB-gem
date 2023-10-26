@@ -386,7 +386,6 @@ class AddFanAssistNightVentilationWithHybridControl < OpenStudio::Measure::Model
       zone_ventilation.setName("PathStart_#{zone.name}")
       zone_ventilation.addToThermalZone(zone)
       zone_ventilation.setVentilationType('Exhaust') # switched from Natural to use power. Need to set fan properties. Used exhaust so no heat from fan in stream
-      zone_ventilation.setDesignFlowRateCalculationMethod('AirChanges/Hour')
       zone_ventilation.setAirChangesperHour(design_night_vent_ach)
 
       # inputs used for fan power

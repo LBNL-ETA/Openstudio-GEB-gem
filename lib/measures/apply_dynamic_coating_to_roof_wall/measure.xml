@@ -1,0 +1,204 @@
+<?xml version="1.0"?>
+<measure>
+  <schema_version>3.0</schema_version>
+  <name>apply_dynamic_coating_to_roof_wall</name>
+  <uid>798beecf-b1eb-466c-ae5b-7a9e1197c908</uid>
+  <version_id>bfa5b8bd-ac57-416b-ba13-68a261754eb7</version_id>
+  <version_modified>20231025T220809Z</version_modified>
+  <xml_checksum>3F2EAA60</xml_checksum>
+  <class_name>ApplyDynamicCoatingToRoofWall</class_name>
+  <display_name>Apply dynamic coating to roof wall</display_name>
+  <description>This measure applies dynamic coating on the outside of opaque exterior walls and/or roofs. The thermal and/or solar absorptance of the outer layer material will vary with the selected control signal. This measure is meant to reduce the radiative and solar heat gain via roofs and/or walls.</description>
+  <modeler_description>This measure modifies the thermal and/or solar absorptance of the outer surface of an existing material so that they can vary with the selected control signal. The related object is available in EnergyPlus version 23.1, but not yet implemented in OpenStudio, so this measure is implemented as an EnergyPlus measure.</modeler_description>
+  <arguments>
+    <argument>
+      <name>apply_where</name>
+      <display_name>Select where to apply the dynamic coating:</display_name>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>Roof Only</default_value>
+      <choices>
+        <choice>
+          <value>Roof Only</value>
+          <display_name>Roof Only</display_name>
+        </choice>
+        <choice>
+          <value>Wall Only</value>
+          <display_name>Wall Only</display_name>
+        </choice>
+        <choice>
+          <value>Both</value>
+          <display_name>Both</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>apply_type</name>
+      <display_name>Select the type of properties that the dynamic coating modifies:</display_name>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>Both</default_value>
+      <choices>
+        <choice>
+          <value>Thermal Only</value>
+          <display_name>Thermal Only</display_name>
+        </choice>
+        <choice>
+          <value>Solar Only</value>
+          <display_name>Solar Only</display_name>
+        </choice>
+        <choice>
+          <value>Both</value>
+          <display_name>Both</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>temp_lo</name>
+      <display_name>We use two specific points to describe the linear relationship between surface temperature and absorptance, this is the surface temperature of the left point in Degree Celcius.</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>19</default_value>
+    </argument>
+    <argument>
+      <name>temp_hi</name>
+      <display_name>We use two specific points to describe the linear relationship between surface temperature and absorptance, this is the surface temperature of the right point in Degree Celcius.</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>27</default_value>
+    </argument>
+    <argument>
+      <name>therm_abs_at_temp_lo</name>
+      <display_name>Thermal absorptance at low temperature point.</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.2</default_value>
+    </argument>
+    <argument>
+      <name>therm_abs_at_temp_hi</name>
+      <display_name>Thermal absorptance at high temperature point.</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.9</default_value>
+    </argument>
+    <argument>
+      <name>solar_abs_at_temp_lo</name>
+      <display_name>Solar absorptance at low temperature point.</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.9</default_value>
+    </argument>
+    <argument>
+      <name>solar_abs_at_temp_hi</name>
+      <display_name>Solar absorptance at high temperature point.</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.1</default_value>
+    </argument>
+  </arguments>
+  <outputs />
+  <provenances />
+  <tags>
+    <tag>Envelope.Opaque</tag>
+  </tags>
+  <attributes>
+    <attribute>
+      <name>Measure Type</name>
+      <value>EnergyPlusMeasure</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Apply Measure Now</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>OpenStudio Application</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Parametric Analysis Tool</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Use Case</name>
+      <value>Model Articulation</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Use Case</name>
+      <value>New Construction EE</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Use Case</name>
+      <value>Retrofit EE</value>
+      <datatype>string</datatype>
+    </attribute>
+  </attributes>
+  <files>
+    <file>
+      <filename>LICENSE.md</filename>
+      <filetype>md</filetype>
+      <usage_type>license</usage_type>
+      <checksum>CD7F5672</checksum>
+    </file>
+    <file>
+      <filename>README.md.erb</filename>
+      <filetype>erb</filetype>
+      <usage_type>readmeerb</usage_type>
+      <checksum>F1C26127</checksum>
+    </file>
+    <file>
+      <filename>.gitkeep</filename>
+      <filetype>gitkeep</filetype>
+      <usage_type>doc</usage_type>
+      <checksum>00000000</checksum>
+    </file>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>3.4.0</identifier>
+        <min_compatible>3.4.0</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>57AB3D04</checksum>
+    </file>
+    <file>
+      <filename>apply_dynamic_coating_to_roof_wall_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>5927C28F</checksum>
+    </file>
+    <file>
+      <filename>MediumOffice-90.1-2010-ASHRAE 169-2013-5A.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>A364A953</checksum>
+    </file>
+    <file>
+      <filename>USA_NY_Buffalo.Niagara.Intl.AP.725280_TMY3.epw</filename>
+      <filetype>epw</filetype>
+      <usage_type>test</usage_type>
+      <checksum>3A15D82B</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>32AD1B4C</checksum>
+    </file>
+  </files>
+</measure>

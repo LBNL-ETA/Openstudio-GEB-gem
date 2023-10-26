@@ -77,6 +77,40 @@ module OpenStudio
 
         steps = []
         # measure_dict: hash of measures and their arguments => {measure_name: arguments}
+        # first adjust the measure sequence to be OpenStudio measure => EnergyPlus measure => Reporting measure
+        energyplus_measures = {}
+        report_measures = {}
+        @measure_dict.each_pair do |m_name, para_dict|
+          # get all EnergyPlus and Reporting measures out and remove original ones
+          File.open("#{para_dict['measure_dir_name']}/measure.rb", 'r') do |file|
+            file.each_line do |line|
+              if line =~ /class.+EnergyPlusMeasure/
+                energyplus_measures[m_name] = @measure_dict[m_name]
+                @measure_dict.delete(m_name)
+                break
+              elsif line =~ /class.+ReportingMeasure/
+                report_measures[m_name] = @measure_dict[m_name]
+                @measure_dict.delete(m_name)
+                break
+              end
+            end
+          end
+        end
+
+        # add back the EnergyPlusMeasures to the end of the measure list
+        unless energyplus_measures.empty?
+          energyplus_measures.each_key do |m_name|
+            @measure_dict[m_name] = energyplus_measures[m_name]
+          end
+        end
+        # add back the ReportingMeasures to the very end of the measure list
+        unless report_measures.empty?
+          report_measures.each_key do |m_name|
+            @measure_dict[m_name] = report_measures[m_name]
+          end
+        end
+
+        # add the final meausres to the osw steps in order
         @measure_dict.each_pair do |m_name, para_dict|
           measure = {}
           measure['measure_dir_name'] = para_dict['measure_dir_name']

@@ -20,9 +20,9 @@ RSpec.describe OpenStudio::Geb do
 
   it "can apply and run single measure" do
     # provide baseline path
-    baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/medium_office_with_internal_windows.osm")   # commercial
+    # baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/medium_office_with_internal_windows.osm")   # commercial
     # baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/MediumOffice-90.1-2010-ASHRAE 169-2013-5A.osm")   # commercial
-    # baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/SFD_1story_UB_UA_ASHP2_HPWH.osm")  # residential
+    baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/SF-CACZ6-HPWH-pre1978.osm")  # residential
     all_measures = list_all_geb_measures
     # puts JSON.pretty_generate(all_measures)
     run_output_path = File.join(File.dirname(__FILE__ ), "../output")
@@ -195,6 +195,7 @@ RSpec.describe OpenStudio::Geb do
       #     "user_defined_end_time" => '04:00:00'
       #   }
       # },
+      # # suggested event_date: 06-02
       # "add_natural_ventilation_with_hybrid_control" => {
       #   "measure_dir_name" => all_measures["add_natural_ventilation_with_hybrid_control"]["measure_dir_name"],
       #   "arguments" => {
@@ -211,17 +212,28 @@ RSpec.describe OpenStudio::Geb do
       #     "wknds" => true
       #   }
       # },
-      "add_fan_assist_night_ventilation_with_hybrid_control" => {
-        "measure_dir_name" => all_measures["add_fan_assist_night_ventilation_with_hybrid_control"]["measure_dir_name"],
+      # "add_fan_assist_night_ventilation_with_hybrid_control" => {
+      #   "measure_dir_name" => all_measures["add_fan_assist_night_ventilation_with_hybrid_control"]["measure_dir_name"],
+      #   "arguments" => {
+      #     "design_night_vent_ach" => 3,
+      #     "min_outdoor_temp" => 18,
+      #     "max_outdoor_temp" => 26,
+      #     "night_vent_starttime" => "20:00",
+      #     "night_vent_endtime" => "08:00",
+      #     "night_vent_startdate" => "03-01",
+      #     "night_vent_enddate" => "10-31",
+      #     "wknds" => true
+      #   }
+      # },
+      "apply_dynamic_coating_to_roof_wall" => {
+        "measure_dir_name" => all_measures["apply_dynamic_coating_to_roof_wall"]["measure_dir_name"],
         "arguments" => {
-          "design_night_vent_ach" => 3,
-          "min_outdoor_temp" => 18,
-          "max_outdoor_temp" => 26,
-          "night_vent_starttime" => "20:00",
-          "night_vent_endtime" => "08:00",
-          "night_vent_startdate" => "03-01",
-          "night_vent_enddate" => "10-31",
-          "wknds" => true
+          "apply_where" => 'Both',
+          "apply_type" => 'Both',
+          "temp_lo" => 19,
+          "temp_hi" => 27,
+          "solar_abs_at_temp_lo" => 0.8,
+          "solar_abs_at_temp_hi" => 0.2
         }
       },
       # TODO: test overnight take period
@@ -230,7 +242,7 @@ RSpec.describe OpenStudio::Geb do
       "GEB Metrics Report" => {
         "measure_dir_name" => all_measures["GEB Metrics Report"]["measure_dir_name"],
         "arguments" => {
-          "event_date" => "06-17",
+          "event_date" => "07-16",
           "baseline_run_output_path" => run_output_path
           # "shed_start" => '08:00:00',
           # "shed_end" => '18:00:00'
@@ -239,6 +251,7 @@ RSpec.describe OpenStudio::Geb do
         }
       }
     }
+    puts measure_dict.inspect
     runner = OpenStudio::Geb::Runner.new(baseline_dir_str, measure_dict, run_output_path, weather_file_path)
     expect(runner.run).to be true
 

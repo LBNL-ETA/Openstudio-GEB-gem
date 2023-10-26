@@ -447,7 +447,6 @@ module OsLib_Reporting
     winter_demand_geb_values = []
     step_per_h = model.getTimestep.numberOfTimestepsPerHour.to_f
     floor_area_ft2 = OpenStudio.convert(model.building.get.floorArea.to_f, 'm^2', 'ft^2').get
-    puts "*************step 1*************"
 
     datetimes.each_with_index do |time, idx|
       # get results for the event day
@@ -479,14 +478,6 @@ module OsLib_Reporting
       end
     end
 
-    puts "event_day_times: #{event_day_times.inspect}"
-    puts "event_day_base_values: #{event_day_base_values.inspect}"
-    puts "event_day_geb_values: #{event_day_geb_values.inspect}"
-    puts "summer_demand_base_values.size: #{summer_demand_base_values.size}"
-    puts "summer_demand_geb_values.size: #{summer_demand_geb_values.size}"
-    puts "winter_demand_base_values.size: #{winter_demand_base_values.size}"
-    puts "winter_demand_geb_values.size: #{winter_demand_geb_values.size}"
-
     if (shed_start.is_a?Time) && (shed_end.is_a?Time)
       shed_range = [shed_start.strftime("%H:%M"), shed_end.strftime("%H:%M")]
       demand_decrease_shed_period = []
@@ -513,11 +504,6 @@ module OsLib_Reporting
         end
       end
     end
-
-    puts "demand_base_shed_period: #{demand_base_shed_period.inspect}"
-    puts "demand_decrease_shed_period: #{demand_decrease_shed_period.inspect}"
-    puts "demand_base_take_period: #{demand_base_take_period.inspect}"
-    puts "demand_increase_take_period: #{demand_increase_take_period.inspect}"
 
     # table: list all the primary DF metrics
     demand_decrease_primary_metrics_table = {}
@@ -569,8 +555,6 @@ module OsLib_Reporting
       end
     end
 
-    puts "demand_decrease_primary_metrics_table[:data]: #{demand_decrease_primary_metrics_table[:data].inspect}"
-
     # plot: event day timestep demand profiles of baseline and GEB measures
     bldg_demand_chart = {}
     bldg_demand_chart[:title] = 'Whole Building Net Electricity Consumption on selected day (W)'
@@ -601,9 +585,6 @@ module OsLib_Reporting
       x: event_day_times,
       y: event_day_geb_values
     )
-
-    puts "demand_decrease_primary_metrics_table: #{demand_decrease_primary_metrics_table.inspect}"
-    puts "bldg_demand_chart: #{bldg_demand_chart.inspect}"
 
     @geb_metrics_section[:tables] << demand_decrease_primary_metrics_table
     @geb_metrics_section[:bldg_demand_charts] << bldg_demand_chart
