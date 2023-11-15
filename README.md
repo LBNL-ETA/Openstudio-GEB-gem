@@ -1,8 +1,9 @@
 # Openstudio Geb Gem
 
 The OpenStudio GEB measure gem is an open source OpenStudio library that can be plug-and-play into existing 
-OpenStudio-based platforms. It now has 22 GEB measures implemented, spanning various building systems like 
-lighting, plug load, envelope, hvac, domestic hot water, electric vehicle, and PV. 
+OpenStudio-based platforms. It was developed by Lawrence Berkeley National Laboratory since 2020. It now has
+22 GEB measures implemented, spanning various building systems like lighting, plug load, envelope, hvac, 
+domestic hot water, electric vehicle, and PV. 
 
 Three of the GEB measures in this gem were integrated into NREL's [URBANopt](https://docs.urbanopt.net/) platform to support load 
 flexibility analysis. They are "Reduce EPD by Percentage for Peak Hours", "Adjust thermostat setpoint 
@@ -47,3 +48,7 @@ Or install it yourself as:
 * Precooling
 * Preheating
 * Reduce exterior lighting loads
+
+## Contact
+Kaiyu Sun (Lead developer), [ksun@lbl.gov](mailto:ksun@lbl.gov)\
+Tianzhen Hong (Principal investigator), [thong@lbl.gov](mailto:thong@lbl.gov)
