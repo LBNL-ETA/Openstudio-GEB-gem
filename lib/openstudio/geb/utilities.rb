@@ -52,7 +52,8 @@ def list_all_geb_measures
   measures.each do |measure|
     measure_name = measure.split('/')[-2]
     measure_list[measure_name] = {}
-    measure_list[measure_name]['measure_dir_name'] = File.dirname(measure)
+    # now measure_dir_name uses folder name rather than absolute path, adding "measure_paths" to the osw file
+    measure_list[measure_name]['measure_dir_name'] = File.basename(File.dirname(measure))  # get just this folder name
   end
 
 =begin

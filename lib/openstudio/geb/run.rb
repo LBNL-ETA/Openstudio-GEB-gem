@@ -74,6 +74,8 @@ module OpenStudio
       def apply_measures(osw_result_folder)
         # create osw_file
         osw_path = File.join(osw_result_folder, "geb.osw")
+        # get the folder of measures
+        measures_path = File.expand_path("../../../measures/", __FILE__ )
 
         steps = []
         # measure_dict: hash of measures and their arguments => {measure_name: arguments}
@@ -82,7 +84,8 @@ module OpenStudio
         report_measures = {}
         @measure_dict.each_pair do |m_name, para_dict|
           # get all EnergyPlus and Reporting measures out and remove original ones
-          File.open("#{para_dict['measure_dir_name']}/measure.rb", 'r') do |file|
+          # now measure_dir_name uses folder name rather than absolute path, adding "measure_paths" to the osw file
+          File.open("#{measures_path}/#{para_dict['measure_dir_name']}/measure.rb", 'r') do |file|
             file.each_line do |line|
               if line =~ /class.+EnergyPlusMeasure/
                 energyplus_measures[m_name] = @measure_dict[m_name]
@@ -119,6 +122,7 @@ module OpenStudio
         end
 
         osw = {}
+        osw["measure_paths"] = [measures_path]
         osw["weather_file"] = @weather_file_path
         osw["seed_file"] = @baseline_dir_str
         osw["steps"] = steps

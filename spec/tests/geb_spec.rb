@@ -21,8 +21,8 @@ RSpec.describe OpenStudio::Geb do
   it "can apply and run single measure" do
     # provide baseline path
     # baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/medium_office_with_internal_windows.osm")   # commercial
-    # baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/MediumOffice-90.1-2010-ASHRAE 169-2013-5A.osm")   # commercial
-    baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/SF-CACZ6-HPWH-pre1978.osm")  # residential
+    baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/MediumOffice-90.1-2010-ASHRAE 169-2013-5A.osm")   # commercial
+    # baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/SF-CACZ6-HPWH-pre1978.osm")  # residential
     all_measures = list_all_geb_measures
     # puts JSON.pretty_generate(all_measures)
     run_output_path = File.join(File.dirname(__FILE__ ), "../output")
@@ -147,15 +147,15 @@ RSpec.describe OpenStudio::Geb do
       #     "fraction_of_surface" => 0.35
       #   }
       # },
-      # "average_ventilation_for_peak_hours" => {
-      #   "measure_dir_name" => all_measures["average_ventilation_for_peak_hours"]["measure_dir_name"],
-      #   "arguments" => {
-      #     "start_time" => '13:00:00',
-      #     "end_time" => '17:00:00',
-      #     "start_date1" => '07-21',
-      #     "end_date1" => '07-21'
-      #   }
-      # },
+      "average_ventilation_for_peak_hours" => {
+        "measure_dir_name" => all_measures["average_ventilation_for_peak_hours"]["measure_dir_name"],
+        "arguments" => {
+          "start_time" => '13:00:00',
+          "end_time" => '17:00:00',
+          "start_date1" => '07-21',
+          "end_date1" => '07-21'
+        }
+      },
       # "add_exterior_blinds_and_control" => {
       #   "measure_dir_name" => all_measures["add_exterior_blinds_and_control"]["measure_dir_name"],
       #   "arguments" => {
@@ -225,29 +225,29 @@ RSpec.describe OpenStudio::Geb do
       #     "wknds" => true
       #   }
       # },
-      "apply_dynamic_coating_to_roof_wall" => {
-        "measure_dir_name" => all_measures["apply_dynamic_coating_to_roof_wall"]["measure_dir_name"],
-        "arguments" => {
-          "apply_where" => 'Both',
-          "apply_type" => 'Both',
-          "temp_lo" => 19,
-          "temp_hi" => 27,
-          "solar_abs_at_temp_lo" => 0.8,
-          "solar_abs_at_temp_hi" => 0.2
-        }
-      },
+      # "apply_dynamic_coating_to_roof_wall" => {
+      #   "measure_dir_name" => all_measures["apply_dynamic_coating_to_roof_wall"]["measure_dir_name"],
+      #   "arguments" => {
+      #     "apply_where" => 'Both',
+      #     "apply_type" => 'Both',
+      #     "temp_lo" => 19,
+      #     "temp_hi" => 27,
+      #     "solar_abs_at_temp_lo" => 0.8,
+      #     "solar_abs_at_temp_hi" => 0.2
+      #   }
+      # },
       # TODO: test overnight take period
       # TODO: test no shed period and take period
       # TODO: test shed period only
       "GEB Metrics Report" => {
         "measure_dir_name" => all_measures["GEB Metrics Report"]["measure_dir_name"],
         "arguments" => {
-          "event_date" => "07-16",
-          "baseline_run_output_path" => run_output_path
-          # "shed_start" => '08:00:00',
-          # "shed_end" => '18:00:00'
-          # "take_start" => '17:00:00',
-          # "take_end" => '21:00:00'
+          "event_date" => "07-21",
+          "baseline_run_output_path" => run_output_path,
+          "shed_start" => '13:00:00',
+          "shed_end" => '17:00:00',
+          "take_start" => '9:00:00',
+          "take_end" => '13:00:00'
         }
       }
     }
@@ -277,7 +277,7 @@ RSpec.describe OpenStudio::Geb do
     weather_file_path = File.join(File.dirname(__FILE__ ), "../seed_models/USA_NY_Buffalo.Niagara.Intl.AP.725280_TMY3.epw")
 
     measure_dict = {
-      "Adjust therAdjustThermostatSetpointsByDegreesForPeakHours" => {
+      "AdjustThermostatSetpointsByDegreesForPeakHours" => {
         "measure_dir_name" => all_measures["AdjustThermostatSetpointsByDegreesForPeakHours"]["measure_dir_name"],
         "arguments" => {
           "cooling_adjustment" => 4,
