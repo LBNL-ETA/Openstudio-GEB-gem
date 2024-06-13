@@ -1,47 +1,47 @@
 
 OS:Version,
-  {15c822a5-8680-412d-9051-4c5f5bf84af1}, !- Handle
-  3.1.0;                                  !- Version Identifier
+  {710267aa-03b7-4f18-b675-4210bf362bb2}, !- Handle
+  3.7.0;                                  !- Version Identifier
 
 OS:Schedule:Ruleset,
-  {cd6f08cb-2d6b-4ead-b510-9973ab57fb3c}, !- Handle
+  {5e51be1d-47a4-45a6-831f-69e2b394fc9c}, !- Handle
   EV Charging Power Draw,                 !- Name
-  {49fe0c88-4ae2-4960-b3e1-046e84601563}, !- Schedule Type Limits Name
-  {4af36474-1ece-45a3-872e-112cb929f330}; !- Default Day Schedule Name
+  {f4a971c0-7bb6-4f09-b54b-593ad91e646f}, !- Schedule Type Limits Name
+  {6bcacd24-481f-4f28-9dba-45fc1174e22a}; !- Default Day Schedule Name
 
 OS:Schedule:Day,
-  {4af36474-1ece-45a3-872e-112cb929f330}, !- Handle
+  {6bcacd24-481f-4f28-9dba-45fc1174e22a}, !- Handle
   EV Charging Default,                    !- Name
-  {49fe0c88-4ae2-4960-b3e1-046e84601563}, !- Schedule Type Limits Name
+  {f4a971c0-7bb6-4f09-b54b-593ad91e646f}, !- Schedule Type Limits Name
   ,                                       !- Interpolate to Timestep
   8,                                      !- Hour 1
-  0,                                      !- Minute 1
+  8,                                      !- Minute 1
   0,                                      !- Value Until Time 1
   8,                                      !- Hour 2
-  6,                                      !- Minute 2
+  19,                                     !- Minute 2
   0.333333333333333,                      !- Value Until Time 2
   8,                                      !- Hour 3
-  13,                                     !- Minute 3
+  20,                                     !- Minute 3
   0.666666666666667,                      !- Value Until Time 3
-  20,                                     !- Hour 4
-  5,                                      !- Minute 4
+  14,                                     !- Hour 4
+  34,                                     !- Minute 4
   1,                                      !- Value Until Time 4
-  20,                                     !- Hour 5
-  20,                                     !- Minute 5
+  14,                                     !- Hour 5
+  39,                                     !- Minute 5
   0.666666666666667,                      !- Value Until Time 5
-  23,                                     !- Hour 6
-  8,                                      !- Minute 6
+  16,                                     !- Hour 6
+  21,                                     !- Minute 6
   0.333333333333333,                      !- Value Until Time 6
   24,                                     !- Hour 7
   0,                                      !- Minute 7
-  0;                                      !- Value Until Time 7
+  -1.2335811384724e-16;                   !- Value Until Time 7
 
 OS:Schedule:Rule,
-  {311feac1-7062-41ae-b8f1-51dc8e415ed6}, !- Handle
+  {f33ae947-b72d-4290-aaef-fe86f9501ffc}, !- Handle
   EV Charging Power Saturday,             !- Name
-  {cd6f08cb-2d6b-4ead-b510-9973ab57fb3c}, !- Schedule Ruleset Name
+  {5e51be1d-47a4-45a6-831f-69e2b394fc9c}, !- Schedule Ruleset Name
   1,                                      !- Rule Order
-  {6d266ac8-247e-491c-b8cd-a96ec0f017e7}, !- Day Schedule Name
+  {8ec2458e-65f1-4aeb-990f-bedc9b3fadfa}, !- Day Schedule Name
   ,                                       !- Apply Sunday
   ,                                       !- Apply Monday
   ,                                       !- Apply Tuesday
@@ -51,83 +51,83 @@ OS:Schedule:Rule,
   Yes;                                    !- Apply Saturday
 
 OS:Schedule:Day,
-  {6d266ac8-247e-491c-b8cd-a96ec0f017e7}, !- Handle
+  {8ec2458e-65f1-4aeb-990f-bedc9b3fadfa}, !- Handle
   EV Charging Default 1,                  !- Name
-  {49fe0c88-4ae2-4960-b3e1-046e84601563}, !- Schedule Type Limits Name
+  {f4a971c0-7bb6-4f09-b54b-593ad91e646f}, !- Schedule Type Limits Name
   ,                                       !- Interpolate to Timestep
   8,                                      !- Hour 1
-  0,                                      !- Minute 1
+  8,                                      !- Minute 1
   0,                                      !- Value Until Time 1
   8,                                      !- Hour 2
-  6,                                      !- Minute 2
+  19,                                     !- Minute 2
   0.333333333333333,                      !- Value Until Time 2
   8,                                      !- Hour 3
-  13,                                     !- Minute 3
+  20,                                     !- Minute 3
   0.666666666666667,                      !- Value Until Time 3
-  20,                                     !- Hour 4
-  5,                                      !- Minute 4
+  14,                                     !- Hour 4
+  34,                                     !- Minute 4
   1,                                      !- Value Until Time 4
-  20,                                     !- Hour 5
-  20,                                     !- Minute 5
+  14,                                     !- Hour 5
+  39,                                     !- Minute 5
   0.666666666666667,                      !- Value Until Time 5
-  23,                                     !- Hour 6
-  8,                                      !- Minute 6
+  16,                                     !- Hour 6
+  21,                                     !- Minute 6
   0.333333333333333,                      !- Value Until Time 6
   24,                                     !- Hour 7
   0,                                      !- Minute 7
-  0;                                      !- Value Until Time 7
+  -1.2335811384724e-16;                   !- Value Until Time 7
 
 OS:Schedule:Rule,
-  {f7becaf9-071a-4de9-979d-ee534e725aa2}, !- Handle
+  {a4dc317b-a25b-488b-8b39-3a45a92069f4}, !- Handle
   EV Charging Power Sunday,               !- Name
-  {cd6f08cb-2d6b-4ead-b510-9973ab57fb3c}, !- Schedule Ruleset Name
+  {5e51be1d-47a4-45a6-831f-69e2b394fc9c}, !- Schedule Ruleset Name
   0,                                      !- Rule Order
-  {8a773ccc-0531-4ec0-8b6c-00d4f6f4dc2d}, !- Day Schedule Name
+  {41604025-03c3-4af2-8370-f6ac84c8e3b7}, !- Day Schedule Name
   Yes;                                    !- Apply Sunday
 
 OS:Schedule:Day,
-  {8a773ccc-0531-4ec0-8b6c-00d4f6f4dc2d}, !- Handle
+  {41604025-03c3-4af2-8370-f6ac84c8e3b7}, !- Handle
   EV Charging Default 2,                  !- Name
-  {49fe0c88-4ae2-4960-b3e1-046e84601563}, !- Schedule Type Limits Name
+  {f4a971c0-7bb6-4f09-b54b-593ad91e646f}, !- Schedule Type Limits Name
   ,                                       !- Interpolate to Timestep
   8,                                      !- Hour 1
-  0,                                      !- Minute 1
+  8,                                      !- Minute 1
   0,                                      !- Value Until Time 1
   8,                                      !- Hour 2
-  6,                                      !- Minute 2
+  19,                                     !- Minute 2
   0.333333333333333,                      !- Value Until Time 2
   8,                                      !- Hour 3
-  13,                                     !- Minute 3
+  20,                                     !- Minute 3
   0.666666666666667,                      !- Value Until Time 3
-  20,                                     !- Hour 4
-  5,                                      !- Minute 4
+  14,                                     !- Hour 4
+  34,                                     !- Minute 4
   1,                                      !- Value Until Time 4
-  20,                                     !- Hour 5
-  20,                                     !- Minute 5
+  14,                                     !- Hour 5
+  39,                                     !- Minute 5
   0.666666666666667,                      !- Value Until Time 5
-  23,                                     !- Hour 6
-  8,                                      !- Minute 6
+  16,                                     !- Hour 6
+  21,                                     !- Minute 6
   0.333333333333333,                      !- Value Until Time 6
   24,                                     !- Hour 7
   0,                                      !- Minute 7
-  0;                                      !- Value Until Time 7
+  -1.2335811384724e-16;                   !- Value Until Time 7
 
 OS:Exterior:FuelEquipment:Definition,
-  {e3509498-6b91-4e72-83b1-4e5ae20fef10}, !- Handle
-  21000.0 w EV Charging Definition,       !- Name
-  21000;                                  !- Design Level {W}
+  {1c7425ee-61c5-4424-a7a2-680290c07aab}, !- Handle
+  28799.999999999996 w EV Charging Definition, !- Name
+  28800;                                  !- Design Level {W}
 
 OS:Exterior:FuelEquipment,
-  {7a05dd98-4879-49b2-bd7d-bca187c06148}, !- Handle
-  21000.0 w EV Charger,                   !- Name
-  {e3509498-6b91-4e72-83b1-4e5ae20fef10}, !- Exterior Fuel Equipment Definition Name
-  {cd6f08cb-2d6b-4ead-b510-9973ab57fb3c}, !- Schedule Name
+  {31a42d85-55dc-43ec-b0a8-beace3568b41}, !- Handle
+  28799.999999999996 w EV Charger,        !- Name
+  {1c7425ee-61c5-4424-a7a2-680290c07aab}, !- Exterior Fuel Equipment Definition Name
+  {5e51be1d-47a4-45a6-831f-69e2b394fc9c}, !- Schedule Name
   Electricity,                            !- Fuel Use Type
   ,                                       !- Multiplier
   Electric Vehicles;                      !- End-Use Subcategory
 
 OS:ScheduleTypeLimits,
-  {49fe0c88-4ae2-4960-b3e1-046e84601563}, !- Handle
+  {f4a971c0-7bb6-4f09-b54b-593ad91e646f}, !- Handle
   Fractional,                             !- Name
   0,                                      !- Lower Limit Value
   1,                                      !- Upper Limit Value

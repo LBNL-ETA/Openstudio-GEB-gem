@@ -75,16 +75,16 @@ RSpec.describe OpenStudio::Geb do
       #     "end_date1" => '09-30'
       #   }
       # },
-      # "precooling" => {
-      #   "measure_dir_name" => all_measures["precooling"]["measure_dir_name"],
-      #   "arguments" => {
-      #     "cooling_adjustment" => -4,
-      #     "starttime_cooling" => '09:00:00',
-      #     "endtime_cooling" => '12:00:00',
-      #     "cooling_startdate" => '06-01',
-      #     "cooling_enddate" => '09-01'
-      #   }
-      # },
+      "precooling" => {
+        "measure_dir_name" => all_measures["precooling"]["measure_dir_name"],
+        "arguments" => {
+          "cooling_adjustment" => -4,
+          "starttime_cooling" => '11:00:00',
+          "endtime_cooling" => '14:00:00',
+          "cooling_startdate" => '05-01',
+          "cooling_enddate" => '10-01'
+        }
+      },
       # "add_chilled_water_storage_tank" => {
       #   "measure_dir_name" => all_measures["add_chilled_water_storage_tank"]["measure_dir_name"],
       #   "arguments" => {
@@ -116,15 +116,17 @@ RSpec.describe OpenStudio::Geb do
       # "AddElectricVehicleChargingLoad" => {
       #   "measure_dir_name" => all_measures["AddElectricVehicleChargingLoad"]["measure_dir_name"],
       #   "arguments" => {
-      #     "bldg_use_type" => "workplace",
-      #     "num_ev_chargers" => 3,
-      #     "num_evs" => 10,
-      #     "charger_level" => "Level 1",
-      #     "avg_arrival_time" => "8:30",
-      #     "avg_leave_time" => "17:30",
-      #     "avg_charge_hours" => 4,
+      #     "bldg_use_type" => "commercial station",
+      #     "num_ev_chargers" => 7,
+      #     "num_evs" => 28,
+      #     "charger_level" => "Level 2",
+      #     "avg_arrival_time" => "14:00",
+      #     "arrival_time_variation_in_mins" => 300,
+      #     # "avg_leave_time" => "17:30",
+      #     "avg_charge_hours" => 2,
+      #     "charge_time_variation_in_mins" => 30,
       #     "charge_on_sat" => true,
-      #     "charge_on_sun" => false
+      #     "charge_on_sun" => true
       #   }
       # },
       # "reduce_domestic_hot_water_use_for_peak_hours" => {
@@ -147,15 +149,15 @@ RSpec.describe OpenStudio::Geb do
       #     "fraction_of_surface" => 0.35
       #   }
       # },
-      "average_ventilation_for_peak_hours" => {
-        "measure_dir_name" => all_measures["average_ventilation_for_peak_hours"]["measure_dir_name"],
-        "arguments" => {
-          "start_time" => '13:00:00',
-          "end_time" => '17:00:00',
-          "start_date1" => '07-21',
-          "end_date1" => '07-21'
-        }
-      },
+      # "average_ventilation_for_peak_hours" => {
+      #   "measure_dir_name" => all_measures["average_ventilation_for_peak_hours"]["measure_dir_name"],
+      #   "arguments" => {
+      #     "start_time" => '13:00:00',
+      #     "end_time" => '17:00:00',
+      #     "start_date1" => '07-21',
+      #     "end_date1" => '07-21'
+      #   }
+      # },
       # "add_exterior_blinds_and_control" => {
       #   "measure_dir_name" => all_measures["add_exterior_blinds_and_control"]["measure_dir_name"],
       #   "arguments" => {
@@ -244,10 +246,10 @@ RSpec.describe OpenStudio::Geb do
         "arguments" => {
           "event_date" => "07-21",
           "baseline_run_output_path" => run_output_path,
-          "shed_start" => '13:00:00',
+          "shed_start" => '14:00:00',
           "shed_end" => '17:00:00',
-          "take_start" => '9:00:00',
-          "take_end" => '13:00:00'
+          "take_start" => '11:00:00',
+          "take_end" => '14:00:00'
         }
       }
     }
