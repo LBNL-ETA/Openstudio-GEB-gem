@@ -66,9 +66,9 @@ class EnableOccupancyDrivenLighting < OpenStudio::Measure::ModelMeasure
     end
     runner.registerInfo("Pre-run output path: #{run_output_path}")
 
-    Dir.mkdir(run_output_path) unless File.exists?(run_output_path)
+    Dir.mkdir(run_output_path) unless File.exist?(run_output_path)
     prerun_dir = File.join(run_output_path, 'pre-run')
-    Dir.mkdir(prerun_dir) unless File.exists?(prerun_dir)
+    Dir.mkdir(prerun_dir) unless File.exist?(prerun_dir)
     prerun_osw_path = File.join(prerun_dir, 'sizing.osm')
     model.save(prerun_osw_path, true)  # true is overwrite
 

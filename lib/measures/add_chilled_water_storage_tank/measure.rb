@@ -477,9 +477,9 @@ class AddChilledWaterStorageTank < OpenStudio::Measure::ModelMeasure
       #   return false
       # end
       run_output_path = runner.getPathArgumentValue('run_output_path', user_arguments)
-      Dir.mkdir(run_output_path.to_s) unless File.exists?(run_output_path.to_s)
+      Dir.mkdir(run_output_path.to_s) unless File.exist?(run_output_path.to_s)
       sizing_output_path = File.expand_path(File.join(run_output_path.to_s, 'sizing_run'))
-      Dir.mkdir(sizing_output_path.to_s) unless File.exists?(sizing_output_path.to_s)
+      Dir.mkdir(sizing_output_path.to_s) unless File.exist?(sizing_output_path.to_s)
 
       # Change the simulation to only run the sizing days
       sim_control = model.getSimulationControl

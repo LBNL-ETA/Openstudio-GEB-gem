@@ -115,7 +115,7 @@ end
 def postprocess_out_osw(outdir)
 
   out_osw = File.join(outdir, 'out.osw')
-  raise "Cannot find file #{out_osw}" if !File.exists?(out_osw)
+  raise "Cannot find file #{out_osw}" if !File.exist?(out_osw)
 
   result_osw = nil
   File.open(out_osw, 'r') do |f|

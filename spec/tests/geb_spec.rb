@@ -20,9 +20,9 @@ RSpec.describe OpenStudio::Geb do
 
   it "can apply and run single measure" do
     # provide baseline path
-    # baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/medium_office_with_internal_windows.osm")   # commercial
-    baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/MediumOffice-90.1-2010-ASHRAE 169-2013-5A.osm")   # commercial
-    # baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/SF-CACZ6-HPWH-pre1978.osm")  # residential
+    baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/LargeHotel-90.1-2010-ASHRAE 169-2013-5A.osm")   # commercial
+    # baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/MediumOffice-90.1-2010-ASHRAE 169-2013-5A.osm")   # commercial
+    # baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/SFD_1story_UB_UA_ASHP2_HPWH.osm")  # residential
     all_measures = list_all_geb_measures
     # puts JSON.pretty_generate(all_measures)
     run_output_path = File.join(File.dirname(__FILE__ ), "../output")
@@ -75,16 +75,16 @@ RSpec.describe OpenStudio::Geb do
       #     "end_date1" => '09-30'
       #   }
       # },
-      "precooling" => {
-        "measure_dir_name" => all_measures["precooling"]["measure_dir_name"],
-        "arguments" => {
-          "cooling_adjustment" => -4,
-          "starttime_cooling" => '11:00:00',
-          "endtime_cooling" => '14:00:00',
-          "cooling_startdate" => '05-01',
-          "cooling_enddate" => '10-01'
-        }
-      },
+      # "precooling" => {
+      #   "measure_dir_name" => all_measures["precooling"]["measure_dir_name"],
+      #   "arguments" => {
+      #     "cooling_adjustment" => -4,
+      #     "starttime_cooling" => '11:00:00',
+      #     "endtime_cooling" => '14:00:00',
+      #     "cooling_startdate" => '05-01',
+      #     "cooling_enddate" => '10-01'
+      #   }
+      # },
       # "add_chilled_water_storage_tank" => {
       #   "measure_dir_name" => all_measures["add_chilled_water_storage_tank"]["measure_dir_name"],
       #   "arguments" => {
@@ -104,15 +104,15 @@ RSpec.describe OpenStudio::Geb do
       #   }
       # },
       # "adjust_dhw_setpoint" => {
-      #   "measure_dir_name" => all_measures["adjust_dhw_setpoint"]["measure_dir_name"],
-      #   "arguments" => {
-      #     "stp_adj_method" => 'By Absolute Temperature',   # 'By Setback Degree'
-      #     # "flex_hrs_2" => '00:00-14:00',
-      #     # "flex_stp_2" => '170',
-      #     "flex_hrs_3" => '14:00-18:00',
-      #     "flex_stp_3" => '120'
-      #   }
-      # },
+      #       "measure_dir_name" => all_measures["adjust_dhw_setpoint"]["measure_dir_name"],
+      #       "arguments" => {
+      #           "stp_adj_method" => 'By Absolute Temperature',   # 'By Setback Degree'
+      #           # "flex_hrs_2" => '00:00-14:00',
+      #           # "flex_stp_2" => '170',
+      #           "flex_hrs_3" => '14:00-18:00',
+      #           "flex_stp_3" => '120'
+      #       }
+      #   },
       # "AddElectricVehicleChargingLoad" => {
       #   "measure_dir_name" => all_measures["AddElectricVehicleChargingLoad"]["measure_dir_name"],
       #   "arguments" => {
@@ -143,12 +143,12 @@ RSpec.describe OpenStudio::Geb do
       #     "ctrl_type" => 'MeetDaylightIlluminanceSetpoint'
       #   }
       # },
-      # "add_rooftop_pv_simple" => {
-      #   "measure_dir_name" => all_measures["add_rooftop_pv_simple"]["measure_dir_name"],
-      #   "arguments" => {
-      #     "fraction_of_surface" => 0.35
-      #   }
-      # },
+      "add_rooftop_pv_simple" => {
+        "measure_dir_name" => all_measures["add_rooftop_pv_simple"]["measure_dir_name"],
+        "arguments" => {
+          "fraction_of_surface" => 0.35
+        }
+      },
       # "average_ventilation_for_peak_hours" => {
       #   "measure_dir_name" => all_measures["average_ventilation_for_peak_hours"]["measure_dir_name"],
       #   "arguments" => {
@@ -264,9 +264,9 @@ RSpec.describe OpenStudio::Geb do
 
   it "can apply and run multiple measures" do
     # provide baseline path
-    baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/MediumOffice-90.1-2010-ASHRAE 169-2013-5A.osm")
+    baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/LargeOffice-90.1-2013-ASHRAE 169-2013-5A.osm")
     all_measures = list_all_geb_measures
-    run_output_path = File.join(File.dirname(__FILE__ ), "../output")
+    run_output_path = File.join(File.dirname(__FILE__ ), "../multiple")
     if File.exist? run_output_path
       FileUtils.rm_rf(run_output_path)
       sleep(0.1)
@@ -317,16 +317,6 @@ RSpec.describe OpenStudio::Geb do
           "end_date1" => '09-30'
         }
       },
-      "precooling" => {
-        "measure_dir_name" => all_measures["precooling"]["measure_dir_name"],
-        "arguments" => {
-          "cooling_adjustment" => -4,
-          "starttime_cooling" => '09:00:00',
-          "endtime_cooling" => '12:00:00',
-          "cooling_startdate" => '06-01',
-          "cooling_enddate" => '09-01'
-        }
-      },
       "add_chilled_water_storage_tank" => {
         "measure_dir_name" => all_measures["add_chilled_water_storage_tank"]["measure_dir_name"],
         "arguments" => {
@@ -339,36 +329,46 @@ RSpec.describe OpenStudio::Geb do
           "charge_end" => '07:00:00'
         }
       },
-      "add_heat_pump_water_heater" => {
-        "measure_dir_name" => all_measures["add_heat_pump_water_heater"]["measure_dir_name"],
-        "arguments" => {
-          "type" => "PumpedCondenser"
-        }
-      },
-      "adjust_dhw_setpoint" => {
-        "measure_dir_name" => all_measures["adjust_dhw_setpoint"]["measure_dir_name"],
-        "arguments" => {
-          "stp_adj_method" => 'By Absolute Temperature',   # 'By Setback Degree'
-          "flex_hrs_2" => '10:00-14:00',
-          "flex_stp_2" => '160',
-          "flex_hrs_3" => '14:00-18:00',
-          "flex_stp_3" => '120'
-        }
-      },
-      "AddElectricVehicleChargingLoad" => {
-        "measure_dir_name" => all_measures["AddElectricVehicleChargingLoad"]["measure_dir_name"],
-        "arguments" => {
-          "bldg_use_type" => "workplace",
-          "num_ev_chargers" => 3,
-          "num_evs" => 10,
-          "charger_level" => "Level 1",
-          "avg_arrival_time" => "8:30",
-          "avg_leave_time" => "17:30",
-          "avg_charge_hours" => 4,
-          "charge_on_sat" => true,
-          "charge_on_sun" => false
-        }
-      },
+      # "precooling" => {
+      #     "measure_dir_name" => all_measures["precooling"]["measure_dir_name"],
+      #     "arguments" => {
+      #         "cooling_adjustment" => -4,
+      #         "starttime_cooling" => '09:00:00',
+      #         "endtime_cooling" => '12:00:00',
+      #         "cooling_startdate" => '06-01',
+      #         "cooling_enddate" => '09-01'
+      #     }
+      # },
+      # "add_heat_pump_water_heater" => {
+      #   "measure_dir_name" => all_measures["add_heat_pump_water_heater"]["measure_dir_name"],
+      #   "arguments" => {
+      #     "type" => "PumpedCondenser"
+      #   }
+      # },
+      # "adjust_dhw_setpoint" => {
+      #   "measure_dir_name" => all_measures["adjust_dhw_setpoint"]["measure_dir_name"],
+      #   "arguments" => {
+      #     "stp_adj_method" => 'By Absolute Temperature',   # 'By Setback Degree'
+      #     "flex_hrs_2" => '10:00-14:00',
+      #     "flex_stp_2" => '160',
+      #     "flex_hrs_3" => '14:00-18:00',
+      #     "flex_stp_3" => '120'
+      #   }
+      # },
+      # "AddElectricVehicleChargingLoad" => {
+      #   "measure_dir_name" => all_measures["AddElectricVehicleChargingLoad"]["measure_dir_name"],
+      #   "arguments" => {
+      #     "bldg_use_type" => "workplace",
+      #     "num_ev_chargers" => 3,
+      #     "num_evs" => 10,
+      #     "charger_level" => "Level 1",
+      #     "avg_arrival_time" => "8:30",
+      #     "avg_leave_time" => "17:30",
+      #     "avg_charge_hours" => 4,
+      #     "charge_on_sat" => true,
+      #     "charge_on_sun" => false
+      #   }
+      # },
       "GEB Metrics Report" => {
         "measure_dir_name" => all_measures["GEB Metrics Report"]["measure_dir_name"],
         "arguments" => {
