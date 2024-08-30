@@ -7,9 +7,10 @@
 # http://nrel.github.io/OpenStudio-user-documentation/measures/measure_writing_guide/
 
 # load OpenStudio measure libraries from openstudio-extension gem
-require 'openstudio-extension'
-require 'openstudio/extension/core/os_lib_helper_methods'
-require 'openstudio/extension/core/os_lib_schedules'
+# require 'openstudio-extension'
+# require 'openstudio/extension/core/os_lib_helper_methods'
+# require 'openstudio/extension/core/os_lib_schedules'
+require 'openstudio-standards'
 
 # start the measure
 # this measure originally came from BCL (https://bcl.nrel.gov/results/?fq=bundle:measure&fq=measure_tags:Onsite%20Power%20Generation.Photovoltaic&show_rows=25)
@@ -69,8 +70,9 @@ class AddRooftopPV < OpenStudio::Measure::ModelMeasure
     end
 
     # assign the user inputs to variables
-    args = OsLib_HelperMethods.createRunVariables(runner, model, user_arguments, arguments(model))
-    if !args then return false end
+    # args = OsLib_HelperMethods.createRunVariables(runner, model, user_arguments, arguments(model))
+    args = runner. (arguments(model), user_arguments)
+    unless args then return false end
 
     # check expected values of double arguments
     # todo - not sure why this isn't working. Elsewhere it is used on E+ and reporting measures.
@@ -87,7 +89,7 @@ class AddRooftopPV < OpenStudio::Measure::ModelMeasure
 
     # create the inverter
     inverter = OpenStudio::Model::ElectricLoadCenterInverterSimple.new(model)
-    inverter.setInverterEfficiency(args['inverter_efficiency'])
+    inverter.setInverterEfficiency(args[:inverter_efficiency])
     runner.registerInfo("Created inverter with efficiency of #{inverter.inverterEfficiency}")
 
     # create the distribution system
@@ -95,14 +97,15 @@ class AddRooftopPV < OpenStudio::Measure::ModelMeasure
     elcd.setInverter(inverter)
 
     # create shared shading transmittance schedule
-    target_transmittance = 1.0 - args['fraction_of_surface'].to_f
+    target_transmittance = 1.0 - args[:fraction_of_surface].to_f
     inputs = {
       'name' => 'PV Shading Transmittance Schedule',
       'winterTimeValuePairs' => { 24.0 => target_transmittance },
       'summerTimeValuePairs' => { 24.0 => target_transmittance },
       'defaultTimeValuePairs' => { 24.0 => target_transmittance }
     }
-    pv_shading_transmittance_schedule = OsLib_Schedules.createSimpleSchedule(model, inputs)
+    # pv_shading_transmittance_schedule = OsLib_Schedules.createSimpleSchedule(model, inputs)
+    pv_shading_transmittance_schedule = OpenstudioStandards::Schedules.create_simple_schedule(model, inputs)
     runner.registerInfo("Created transmittance schedule for PV shading surfaces with constant value of #{target_transmittance}")
 
     model.getSurfaces.each do |surface|
@@ -129,8 +132,8 @@ class AddRooftopPV < OpenStudio::Measure::ModelMeasure
         panel = OpenStudio::Model::GeneratorPhotovoltaic.simple(model)
         panel.setSurface(shading_surface)
         performance = panel.photovoltaicPerformance.to_PhotovoltaicPerformanceSimple.get
-        performance.setFractionOfSurfaceAreaWithActiveSolarCells(args['fraction_of_surface'])
-        performance.setFixedEfficiency(args['cell_efficiency'])
+        performance.setFractionOfSurfaceAreaWithActiveSolarCells(args[:fraction_of_surface])
+        performance.setFixedEfficiency(args[:cell_efficiency])
 
         # connect panel to electric load center distribution
         elcd.addGenerator(panel)

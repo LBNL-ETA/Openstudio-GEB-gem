@@ -143,21 +143,21 @@ RSpec.describe OpenStudio::Geb do
       #     "ctrl_type" => 'MeetDaylightIlluminanceSetpoint'
       #   }
       # },
-      "add_rooftop_pv_simple" => {
-        "measure_dir_name" => all_measures["add_rooftop_pv_simple"]["measure_dir_name"],
-        "arguments" => {
-          "fraction_of_surface" => 0.35
-        }
-      },
-      # "average_ventilation_for_peak_hours" => {
-      #   "measure_dir_name" => all_measures["average_ventilation_for_peak_hours"]["measure_dir_name"],
+      # "add_rooftop_pv_simple" => {
+      #   "measure_dir_name" => all_measures["add_rooftop_pv_simple"]["measure_dir_name"],
       #   "arguments" => {
-      #     "start_time" => '13:00:00',
-      #     "end_time" => '17:00:00',
-      #     "start_date1" => '07-21',
-      #     "end_date1" => '07-21'
+      #     "fraction_of_surface" => 0.35
       #   }
       # },
+      "average_ventilation_for_peak_hours" => {
+        "measure_dir_name" => all_measures["average_ventilation_for_peak_hours"]["measure_dir_name"],
+        "arguments" => {
+          "start_time" => '13:00:00',
+          "end_time" => '17:00:00',
+          "start_date1" => '07-21',
+          "end_date1" => '07-21'
+        }
+      },
       # "add_exterior_blinds_and_control" => {
       #   "measure_dir_name" => all_measures["add_exterior_blinds_and_control"]["measure_dir_name"],
       #   "arguments" => {

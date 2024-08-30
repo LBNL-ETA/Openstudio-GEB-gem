@@ -9,11 +9,10 @@
 # http://nrel.github.io/OpenStudio-user-documentation/reference/measure_writing_guide/
 
 # start the measure
-require 'openstudio/extension/core/os_lib_helper_methods'
-require 'openstudio/extension/core/os_lib_schedules'
+# require 'openstudio/extension/core/os_lib_helper_methods'
+# require 'openstudio/extension/core/os_lib_schedules'
+require 'openstudio-standards'
 class AverageVentilationForPeakHours < OpenStudio::Measure::ModelMeasure
-  include OsLib_HelperMethods
-  include OsLib_Schedules
   # human readable name
   def name
     return "Average Ventilation for Peak Hours"
@@ -188,7 +187,8 @@ class AverageVentilationForPeakHours < OpenStudio::Measure::ModelMeasure
                     'default_day' => ["default day"] + normal_day_data_pairs,
                     'rules' => [['Adjusted days', "#{start_month1}/#{start_day1}-#{end_month1}/#{end_day1}",
                                  'Sun/Mon/Tue/Wed/Thu/Fri/Sat'] + adjusted_day_data_pairs] }
-        new_oa_sch = OsLib_Schedules.createComplexSchedule(model, options)
+        # new_oa_sch = OsLib_Schedules.createComplexSchedule(model, options)
+        new_oa_sch = OpenstudioStandards::Schedules.create_complex_schedule(model, options)
         outdoor_air_object.setOutdoorAirFlowRateFractionSchedule(new_oa_sch)
       else
         if schedules.key?(oa_sch.get.name.to_s)

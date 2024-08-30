@@ -8,13 +8,13 @@ gemspec
 #   Windows: set FAVOR_LOCAL_GEMS=1
 # Note that if allow_local is true, but the gem is not found locally, then it will
 # checkout the latest version (develop) from github.
-allow_local = ENV['FAVOR_LOCAL_GEMS']
-
-if allow_local && File.exists?('../OpenStudio-extension-gem')
-  gem 'openstudio-extension', path: '../OpenStudio-extension-gem'
-else
-  gem 'openstudio-extension', github: 'NREL/OpenStudio-extension-gem', tag: 'v0.8.1'
-end
+# allow_local = ENV['FAVOR_LOCAL_GEMS']
+#
+# if allow_local && File.exists?('../OpenStudio-extension-gem')
+#   gem 'openstudio-extension', path: '../OpenStudio-extension-gem'
+# else
+#   gem 'openstudio-extension', github: 'NREL/OpenStudio-extension-gem', tag: 'v0.8.1'
+# end
 
 # you shouldn't need this dependency directly...it is included in extension gem
 # gem 'openstudio_measure_tester', '= 0.3.1' # This includes the dependencies for running unit tests, coverage, and rubocop

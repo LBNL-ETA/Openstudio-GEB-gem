@@ -9,11 +9,10 @@
 # http://nrel.github.io/OpenStudio-user-documentation/reference/measure_writing_guide/
 
 # start the measure
-require 'openstudio/extension/core/os_lib_helper_methods'
-require 'openstudio/extension/core/os_lib_schedules'
+# require 'openstudio/extension/core/os_lib_helper_methods'
+# require 'openstudio/extension/core/os_lib_schedules'
+require 'openstudio-standards'
 class AddInteriorBlindsAndControl < OpenStudio::Measure::ModelMeasure
-  include OsLib_HelperMethods
-  include OsLib_Schedules
   # human readable name
   def name
     # Measure name should be the title case of the class name.
@@ -144,7 +143,8 @@ class AddInteriorBlindsAndControl < OpenStudio::Measure::ModelMeasure
                           'default_day' => ["default day"] + normal_day_data_pairs,
                           'rules' => [['Adjusted days', "#{start_month}/#{start_day}-#{end_month}/#{end_day}",
                                        'Sun/Mon/Tue/Wed/Thu/Fri/Sat'] + adjusted_day_data_pairs] }
-              global_shading_schedule = OsLib_Schedules.createComplexSchedule(model, options)
+              # global_shading_schedule = OsLib_Schedules.createComplexSchedule(model, options)
+              global_shading_schedule = OpenstudioStandards::Schedules.create_complex_schedule(model, options)
               runner.registerInfo("A new schedule 'Interior blinds schedule' has been created for new shading control objects.")
             end
             unless space_shading_control
