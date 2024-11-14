@@ -1,7 +1,7 @@
 # OpenStudio GEB Gem
 
 ## Version 0.5.0
-- Support for OpenStudio 3.8 (upgrade to Ruby 3.2.2, standards gem 0.6.1, extension gem 0.8.0)
+- Support for OpenStudio 3.9 (upgrade to Ruby 3.2.2, standards gem 0.7.0, extension gem 0.8.2)
 
 ## Version 0.4.0
 - Support for OpenStudio 3.7 (upgrade to standards gem 0.5.0, extension gem 0.7.0)
