@@ -4044,7 +4044,7 @@ OS:Schedule:Day,
   ,                                       !- Interpolate to Timestep
   24,                                     !- Hour 1
   0,                                      !- Minute 1
-  24;                                     !- Value Until Time 1
+  27;                                     !- Value Until Time 1
 
 OS:Schedule:Day,
   {6be7ff9f-2a07-4131-bf1e-b989ad6b8548}, !- Handle
@@ -4053,7 +4053,7 @@ OS:Schedule:Day,
   ,                                       !- Interpolate to Timestep
   24,                                     !- Hour 1
   0,                                      !- Minute 1
-  24;                                     !- Value Until Time 1
+  27;                                     !- Value Until Time 1
 
 OS:Schedule:Rule,
   {eb587c1c-b07a-4216-bf5a-443681070a1d}, !- Handle
@@ -4081,7 +4081,7 @@ OS:Schedule:Day,
   ,                                       !- Interpolate to Timestep
   24,                                     !- Hour 1
   0,                                      !- Minute 1
-  24;                                     !- Value Until Time 1
+  27;                                     !- Value Until Time 1
 
 OS:Schedule:Day,
   {b5da6613-ede4-4520-8c6f-91721a012d84}, !- Handle
@@ -6118,7 +6118,7 @@ OS:WeatherFile,
   -78.73,                                 !- Longitude {deg}
   -5,                                     !- Time Zone {hr}
   215,                                    !- Elevation {m}
-  C:/Ruby25-x64/lib/ruby/gems/2.5.0/gems/openstudio-standards-0.2.12/data/weather/USA_NY_Buffalo.Niagara.Intl.AP.725280_TMY3.epw, !- Url
+  USA_NY_Buffalo.Niagara.Intl.AP.725280_TMY3.epw, !- Url
   3A15D82B;                               !- Checksum
 
 OS:Site:WaterMainsTemperature,
@@ -13002,45 +13002,9 @@ OS:EnergyManagementSystem:Sensor,
   Environment,                            !- Output Variable or Output Meter Index Key Name
   Site Outdoor Air Drybulb Temperature;   !- Output Variable or Output Meter Name
 
-OS:EnergyManagementSystem:Actuator,
-  {40dc6e88-3849-4a75-b213-d2091e491855}, !- Handle
-  SYS5ZonePVAVHtgSch0,                    !- Name
-  {cc7ddf57-8a0e-475d-bda0-9292011a1805}, !- Actuated Component Name
-  Schedule:Year,                          !- Actuated Component Type
-  Schedule Value;                         !- Actuated Component Control Type
 
-OS:EnergyManagementSystem:Actuator,
-  {a1626c44-86e1-4343-bf80-9dd85da741c0}, !- Handle
-  SYS5ZonePVAVClgSch0,                    !- Name
-  {558575c5-0a3a-4ad4-9d78-dbf33ba534ee}, !- Actuated Component Name
-  Schedule:Year,                          !- Actuated Component Type
-  Schedule Value;                         !- Actuated Component Control Type
 
-OS:EnergyManagementSystem:Program,
-  {6524c4f1-bade-4fd8-a80c-69d97bd2086e}, !- Handle
-  SYS5ZonePVAVOptimumStartProg0,          !- Name
-  IF DaylightSavings==0 && DayOfWeek>1 && Hour==5 && {9f55eb04-76b5-4a59-985a-05279cfb6ca7}<23.9 && {9f55eb04-76b5-4a59-985a-05279cfb6ca7}>1.7, !- Program Line 1
-  SET {a1626c44-86e1-4343-bf80-9dd85da741c0} = 29.4, !- Program Line 2
-  SET {40dc6e88-3849-4a75-b213-d2091e491855} = 15.6, !- Program Line 3
-  ELSEIF DaylightSavings==0 && DayOfWeek==1 && Hour==7 && {9f55eb04-76b5-4a59-985a-05279cfb6ca7}<23.9 && {9f55eb04-76b5-4a59-985a-05279cfb6ca7}>1.7, !- Program Line 4
-  SET {a1626c44-86e1-4343-bf80-9dd85da741c0} = 29.4, !- Program Line 5
-  SET {40dc6e88-3849-4a75-b213-d2091e491855} = 15.6, !- Program Line 6
-  ELSEIF DaylightSavings==1 && DayOfWeek>1 && Hour==4 && {9f55eb04-76b5-4a59-985a-05279cfb6ca7}<23.9 && {9f55eb04-76b5-4a59-985a-05279cfb6ca7}>1.7, !- Program Line 7
-  SET {a1626c44-86e1-4343-bf80-9dd85da741c0} = 29.4, !- Program Line 8
-  SET {40dc6e88-3849-4a75-b213-d2091e491855} = 15.6, !- Program Line 9
-  ELSEIF DaylightSavings==1 && DayOfWeek==1 && Hour==6 && {9f55eb04-76b5-4a59-985a-05279cfb6ca7}<23.9 && {9f55eb04-76b5-4a59-985a-05279cfb6ca7}>1.7, !- Program Line 10
-  SET {a1626c44-86e1-4343-bf80-9dd85da741c0} = 29.4, !- Program Line 11
-  SET {40dc6e88-3849-4a75-b213-d2091e491855} = 15.6, !- Program Line 12
-  ELSE,                                   !- Program Line 13
-  SET {a1626c44-86e1-4343-bf80-9dd85da741c0} = NULL, !- Program Line 14
-  SET {40dc6e88-3849-4a75-b213-d2091e491855} = NULL, !- Program Line 15
-  ENDIF;                                  !- Program Line 16
 
-OS:EnergyManagementSystem:ProgramCallingManager,
-  {1427a0b7-952e-48b3-afbc-ae02cea06d81}, !- Handle
-  SYS5ZonePVAVOptimumStartCallingManager0, !- Name
-  BeginTimestepBeforePredictor,           !- EnergyPlus Model Calling Point
-  {6524c4f1-bade-4fd8-a80c-69d97bd2086e}; !- Program Name 1
 
 OS:SetpointManager:Warmest,
   {5a7ec2ca-568d-44f0-a07f-80201a2272f6}, !- Handle
@@ -13057,45 +13021,8 @@ OS:EnergyManagementSystem:Sensor,
   Environment,                            !- Output Variable or Output Meter Index Key Name
   Site Outdoor Air Drybulb Temperature;   !- Output Variable or Output Meter Name
 
-OS:EnergyManagementSystem:Actuator,
-  {4835ad08-5834-4e7e-a830-a51e2a9418f3}, !- Handle
-  SYS5ZonePVAV1HtgSch0,                   !- Name
-  {cc7ddf57-8a0e-475d-bda0-9292011a1805}, !- Actuated Component Name
-  Schedule:Year,                          !- Actuated Component Type
-  Schedule Value;                         !- Actuated Component Control Type
 
-OS:EnergyManagementSystem:Actuator,
-  {3e71bff1-b5da-4df6-823d-81a98d28c94d}, !- Handle
-  SYS5ZonePVAV1ClgSch0,                   !- Name
-  {558575c5-0a3a-4ad4-9d78-dbf33ba534ee}, !- Actuated Component Name
-  Schedule:Year,                          !- Actuated Component Type
-  Schedule Value;                         !- Actuated Component Control Type
 
-OS:EnergyManagementSystem:Program,
-  {365df872-623c-4334-b288-6401e5c5112a}, !- Handle
-  SYS5ZonePVAV1OptimumStartProg0,         !- Name
-  IF DaylightSavings==0 && DayOfWeek>1 && Hour==5 && {183328f1-3175-4936-a2dd-3623b89f573e}<23.9 && {183328f1-3175-4936-a2dd-3623b89f573e}>1.7, !- Program Line 1
-  SET {3e71bff1-b5da-4df6-823d-81a98d28c94d} = 29.4, !- Program Line 2
-  SET {4835ad08-5834-4e7e-a830-a51e2a9418f3} = 15.6, !- Program Line 3
-  ELSEIF DaylightSavings==0 && DayOfWeek==1 && Hour==7 && {183328f1-3175-4936-a2dd-3623b89f573e}<23.9 && {183328f1-3175-4936-a2dd-3623b89f573e}>1.7, !- Program Line 4
-  SET {3e71bff1-b5da-4df6-823d-81a98d28c94d} = 29.4, !- Program Line 5
-  SET {4835ad08-5834-4e7e-a830-a51e2a9418f3} = 15.6, !- Program Line 6
-  ELSEIF DaylightSavings==1 && DayOfWeek>1 && Hour==4 && {183328f1-3175-4936-a2dd-3623b89f573e}<23.9 && {183328f1-3175-4936-a2dd-3623b89f573e}>1.7, !- Program Line 7
-  SET {3e71bff1-b5da-4df6-823d-81a98d28c94d} = 29.4, !- Program Line 8
-  SET {4835ad08-5834-4e7e-a830-a51e2a9418f3} = 15.6, !- Program Line 9
-  ELSEIF DaylightSavings==1 && DayOfWeek==1 && Hour==6 && {183328f1-3175-4936-a2dd-3623b89f573e}<23.9 && {183328f1-3175-4936-a2dd-3623b89f573e}>1.7, !- Program Line 10
-  SET {3e71bff1-b5da-4df6-823d-81a98d28c94d} = 29.4, !- Program Line 11
-  SET {4835ad08-5834-4e7e-a830-a51e2a9418f3} = 15.6, !- Program Line 12
-  ELSE,                                   !- Program Line 13
-  SET {3e71bff1-b5da-4df6-823d-81a98d28c94d} = NULL, !- Program Line 14
-  SET {4835ad08-5834-4e7e-a830-a51e2a9418f3} = NULL, !- Program Line 15
-  ENDIF;                                  !- Program Line 16
-
-OS:EnergyManagementSystem:ProgramCallingManager,
-  {87270430-b9ea-460b-b4cc-4897f67d75d9}, !- Handle
-  SYS5ZonePVAV1OptimumStartCallingManager0, !- Name
-  BeginTimestepBeforePredictor,           !- EnergyPlus Model Calling Point
-  {365df872-623c-4334-b288-6401e5c5112a}; !- Program Name 1
 
 OS:SetpointManager:Warmest,
   {4830a745-2531-4bc3-b6a0-e5e969915853}, !- Handle
@@ -13112,45 +13039,8 @@ OS:EnergyManagementSystem:Sensor,
   Environment,                            !- Output Variable or Output Meter Index Key Name
   Site Outdoor Air Drybulb Temperature;   !- Output Variable or Output Meter Name
 
-OS:EnergyManagementSystem:Actuator,
-  {718ac3af-c21a-4016-ae52-8b2f94b10d07}, !- Handle
-  SYS5ZonePVAV2HtgSch0,                   !- Name
-  {cc7ddf57-8a0e-475d-bda0-9292011a1805}, !- Actuated Component Name
-  Schedule:Year,                          !- Actuated Component Type
-  Schedule Value;                         !- Actuated Component Control Type
 
-OS:EnergyManagementSystem:Actuator,
-  {347f9f46-71a7-4c3d-b160-88c11d87bceb}, !- Handle
-  SYS5ZonePVAV2ClgSch0,                   !- Name
-  {558575c5-0a3a-4ad4-9d78-dbf33ba534ee}, !- Actuated Component Name
-  Schedule:Year,                          !- Actuated Component Type
-  Schedule Value;                         !- Actuated Component Control Type
 
-OS:EnergyManagementSystem:Program,
-  {231804f4-f199-423c-99e1-37316f718ff1}, !- Handle
-  SYS5ZonePVAV2OptimumStartProg0,         !- Name
-  IF DaylightSavings==0 && DayOfWeek>1 && Hour==5 && {fc22bfc1-3c7e-4720-b3cf-7b1b2d186151}<23.9 && {fc22bfc1-3c7e-4720-b3cf-7b1b2d186151}>1.7, !- Program Line 1
-  SET {347f9f46-71a7-4c3d-b160-88c11d87bceb} = 29.4, !- Program Line 2
-  SET {718ac3af-c21a-4016-ae52-8b2f94b10d07} = 15.6, !- Program Line 3
-  ELSEIF DaylightSavings==0 && DayOfWeek==1 && Hour==7 && {fc22bfc1-3c7e-4720-b3cf-7b1b2d186151}<23.9 && {fc22bfc1-3c7e-4720-b3cf-7b1b2d186151}>1.7, !- Program Line 4
-  SET {347f9f46-71a7-4c3d-b160-88c11d87bceb} = 29.4, !- Program Line 5
-  SET {718ac3af-c21a-4016-ae52-8b2f94b10d07} = 15.6, !- Program Line 6
-  ELSEIF DaylightSavings==1 && DayOfWeek>1 && Hour==4 && {fc22bfc1-3c7e-4720-b3cf-7b1b2d186151}<23.9 && {fc22bfc1-3c7e-4720-b3cf-7b1b2d186151}>1.7, !- Program Line 7
-  SET {347f9f46-71a7-4c3d-b160-88c11d87bceb} = 29.4, !- Program Line 8
-  SET {718ac3af-c21a-4016-ae52-8b2f94b10d07} = 15.6, !- Program Line 9
-  ELSEIF DaylightSavings==1 && DayOfWeek==1 && Hour==6 && {fc22bfc1-3c7e-4720-b3cf-7b1b2d186151}<23.9 && {fc22bfc1-3c7e-4720-b3cf-7b1b2d186151}>1.7, !- Program Line 10
-  SET {347f9f46-71a7-4c3d-b160-88c11d87bceb} = 29.4, !- Program Line 11
-  SET {718ac3af-c21a-4016-ae52-8b2f94b10d07} = 15.6, !- Program Line 12
-  ELSE,                                   !- Program Line 13
-  SET {347f9f46-71a7-4c3d-b160-88c11d87bceb} = NULL, !- Program Line 14
-  SET {718ac3af-c21a-4016-ae52-8b2f94b10d07} = NULL, !- Program Line 15
-  ENDIF;                                  !- Program Line 16
-
-OS:EnergyManagementSystem:ProgramCallingManager,
-  {97b09f90-e76b-4e2a-b3d4-6fdc8010fca5}, !- Handle
-  SYS5ZonePVAV2OptimumStartCallingManager0, !- Name
-  BeginTimestepBeforePredictor,           !- EnergyPlus Model Calling Point
-  {231804f4-f199-423c-99e1-37316f718ff1}; !- Program Name 1
 
 OS:Curve:Biquadratic,
   {0911e02c-3e4a-415a-b875-2e93c2b9c15e}, !- Handle
