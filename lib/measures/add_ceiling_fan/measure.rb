@@ -406,7 +406,7 @@ class AddCeilingFan < OpenStudio::Measure::ModelMeasure
 
     end
 
-    def adjust_cool_sch(model, sch, cool_stp_inc, start_date, end_date, start_time, end_time)
+    def adjust_cool_sch(model, runner, sch, cool_stp_inc, start_date, end_date, start_time, end_time)
       new_sch = sch.get.clone(model)
       new_sch = new_sch.to_Schedule.get
       new_sch.setName("#{sch.get.name.to_s} increased by #{cool_stp_inc}C due to ceiling fan")
@@ -532,7 +532,7 @@ class AddCeilingFan < OpenStudio::Measure::ModelMeasure
       end
 
       runner.registerInfo("adjusting schedule #{clg_set_sch.get.name.to_s}")
-      new_sch = adjust_cool_sch(model, clg_set_sch, cool_stp_increase_C, os_start_date, os_end_date, os_start_time, os_end_time)
+      new_sch = adjust_cool_sch(model, runner, clg_set_sch, cool_stp_increase_C, os_start_date, os_end_date, os_start_time, os_end_time)
 
       # hook up clone to thermostat
       thermostat.setCoolingSetpointTemperatureSchedule(new_sch)
