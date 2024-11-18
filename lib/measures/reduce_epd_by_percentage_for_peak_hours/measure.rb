@@ -9,6 +9,7 @@
 # http://nrel.github.io/OpenStudio-user-documentation/reference/measure_writing_guide/
 
 # start the measure
+require 'json'
 class ReduceEPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
   # human readable name
   def name
@@ -16,11 +17,11 @@ class ReduceEPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
   end
   # human readable description
   def description
-    return "This measure reduces electric equipment loads by a user-specified percentage for a user-specified time period (usually the peak hours). The reduction can be applied to at most three periods throughout out the year specified by the user. This is applied throughout the entire building."
+    return "This measure reduces electric equipment loads for office space types by a user-specified percentage for a user-specified time period (usually the peak hours). The reduction can be applied to at most five periods throughout out the year specified by the user."
   end
   # human readable description of modeling approach
   def modeler_description
-    return "The original schedules for equipment in the building will be found and copied. The copies will be modified to have the percentage reduction during the specified hours, and be applied to the specified date periods through out the year. The rest of the year will keep using the original schedules."
+    return "The original schedules for equipment in the building will be found and copied. The copies will be modified to have the percentage reduction during the specified hours, and be applied to the specified date periods through out the year. The rest of the year will keep using the original schedules. Only schedules defined in scheduleRuleSet format and for office standardsSpaceType will be modified."
   end
   # define the arguments that the user will input
   def arguments(model)
@@ -28,72 +29,133 @@ class ReduceEPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
     epd_reduce_percent = OpenStudio::Measure::OSArgument.makeDoubleArgument('epd_reduce_percent', true)
     epd_reduce_percent.setDisplayName('Percentage Reduction of Electric Equipment Power (%)')
     epd_reduce_percent.setDescription('Enter a value between 0 and 100')
-    epd_reduce_percent.setDefaultValue(50.0)
+    epd_reduce_percent.setDefaultValue(20.0)
     args << epd_reduce_percent
 
+    start_date1 = OpenStudio::Ruleset::OSArgument.makeStringArgument('start_date1', true)
+    start_date1.setDisplayName('First start date for the reduction')
+    start_date1.setDescription('In MM-DD format')
+    start_date1.setDefaultValue('06-01')
+    args << start_date1
+    end_date1 = OpenStudio::Ruleset::OSArgument.makeStringArgument('end_date1', true)
+    end_date1.setDisplayName('First end date for the reduction')
+    end_date1.setDescription('In MM-DD format')
+    end_date1.setDefaultValue('09-30')
+    args << end_date1
+
+    start_date2 = OpenStudio::Ruleset::OSArgument.makeStringArgument('start_date2', false)
+    start_date2.setDisplayName('Second start date for the reduction (optional)')
+    start_date2.setDescription('Specify a date in MM-DD format if you want a second season of reduction; leave blank if not needed.')
+    start_date2.setDefaultValue('')
+    args << start_date2
+    end_date2 = OpenStudio::Ruleset::OSArgument.makeStringArgument('end_date2', false)
+    end_date2.setDisplayName('Second end date for the reduction')
+    end_date2.setDescription('Specify a date in MM-DD format if you want a second season of reduction; leave blank if not needed. If either the start or end date is blank, the period is considered not used.')
+    end_date2.setDefaultValue('')
+    args << end_date2
+
+
+    start_date3 = OpenStudio::Ruleset::OSArgument.makeStringArgument('start_date3', false)
+    start_date3.setDisplayName('Third start date for the reduction (optional)')
+    start_date3.setDescription('Specify a date in MM-DD format if you want a third season of reduction; leave blank if not needed.')
+    start_date3.setDefaultValue('')
+    args << start_date3
+    end_date3 = OpenStudio::Ruleset::OSArgument.makeStringArgument('end_date3', false)
+    end_date3.setDisplayName('Third end date for the reduction')
+    end_date3.setDisplayName('Third end date for the reduction')
+    end_date3.setDescription('Specify a date in MM-DD format if you want a third season of reduction; leave blank if not needed. If either the start or end date is blank, the period is considered not used.')
+    end_date3.setDefaultValue('')
+    args << end_date3
+
+    start_date4 = OpenStudio::Ruleset::OSArgument.makeStringArgument('start_date4', false)
+    start_date4.setDisplayName('Fourth start date for the reduction (optional)')
+    start_date4.setDescription('Specify a date in MM-DD format if you want a fourth season of reduction; leave blank if not needed.')
+    start_date4.setDefaultValue('')
+    args << start_date4
+    end_date4 = OpenStudio::Ruleset::OSArgument.makeStringArgument('end_date4', false)
+    end_date4.setDisplayName('Fourth end date for the reduction')
+    end_date4.setDescription('Specify a date in MM-DD format if you want a fourth season of reduction; leave blank if not needed. If either the start or end date is blank, the period is considered not used.')
+    end_date4.setDefaultValue('')
+    args << end_date4
+
+
+    start_date5 = OpenStudio::Ruleset::OSArgument.makeStringArgument('start_date5', false)
+    start_date5.setDisplayName('Fifth start date for the reduction (optional)')
+    start_date5.setDescription('Specify a date in MM-DD format if you want a fifth season of reduction; leave blank if not needed.')
+    start_date5.setDefaultValue('')
+    args << start_date5
+    end_date5 = OpenStudio::Ruleset::OSArgument.makeStringArgument('end_date5', false)
+    end_date5.setDisplayName('Fifth end date for the reduction')
+    end_date5.setDescription('Specify a date in MM-DD format if you want a fifth season of reduction; leave blank if not needed. If either the start or end date is blank, the period is considered not used.')
+    end_date5.setDefaultValue('')
+    args << end_date5
+
     # make an argument for the start time of the reduction
-    start_time = OpenStudio::Measure::OSArgument.makeStringArgument('start_time', false)
-    start_time.setDisplayName('Start Time for the Reduction')
+    start_time = OpenStudio::Measure::OSArgument.makeStringArgument('start_time', true)
+    start_time.setDisplayName('Start time of the reduction for the first season')
     start_time.setDescription('In HH:MM:SS format')
     start_time.setDefaultValue('17:00:00')
     args << start_time
-
-    # make an argument for the end time of the reduction
-    end_time = OpenStudio::Measure::OSArgument.makeStringArgument('end_time', false)
-    end_time.setDisplayName('End Time for the Reduction')
+    end_time = OpenStudio::Measure::OSArgument.makeStringArgument('end_time', true)
+    end_time.setDisplayName('End time of the reduction for the first season')
     end_time.setDescription('In HH:MM:SS format')
     end_time.setDefaultValue('21:00:00')
     args << end_time
 
+
+    start_time2 = OpenStudio::Measure::OSArgument.makeStringArgument('start_time2', false)
+    start_time2.setDisplayName('Start time of the reduction for the second season (optional)')
+    start_time2.setDescription('In HH:MM:SS format')
+    start_time2.setDefaultValue('')
+    args << start_time2
+    end_time2 = OpenStudio::Measure::OSArgument.makeStringArgument('end_time2', false)
+    end_time2.setDisplayName('End time of the reduction for the second season (optional)')
+    end_time2.setDescription('In HH:MM:SS format')
+    end_time2.setDefaultValue('')
+    args << end_time2
+
+
+    start_time3 = OpenStudio::Measure::OSArgument.makeStringArgument('start_time3', false)
+    start_time3.setDisplayName('Start time of the reduction for the third season (optional)')
+    start_time3.setDescription('In HH:MM:SS format')
+    start_time3.setDefaultValue('')
+    args << start_time3
+    end_time3 = OpenStudio::Measure::OSArgument.makeStringArgument('end_time3', false)
+    end_time3.setDisplayName('End time of the reduction for the third season (optional)')
+    end_time3.setDescription('In HH:MM:SS format')
+    end_time3.setDefaultValue('')
+    args << end_time3
+
+
+    start_time4 = OpenStudio::Measure::OSArgument.makeStringArgument('start_time4', false)
+    start_time4.setDisplayName('Start time of the reduction for the fourth season (optional)')
+    start_time4.setDescription('In HH:MM:SS format')
+    start_time4.setDefaultValue('')
+    args << start_time4
+    end_time4 = OpenStudio::Measure::OSArgument.makeStringArgument('end_time4', false)
+    end_time4.setDisplayName('End time of the reduction for the fourth season (optional)')
+    end_time4.setDescription('In HH:MM:SS format')
+    end_time4.setDefaultValue('')
+    args << end_time4
+
+
+    start_time5 = OpenStudio::Measure::OSArgument.makeStringArgument('start_time5', false)
+    start_time5.setDisplayName('Start time of the reduction for the fifth season (optional)')
+    start_time5.setDescription('In HH:MM:SS format')
+    start_time5.setDefaultValue('')
+    args << start_time5
+    end_time5 = OpenStudio::Measure::OSArgument.makeStringArgument('end_time5', false)
+    end_time5.setDisplayName('End time of the reduction for the fifth season (optional)')
+    end_time5.setDescription('In HH:MM:SS format')
+    end_time5.setDefaultValue('')
+    args << end_time5
+
     # Use alternative default start and end time for different climate zone
-    alt_periods = OpenStudio::Measure::OSArgument.makeBoolArgument('alt_periods', false)
-    alt_periods.setDisplayName('Use alternative default start and end time based on the climate zone of the model?')
-    alt_periods.setDescription('This will overwrite the star and end time you input')
+    alt_periods = OpenStudio::Measure::OSArgument.makeBoolArgument('alt_periods', true)
+    alt_periods.setDisplayName('Use alternative default start and end time based on the state of the model from the Cambium load profile peak period?')
+    alt_periods.setDescription('This will overwrite the start and end time and date provided by the user')
     alt_periods.setDefaultValue(false)
     args << alt_periods
-
-    # make an argument for the start date of the reduction
-    start_date1 = OpenStudio::Ruleset::OSArgument.makeStringArgument('start_date1', false)
-    start_date1.setDisplayName('First start date for the Reduction')
-    start_date1.setDescription('In MM-DD format')
-    start_date1.setDefaultValue('07-01')
-    args << start_date1
-
-    # make an argument for the end date of the reduction
-    end_date1 = OpenStudio::Ruleset::OSArgument.makeStringArgument('end_date1', false)
-    end_date1.setDisplayName('First end date for the Reduction')
-    end_date1.setDescription('In MM-DD format')
-    end_date1.setDefaultValue('08-31')
-    args << end_date1
-
-
-    # make an argument for the second start date of the reduction
-    start_date2 = OpenStudio::Ruleset::OSArgument.makeStringArgument('start_date2', false)
-    start_date2.setDisplayName('Second start date for the Reduction (optional)')
-    start_date2.setDescription('Specify a date in MM-DD format if you want a second period of reduction; leave blank if not needed.')
-    start_date2.setDefaultValue('')
-    args << start_date2
-
-    # make an argument for the second end date of the reduction
-    end_date2 = OpenStudio::Ruleset::OSArgument.makeStringArgument('end_date2', false)
-    end_date2.setDisplayName('Second end date for the Reduction (optional)')
-    end_date2.setDescription('Specify a date in MM-DD format if you want a second period of reduction; leave blank if not needed. If either the start or end date is blank, the period is considered not used.')
-    end_date2.setDefaultValue('')
-    args << end_date2
-
-    # make an argument for the third start date of the reduction
-    start_date3 = OpenStudio::Ruleset::OSArgument.makeStringArgument('start_date3', false)
-    start_date3.setDisplayName('Third start date for the Reduction (optional)')
-    start_date3.setDescription('Specify a date in MM-DD format if you want a third period of reduction; leave blank if not needed.')
-    start_date3.setDefaultValue('')
-    args << start_date3
-
-    # make an argument for the third end date of the reduction
-    end_date3 = OpenStudio::Ruleset::OSArgument.makeStringArgument('end_date3', false)
-    end_date3.setDisplayName('Third end date for the Reduction')
-    end_date3.setDescription('Specify a date in MM-DD format if you want a third period of reduction; leave blank if not needed. If either the start or end date is blank, the period is considered not used.')
-    end_date3.setDefaultValue('')
-    args << end_date3
 
 
     return args
@@ -110,12 +172,24 @@ class ReduceEPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
     epd_reduce_percent = runner.getDoubleArgumentValue('epd_reduce_percent', user_arguments)
     start_time = runner.getStringArgumentValue('start_time', user_arguments)
     end_time = runner.getStringArgumentValue('end_time', user_arguments)
+    start_time2 = runner.getStringArgumentValue('start_time2', user_arguments)
+    end_time2 = runner.getStringArgumentValue('end_time2', user_arguments)
+    start_time3 = runner.getStringArgumentValue('start_time3', user_arguments)
+    end_time3 = runner.getStringArgumentValue('end_time3', user_arguments)
+    start_time4 = runner.getStringArgumentValue('start_time4', user_arguments)
+    end_time4 = runner.getStringArgumentValue('end_time4', user_arguments)
+    start_time5 = runner.getStringArgumentValue('start_time5', user_arguments)
+    end_time5 = runner.getStringArgumentValue('end_time5', user_arguments)
     start_date1 = runner.getStringArgumentValue('start_date1', user_arguments)
     end_date1 = runner.getStringArgumentValue('end_date1', user_arguments)
     start_date2 = runner.getStringArgumentValue('start_date2', user_arguments)
     end_date2 = runner.getStringArgumentValue('end_date2', user_arguments)
     start_date3 = runner.getStringArgumentValue('start_date3', user_arguments)
-    end_date3 = runner.getStringArgumentValue('end_date3', user_arguments)
+    end_date3 = runner.getStringArgumentValue('end_date4', user_arguments)
+    start_date4 = runner.getStringArgumentValue('start_date4', user_arguments)
+    end_date4 = runner.getStringArgumentValue('end_date5', user_arguments)
+    start_date5 = runner.getStringArgumentValue('start_date5', user_arguments)
+    end_date5 = runner.getStringArgumentValue('end_date5', user_arguments)
     alt_periods = runner.getBoolArgumentValue('alt_periods', user_arguments)
 
     # validate the percentage
@@ -128,189 +202,148 @@ class ReduceEPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
 
     # set the default start and end time based on climate zone
     if alt_periods
-      ashraeClimateZone = nil
-      #climateZoneNUmber = ''
-      climateZones = model.getClimateZones
-      climateZones.climateZones.each do |climateZone|
-        if climateZone.institution == 'ASHRAE'
-          ashraeClimateZone = climateZone.value
-          runner.registerInfo("Using ASHRAE Climate zone #{ashraeClimateZone}.")
+      state = model.getWeatherFile.stateProvinceRegion
+      runner.registerInfo("Using weather file for #{state} state.")
+      file = File.open(File.join(File.dirname(__FILE__), "../../../files/seasonal_shedding_peak_hours.json"))
+      default_peak_periods = JSON.load(file)
+      file.close
+      peak_periods = default_peak_periods[state]
+      start_time = peak_periods["winter_peak_start"].split[1]
+      end_time = peak_periods["winter_peak_end"].split[1]
+      start_time2 = peak_periods["intermediate_peak_start"].split[1]
+      end_time2 = peak_periods["intermediate_peak_end"].split[1]
+      start_time3 = peak_periods["summer_peak_start"].split[1]
+      end_time3 = peak_periods["summer_peak_end"].split[1]
+      start_time4 = peak_periods["intermediate_peak_start"].split[1]
+      end_time4 = peak_periods["intermediate_peak_end"].split[1]
+      start_time5 = peak_periods["winter_peak_start"].split[1]
+      end_time5 = peak_periods["winter_peak_end"].split[1]
+      start_date1 = '01-01'
+      end_date1 = '03-31'
+      start_date2 = '04-01'
+      end_date2 = '05-31'
+      start_date3 = '06-01'
+      end_date3 = '09-30'
+      start_date4 = '10-01'
+      end_date4 = '11-30'
+      start_date5 = '12-01'
+      end_date5 = '12-31'
+    end
+
+    def validate_time_format(star_time, end_time, runner)
+      time1 = /(\d\d):(\d\d):(\d\d)/.match(star_time)
+      time2 = /(\d\d):(\d\d):(\d\d)/.match(end_time)
+      if time1 and time2
+        os_starttime = OpenStudio::Time.new(star_time)
+        os_endtime = OpenStudio::Time.new(end_time)
+        if star_time >= end_time
+          runner.registerError("The start time needs to be earlier than the end time (currently #{star_time}-#{end_time}).")
+          return false
+        else
+          return os_starttime, os_endtime
+        end
+      else
+        runner.registerError('The provided time is not in HH-MM-SS format.')
+        return false
+      end
+    end
+
+    def validate_date_format(start_date1, end_date1, runner)
+      smd = /(\d\d)-(\d\d)/.match(start_date1)
+      emd = /(\d\d)-(\d\d)/.match(end_date1)
+      if smd.nil? or emd.nil?
+        runner.registerError('The provided date is not in MM-DD format.')
+        return false
+      else
+        start_month = smd[1].to_i
+        start_day = smd[2].to_i
+        end_month = emd[1].to_i
+        end_day = emd[2].to_i
+        if start_date1 > end_date1
+          runner.registerError('The start date cannot be later date the end time.')
+          return false
+        else
+          os_start_date = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(start_month), start_day)
+          os_end_date = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(end_month), end_day)
+          return os_start_date, os_end_date
         end
       end
-
-      unless ashraeClimateZone # should this be not applicable or error?
-        runner.registerError("If you select to use alternative default start and end time based on the climate zone, please assign an ASHRAE climate zone to your model.")
-        return false # note - for this to work need to check for false in measure.rb and add return false there as well.
-      end
-
-      case ashraeClimateZone
-      when '3A'
-        start_time = '18:01:00'
-        end_time = '21:59:00'
-      when '4A'
-        start_time = '18:01:00'
-        end_time = '21:59:00'
-      when '5A'
-        start_time = '14:01:00'
-        end_time = '17:59:00'
-      when '6A'
-        start_time = '13:01:00'
-        end_time = '16:59:00'
-      when '2A'
-        start_time = '17:01:00'
-        end_time = '20:59:00'
-      when '2B'
-        start_time = '17:01:00'
-        end_time = '20:59:00'
-      when '3A'
-        start_time = '19:01:00'
-        end_time = '22:59:00'
-      when '3B'
-        start_time = '18:01:00'
-        end_time = '21:59:00'
-      when '3C'
-        start_time = '19:01:00'
-        end_time = '22:59:00'
-      when '4A'
-        start_time = '12:01:00'
-        end_time = '15:59:00'
-      when '4B'
-        start_time = '17:01:00'
-        end_time = '20:59:00'
-      when '4C'
-        start_time = '17:01:00'
-        end_time = '20:59:00'
-      when '5A'
-        start_time = '20:01:00'
-        end_time = '23:59:00'
-      when '5B'
-        start_time = '17:01:00'
-        end_time = '20:59:00'
-      when '5C'
-        start_time = '17:01:00'
-        end_time = '20:59:00'
-      when '6A'
-        start_time = '16:01:00'
-        end_time = '19:59:00'
-      when '6B'
-        start_time = '17:01:00'
-        end_time = '20:59:00'
-      when '7A'
-        start_time = '16:01:00'
-        end_time = '19:59:00'
-      else
-        runner.registerError('Invalid ASHRAE climate zone.')
-        return false
-      end
     end
 
-    if /(\d\d):(\d\d):(\d\d)/.match(start_time)
-      shift_time1 = OpenStudio::Time.new(start_time)
+    # First time period
+    time_result1 = validate_time_format(start_time, end_time, runner)
+    if time_result1
+      shift_time_start1, shift_time_end1 = time_result1
     else
-      runner.registerError('Start time must be in HH-MM-SS format.')
+      runner.registerError('The required time period for the reduction is not in correct format!')
       return false
     end
-
-    if /(\d\d):(\d\d):(\d\d)/.match(end_time)
-      shift_time2 = OpenStudio::Time.new(end_time)
-    else
-      runner.registerError('End time must be in HH-MM-SS format.')
-      return false
-    end
-
-    if start_time.to_f > end_time.to_f
-      runner.registerError('The start time cannot be later than the end time.')
-      return false
-    end
-
-    start_month1 = nil
-    start_day1 = nil
-    md = /(\d\d)-(\d\d)/.match(start_date1)
-    if md
-      start_month1 = md[1].to_i
-      start_day1 = md[2].to_i
-    else
-      runner.registerError('Start date must be in MM-DD format.')
-      return false
-    end
-    end_month1 = nil
-    end_day1 = nil
-    md = /(\d\d)-(\d\d)/.match(end_date1)
-    if md
-      end_month1 = md[1].to_i
-      end_day1 = md[2].to_i
-    else
-      runner.registerError('End date must be in MM-DD format.')
-      return false
-    end
-
-    start_month2 = nil
-    start_day2 = nil
-    end_month2 = nil
-    end_day2 = nil
-    if (start_date2.empty? and not end_date2.empty?) or (end_date2.empty? and not start_date2.empty?)
-      runner.registerWarning("Either start date or end date for the second period of reduction is not specified, so the second period of reduction will not be used.")
-    elsif not start_date2.empty? and (not end_date2.empty?)
-      smd = /(\d\d)-(\d\d)/.match(start_date2)
-      if smd
-        start_month2 = smd[1].to_i
-        start_day2 = smd[2].to_i
-      else
-        runner.registerError('Start date must be in MM-DD format. If you do not want a second period, leave both the start and end date blank.')
-        return false
+    # The other optional time periods
+    shift_time_start2,shift_time_end2,shift_time_start3,shift_time_end3,shift_time_start4,shift_time_end4,shift_time_start5,shift_time_end5 = [nil]*8
+    if (not start_time2.empty?) and (not end_time2.empty?)
+      time_result2 = validate_time_format(start_time2, end_time2, runner)
+      if time_result2
+        shift_time_start2, shift_time_end2 = time_result2
       end
-      emd = /(\d\d)-(\d\d)/.match(end_date2)
-      if emd
-        end_month2 = emd[1].to_i
-        end_day2 = emd[2].to_i
-      else
-        runner.registerError('End date must be in MM-DD format. If you do not want a second period, leave both the start and end date blank.')
-        return false
-      end
-    else
-
     end
-
-
-    start_month3 = nil
-    start_day3 = nil
-    end_month3 = nil
-    end_day3 = nil
-    if (start_date3.empty? and not end_date3.empty?) or (end_date3.empty? and not start_date3.empty?)
-      runner.registerWarning("Either start date or end date for the third period of reduction is not specified, so the second period of reduction will not be used.")
-    elsif not start_date3.empty? and (not end_date3.empty?)
-      smd = /(\d\d)-(\d\d)/.match(start_date3)
-      if smd
-        start_month3 = smd[1].to_i
-        start_day3 = smd[2].to_i
-      else
-        runner.registerError('Start date must be in MM-DD format. If you do not want a third period, leave both the start and end date blank.')
-        return false
+    if (not start_time3.empty?) and (not end_time3.empty?)
+      time_result3 = validate_time_format(start_time3, end_time3, runner)
+      if time_result3
+        shift_time_start3, shift_time_end3 = time_result3
       end
-      emd = /(\d\d)-(\d\d)/.match(end_date3)
-      if emd
-        end_month3 = emd[1].to_i
-        end_day3 = emd[2].to_i
-      else
-        runner.registerError('End date must be in MM-DD format. If you do not want a third period, leave both the start and end date blank.')
-        return false
+    end
+    if (not start_time4.empty?) and (not end_time4.empty?)
+      time_result4 = validate_time_format(start_time4, end_time4, runner)
+      if time_result4
+        shift_time_start4, shift_time_end4 = time_result4
+      end
+    end
+    if (not start_time5.empty?) and (not end_time5.empty?)
+      time_result5 = validate_time_format(start_time5, end_time5, runner)
+      if time_result5
+        shift_time_start5, shift_time_end5 = time_result5
       end
     end
 
-    os_start_date1 = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(start_month1), start_day1)
-    os_end_date1 = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(end_month1), end_day1)
-    os_start_date2 = nil
-    os_end_date2 = nil
-    if [start_month2, start_day2, end_month2, end_day2].all?
-      os_start_date2 = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(start_month2), start_day2)
-      os_end_date2 = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(end_month2), end_day2)
+
+    # First date period
+    date_result1 = validate_date_format(start_date1, end_date1, runner)
+    if date_result1
+      os_start_date1, os_end_date1 = date_result1
+    else
+      runner.registerError('The required date period for the reduction is not in correct format!')
+      return false
     end
-    os_start_date3 = nil
-    os_end_date3 = nil
-    if [start_month3, start_day3, end_month3, end_day3].all?
-      os_start_date3 = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(start_month3), start_day3)
-      os_end_date3 = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(end_month3), end_day3)
+    # Other optional date period
+    os_start_date2, os_end_date2, os_start_date3, os_end_date3, os_start_date4, os_end_date4, os_start_date5, os_end_date5 = [nil]*8
+    if (not start_date2.empty?) and (not end_date2.empty?)
+      date_result2 = validate_date_format(start_date2, end_date2, runner)
+      if date_result2
+        os_start_date2, os_end_date2 = date_result2
+      end
     end
+
+    if (not start_date3.empty?) and (not end_date3.empty?)
+      date_result3 = validate_date_format(start_date3, end_date3, runner)
+      if date_result3
+        os_start_date3, os_end_date3 = date_result3
+      end
+    end
+
+    if (not start_date4.empty?) and (not end_date4.empty?)
+      date_result4 = validate_date_format(start_date4, end_date4, runner)
+      if date_result4
+        os_start_date4, os_end_date4 = date_result4
+      end
+    end
+
+    if (not start_date5.empty?) and (not end_date5.empty?)
+      date_result5 = validate_date_format(start_date5, end_date5, runner)
+      if date_result5
+        os_start_date5, os_end_date5 = date_result5
+      end
+    end
+
 
     # daylightsaving adjustment added in visualization, so deprecated here
     # # Check model's daylight saving period, if cooling period is within daylight saving period, shift the cooling start time and end time by one hour later
@@ -325,38 +358,90 @@ class ReduceEPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
     #   end
     # end
 
+    applicable_space_types = ["SecondarySchool - Office",
+                              "PrimarySchool - Office",
+                              "SmallOffice - ClosedOffice",
+                              "SmallOffice - Conference",
+                              "SmallOffice - OpenOffice",
+                              "MediumOffice - Classroom",
+                              "MediumOffice - ClosedOffice",
+                              "MediumOffice - Conference",
+                              "MediumOffice - OpenOffice",
+                              "LargeOffice - BreakRoom",
+                              "LargeOffice - Classroom",
+                              "LargeOffice - ClosedOffice",
+                              "LargeOffice - Conference",
+                              "LargeOffice - OpenOffice",
+                              "SmallHotel - Meeting",
+                              "SmallHotel - Office",
+                              "Storage - Office",
+                              "Hospital - Office",
+                              "Outpatient - Conference",
+                              "Outpatient - Office",
+                              "Warehouse - Office",
+                              "WholeBuilding - Sm Office",
+                              "WholeBuilding - Md Office",
+                              "WholeBuilding - Lg Office",
+                              "OfficeGeneral",
+                              "OfficeOpen",
+                              "Conference",
+                              "OfficeSmall"]
+
+    optional_period_inputs = { "period2" => {"date_start"=>os_start_date2, "date_end"=>os_end_date2,
+                                             "time_start"=>shift_time_start2, "time_end"=>shift_time_end2},
+                               "period3" => {"date_start"=>os_start_date3, "date_end"=>os_end_date3,
+                                             "time_start"=>shift_time_start3, "time_end"=>shift_time_end3},
+                               "period4" => {"date_start"=>os_start_date4, "date_end"=>os_end_date4,
+                                             "time_start"=>shift_time_start4, "time_end"=>shift_time_end4},
+                               "period5" => {"date_start"=>os_start_date5, "date_end"=>os_end_date5,
+                                             "time_start"=>shift_time_start5, "time_end"=>shift_time_end5} }
+
     epd_factor = 1 - (epd_reduce_percent/100)
     applicable =  false
     equipments = model.getElectricEquipments
     # create a hash to map the old schedule name to the new schedule
     equip_schedules = {}
     equipments.each do |equip|
-      equip_sch = equip.schedule
-      if equip_sch.empty?
-        runner.registerWarning("#{equip.name} doesn't have a schedule.")
-      else
-        if equip_schedules.key?(equip_sch.get.name.to_s)
-          new_equip_sch = equip_schedules[equip_sch.get.name.to_s]
-        else
-          if equip_sch.get.to_ScheduleRuleset.empty?
-            runner.registerWarning("Schedule #{equip_sch.get.name} isn't a ScheduleRuleset object and won't be altered by this measure.")
+      space_type = nil
+      if equip.spaceType.is_initialized
+        space_type = equip.spaceType.get
+      elsif equip.space.is_initialized and equip.space.get.spaceType.is_initialized
+        space_type = equip.space.get.spaceType.get
+      end
+      if space_type
+        if space_type.standardsSpaceType.is_initialized and applicable_space_types.include?space_type.standardsSpaceType.get
+          runner.registerInfo("Found applicable equipment #{equip.name.to_s} belongs to office space types: #{space_type.name} with standardsSpaceType #{space_type.standardsSpaceType.get}")
+          equip_sch = equip.schedule
+          if equip_sch.empty?
+            runner.registerWarning("#{equip.name} doesn't have a schedule, so it won't be altered.")
             next
           else
-            new_equip_sch = equip_sch.get.clone(model)
-            new_equip_sch = new_equip_sch.to_Schedule.get
-            new_equip_sch.setName("#{equip_sch.get.name.to_s} adjusted #{epd_factor}")
-            # add to the hash
-            equip_schedules[equip_sch.get.name.to_s] = new_equip_sch
+            if equip_schedules.key?(equip_sch.get.name.to_s)
+              new_equip_sch = equip_schedules[equip_sch.get.name.to_s]
+            else
+              if equip_sch.get.to_ScheduleRuleset.empty?
+                runner.registerWarning("Schedule #{equip_sch.get.name} isn't a ScheduleRuleset object and won't be altered by this measure.")
+                next
+              else
+                new_equip_sch = equip_sch.get.clone(model)
+                new_equip_sch = new_equip_sch.to_Schedule.get
+                new_equip_sch.setName("#{equip_sch.get.name.to_s} adjusted #{epd_factor}")
+                # add to the hash
+                equip_schedules[equip_sch.get.name.to_s] = new_equip_sch
+              end
+            end
+            equip.setSchedule(new_equip_sch)
+            runner.registerInfo("Schedule #{equip_sch.get.name} of electric equipment #{equip.name} will be altered by this measure.")
           end
         end
-        equip.setSchedule(new_equip_sch)
-        runner.registerInfo("Schedule #{equip_sch.get.name} of electric equipment #{equip.name} will be altered by this measure.")
       end
+
+
+
     end
 
-    equip_schedules.each do |old_name, equip_sch|
-      schedule_set = equip_sch.to_ScheduleRuleset.get
-      default_rule = schedule_set.defaultDaySchedule
+    equip_schedules.each do |old_name, cloned_equip_sch|
+      schedule_set = cloned_equip_sch.to_ScheduleRuleset.get
       rules = schedule_set.scheduleRules
       days_covered = Array.new(7, false)
       original_rule_number = rules.length
@@ -366,97 +451,67 @@ class ReduceEPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
         # rules are in order of priority
         rules.each do |rule|
           runner.registerInfo("------------ Rule #{rule.ruleIndex}: #{rule.daySchedule.name.to_s}")
-          rule_period1 = rule.clone(model).to_ScheduleRule.get # OpenStudio::Model::ScheduleRule.new(schedule_set, rule.daySchedule)
-          rule_period1.setStartDate(os_start_date1)
-          rule_period1.setEndDate(os_end_date1)
-          checkDaysCovered(rule_period1, days_covered)
-          runner.registerInfo("--------------- current days of week coverage: #{days_covered}")
-
-          # set the order of the new cloned schedule rule, to make sure the modified rule has a higher priority than the original one
-          # and different copies keep the same priority as their original orders
-          unless schedule_set.setScheduleRuleIndex(rule_period1, current_index)
-            runner.registerError("Fail to set rule index for #{day_rule_period1.name.to_s}.")
-          end
-          current_index += 1
-
-          day_rule_period1 = rule_period1.daySchedule
-          day_time_vector1 = day_rule_period1.times
-          day_value_vector1 = day_rule_period1.values
-          runner.registerInfo("    ------------ time: #{day_time_vector1.map {|os_time| os_time.toString}}")
-          runner.registerInfo("    ------------ values: #{day_value_vector1}")
-          unless day_value_vector1.empty?
+          rule_period1 = modify_rule_for_date_period(rule, os_start_date1, os_end_date1, shift_time_start1, shift_time_end1, epd_factor, model)
+          if rule_period1
             applicable = true
-          end
-          day_rule_period1.clearValues
-          day_rule_period1 = updateDaySchedule(day_rule_period1, day_time_vector1, day_value_vector1, shift_time1, shift_time2, epd_factor)
-          runner.registerInfo("    ------------ updated time: #{day_rule_period1.times.map {|os_time| os_time.toString}}")
-          runner.registerInfo("    ------------ updated values: #{day_rule_period1.values}")
-          runner.registerInfo("--------------- schedule updated for #{rule_period1.startDate.get} to #{rule_period1.endDate.get}")
-
-          if os_start_date2 and os_end_date2
-            rule_period2 = copy_sch_rule_for_period(model, rule_period1, rule_period1.daySchedule, os_start_date2, os_end_date2)
-            unless schedule_set.setScheduleRuleIndex(rule_period2, 0)
-              runner.registerError("Fail to set rule index for #{rule_period2.daySchedule.name.to_s}.")
+            checkDaysCovered(rule_period1, days_covered)
+            runner.registerInfo("--------------- current days of week coverage: #{days_covered}")
+            if schedule_set.setScheduleRuleIndex(rule_period1, current_index)
+              current_index += 1
+            else
+              runner.registerError("Fail to set rule index for #{rule_period1.name.to_s}.")
             end
-            current_index += 1
-            runner.registerInfo("--------------- schedule updated for #{rule_period2.startDate.get} to #{rule_period2.endDate.get}")
           end
 
-          if os_start_date3 and os_end_date3
-            rule_period3 = copy_sch_rule_for_period(model, rule_period1, rule_period1.daySchedule, os_start_date3, os_end_date3)
-            unless schedule_set.setScheduleRuleIndex(rule_period3, 0)
-              runner.registerError("Fail to set rule index for #{rule_period3.daySchedule.name.to_s}.")
+          optional_period_inputs.each do |period, period_inputs|
+            os_start_date = period_inputs["date_start"]
+            os_end_date = period_inputs["date_end"]
+            shift_time_start = period_inputs["time_start"]
+            shift_time_end = period_inputs["time_end"]
+            if [os_start_date, os_end_date, shift_time_start, shift_time_end].all?
+              rule_period = modify_rule_for_date_period(rule, os_start_date, os_end_date, shift_time_start, shift_time_end, epd_factor, model)
+              if rule_period
+                if schedule_set.setScheduleRuleIndex(rule_period, current_index)
+                  current_index += 1
+                else
+                  runner.registerError("Fail to set rule index for #{rule_period.name.to_s}.")
+                end
+              end
+              runner.registerInfo("    ------------ schedule updated for #{rule_period.startDate.get} to #{rule_period.endDate.get}")
             end
+          end
+
+          # The original rule will be shifted to the currently lowest priority
+          # Setting the rule to an existing index will automatically push all other rules after it down
+          if schedule_set.setScheduleRuleIndex(rule, current_index)
             current_index += 1
-            runner.registerInfo("--------------- schedule updated for #{rule_period3.startDate.get} to #{rule_period3.endDate.get}")
+          else
+            runner.registerError("Fail to set rule index for #{rule.name.to_s}.")
           end
-
-          # The original rule will be shifted to have the currently lowest priority
-          unless schedule_set.setScheduleRuleIndex(rule, original_rule_number + current_index - 1)
-            runner.registerError("Fail to set rule index for #{rule.daySchedule.name.to_s}.")
-          end
-
         end
       else
         runner.registerWarning("Electric equipment schedule #{old_name} is a ScheduleRuleSet, but has no ScheduleRules associated. It won't be altered by this measure.")
       end
+
+      default_day = schedule_set.defaultDaySchedule
       if days_covered.include?(false)
-        new_default_rule = OpenStudio::Model::ScheduleRule.new(schedule_set)
-        new_default_rule.setStartDate(os_start_date1)
-        new_default_rule.setEndDate(os_end_date1)
-        coverMissingDays(new_default_rule, days_covered)
-        checkDaysCovered(new_default_rule, days_covered)
-
-        cloned_default_day = default_rule.clone(model)
-        cloned_default_day.setParent(new_default_rule)
-
-        new_default_day = new_default_rule.daySchedule
-        day_time_vector = new_default_day.times
-        day_value_vector = new_default_day.values
-        new_default_day.clearValues
-        new_default_day = updateDaySchedule(new_default_day, day_time_vector, day_value_vector, shift_time1, shift_time2, epd_factor)
-        if os_start_date2 and os_end_date2
-          copy_sch_rule_for_period(model, new_default_rule, new_default_day, os_start_date2, os_end_date2)
-        end
-        if os_start_date3 and os_end_date3
-          copy_sch_rule_for_period(model, new_default_rule, new_default_day, os_start_date3, os_end_date3)
+        runner.registerInfo("Some days use default day. Adding new scheduleRule from defaultDaySchedule for applicable date period.")
+        modify_default_day_for_date_period(schedule_set, default_day, days_covered, os_start_date1, os_end_date1,
+                                           shift_time_start1, shift_time_end1, epd_factor)
+        optional_period_inputs.each do |period, period_inputs|
+          os_start_date = period_inputs["date_start"]
+          os_end_date = period_inputs["date_end"]
+          shift_time_start = period_inputs["time_start"]
+          shift_time_end = period_inputs["time_end"]
+          if [os_start_date, os_end_date, shift_time_start, shift_time_end].all?
+            modify_default_day_for_date_period(schedule_set, default_day, days_covered, os_start_date, os_end_date,
+                                               shift_time_start, shift_time_end, epd_factor)
+          end
         end
       end
 
     end
 
-      # doesn't work for models without scheduleRules
-      # runner.registerInfo("------------------------FINAL--------------------")
-      # space_type.electricEquipment.each do |equip|
-      #   lgt_schedule_set = equip.schedule
-      #   unless lgt_schedule_set.empty?
-      #     runner.registerInfo("Schedule #{lgt_schedule_set.get.name.to_s}:")
-      #     sch_set = lgt_schedule_set.get.to_Schedule.get
-      #     sch_set.to_ScheduleRuleset.get.scheduleRules.each do |rule|
-      #       runner.registerInfo("  rule #{rule.ruleIndex}: #{rule.daySchedule.name.to_s} from #{rule.startDate.get} to #{rule.endDate.get}")
-      #     end
-      #   end
-      # end
 
     unless applicable
       runner.registerAsNotApplicable('No electric equipment schedule in the model could be altered.')
@@ -465,16 +520,41 @@ class ReduceEPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
     return true
   end
 
-  def copy_sch_rule_for_period(model, sch_rule, sch_day, start_date, end_date)
-    new_rule = sch_rule.clone(model).to_ScheduleRule.get
-    new_rule.setStartDate(start_date)
-    new_rule.setEndDate(end_date)
 
-    new_day_sch = sch_day.clone(model)
-    new_day_sch.setParent(new_rule)
-
-    return new_rule
+  def modify_rule_for_date_period(original_rule, os_start_date, os_end_date, shift_time_start, shift_time_end, lpd_factor, model)
+    # The cloned scheduleRule will automatically belongs to the originally scheduleRuleSet
+    rule_period = original_rule.clone(model).to_ScheduleRule.get
+    rule_period.setName("#{original_rule.name.to_s} with DF for #{os_start_date.to_s}-#{os_end_date.to_s}")
+    rule_period.setStartDate(os_start_date)
+    rule_period.setEndDate(os_end_date)
+    day_rule_period = rule_period.daySchedule
+    day_time_vector = day_rule_period.times
+    day_value_vector = day_rule_period.values
+    if day_time_vector.empty?
+      return false
+    end
+    day_rule_period.clearValues
+    day_rule_period = updateDaySchedule(day_rule_period, day_time_vector, day_value_vector, shift_time_start, shift_time_end, lpd_factor)
+    return rule_period
   end
+
+  def modify_default_day_for_date_period(schedule_set, default_day, days_covered, os_start_date, os_end_date,
+                                         shift_time_start, shift_time_end, lpd_factor)
+    # the new rule created for the ScheduleRuleSet by default has the highest priority (ruleIndex=0)
+    new_default_rule = OpenStudio::Model::ScheduleRule.new(schedule_set, default_day)
+    new_default_rule.setName("#{schedule_set.name.to_s} default day with DF for #{os_start_date.to_s}-#{os_end_date.to_s}")
+    new_default_rule.setStartDate(os_start_date)
+    new_default_rule.setEndDate(os_end_date)
+    coverMissingDays(new_default_rule, days_covered)
+    new_default_day = new_default_rule.daySchedule
+    day_time_vector = new_default_day.times
+    day_value_vector = new_default_day.values
+    new_default_day.clearValues
+    new_default_day = updateDaySchedule(new_default_day, day_time_vector, day_value_vector, shift_time_start, shift_time_end, lpd_factor)
+    schedule_set.setScheduleRuleIndex(new_default_rule, 0)
+    # TODO: if the scheduleRuleSet has holidaySchedule (which is a ScheduleDay), it cannot be altered
+  end
+
 
   def checkDaysCovered(sch_rule, sch_day_covered)
     if sch_rule.applySunday
@@ -558,7 +638,6 @@ class ReduceEPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
         sch_day.addValue(exist_timestamp, vec_value[i])
       end
     end
-
     return sch_day
   end
 

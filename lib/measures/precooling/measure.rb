@@ -15,7 +15,7 @@ class Precooling < OpenStudio::Measure::ModelMeasure
   end
   # human readable description of modeling approach
   def modeler_description
-    return "This measure will clone all of the schedules that are used as  cooling setpoints for thermal zones. The clones are hooked up to the thermostat in place of the original schedules. Then the schedules are adjusted by the specified values. HVAC operation schedule will also be changed. There is a checkbox to determine if the thermostat for design days should be altered."
+    return "This measure will clone all of the schedules that are used for cooling setpoints for thermal zones. The clones are hooked up to the thermostat in place of the original schedules. Then the schedules are adjusted by the specified values. HVAC operation schedule will also be changed. There is a checkbox to determine if the thermostat for design days should be altered."
   end
   # define the arguments that the user will input
   def arguments(model)
@@ -137,6 +137,7 @@ class Precooling < OpenStudio::Measure::ModelMeasure
     winterStartDate1 = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(1), 1)
     winterEndDate1 = summerStartDate - OpenStudio::Time.new(1)
     winterStartDate2 = summerEndDate + OpenStudio::Time.new(1)
+    puts "Winter ends date: #{winterEndDate1}"
     winterEndDate2 = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(12), 31)
 
 
@@ -235,9 +236,6 @@ class Precooling < OpenStudio::Measure::ModelMeasure
     #   end
     # end
 
-    puts "shift_time1: #{shift_time1}"
-    puts "shift_time2: #{shift_time2}"
-
 
     # ruby test to see if first charter of string is uppercase letter
     if cooling_adjustment > 0
@@ -249,84 +247,80 @@ class Precooling < OpenStudio::Measure::ModelMeasure
       runner.registerWarning("Adjustment #{cooling_adjustment} is larger than typical setpoint adjustment. Please double check your input")
     end
 
-    # setup OpenStudio units that we will need
-    temperature_ip_unit = OpenStudio.createUnit('F').get
-    temperature_si_unit = OpenStudio.createUnit('C').get
-    # define starting units
-    cooling_adjustment_ip = OpenStudio::Quantity.new(cooling_adjustment, temperature_ip_unit)
+
     cooling_adjustment_si = cooling_adjustment*5/9
 
     # update the availability schedule
-    air_loop_avail_schs = {}
-    air_loops = model.getAirLoopHVACs
-    air_loops.each do |air_loop|
-      avail_sch = air_loop.availabilitySchedule
+    # air_loop_avail_schs = {}
+    # air_loops = model.getAirLoopHVACs
+    # air_loops.each do |air_loop|
+    #   avail_sch = air_loop.availabilitySchedule
+    #
+    #   if air_loop_avail_schs.key?(avail_sch.name.to_s)
+    #     new_avail_sch = air_loop_avail_schs[avail_sch.name.to_s]
+    #   else
+    #     new_avail_sch = avail_sch.clone(model).to_Schedule.get
+    #     new_avail_sch.setName("#{avail_sch.name.to_s} adjusted")
+    #     # add to the hash
+    #     air_loop_avail_schs[avail_sch.name.to_s] = new_avail_sch
+    #   end
+    #   air_loop.setAvailabilitySchedule(new_avail_sch)
+    #
+    # end
 
-      if air_loop_avail_schs.key?(avail_sch.name.to_s)
-        new_avail_sch = air_loop_avail_schs[avail_sch.name.to_s]
-      else
-        new_avail_sch = avail_sch.clone(model).to_Schedule.get
-        new_avail_sch.setName("#{avail_sch.name.to_s} adjusted")
-        # add to the hash
-        air_loop_avail_schs[avail_sch.name.to_s] = new_avail_sch
-      end
-      air_loop.setAvailabilitySchedule(new_avail_sch)
-
-    end
-
-    air_loop_avail_schs.each do |sch_name, air_loop_sch|
-      runner.registerInfo("Air Loop Schedule #{sch_name}:")
-      if air_loop_sch.to_ScheduleRuleset.empty?
-        runner.registerWarning("Schedule #{sch_name} isn't a ScheduleRuleset object and won't be altered by this measure.")
-        air_loop_sch.remove # remove un-used clone
-      else
-        schedule = air_loop_sch.to_ScheduleRuleset.get
-        default_rule = schedule.defaultDaySchedule
-        rules = schedule.scheduleRules
-        days_covered = Array.new(7, false)
-
-        rules.each do |rule|
-          winter_avail_rule1 = copy_sch_rule_for_period(model, rule, rule.daySchedule, winterStartDate1, winterEndDate1)
-          winter_avail_rule2 = copy_sch_rule_for_period(model, rule, rule.daySchedule, winterStartDate2, winterEndDate2)
-          runner.registerInfo("    ------------ time: #{rule.daySchedule.times.map {|os_time| os_time.toString}}")
-          runner.registerInfo("    ------------ values: #{rule.daySchedule.values}")
-          summer_avail_rule = rule.clone(model).to_ScheduleRule.get
-          summer_avail_rule.setStartDate(summerStartDate)
-          summer_avail_rule.setEndDate(summerEndDate)
-
-          checkDaysCovered(summer_avail_rule, days_covered)
-
-          summer_avail_day = summer_avail_rule.daySchedule
-          day_time_vector = summer_avail_day.times
-          day_value_vector = summer_avail_day.values
-          summer_avail_day.clearValues
-
-          summer_avail_day = updateAvailDaySchedule(summer_avail_day, day_time_vector, day_value_vector, shift_time1, shift_time2)
-          runner.registerInfo("    ------------ updated time: #{summer_avail_day.times.map {|os_time| os_time.toString}}")
-          runner.registerInfo("    ------------ uodated values: #{summer_avail_day.values}")
-
-        end
-
-        if days_covered.include?(false)
-
-          winter_rule1 = create_sch_rule_from_default(model, schedule, default_rule, winterStartDate1, winterEndDate1)
-          winter_rule2 = create_sch_rule_from_default(model, schedule, default_rule, winterStartDate2, winterEndDate2)
-
-          coverMissingDays(winter_rule1, days_covered)
-          checkDaysCovered(winter_rule1, days_covered)
-
-          summer_rule = copy_sch_rule_for_period(model, winter_rule1, default_rule, summerStartDate, summerEndDate)
-
-          summer_day = summer_rule.daySchedule
-          day_time_vector = summer_day.times
-          day_value_vector = summer_day.values
-          summer_day.clearValues
-
-          summer_day = updateAvailDaySchedule(summer_day, day_time_vector, day_value_vector, shift_time1, shift_time2)
-
-        end
-      end
-    end
+    # air_loop_avail_schs.each do |sch_name, air_loop_sch|
+    #   runner.registerInfo("Air Loop Schedule #{sch_name}:")
+    #   if air_loop_sch.to_ScheduleRuleset.empty?
+    #     runner.registerWarning("Schedule #{sch_name} isn't a ScheduleRuleset object and won't be altered by this measure.")
+    #     air_loop_sch.remove # remove un-used clone
+    #   else
+    #     schedule = air_loop_sch.to_ScheduleRuleset.get
+    #     default_rule = schedule.defaultDaySchedule
+    #     rules = schedule.scheduleRules
+    #     days_covered = Array.new(7, false)
+    #
+    #     rules.each do |rule|
+    #       winter_avail_rule1 = copy_sch_rule_for_period(model, rule, rule.daySchedule, winterStartDate1, winterEndDate1)
+    #       winter_avail_rule2 = copy_sch_rule_for_period(model, rule, rule.daySchedule, winterStartDate2, winterEndDate2)
+    #       runner.registerInfo("    ---- time: #{rule.daySchedule.times.map {|os_time| os_time.toString}}")
+    #       runner.registerInfo("    ---- values: #{rule.daySchedule.values}")
+    #       summer_avail_rule = rule.clone(model).to_ScheduleRule.get
+    #       summer_avail_rule.setStartDate(summerStartDate)
+    #       summer_avail_rule.setEndDate(summerEndDate)
+    #
+    #       checkDaysCovered(summer_avail_rule, days_covered)
+    #
+    #       summer_avail_day = summer_avail_rule.daySchedule
+    #       day_time_vector = summer_avail_day.times
+    #       day_value_vector = summer_avail_day.values
+    #       summer_avail_day.clearValues
+    #
+    #       summer_avail_day = updateAvailDaySchedule(summer_avail_day, day_time_vector, day_value_vector, shift_time1, shift_time2)
+    #       runner.registerInfo("    ---- updated time: #{summer_avail_day.times.map {|os_time| os_time.toString}}")
+    #       runner.registerInfo("    ---- updated values: #{summer_avail_day.values}")
+    #
+    #     end
+    #
+    #     if days_covered.include?(false)
+    #
+    #       winter_rule1 = create_sch_rule_from_default(model, schedule, default_rule, winterStartDate1, winterEndDate1)
+    #       winter_rule2 = create_sch_rule_from_default(model, schedule, default_rule, winterStartDate2, winterEndDate2)
+    #
+    #       coverMissingDays(winter_rule1, days_covered)
+    #       checkDaysCovered(winter_rule1, days_covered)
+    #
+    #       summer_rule = copy_sch_rule_for_period(model, winter_rule1, default_rule, summerStartDate, summerEndDate)
+    #
+    #       summer_day = summer_rule.daySchedule
+    #       day_time_vector = summer_day.times
+    #       day_value_vector = summer_day.values
+    #       summer_day.clearValues
+    #
+    #       summer_day = updateAvailDaySchedule(summer_day, day_time_vector, day_value_vector, shift_time1, shift_time2)
+    #
+    #     end
+    #   end
+    # end
 
 
     applicable =  false
@@ -371,13 +365,12 @@ class Precooling < OpenStudio::Measure::ModelMeasure
         cooling_schedule.remove # remove un-used clone
       else
         schedule = cooling_schedule.to_ScheduleRuleset.get
-        default_rule = schedule.defaultDaySchedule
         rules = schedule.scheduleRules
         days_covered = Array.new(7, false)
         if rules.length > 0
           runner.registerInfo("Schedule #{sch_name} has #{rules.length} rules.")
           rules.each do |rule|
-            runner.registerInfo("------------ Rule #{rule.ruleIndex}: #{rule.daySchedule.name.to_s}")
+            runner.registerInfo("---- Rule #{rule.ruleIndex}: #{rule.daySchedule.name.to_s}")
             # Use the original schedule rule to cover the rest of the year
             winter_rule1 = copy_sch_rule_for_period(model, rule, rule.daySchedule, winterStartDate1, winterEndDate1)
             winter_rule2 = copy_sch_rule_for_period(model, rule, rule.daySchedule, winterStartDate2, winterEndDate2)
@@ -402,6 +395,8 @@ class Precooling < OpenStudio::Measure::ModelMeasure
         end
 
         if days_covered.include?(false)
+          puts "Days coverage conditions: #{days_covered}"
+          default_rule = schedule.defaultDaySchedule
 
           winter_rule1 = create_sch_rule_from_default(model, schedule, default_rule, winterStartDate1, winterEndDate1)
           winter_rule2 = create_sch_rule_from_default(model, schedule, default_rule, winterStartDate2, winterEndDate2)
@@ -476,8 +471,8 @@ class Precooling < OpenStudio::Measure::ModelMeasure
     new_rule.setStartDate(start_date)
     new_rule.setEndDate(end_date)
 
-    new_day_sch = sch_day.clone(model)
-    new_day_sch.setParent(new_rule)
+    # new_day_sch = sch_day.clone(model)
+    # new_day_sch.setParent(new_rule)
 
     return new_rule
   end
