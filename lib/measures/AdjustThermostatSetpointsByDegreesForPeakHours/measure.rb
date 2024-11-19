@@ -4,6 +4,7 @@
 # *******************************************************************************
 
 # start the measure
+require 'json'
 class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::ModelMeasure
   # setup OpenStudio units that we will need
   TEMP_IP_UNIT = OpenStudio.createUnit('F').get
@@ -28,101 +29,244 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
   def arguments(model)
     args = OpenStudio::Measure::OSArgumentVector.new
 
-    # make an argument for adjustment to cooling setpoint
-    cooling_adjustment = OpenStudio::Measure::OSArgument.makeDoubleArgument('cooling_adjustment', true)
-    cooling_adjustment.setDisplayName('Degrees Fahrenheit to Adjust Cooling Setpoint By')
-    cooling_adjustment.setDefaultValue(2.0)
-    args << cooling_adjustment
-
-    # make an argument for the start time of cooling adjustment
-    cooling_daily_starttime = OpenStudio::Measure::OSArgument.makeStringArgument('cooling_daily_starttime', false)
-    cooling_daily_starttime.setDisplayName('Daily Start Time for Cooling Adjustment')
-    cooling_daily_starttime.setDescription('Use 24 hour format HH:MM:SS')
-    cooling_daily_starttime.setDefaultValue('16:01:00')
-    args << cooling_daily_starttime
-
-    # make an argument for the end time of cooling adjustment
-    cooling_daily_endtime = OpenStudio::Measure::OSArgument.makeStringArgument('cooling_daily_endtime', false)
-    cooling_daily_endtime.setDisplayName('Daily End Time for Cooling Adjustment')
-    cooling_daily_endtime.setDescription('Use 24 hour format HH:MM:SS')
-    cooling_daily_endtime.setDefaultValue('20:00:00')
-    args << cooling_daily_endtime
-
-    # make an argument for the start date of cooling adjustment
-    cooling_startdate = OpenStudio::Measure::OSArgument.makeStringArgument('cooling_startdate', false)
-    cooling_startdate.setDisplayName('Start Date for Cooling Adjustment')
-    cooling_startdate.setDescription('In MM-DD format')
-    cooling_startdate.setDefaultValue('06-01')
-    args << cooling_startdate
-
-    # make an argument for the end date of cooling adjustment
-    cooling_enddate = OpenStudio::Measure::OSArgument.makeStringArgument('cooling_enddate', false)
-    cooling_enddate.setDisplayName('End Date for Cooling Adjustment')
-    cooling_enddate.setDescription('In MM-DD format')
-    cooling_enddate.setDefaultValue('09-30')
-    args << cooling_enddate
-
     # make an argument for adjustment to heating setpoint
     heating_adjustment = OpenStudio::Measure::OSArgument.makeDoubleArgument('heating_adjustment', true)
     heating_adjustment.setDisplayName('Degrees Fahrenheit to Adjust heating Setpoint By')
     heating_adjustment.setDefaultValue(-2.0)
     args << heating_adjustment
 
-    # make an argument for the start time of heating adjustment
-    heating_daily_starttime = OpenStudio::Measure::OSArgument.makeStringArgument('heating_daily_starttime', false)
-    heating_daily_starttime.setDisplayName('Start Time for Heating Adjustment')
-    heating_daily_starttime.setDescription('Use 24 hour format HH:MM:SS')
-    heating_daily_starttime.setDefaultValue('18:01:00')
-    args << heating_daily_starttime
+    heating_start_date1 = OpenStudio::Ruleset::OSArgument.makeStringArgument('heating_start_date1', true)
+    heating_start_date1.setDisplayName('First start date for heating setpoint adjustment')
+    heating_start_date1.setDescription('In MM-DD format')
+    heating_start_date1.setDefaultValue('01-01')
+    args << heating_start_date1
+    heating_end_date1 = OpenStudio::Ruleset::OSArgument.makeStringArgument('heating_end_date1', true)
+    heating_end_date1.setDisplayName('First end date for heating setpoint adjustment')
+    heating_end_date1.setDescription('In MM-DD format')
+    heating_end_date1.setDefaultValue('03-31')
+    args << heating_end_date1
 
-    # make an argument for the end time of heating adjustment
-    heating_daily_endtime = OpenStudio::Measure::OSArgument.makeStringArgument('heating_daily_endtime', false)
-    heating_daily_endtime.setDisplayName('End Time for Heating Adjustment')
-    heating_daily_endtime.setDescription('Use 24 hour format HH:MM:SS')
-    heating_daily_endtime.setDefaultValue('22:00:00')
-    args << heating_daily_endtime
+    heating_start_date2 = OpenStudio::Ruleset::OSArgument.makeStringArgument('heating_start_date2', false)
+    heating_start_date2.setDisplayName('Second start date for heating setpoint adjustment (optional)')
+    heating_start_date2.setDescription('Specify a date in MM-DD format if you want a second season of heating setpoint adjustment; leave blank if not needed.')
+    heating_start_date2.setDefaultValue('')
+    args << heating_start_date2
+    heating_end_date2 = OpenStudio::Ruleset::OSArgument.makeStringArgument('heating_end_date2', false)
+    heating_end_date2.setDisplayName('Second end date for heating setpoint adjustment')
+    heating_end_date2.setDescription('Specify a date in MM-DD format if you want a second season of heating setpoint adjustment; leave blank if not needed. If either the start or end date is blank, the period is considered not used.')
+    heating_end_date2.setDefaultValue('')
+    args << heating_end_date2
 
-    # make an argument for the first start date of heating adjustment
-    heating_startdate_1 = OpenStudio::Measure::OSArgument.makeStringArgument('heating_startdate_1', false)
-    heating_startdate_1.setDisplayName('Start Date for Heating Adjustment Period 1')
-    heating_startdate_1.setDescription('In MM-DD format')
-    heating_startdate_1.setDefaultValue('01-01')
-    args << heating_startdate_1
+    heating_start_date3 = OpenStudio::Ruleset::OSArgument.makeStringArgument('heating_start_date3', false)
+    heating_start_date3.setDisplayName('Third start date for heating setpoint adjustment (optional)')
+    heating_start_date3.setDescription('Specify a date in MM-DD format if you want a third season of heating setpoint adjustment; leave blank if not needed.')
+    heating_start_date3.setDefaultValue('')
+    args << heating_start_date3
+    heating_end_date3 = OpenStudio::Ruleset::OSArgument.makeStringArgument('heating_end_date3', false)
+    heating_end_date3.setDisplayName('Third end date for heating setpoint adjustment')
+    heating_end_date3.setDescription('Specify a date in MM-DD format if you want a third season of heating setpoint adjustment; leave blank if not needed. If either the start or end date is blank, the period is considered not used.')
+    heating_end_date3.setDefaultValue('')
+    args << heating_end_date3
 
-    # make an argument for the first end date of heating adjustment
-    heating_enddate_1 = OpenStudio::Measure::OSArgument.makeStringArgument('heating_enddate_1', false)
-    heating_enddate_1.setDisplayName('End Date for Heating Adjustment Period 1')
-    heating_enddate_1.setDescription('In MM-DD format')
-    heating_enddate_1.setDefaultValue('05-31')
-    args << heating_enddate_1
+    heating_start_date4 = OpenStudio::Ruleset::OSArgument.makeStringArgument('heating_start_date4', false)
+    heating_start_date4.setDisplayName('Fourth start date for heating setpoint adjustment (optional)')
+    heating_start_date4.setDescription('Specify a date in MM-DD format if you want a fourth season of heating setpoint adjustment; leave blank if not needed.')
+    heating_start_date4.setDefaultValue('')
+    args << heating_start_date4
+    heating_end_date4 = OpenStudio::Ruleset::OSArgument.makeStringArgument('heating_end_date4', false)
+    heating_end_date4.setDisplayName('Fourth end date for heating setpoint adjustment')
+    heating_end_date4.setDescription('Specify a date in MM-DD format if you want a fourth season of heating setpoint adjustment; leave blank if not needed. If either the start or end date is blank, the period is considered not used.')
+    heating_end_date4.setDefaultValue('')
+    args << heating_end_date4
 
-    # make an argument for the second start date of heating adjustment
-    heating_startdate_2 = OpenStudio::Measure::OSArgument.makeStringArgument('heating_startdate_2', false)
-    heating_startdate_2.setDisplayName('Start Date for Heating Adjustment Period 2')
-    heating_startdate_2.setDescription('In MM-DD format')
-    heating_startdate_2.setDefaultValue('10-01')
-    args << heating_startdate_2
+    heating_start_date5 = OpenStudio::Ruleset::OSArgument.makeStringArgument('heating_start_date5', false)
+    heating_start_date5.setDisplayName('Fifth start date for heating setpoint adjustment (optional)')
+    heating_start_date5.setDescription('Specify a date in MM-DD format if you want a fifth season of heating setpoint adjustment; leave blank if not needed.')
+    heating_start_date5.setDefaultValue('')
+    args << heating_start_date5
+    heating_end_date5 = OpenStudio::Ruleset::OSArgument.makeStringArgument('heating_end_date5', false)
+    heating_end_date5.setDisplayName('Fifth end date for heating setpoint adjustment')
+    heating_end_date5.setDescription('Specify a date in MM-DD format if you want a fifth season of heating setpoint adjustment; leave blank if not needed. If either the start or end date is blank, the period is considered not used.')
+    heating_end_date5.setDefaultValue('')
+    args << heating_end_date5
 
-    # make an argument for the second end date of heating adjustment
-    heating_enddate_2 = OpenStudio::Measure::OSArgument.makeStringArgument('heating_enddate_2', false)
-    heating_enddate_2.setDisplayName('End Date for Heating Adjustment Period 2')
-    heating_enddate_2.setDescription('In MM-DD format')
-    heating_enddate_2.setDefaultValue('12-31')
-    args << heating_enddate_2
+    heating_start_time1 = OpenStudio::Measure::OSArgument.makeStringArgument('heating_start_time1', true)
+    heating_start_time1.setDisplayName('Start time of heating setpoint adjustment for the first season')
+    heating_start_time1.setDescription('In HH:MM:SS format')
+    heating_start_time1.setDefaultValue('17:00:00')
+    args << heating_start_time1
+    heating_end_time1 = OpenStudio::Measure::OSArgument.makeStringArgument('heating_end_time1', true)
+    heating_end_time1.setDisplayName('End time of heating setpoint adjustment for the first season')
+    heating_end_time1.setDescription('In HH:MM:SS format')
+    heating_end_time1.setDefaultValue('21:00:00')
+    args << heating_end_time1
 
-    # make an argument if the thermostat for design days should be altered
-    alter_design_days = OpenStudio::Measure::OSArgument.makeBoolArgument('alter_design_days', false)
-    alter_design_days.setDisplayName('Alter Design Day Thermostats')
-    alter_design_days.setDefaultValue(false)
-    args << alter_design_days
+    heating_start_time2 = OpenStudio::Measure::OSArgument.makeStringArgument('heating_start_time2', false)
+    heating_start_time2.setDisplayName('Start time of heating setpoint adjustment for the second season (optional)')
+    heating_start_time2.setDescription('In HH:MM:SS format')
+    heating_start_time2.setDefaultValue('')
+    args << heating_start_time2
+    heating_end_time2 = OpenStudio::Measure::OSArgument.makeStringArgument('heating_end_time2', false)
+    heating_end_time2.setDisplayName('End time of heating setpoint adjustment for the second season (optional)')
+    heating_end_time2.setDescription('In HH:MM:SS format')
+    heating_end_time2.setDefaultValue('')
+    args << heating_end_time2
 
-    auto_date = OpenStudio::Measure::OSArgument.makeBoolArgument('auto_date', false)
-    auto_date.setDisplayName('Enable Climate-specific Periods Setting?')
-    auto_date.setDefaultValue(false)
-    args << auto_date
+    heating_start_time3 = OpenStudio::Measure::OSArgument.makeStringArgument('heating_start_time3', false)
+    heating_start_time3.setDisplayName('Start time of heating setpoint adjustment for the third season (optional)')
+    heating_start_time3.setDescription('In HH:MM:SS format')
+    heating_start_time3.setDefaultValue('')
+    args << heating_start_time3
+    heating_end_time3 = OpenStudio::Measure::OSArgument.makeStringArgument('heating_end_time3', false)
+    heating_end_time3.setDisplayName('End time of heating setpoint adjustment for the third season (optional)')
+    heating_end_time3.setDescription('In HH:MM:SS format')
+    heating_end_time3.setDefaultValue('')
+    args << heating_end_time3
 
-    alt_periods = OpenStudio::Measure::OSArgument.makeBoolArgument('alt_periods', false)
-    alt_periods.setDisplayName('Alternate Peak and Take Periods')
+    heating_start_time4 = OpenStudio::Measure::OSArgument.makeStringArgument('heating_start_time4', false)
+    heating_start_time4.setDisplayName('Start time of heating setpoint adjustment for the fourth season (optional)')
+    heating_start_time4.setDescription('In HH:MM:SS format')
+    heating_start_time4.setDefaultValue('')
+    args << heating_start_time4
+    heating_end_time4 = OpenStudio::Measure::OSArgument.makeStringArgument('heating_end_time4', false)
+    heating_end_time4.setDisplayName('End time of heating setpoint adjustment for the fourth season (optional)')
+    heating_end_time4.setDescription('In HH:MM:SS format')
+    heating_end_time4.setDefaultValue('')
+    args << heating_end_time4
+
+    heating_start_time5 = OpenStudio::Measure::OSArgument.makeStringArgument('heating_start_time5', false)
+    heating_start_time5.setDisplayName('Start time of heating setpoint adjustment for the fifth season (optional)')
+    heating_start_time5.setDescription('In HH:MM:SS format')
+    heating_start_time5.setDefaultValue('')
+    args << heating_start_time5
+    heating_end_time5 = OpenStudio::Measure::OSArgument.makeStringArgument('heating_end_time5', false)
+    heating_end_time5.setDisplayName('End time of heating setpoint adjustment for the fifth season (optional)')
+    heating_end_time5.setDescription('In HH:MM:SS format')
+    heating_end_time5.setDefaultValue('')
+    args << heating_end_time5
+
+
+    # make an argument for adjustment to cooling setpoint
+    cooling_adjustment = OpenStudio::Measure::OSArgument.makeDoubleArgument('cooling_adjustment', true)
+    cooling_adjustment.setDisplayName('Degrees Fahrenheit to Adjust Cooling Setpoint By')
+    cooling_adjustment.setDefaultValue(5.0)
+    args << cooling_adjustment
+
+    cooling_start_date1 = OpenStudio::Ruleset::OSArgument.makeStringArgument('cooling_start_date1', true)
+    cooling_start_date1.setDisplayName('First start date for cooling setpoint adjustment')
+    cooling_start_date1.setDescription('In MM-DD format')
+    cooling_start_date1.setDefaultValue('06-01')
+    args << cooling_start_date1
+    cooling_end_date1 = OpenStudio::Ruleset::OSArgument.makeStringArgument('cooling_end_date1', true)
+    cooling_end_date1.setDisplayName('First end date for cooling setpoint adjustment')
+    cooling_end_date1.setDescription('In MM-DD format')
+    cooling_end_date1.setDefaultValue('09-30')
+    args << cooling_end_date1
+
+    cooling_start_date2 = OpenStudio::Ruleset::OSArgument.makeStringArgument('cooling_start_date2', false)
+    cooling_start_date2.setDisplayName('Second start date for cooling setpoint adjustment (optional)')
+    cooling_start_date2.setDescription('Specify a date in MM-DD format if you want a second season of cooling setpoint adjustment; leave blank if not needed.')
+    cooling_start_date2.setDefaultValue('')
+    args << cooling_start_date2
+    cooling_end_date2 = OpenStudio::Ruleset::OSArgument.makeStringArgument('cooling_end_date2', false)
+    cooling_end_date2.setDisplayName('Second end date for cooling setpoint adjustment')
+    cooling_end_date2.setDescription('Specify a date in MM-DD format if you want a second season of cooling setpoint adjustment; leave blank if not needed. If either the start or end date is blank, the period is considered not used.')
+    cooling_end_date2.setDefaultValue('')
+    args << cooling_end_date2
+
+    cooling_start_date3 = OpenStudio::Ruleset::OSArgument.makeStringArgument('cooling_start_date3', false)
+    cooling_start_date3.setDisplayName('Third start date for cooling setpoint adjustment (optional)')
+    cooling_start_date3.setDescription('Specify a date in MM-DD format if you want a third season of cooling setpoint adjustment; leave blank if not needed.')
+    cooling_start_date3.setDefaultValue('')
+    args << cooling_start_date3
+    cooling_end_date3 = OpenStudio::Ruleset::OSArgument.makeStringArgument('cooling_end_date3', false)
+    cooling_end_date3.setDisplayName('Third end date for cooling setpoint adjustment')
+    cooling_end_date3.setDescription('Specify a date in MM-DD format if you want a third season of cooling setpoint adjustment; leave blank if not needed. If either the start or end date is blank, the period is considered not used.')
+    cooling_end_date3.setDefaultValue('')
+    args << cooling_end_date3
+
+    cooling_start_date4 = OpenStudio::Ruleset::OSArgument.makeStringArgument('cooling_start_date4', false)
+    cooling_start_date4.setDisplayName('Fourth start date for cooling setpoint adjustment (optional)')
+    cooling_start_date4.setDescription('Specify a date in MM-DD format if you want a fourth season of cooling setpoint adjustment; leave blank if not needed.')
+    cooling_start_date4.setDefaultValue('')
+    args << cooling_start_date4
+    cooling_end_date4 = OpenStudio::Ruleset::OSArgument.makeStringArgument('cooling_end_date4', false)
+    cooling_end_date4.setDisplayName('Fourth end date for cooling setpoint adjustment')
+    cooling_end_date4.setDescription('Specify a date in MM-DD format if you want a fourth season of cooling setpoint adjustment; leave blank if not needed. If either the start or end date is blank, the period is considered not used.')
+    cooling_end_date4.setDefaultValue('')
+    args << cooling_end_date4
+
+    cooling_start_date5 = OpenStudio::Ruleset::OSArgument.makeStringArgument('cooling_start_date5', false)
+    cooling_start_date5.setDisplayName('Fifth start date for cooling setpoint adjustment (optional)')
+    cooling_start_date5.setDescription('Specify a date in MM-DD format if you want a fifth season of cooling setpoint adjustment; leave blank if not needed.')
+    cooling_start_date5.setDefaultValue('')
+    args << cooling_start_date5
+    cooling_end_date5 = OpenStudio::Ruleset::OSArgument.makeStringArgument('cooling_end_date5', false)
+    cooling_end_date5.setDisplayName('Fifth end date for cooling setpoint adjustment')
+    cooling_end_date5.setDescription('Specify a date in MM-DD format if you want a fifth season of cooling setpoint adjustment; leave blank if not needed. If either the start or end date is blank, the period is considered not used.')
+    cooling_end_date5.setDefaultValue('')
+    args << cooling_end_date5
+
+    cooling_start_time1 = OpenStudio::Measure::OSArgument.makeStringArgument('cooling_start_time1', true)
+    cooling_start_time1.setDisplayName('Start time of cooling setpoint adjustment for the first season')
+    cooling_start_time1.setDescription('In HH:MM:SS format')
+    cooling_start_time1.setDefaultValue('17:00:00')
+    args << cooling_start_time1
+    cooling_end_time1 = OpenStudio::Measure::OSArgument.makeStringArgument('cooling_end_time1', true)
+    cooling_end_time1.setDisplayName('End time of cooling setpoint adjustment for the first season')
+    cooling_end_time1.setDescription('In HH:MM:SS format')
+    cooling_end_time1.setDefaultValue('21:00:00')
+    args << cooling_end_time1
+
+    cooling_start_time2 = OpenStudio::Measure::OSArgument.makeStringArgument('cooling_start_time2', false)
+    cooling_start_time2.setDisplayName('Start time of cooling setpoint adjustment for the second season (optional)')
+    cooling_start_time2.setDescription('In HH:MM:SS format')
+    cooling_start_time2.setDefaultValue('')
+    args << cooling_start_time2
+    cooling_end_time2 = OpenStudio::Measure::OSArgument.makeStringArgument('cooling_end_time2', false)
+    cooling_end_time2.setDisplayName('End time of cooling setpoint adjustment for the second season (optional)')
+    cooling_end_time2.setDescription('In HH:MM:SS format')
+    cooling_end_time2.setDefaultValue('')
+    args << cooling_end_time2
+
+    cooling_start_time3 = OpenStudio::Measure::OSArgument.makeStringArgument('cooling_start_time3', false)
+    cooling_start_time3.setDisplayName('Start time of cooling setpoint adjustment for the third season (optional)')
+    cooling_start_time3.setDescription('In HH:MM:SS format')
+    cooling_start_time3.setDefaultValue('')
+    args << cooling_start_time3
+    cooling_end_time3 = OpenStudio::Measure::OSArgument.makeStringArgument('cooling_end_time3', false)
+    cooling_end_time3.setDisplayName('End time of cooling setpoint adjustment for the third season (optional)')
+    cooling_end_time3.setDescription('In HH:MM:SS format')
+    cooling_end_time3.setDefaultValue('')
+    args << cooling_end_time3
+
+    cooling_start_time4 = OpenStudio::Measure::OSArgument.makeStringArgument('cooling_start_time4', false)
+    cooling_start_time4.setDisplayName('Start time of cooling setpoint adjustment for the fourth season (optional)')
+    cooling_start_time4.setDescription('In HH:MM:SS format')
+    cooling_start_time4.setDefaultValue('')
+    args << cooling_start_time4
+    cooling_end_time4 = OpenStudio::Measure::OSArgument.makeStringArgument('cooling_end_time4', false)
+    cooling_end_time4.setDisplayName('End time of cooling setpoint adjustment for the fourth season (optional)')
+    cooling_end_time4.setDescription('In HH:MM:SS format')
+    cooling_end_time4.setDefaultValue('')
+    args << cooling_end_time4
+
+    cooling_start_time5 = OpenStudio::Measure::OSArgument.makeStringArgument('cooling_start_time5', false)
+    cooling_start_time5.setDisplayName('Start time of cooling setpoint adjustment for the fifth season (optional)')
+    cooling_start_time5.setDescription('In HH:MM:SS format')
+    cooling_start_time5.setDefaultValue('')
+    args << cooling_start_time5
+    cooling_end_time5 = OpenStudio::Measure::OSArgument.makeStringArgument('cooling_end_time5', false)
+    cooling_end_time5.setDisplayName('End time of cooling setpoint adjustment for the fifth season (optional)')
+    cooling_end_time5.setDescription('In HH:MM:SS format')
+    cooling_end_time5.setDefaultValue('')
+    args << cooling_end_time5
+
+
+    # Use alternative default start and end time for different climate zone
+    alt_periods = OpenStudio::Measure::OSArgument.makeBoolArgument('alt_periods', true)
+    alt_periods.setDisplayName('Use alternative default start and end time based on the state of the model from the Cambium load profile peak period?')
+    alt_periods.setDescription('This will overwrite the start and end time and date provided by the user')
     alt_periods.setDefaultValue(false)
     args << alt_periods
 
@@ -139,186 +283,282 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
     end
 
     # assign the user inputs to variables
-    cooling_adjustment = runner.getDoubleArgumentValue('cooling_adjustment', user_arguments)
     heating_adjustment = runner.getDoubleArgumentValue('heating_adjustment', user_arguments)
-    cooling_daily_starttime = runner.getStringArgumentValue('cooling_daily_starttime', user_arguments)
-    cooling_daily_endtime = runner.getStringArgumentValue('cooling_daily_endtime', user_arguments)
-    cooling_startdate = runner.getStringArgumentValue('cooling_startdate', user_arguments)
-    cooling_enddate = runner.getStringArgumentValue('cooling_enddate', user_arguments)
-    heating_daily_starttime = runner.getStringArgumentValue('heating_daily_starttime', user_arguments)
-    heating_daily_endtime = runner.getStringArgumentValue('heating_daily_endtime', user_arguments)
-    heating_startdate_1 = runner.getStringArgumentValue('heating_startdate_1', user_arguments)
-    heating_enddate_1 = runner.getStringArgumentValue('heating_enddate_1', user_arguments)
-    heating_startdate_2 = runner.getStringArgumentValue('heating_startdate_2', user_arguments)
-    heating_enddate_2 = runner.getStringArgumentValue('heating_enddate_2', user_arguments)
-    alter_design_days = runner.getBoolArgumentValue('alter_design_days', user_arguments)   # not used yet
-    auto_date = runner.getBoolArgumentValue('auto_date', user_arguments)
+    cooling_adjustment = runner.getDoubleArgumentValue('cooling_adjustment', user_arguments)
+    heating_start_time1 = runner.getStringArgumentValue('heating_start_time1', user_arguments)
+    heating_end_time1 = runner.getStringArgumentValue('heating_end_time1', user_arguments)
+    heating_start_time2 = runner.getStringArgumentValue('heating_start_time2', user_arguments)
+    heating_end_time2 = runner.getStringArgumentValue('heating_end_time2', user_arguments)
+    heating_start_time3 = runner.getStringArgumentValue('heating_start_time3', user_arguments)
+    heating_end_time3 = runner.getStringArgumentValue('heating_end_time3', user_arguments)
+    heating_start_time4 = runner.getStringArgumentValue('heating_start_time4', user_arguments)
+    heating_end_time4 = runner.getStringArgumentValue('heating_end_time4', user_arguments)
+    heating_start_time5 = runner.getStringArgumentValue('heating_start_time5', user_arguments)
+    heating_end_time5 = runner.getStringArgumentValue('heating_end_time5', user_arguments)
+    heating_start_date1 = runner.getStringArgumentValue('heating_start_date1', user_arguments)
+    heating_end_date1 = runner.getStringArgumentValue('heating_end_date1', user_arguments)
+    heating_start_date2 = runner.getStringArgumentValue('heating_start_date2', user_arguments)
+    heating_end_date2 = runner.getStringArgumentValue('heating_end_date2', user_arguments)
+    heating_start_date3 = runner.getStringArgumentValue('heating_start_date3', user_arguments)
+    heating_end_date3 = runner.getStringArgumentValue('heating_end_date4', user_arguments)
+    heating_start_date4 = runner.getStringArgumentValue('heating_start_date4', user_arguments)
+    heating_end_date4 = runner.getStringArgumentValue('heating_end_date5', user_arguments)
+    heating_start_date5 = runner.getStringArgumentValue('heating_start_date5', user_arguments)
+    heating_end_date5 = runner.getStringArgumentValue('heating_end_date5', user_arguments)
+    cooling_start_time1 = runner.getStringArgumentValue('cooling_start_time1', user_arguments)
+    cooling_end_time1 = runner.getStringArgumentValue('cooling_end_time1', user_arguments)
+    cooling_start_time2 = runner.getStringArgumentValue('cooling_start_time2', user_arguments)
+    cooling_end_time2 = runner.getStringArgumentValue('cooling_end_time2', user_arguments)
+    cooling_start_time3 = runner.getStringArgumentValue('cooling_start_time3', user_arguments)
+    cooling_end_time3 = runner.getStringArgumentValue('cooling_end_time3', user_arguments)
+    cooling_start_time4 = runner.getStringArgumentValue('cooling_start_time4', user_arguments)
+    cooling_end_time4 = runner.getStringArgumentValue('cooling_end_time4', user_arguments)
+    cooling_start_time5 = runner.getStringArgumentValue('cooling_start_time5', user_arguments)
+    cooling_end_time5 = runner.getStringArgumentValue('cooling_end_time5', user_arguments)
+    cooling_start_date1 = runner.getStringArgumentValue('cooling_start_date1', user_arguments)
+    cooling_end_date1 = runner.getStringArgumentValue('cooling_end_date1', user_arguments)
+    cooling_start_date2 = runner.getStringArgumentValue('cooling_start_date2', user_arguments)
+    cooling_end_date2 = runner.getStringArgumentValue('cooling_end_date2', user_arguments)
+    cooling_start_date3 = runner.getStringArgumentValue('cooling_start_date3', user_arguments)
+    cooling_end_date3 = runner.getStringArgumentValue('cooling_end_date4', user_arguments)
+    cooling_start_date4 = runner.getStringArgumentValue('cooling_start_date4', user_arguments)
+    cooling_end_date4 = runner.getStringArgumentValue('cooling_end_date5', user_arguments)
+    cooling_start_date5 = runner.getStringArgumentValue('cooling_start_date5', user_arguments)
+    cooling_end_date5 = runner.getStringArgumentValue('cooling_end_date5', user_arguments)
     alt_periods = runner.getBoolArgumentValue('alt_periods', user_arguments)
 
-    cooling_start_month = nil
-    cooling_start_day = nil
-    md = /(\d\d)-(\d\d)/.match(cooling_startdate)
-    if md
-      cooling_start_month = md[1].to_i
-      cooling_start_day = md[2].to_i
-    else
-      runner.registerError('Start date must be in MM-DD format.')
-      return false
-    end
-    cooling_end_month = nil
-    cooling_end_day = nil
-    md = /(\d\d)-(\d\d)/.match(cooling_enddate)
-    if md
-      cooling_end_month = md[1].to_i
-      cooling_end_day = md[2].to_i
-    else
-      runner.registerError('End date must be in MM-DD format.')
-      return false
-    end
-    heating_start_month_1 = nil
-    heating_start_day_1 = nil
-    md = /(\d\d)-(\d\d)/.match(heating_startdate_1)
-    if md
-      heating_start_month_1 = md[1].to_i
-      heating_start_day_1 = md[2].to_i
-    else
-      runner.registerError('Start date must be in MM-DD format.')
-      return false
-    end
-    heating_end_month_1 = nil
-    heating_end_day_1 = nil
-    md = /(\d\d)-(\d\d)/.match(heating_enddate_1)
-    if md
-      heating_end_month_1 = md[1].to_i
-      heating_end_day_1 = md[2].to_i
-    else
-      runner.registerError('Start date must be in MM-DD format.')
-      return false
-    end
-    heating_start_month_2 = nil
-    heating_start_day_2 = nil
-    md = /(\d\d)-(\d\d)/.match(heating_startdate_2)
-    if md
-      heating_start_month_2 = md[1].to_i
-      heating_start_day_2 = md[2].to_i
-    else
-      runner.registerError('Start date must be in MM-DD format.')
-      return false
-    end
-    heating_end_month_2 = nil
-    heating_end_day_2 = nil
-    md = /(\d\d)-(\d\d)/.match(heating_enddate_2)
-    if md
-      heating_end_month_2 = md[1].to_i
-      heating_end_day_2 = md[2].to_i
-    else
-      runner.registerError('Start date must be in MM-DD format.')
-      return false
+
+    # set the default start and end time based on climate zone
+    if alt_periods
+      state = model.getWeatherFile.stateProvinceRegion
+      file = File.open(File.join(File.dirname(__FILE__), "../../../files/seasonal_shedding_peak_hours.json"))
+      default_peak_periods = JSON.load(file)
+      file.close
+      peak_periods = default_peak_periods[state]
+      cooling_start_time1 = heating_start_time1 = peak_periods["winter_peak_start"].split[1]
+      cooling_end_time1 = heating_end_time1 = peak_periods["winter_peak_end"].split[1]
+      cooling_start_time2 = heating_start_time2 = peak_periods["intermediate_peak_start"].split[1]
+      cooling_end_time2 = heating_end_time2 = peak_periods["intermediate_peak_end"].split[1]
+      cooling_start_time3 = heating_start_time3 = peak_periods["summer_peak_start"].split[1]
+      cooling_end_time3 = heating_end_time3 = peak_periods["summer_peak_end"].split[1]
+      cooling_start_time4 = heating_start_time4 = peak_periods["intermediate_peak_start"].split[1]
+      cooling_end_time4 = heating_end_time4 = peak_periods["intermediate_peak_end"].split[1]
+      cooling_start_time5 = heating_start_time5 = peak_periods["winter_peak_start"].split[1]
+      cooling_end_time5 = heating_end_time5 = peak_periods["winter_peak_end"].split[1]
+      cooling_start_date1 = heating_start_date1 = '01-01'
+      cooling_end_date1 = heating_end_date1 = '03-31'
+      cooling_start_date2 = heating_start_date2 = '04-01'
+      cooling_end_date2 = heating_end_date2 = '05-31'
+      cooling_start_date3 = heating_start_date3 = '06-01'
+      cooling_end_date3 = heating_end_date3 = '09-30'
+      cooling_start_date4 = heating_start_date4 = '10-01'
+      cooling_end_date4 = heating_end_date4 = '11-30'
+      cooling_start_date5 = heating_start_date5 = '12-01'
+      cooling_end_date5 = heating_end_date5 = '12-31'
     end
 
-    summerStartDate = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(cooling_start_month), cooling_start_day)
-    summerEndDate = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(cooling_end_month), cooling_end_day)
-    winterStartDate1 = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(heating_start_month_1), heating_start_day_1)
-    winterEndDate1 = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(heating_end_month_1), heating_end_day_1)
-    winterStartDate2 = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(heating_start_month_2), heating_start_day_2)
-    winterEndDate2 = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(heating_end_month_2), heating_end_day_2)
-
-    ######### GET CLIMATE ZONES ################
-    if auto_date
-      ashraeClimateZone = ''
-      #climateZoneNUmber = ''
-      climateZones = model.getClimateZones
-      climateZones.climateZones.each do |climateZone|
-        if climateZone.institution == 'ASHRAE'
-          ashraeClimateZone = climateZone.value
-          runner.registerInfo("Using ASHRAE Climate zone #{ashraeClimateZone}.")
-        end
-      end
-
-      if ashraeClimateZone == '' # should this be not applicable or error?
-        runner.registerError("Please assign an ASHRAE Climate Zone to your model using the site tab in the OpenStudio application. The measure can't make AEDG recommendations without this information.")
-        return false # note - for this to work need to check for false in measure.rb and add return false there as well.
-      end
-
-      if alt_periods
-        case ashraeClimateZone
-        when '3A', '4A'
-          cooling_daily_starttime = '18:01:00'
-          cooling_daily_endtime = '21:59:00'
-          heating_daily_starttime = '17:01:00'
-          heating_daily_endtime = '20:59:00'
-        when '5A'
-          cooling_daily_starttime = '14:01:00'
-          cooling_daily_endtime = '17:59:00'
-          heating_daily_starttime = '18:01:00'
-          heating_daily_endtime = '21:59:00'
-        when '6A'
-          cooling_daily_starttime = '13:01:00'
-          cooling_daily_endtime = '16:59:00'
-          heating_daily_starttime = '17:01:00'
-          heating_daily_endtime = '20:59:00'
+    def validate_time_format(star_time, end_time, runner)
+      time1 = /(\d\d):(\d\d):(\d\d)/.match(star_time)
+      time2 = /(\d\d):(\d\d):(\d\d)/.match(end_time)
+      if time1 and time2
+        os_starttime = OpenStudio::Time.new(star_time)
+        os_endtime = OpenStudio::Time.new(end_time)
+        if star_time >= end_time
+          runner.registerError('The start time needs to be earlier than the end time.')
+          return false
+        else
+          return os_starttime, os_endtime
         end
       else
-        case ashraeClimateZone
-        when '2A', '2B', '4B', '4C', '5B', '5C', '6B'
-          cooling_daily_starttime = '17:01:00'
-          cooling_daily_endtime = '20:59:00'
-          heating_daily_starttime = '17:01:00'
-          heating_daily_endtime = '20:59:00'
-        when '3A', '3C'
-          cooling_daily_starttime = '19:01:00'
-          cooling_daily_endtime = '22:59:00'
-          heating_daily_starttime = '17:01:00'
-          heating_daily_endtime = '20:59:00'
-        when '3B'
-          cooling_daily_starttime = '18:01:00'
-          cooling_daily_endtime = '21:59:00'
-          heating_daily_starttime = '19:01:00'
-          heating_daily_endtime = '22:59:00'
-        when '4A'
-          cooling_daily_starttime = '12:01:00'
-          cooling_daily_endtime = '15:59:00'
-          heating_daily_starttime = '16:01:00'
-          heating_daily_endtime = '19:59:00'
-        when '5A'
-          cooling_daily_starttime = '20:01:00'
-          cooling_daily_endtime = '23:59:00'
-          heating_daily_starttime = '17:01:00'
-          heating_daily_endtime = '20:59:00'
-        when '6A', '7A'
-          cooling_daily_starttime = '16:01:00'
-          cooling_daily_endtime = '19:59:00'
-          heating_daily_starttime = '18:01:00'
-          heating_daily_endtime = '21:59:00'
+        runner.registerError('The provided time is not in HH-MM-SS format.')
+        return false
+      end
+    end
+
+    def validate_date_format(start_date1, end_date1, runner)
+      smd = /(\d\d)-(\d\d)/.match(start_date1)
+      emd = /(\d\d)-(\d\d)/.match(end_date1)
+      if smd.nil? or emd.nil?
+        runner.registerError('The provided date is not in MM-DD format.')
+        return false
+      else
+        start_month = smd[1].to_i
+        start_day = smd[2].to_i
+        end_month = emd[1].to_i
+        end_day = emd[2].to_i
+        if start_date1 > end_date1
+          runner.registerError('The start date cannot be later date the end time.')
+          return false
+        else
+          os_start_date = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(start_month), start_day)
+          os_end_date = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(end_month), end_day)
+          return os_start_date, os_end_date
         end
       end
     end
 
-    if cooling_daily_starttime.to_f > cooling_daily_endtime.to_f
-      runner.registerError('For cooling adjustment, the end time should be larger than the start time.')
+    # First time period for heating
+    heating_time_result1 = validate_time_format(heating_start_time1, heating_end_time1, runner)
+    if heating_time_result1
+      heating_shift_time_start1, heating_shift_time_end1 = heating_time_result1
+    else
+      runner.registerError('The required time period for the adjustment is not in correct format!')
       return false
     end
-    if heating_daily_starttime.to_f > heating_daily_endtime.to_f
-      runner.registerError('For heating adjustment, the end time should be larger than the start time.')
+    # The other optional time periods
+    heating_shift_time_start2,heating_shift_time_end2,heating_shift_time_start3,heating_shift_time_end3,heating_shift_time_start4,heating_shift_time_end4,heating_shift_time_start5,heating_shift_time_end5 = [nil]*8
+    if (not heating_start_time2.empty?) and (not heating_end_time2.empty?)
+      heating_time_result2 = validate_time_format(heating_start_time2, heating_end_time2, runner)
+      if heating_time_result2
+        heating_shift_time_start2, heating_shift_time_end2 = heating_time_result2
+      end
+    end
+    if (not heating_start_time3.empty?) and (not heating_end_time3.empty?)
+      heating_time_result3 = validate_time_format(heating_start_time3, heating_end_time3, runner)
+      if heating_time_result3
+        heating_shift_time_start3, heating_shift_time_end3 = heating_time_result3
+      end
+    end
+    if (not heating_start_time4.empty?) and (not heating_end_time4.empty?)
+      heating_time_result4 = validate_time_format(heating_start_time4, heating_end_time4, runner)
+      if heating_time_result4
+        heating_shift_time_start4, heating_shift_time_end4 = heating_time_result4
+      end
+    end
+    if (not heating_start_time5.empty?) and (not heating_end_time5.empty?)
+      heating_time_result5 = validate_time_format(heating_start_time5, heating_end_time5, runner)
+      if heating_time_result5
+        heating_shift_time_start5, heating_shift_time_end5 = heating_time_result5
+      end
+    end
+
+    # First time period for cooling
+    cooling_time_result1 = validate_time_format(cooling_start_time1, cooling_end_time1, runner)
+    if cooling_time_result1
+      cooling_shift_time_start1, cooling_shift_time_end1 = cooling_time_result1
+    else
+      runner.registerError('The required time period for the adjustment is not in correct format!')
       return false
+    end
+    # The other optional time periods
+    cooling_shift_time_start2,cooling_shift_time_end2,cooling_shift_time_start3,cooling_shift_time_end3,cooling_shift_time_start4,cooling_shift_time_end4,cooling_shift_time_start5,cooling_shift_time_end5 = [nil]*8
+    if (not cooling_start_time2.empty?) and (not cooling_end_time2.empty?)
+      cooling_time_result2 = validate_time_format(cooling_start_time2, cooling_end_time2, runner)
+      if cooling_time_result2
+        cooling_shift_time_start2, cooling_shift_time_end2 = cooling_time_result2
+      end
+    end
+    if (not cooling_start_time3.empty?) and (not cooling_end_time3.empty?)
+      cooling_time_result3 = validate_time_format(cooling_start_time3, cooling_end_time3, runner)
+      if cooling_time_result3
+        cooling_shift_time_start3, cooling_shift_time_end3 = cooling_time_result3
+      end
+    end
+    if (not cooling_start_time4.empty?) and (not cooling_end_time4.empty?)
+      cooling_time_result4 = validate_time_format(cooling_start_time4, cooling_end_time4, runner)
+      if cooling_time_result4
+        cooling_shift_time_start4, cooling_shift_time_end4 = cooling_time_result4
+      end
+    end
+    if (not cooling_start_time5.empty?) and (not cooling_end_time5.empty?)
+      cooling_time_result5 = validate_time_format(cooling_start_time5, cooling_end_time5, runner)
+      if cooling_time_result5
+        cooling_shift_time_start5, cooling_shift_time_end5 = cooling_time_result5
+      end
+    end
+
+    # First date period
+    heating_date_result1 = validate_date_format(heating_start_date1, heating_end_date1, runner)
+    if heating_date_result1
+      os_heating_start_date1, os_heating_end_date1 = heating_date_result1
+    else
+      runner.registerError('The required date period for the heating setpoint adjustment is not in correct format!')
+      return false
+    end
+    # Other optional date period
+    os_heating_start_date2, os_heating_end_date2, os_heating_start_date3, os_heating_end_date3, os_heating_start_date4, os_heating_end_date4, os_heating_start_date5, os_heating_end_date5 = [nil]*8
+    if (not heating_start_date2.empty?) and (not heating_end_date2.empty?)
+      heating_date_result2 = validate_date_format(heating_start_date2, heating_end_date2, runner)
+      if heating_date_result2
+        os_heating_start_date2, os_heating_end_date2 = heating_date_result2
+      end
+    end
+
+    if (not heating_start_date3.empty?) and (not heating_end_date3.empty?)
+      heating_date_result3 = validate_date_format(heating_start_date3, heating_end_date3, runner)
+      if heating_date_result3
+        os_heating_start_date3, os_heating_end_date3 = heating_date_result3
+      end
+    end
+
+    if (not heating_start_date4.empty?) and (not heating_end_date4.empty?)
+      heating_date_result4 = validate_date_format(heating_start_date4, heating_end_date4, runner)
+      if heating_date_result4
+        os_heating_start_date4, os_heating_end_date4 = heating_date_result4
+      end
+    end
+
+    if (not heating_start_date5.empty?) and (not heating_end_date5.empty?)
+      heating_date_result5 = validate_date_format(heating_start_date5, heating_end_date5, runner)
+      if heating_date_result5
+        os_heating_start_date5, os_heating_end_date5 = heating_date_result5
+      end
+    end
+
+    # First date period
+    cooling_date_result1 = validate_date_format(cooling_start_date1, cooling_end_date1, runner)
+    if cooling_date_result1
+      os_cooling_start_date1, os_cooling_end_date1 = cooling_date_result1
+    else
+      runner.registerError('The required date period for the cooling setpoint adjustment is not in correct format!')
+      return false
+    end
+    # Other optional date period
+    os_cooling_start_date2, os_cooling_end_date2, os_cooling_start_date3, os_cooling_end_date3, os_cooling_start_date4, os_cooling_end_date4, os_cooling_start_date5, os_cooling_end_date5 = [nil]*8
+    if (not cooling_start_date2.empty?) and (not cooling_end_date2.empty?)
+      cooling_date_result2 = validate_date_format(cooling_start_date2, cooling_end_date2, runner)
+      if cooling_date_result2
+        os_cooling_start_date2, os_cooling_end_date2 = cooling_date_result2
+      end
+    end
+
+    if (not cooling_start_date3.empty?) and (not cooling_end_date3.empty?)
+      cooling_date_result3 = validate_date_format(cooling_start_date3, cooling_end_date3, runner)
+      if cooling_date_result3
+        os_cooling_start_date3, os_cooling_end_date3 = cooling_date_result3
+      end
+    end
+
+    if (not cooling_start_date4.empty?) and (not cooling_end_date4.empty?)
+      cooling_date_result4 = validate_date_format(cooling_start_date4, cooling_end_date4, runner)
+      if cooling_date_result4
+        os_cooling_start_date4, os_cooling_end_date4 = cooling_date_result4
+      end
+    end
+
+    if (not cooling_start_date5.empty?) and (not cooling_end_date5.empty?)
+      cooling_date_result5 = validate_date_format(cooling_start_date5, cooling_end_date5, runner)
+      if cooling_date_result5
+        os_cooling_start_date5, os_cooling_end_date5 = cooling_date_result5
+      end
     end
 
     # ruby test to see if first charter of string is uppercase letter
     if cooling_adjustment < 0
-      runner.registerError('Lowering the cooling setpoint will increase energy use. Please double check your input.')
+      runner.registerWarning('Lowering the cooling setpoint will increase energy use. Please double check your input.')
     elsif cooling_adjustment.abs > 500
-      runner.registerError("#{cooling_adjustment} is a larger than typical setpoint adjustment. Please double check your input.")
+      runner.registerError("#{cooling_adjustment} is larger than typical setpoint adjustment. Please double check your input.")
       return false
     elsif cooling_adjustment.abs > 50
-      runner.registerWarning("#{cooling_adjustment} is a larger than typical setpoint adjustment. Please double check your input.")
+      runner.registerWarning("#{cooling_adjustment} is larger than typical setpoint adjustment. Please double check your input.")
     end
     if heating_adjustment > 0
-      runner.registerError('Raising the heating setpoint will increase energy use. Please double check your input.')
+      runner.registerWarning('Raising the heating setpoint will increase energy use. Please double check your input.')
     elsif heating_adjustment.abs > 500
-      runner.registerError("#{heating_adjustment} is a larger than typical setpoint adjustment. Please double check your input.")
+      runner.registerError("#{heating_adjustment} is larger than typical setpoint adjustment. Please double check your input.")
       return false
     elsif heating_adjustment.abs > 50
-      runner.registerWarning("#{heating_adjustment} is a larger than typical setpoint adjustment. Please double check your input.")
+      runner.registerWarning("#{heating_adjustment} is larger than typical setpoint adjustment. Please double check your input.")
     end
 
     # define starting units
@@ -335,28 +575,20 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
       clg_set_sch = thermostat.coolingSetpointTemperatureSchedule
 
       if !clg_set_sch.empty?
-        runner.registerInfo("#{clg_set_sch.get.name.to_s}")
-
-        puts "name: #{clg_set_sch.get.name.to_s}"
-        puts clg_set_sch.get
-
-        # clone of not already in hash
-        if clg_set_schs.key?(clg_set_sch.get.name.to_s)
-          new_clg_set_sch = clg_set_schs[clg_set_sch.get.name.to_s]
+        old_schedule_name = clg_set_sch.get.name.to_s
+        # clone if not already in hash
+        if clg_set_schs.key?(old_schedule_name)
+          new_clg_set_sch = clg_set_schs[old_schedule_name]
         else
           new_clg_set_sch = clg_set_sch.get.clone(model)
           new_clg_set_sch = new_clg_set_sch.to_Schedule.get
-          new_clg_set_sch.setName("#{clg_set_sch.get.name.to_s} adjusted by #{cooling_adjustment_ip}F")
-
-          puts "cloned new name: #{new_clg_set_sch.name.to_s}"
-          puts new_clg_set_sch
-
+          new_clg_set_sch.setName("#{old_schedule_name} adjusted by #{cooling_adjustment_ip}F")
+          runner.registerInfo("Cooling schedule #{old_schedule_name} is cloned to #{new_clg_set_sch.name.to_s}")
           # add to the hash
-          clg_set_schs[clg_set_sch.get.name.to_s] = new_clg_set_sch
+          clg_set_schs[old_schedule_name] = new_clg_set_sch
         end
-        # hook up clone to thermostat
+        # hook up cloned schedule to thermostat
         thermostat.setCoolingSetpointTemperatureSchedule(new_clg_set_sch)
-        #runner.registerInfo("#{new_clg_set_sch.get.name.to_s}")
       else
         runner.registerWarning("Thermostat '#{thermostat.name}' doesn't have a cooling setpoint schedule")
       end
@@ -364,16 +596,17 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
       # setup new heating setpoint schedule
       htg_set_sch = thermostat.heatingSetpointTemperatureSchedule
       if !htg_set_sch.empty?
+        old_schedule_name = htg_set_sch.get.name.to_s
         # clone of not already in hash
-        if htg_set_schs.key?(htg_set_sch.get.name.to_s)
-          new_htg_set_sch = htg_set_schs[htg_set_sch.get.name.to_s]
+        if htg_set_schs.key?(old_schedule_name)
+          new_htg_set_sch = htg_set_schs[old_schedule_name]
         else
           new_htg_set_sch = htg_set_sch.get.clone(model)
           new_htg_set_sch = new_htg_set_sch.to_Schedule.get
-          new_htg_set_sch.setName("#{htg_set_sch.get.name.to_s} adjusted by #{heating_adjustment_ip}")
-
+          new_htg_set_sch.setName("#{old_schedule_name} adjusted by #{heating_adjustment_ip}")
+          runner.registerInfo("Cooling schedule #{old_schedule_name} is cloned to #{new_htg_set_sch.name.to_s}")
           # add to the hash
-          htg_set_schs[htg_set_sch.get.name.to_s] = new_htg_set_sch
+          htg_set_schs[old_schedule_name] = new_htg_set_sch
         end
         # hook up clone to thermostat
         thermostat.setHeatingSetpointTemperatureSchedule(new_htg_set_sch)
@@ -382,8 +615,8 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
       end
     end
 
-    puts "clg_set_schs: #{clg_set_schs.inspect}"
-    puts "htg_set_schs: #{htg_set_schs.inspect}"
+    # puts "clg_set_schs: #{clg_set_schs.inspect}"
+    # puts "htg_set_schs: #{htg_set_schs.inspect}"
 
     # setting up variables to use for initial and final condition
     clg_sch_set_values = [] # may need to flatten this
@@ -399,11 +632,6 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
         runner.registerWarning("Thermal zone '#{zone.name}' has a thermostat but does not appear to be conditioned.")
       end
     end
-    shift_time_cooling_start = OpenStudio::Time.new(cooling_daily_starttime)
-    shift_time_cooling_end = OpenStudio::Time.new(cooling_daily_endtime)
-    shift_time3 = OpenStudio::Time.new(0, 24, 0, 0)    # not used
-    shift_time_heating_start = OpenStudio::Time.new(heating_daily_starttime)
-    shift_time_heating_end = OpenStudio::Time.new(heating_daily_endtime)
 
     # daylightsaving adjustment added in visualization, so deprecated here
     # # Check model's daylight saving period, if cooling period is within daylight saving period, shift the cooling start time and end time by one hour later
@@ -417,177 +645,199 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
     #   end
     # end
 
+    applicable_flag = false
+    optional_cooling_period_inputs = { "period2" => {"date_start"=>os_cooling_start_date2, "date_end"=>os_cooling_end_date2,
+                                             "time_start"=>cooling_shift_time_start2, "time_end"=>cooling_shift_time_end2},
+                               "period3" => {"date_start"=>os_cooling_start_date3, "date_end"=>os_cooling_end_date3,
+                                             "time_start"=>cooling_shift_time_start3, "time_end"=>cooling_shift_time_end3},
+                               "period4" => {"date_start"=>os_cooling_start_date4, "date_end"=>os_cooling_end_date4,
+                                             "time_start"=>cooling_shift_time_start4, "time_end"=>cooling_shift_time_end4},
+                               "period5" => {"date_start"=>os_cooling_start_date5, "date_end"=>os_cooling_end_date5,
+                                             "time_start"=>cooling_shift_time_start5, "time_end"=>cooling_shift_time_end5} }
     # make cooling schedule adjustments and rename. Put in check to skip and warn if schedule not ruleset
-    clg_set_schs.each do |sch_name, os_sch| # old name and new object for schedule
+    clg_set_schs.each do |old_sch_name, os_sch| # old name and new object for schedule
       if !os_sch.to_ScheduleRuleset.empty?
         schedule = os_sch.to_ScheduleRuleset.get
-        default_rule = schedule.defaultDaySchedule
         rules = schedule.scheduleRules
         days_covered = Array.new(7, false)
 
         # TODO: when ruleset has multiple rules for each month or couple of months instead of a full year, should first see if the period overlaps with summer/winter
-        if rules.length > 0
-          rules.each do |rule|
-            winter_rule1 = copy_sch_rule_for_period(model, rule, rule.daySchedule, winterStartDate1, winterEndDate1)
-            winter_rule2 = copy_sch_rule_for_period(model, rule, rule.daySchedule, winterStartDate2, winterEndDate2)
-
-            summer_rule = rule
-            checkDaysCovered(summer_rule, days_covered)
-            summer_rule.setStartDate(summerStartDate)
-            summer_rule.setEndDate(summerEndDate)
-
-            summer_day = summer_rule.daySchedule
-            day_time_vector = summer_day.times
-            day_value_vector = summer_day.values
-            clg_sch_set_values << summer_day.values   # original
-            summer_day.clearValues
-
-            summer_day = updateDaySchedule(summer_day, day_time_vector, day_value_vector, shift_time_cooling_start, shift_time_cooling_end, cooling_adjustment_ip)
-            final_clg_sch_set_values << summer_day.values   # new
-          end
+        if rules.length <= 0
+          runner.registerWarning("Cooling setpoint schedule '#{old_sch_name}' is a ScheduleRuleSet, but has no ScheduleRules associated. It won't be altered by this measure.")
         else
-          runner.registerWarning("Cooling setpoint schedule '#{sch_name}' is a ScheduleRuleSet, but has no ScheduleRules associated. It won't be altered by this measure.")
+          current_index = 0
+          rules.each do |rule|
+            rule_period1 = modify_rule_for_date_period(rule, os_cooling_start_date1, os_cooling_start_date1,
+                                                       cooling_shift_time_start1, cooling_shift_time_end1,
+                                                       cooling_adjustment_ip, model)
+            if rule_period1
+              applicable_flag = true
+              checkDaysCovered(rule_period1, days_covered)
+              runner.registerInfo("--------------- current days of week coverage: #{days_covered}")
+              if schedule.setScheduleRuleIndex(rule_period1, current_index)
+                current_index += 1
+              else
+                runner.registerError("Fail to set rule index for #{rule_period1.name.to_s}.")
+              end
+            end
+            final_clg_sch_set_values << rule_period1.daySchedule.values
+
+            optional_cooling_period_inputs.each do |period, period_inputs|
+              os_start_date = period_inputs["date_start"]
+              os_end_date = period_inputs["date_end"]
+              shift_time_start = period_inputs["time_start"]
+              shift_time_end = period_inputs["time_end"]
+              if [os_start_date, os_end_date, shift_time_start, shift_time_end].all?
+                rule_period = modify_rule_for_date_period(rule, os_start_date, os_end_date, shift_time_start, shift_time_end,
+                                                          cooling_adjustment_ip, model)
+                if rule_period
+                  applicable_flag = true
+                  if schedule.setScheduleRuleIndex(rule_period, current_index)
+                    current_index += 1
+                  else
+                    runner.registerError("Fail to set rule index for #{rule_period.name.to_s}.")
+                  end
+                end
+                runner.registerInfo("------------ cooling schedule #{old_sch_name} updated for #{rule_period.startDate.get} to #{rule_period.endDate.get}")
+              end
+            end
+            # The original rule will be shifted to the currently lowest priority
+            # Setting the rule to an existing index will automatically push all other rules after it down
+            if schedule.setScheduleRuleIndex(rule, current_index)
+              current_index += 1
+            else
+              runner.registerError("Fail to set rule index for #{rule.name.to_s}.")
+            end
+          end
         end
 
-
+        default_day = schedule.defaultDaySchedule
         if days_covered.include?(false)
-          winter_rule1 = create_sch_rule_from_default(model, schedule, default_rule, winterStartDate1, winterEndDate1)
-          winter_rule2 = create_sch_rule_from_default(model, schedule, default_rule, winterStartDate2, winterEndDate2)
-
-          coverMissingDays(winter_rule1, days_covered)
-          coverMissingDays(winter_rule2, days_covered) # need to cover missing days for both winter rules
-          checkDaysCovered(winter_rule1, days_covered)
-
-          summer_rule = copy_sch_rule_for_period(model, winter_rule1, default_rule, summerStartDate, summerEndDate)
-
-          summer_day = summer_rule.daySchedule
-          day_time_vector = summer_day.times
-          day_value_vector = summer_day.values
-          summer_day.clearValues
-
-          summer_day = updateDaySchedule(summer_day, day_time_vector, day_value_vector, shift_time_cooling_start, shift_time_cooling_end, cooling_adjustment_ip)
-          clg_sch_set_values << default_rule.values   # original
-          final_clg_sch_set_values << summer_day.values  # new
+          runner.registerInfo("Some days use default day. Adding new scheduleRule from defaultDaySchedule for applicable date period.")
+          modify_default_day_for_date_period(schedule, default_day, days_covered, os_cooling_start_date1, os_cooling_end_date1,
+                                             cooling_shift_time_start1, cooling_shift_time_end1, cooling_adjustment_ip)
+          optional_cooling_period_inputs.each do |period, period_inputs|
+            os_start_date = period_inputs["date_start"]
+            os_end_date = period_inputs["date_end"]
+            shift_time_start = period_inputs["time_start"]
+            shift_time_end = period_inputs["time_end"]
+            if [os_start_date, os_end_date, shift_time_start, shift_time_end].all?
+              modify_default_day_for_date_period(schedule, default_day, days_covered, os_start_date, os_end_date,
+                                                 shift_time_start, shift_time_end, cooling_adjustment_ip)
+              applicable_flag = true
+            end
+          end
+          final_clg_sch_set_values << default_day.values
         end
-
         ######################################################################
       else
-        runner.registerWarning("Schedule '#{sch_name}' isn't a ScheduleRuleset object and won't be altered by this measure.")
+        runner.registerWarning("Schedule '#{old_sch_name}' isn't a ScheduleRuleset object and won't be altered by this measure.")
         os_sch.remove # remove un-used clone
       end
     end
 
+
+    ######################################################################
+    optional_heating_period_inputs = { "period2" => {"date_start"=>os_heating_start_date2, "date_end"=>os_heating_end_date2,
+                                                     "time_start"=>heating_shift_time_start2, "time_end"=>heating_shift_time_end2},
+                                       "period3" => {"date_start"=>os_heating_start_date3, "date_end"=>os_heating_end_date3,
+                                                     "time_start"=>heating_shift_time_start3, "time_end"=>heating_shift_time_end3},
+                                       "period4" => {"date_start"=>os_heating_start_date4, "date_end"=>os_heating_end_date4,
+                                                     "time_start"=>heating_shift_time_start4, "time_end"=>heating_shift_time_end4},
+                                       "period5" => {"date_start"=>os_heating_start_date5, "date_end"=>os_heating_end_date5,
+                                                     "time_start"=>heating_shift_time_start5, "time_end"=>heating_shift_time_end5} }
     # make heating schedule adjustments and rename. Put in check to skip and warn if schedule not ruleset
-    htg_set_schs.each do |sch_name, os_sch| # old name and new object for schedule
+    htg_set_schs.each do |old_sch_name, os_sch| # old name and new object for schedule
       if !os_sch.to_ScheduleRuleset.empty?
         schedule = os_sch.to_ScheduleRuleset.get
-        default_rule = schedule.defaultDaySchedule
         rules = schedule.scheduleRules
         days_covered = Array.new(7, false)
-
-        if rules.length > 0
-          rules.each do |rule|
-            summer_rule = copy_sch_rule_for_period(model, rule, rule.daySchedule, summerStartDate, summerEndDate)
-
-            checkDaysCovered(summer_rule, days_covered)
-
-            winter_rule1 = rule
-            winter_rule1.setStartDate(winterStartDate1)
-            winter_rule1.setEndDate(winterEndDate1)
-            htg_sch_set_values << rule.daySchedule.values   # original
-
-            winter_day1 = winter_rule1.daySchedule
-            day_time_vector = winter_day1.times
-            day_value_vector = winter_day1.values
-            winter_day1.clearValues
-
-            winter_day1 = updateDaySchedule(winter_day1, day_time_vector, day_value_vector, shift_time_heating_start, shift_time_heating_end, heating_adjustment_ip)
-            final_htg_sch_set_values << winter_day1.values   # new
-
-            winter_rule2 = copy_sch_rule_for_period(model, winter_rule1, winter_rule1.daySchedule, winterStartDate2, winterEndDate2)
-          end
+        if rules.length <= 0
+          runner.registerWarning("Heating setpoint schedule '#{old_sch_name}' is a ScheduleRuleSet, but has no ScheduleRules associated. It won't be altered by this measure.")
         else
-          runner.registerWarning("Cooling setpoint schedule '#{sch_name}' is a ScheduleRuleSet, but has no ScheduleRules associated. It won't be altered by this measure.")
+          current_index = 0
+          rules.each do |rule|
+            rule_period1 = modify_rule_for_date_period(rule, os_heating_start_date1, os_heating_end_date1,
+                                                       heating_shift_time_start1, heating_shift_time_end1,
+                                                       heating_adjustment_ip, model)
+            if rule_period1
+              applicable_flag = true
+              checkDaysCovered(rule_period1, days_covered)
+              runner.registerInfo("--------------- current days of week coverage: #{days_covered}")
+              if schedule.setScheduleRuleIndex(rule_period1, current_index)
+                current_index += 1
+              else
+                runner.registerError("Fail to set rule index for #{rule_period1.name.to_s}.")
+              end
+            end
+            final_htg_sch_set_values << rule_period1.daySchedule.values
+
+            optional_heating_period_inputs.each do |period, period_inputs|
+              os_start_date = period_inputs["date_start"]
+              os_end_date = period_inputs["date_end"]
+              shift_time_start = period_inputs["time_start"]
+              shift_time_end = period_inputs["time_end"]
+              if [os_start_date, os_end_date, shift_time_start, shift_time_end].all?
+                rule_period = modify_rule_for_date_period(rule, os_start_date, os_end_date, shift_time_start, shift_time_end,
+                                                          heating_adjustment_ip, model)
+                if rule_period
+                  applicable_flag = true
+                  if schedule.setScheduleRuleIndex(rule_period, current_index)
+                    current_index += 1
+                  else
+                    runner.registerError("Fail to set rule index for #{rule_period.name.to_s}.")
+                  end
+                end
+                runner.registerInfo("------------ heating schedule #{old_sch_name} updated for #{rule_period.startDate.get} to #{rule_period.endDate.get}")
+              end
+            end
+            # The original rule will be shifted to the currently lowest priority
+            # Setting the rule to an existing index will automatically push all other rules after it down
+            if schedule.setScheduleRuleIndex(rule, current_index)
+              current_index += 1
+            else
+              runner.registerError("Fail to set rule index for #{rule.name.to_s}.")
+            end
+          end
         end
 
-
+        default_day = schedule.defaultDaySchedule
         if days_covered.include?(false)
-          summer_rule = create_sch_rule_from_default(model, schedule, default_rule, summerStartDate, summerEndDate)
-
-          coverMissingDays(summer_rule, days_covered)
-          checkDaysCovered(summer_rule, days_covered)
-
-          winter_rule1 = copy_sch_rule_for_period(model, summer_rule, default_rule, winterStartDate1, winterEndDate1)
-          winter_day1 = winter_rule1.daySchedule
-          day_time_vector = winter_day1.times
-          day_value_vector = winter_day1.values
-          winter_day1.clearValues
-
-          winter_day1 = updateDaySchedule(winter_day1, day_time_vector, day_value_vector, shift_time_heating_start, shift_time_heating_end, heating_adjustment_ip)
-
-          htg_sch_set_values << default_rule.values   # original
-          final_htg_sch_set_values << winter_day1.values   # new
-
-          winter_rule2 = copy_sch_rule_for_period(model, winter_rule1, winter_rule1.daySchedule, winterStartDate2, winterEndDate2)
+          runner.registerInfo("Some days use default day. Adding new scheduleRule from defaultDaySchedule for applicable date period.")
+          modify_default_day_for_date_period(schedule, default_day, days_covered, os_heating_start_date1, os_heating_end_date1,
+                                             heating_shift_time_start1, heating_shift_time_end1, heating_adjustment_ip)
+          optional_heating_period_inputs.each do |period, period_inputs|
+            os_start_date = period_inputs["date_start"]
+            os_end_date = period_inputs["date_end"]
+            shift_time_start = period_inputs["time_start"]
+            shift_time_end = period_inputs["time_end"]
+            if [os_start_date, os_end_date, shift_time_start, shift_time_end].all?
+              modify_default_day_for_date_period(schedule, default_day, days_covered, os_start_date, os_end_date,
+                                                 shift_time_start, shift_time_end, heating_adjustment_ip)
+              applicable_flag = true
+            end
+          end
+          final_htg_sch_set_values << default_day.values
         end
 
       else
-        runner.registerWarning("Schedule '#{sch_name}' isn't a ScheduleRuleset object and won't be altered by this measure.")
+        runner.registerWarning("Schedule '#{old_sch_name}' isn't a ScheduleRuleset object and won't be altered by this measure.")
         os_sch.remove # remove un-used clone
       end
     end
 
-    # get min and max heating and cooling and convert to IP
-    clg_sch_set_values = clg_sch_set_values.flatten
-    htg_sch_set_values = htg_sch_set_values.flatten
-
-    puts "clg_sch_set_values: #{clg_sch_set_values.inspect}"
-    puts "htg_sch_set_values: #{htg_sch_set_values.inspect}"
-
-    # set NA flag if can't get values for schedules (e.g. if all compact)
-    applicable_flag = false
-
-    # get min and max if values exist
-    if !clg_sch_set_values.empty?
-      min_clg_si = OpenStudio::Quantity.new(clg_sch_set_values.min, TEMP_SI_UNIT)
-      max_clg_si = OpenStudio::Quantity.new(clg_sch_set_values.max, TEMP_SI_UNIT)
-      min_clg_ip = OpenStudio.convert(min_clg_si, TEMP_IP_UNIT).get
-      max_clg_ip = OpenStudio.convert(max_clg_si, TEMP_IP_UNIT).get
-      applicable_flag = true
-    else
-      min_clg_ip = 'NA'
-      max_clg_ip = 'NA'
-    end
-
-    # get min and max if values exist
-    if !htg_sch_set_values.empty?
-      min_htg_si = OpenStudio::Quantity.new(htg_sch_set_values.min, TEMP_SI_UNIT)
-      max_htg_si = OpenStudio::Quantity.new(htg_sch_set_values.max, TEMP_SI_UNIT)
-      min_htg_ip = OpenStudio.convert(min_htg_si, TEMP_IP_UNIT).get
-      max_htg_ip = OpenStudio.convert(max_htg_si, TEMP_IP_UNIT).get
-      applicable_flag = true
-    else
-      min_htg_ip = 'NA'
-      max_htg_ip = 'NA'
-    end
 
     # not applicable if no schedules can be altered
     if applicable_flag == false
       runner.registerAsNotApplicable('No thermostat schedules in the models could be altered.')
     end
 
-    # reporting initial condition of model
-    starting_spaces = model.getSpaces
-    runner.registerInitialCondition("Initial cooling setpoints used in the model range from #{min_clg_ip} to #{max_clg_ip}. Initial heating setpoints used in the model range from #{min_htg_ip} to #{max_htg_ip}.")
-
     # get min and max heating and cooling and convert to IP for final
     final_clg_sch_set_values = final_clg_sch_set_values.flatten
     final_htg_sch_set_values = final_htg_sch_set_values.flatten
 
-    puts "final_clg_sch_set_values: #{final_clg_sch_set_values.inspect}"
-    puts "final_htg_sch_set_values: #{final_htg_sch_set_values.inspect}"
 
-    if !clg_sch_set_values.empty?
+    if !final_clg_sch_set_values.empty?
       final_min_clg_si = OpenStudio::Quantity.new(final_clg_sch_set_values.min, TEMP_SI_UNIT)
       final_max_clg_si = OpenStudio::Quantity.new(final_clg_sch_set_values.max, TEMP_SI_UNIT)
       final_min_clg_ip = OpenStudio.convert(final_min_clg_si, TEMP_IP_UNIT).get
@@ -598,7 +848,7 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
     end
 
     # get min and max if values exist
-    if !htg_sch_set_values.empty?
+    if !final_htg_sch_set_values.empty?
       final_min_htg_si = OpenStudio::Quantity.new(final_htg_sch_set_values.min, TEMP_SI_UNIT)
       final_max_htg_si = OpenStudio::Quantity.new(final_htg_sch_set_values.max, TEMP_SI_UNIT)
       final_min_htg_ip = OpenStudio.convert(final_min_htg_si, TEMP_IP_UNIT).get
@@ -610,10 +860,47 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
 
     # reporting final condition of model
     finishing_spaces = model.getSpaces
-    runner.registerFinalCondition("Final cooling setpoints used in the model range from #{final_min_clg_ip} to #{final_max_clg_ip}. Final heating setpoints used in the model range from #{final_min_htg_ip} to #{final_max_htg_ip}.\n The cooling setpoints are increased by #{cooling_adjustment}F，from #{cooling_daily_starttime} to #{cooling_daily_endtime}. \n The heating setpoints are decreased by #{0-heating_adjustment}F，from #{heating_daily_starttime} to #{heating_daily_endtime}.")
+    runner.registerFinalCondition("Final cooling setpoints used in the model range from #{final_min_clg_ip} to #{final_max_clg_ip}. Final heating setpoints used in the model range from #{final_min_htg_ip} to #{final_max_htg_ip}.")
 
     return true
   end
+
+
+
+  def modify_rule_for_date_period(original_rule, os_start_date, os_end_date, shift_time_start, shift_time_end, lpd_factor, model)
+    # The cloned scheduleRule will automatically belongs to the originally scheduleRuleSet
+    rule_period = original_rule.clone(model).to_ScheduleRule.get
+    rule_period.setName("#{original_rule.name.to_s} with DF for #{os_start_date.to_s}-#{os_end_date.to_s}")
+    rule_period.setStartDate(os_start_date)
+    rule_period.setEndDate(os_end_date)
+    day_rule_period = rule_period.daySchedule
+    day_time_vector = day_rule_period.times
+    day_value_vector = day_rule_period.values
+    if day_time_vector.empty?
+      return false
+    end
+    day_rule_period.clearValues
+    day_rule_period = updateDaySchedule(day_rule_period, day_time_vector, day_value_vector, shift_time_start, shift_time_end, lpd_factor)
+    return rule_period
+  end
+
+  def modify_default_day_for_date_period(schedule_set, default_day, days_covered, os_start_date, os_end_date,
+                                         shift_time_start, shift_time_end, lpd_factor)
+    # the new rule created for the ScheduleRuleSet by default has the highest priority (ruleIndex=0)
+    new_default_rule = OpenStudio::Model::ScheduleRule.new(schedule_set, default_day)
+    new_default_rule.setName("#{schedule_set.name.to_s} default day with DF for #{os_start_date.to_s}-#{os_end_date.to_s}")
+    new_default_rule.setStartDate(os_start_date)
+    new_default_rule.setEndDate(os_end_date)
+    coverMissingDays(new_default_rule, days_covered)
+    new_default_day = new_default_rule.daySchedule
+    day_time_vector = new_default_day.times
+    day_value_vector = new_default_day.values
+    new_default_day.clearValues
+    new_default_day = updateDaySchedule(new_default_day, day_time_vector, day_value_vector, shift_time_start, shift_time_end, lpd_factor)
+    schedule_set.setScheduleRuleIndex(new_default_rule, 0)
+    # TODO: if the scheduleRuleSet has holidaySchedule (which is a ScheduleDay), it cannot be altered
+  end
+
 
 
   def checkDaysCovered(sch_rule, sch_day_covered)
@@ -700,28 +987,6 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
     return sch_day
   end
 
-  # copy ScheduleRule sch_rule, copy ScheduleDay sch_day and assign to new schedule rule
-  def copy_sch_rule_for_period(model, sch_rule, sch_day, start_date, end_date)
-    new_rule = sch_rule.clone(model).to_ScheduleRule.get
-    new_rule.setStartDate(start_date)
-    new_rule.setEndDate(end_date)
-
-    new_day_sch = sch_day.clone(model)
-    new_day_sch.setParent(new_rule)
-
-    return new_rule
-  end
-
-  def create_sch_rule_from_default(model, sch_ruleset, default_sch_fule, start_date, end_date)
-    new_rule = OpenStudio::Model::ScheduleRule.new(sch_ruleset)
-    new_rule.setStartDate(start_date)
-    new_rule.setEndDate(end_date)
-
-    new_day_sch = default_sch_fule.clone(model)
-    new_day_sch.setParent(new_rule)
-
-    return new_rule
-  end
 end
 
 

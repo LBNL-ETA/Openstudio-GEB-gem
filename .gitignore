@@ -7,9 +7,10 @@
 /coverage/
 /doc/
 /pkg/
-/spec/reports/
-/spec/output/
-/tmp/
+/spec/*
+!/spec/seed_models
+!/spec/tests
+!/spec/spec_helper.rb
 /test/
 /lib/measures/test_results
 /lib/measures/.rubocop*

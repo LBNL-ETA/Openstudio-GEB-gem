@@ -332,9 +332,9 @@ class ApplyDynamicCoatingToRoofWall < OpenStudio::Measure::EnergyPlusMeasure
       string_objects = []
 
       mat_list.each do |mat|
-        puts "mat: #{mat}"
-        mat_name = mat.getString(0).to_s  # name
+        mat_name = mat.getString(0)  # name
         # no need to clone the material object (in case it is also used in other constructions) because thermal and solar absorptances only matter when the material is on the outside layer
+        puts mat_name.to_s.split(',')
         puts "mat_name: #{mat_name}"
 
         # based on applied surfaces type, add material objects

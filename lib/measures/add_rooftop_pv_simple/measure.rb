@@ -71,7 +71,7 @@ class AddRooftopPV < OpenStudio::Measure::ModelMeasure
 
     # assign the user inputs to variables
     # args = OsLib_HelperMethods.createRunVariables(runner, model, user_arguments, arguments(model))
-    args = runner. (arguments(model), user_arguments)
+    args = runner.getArgumentValues(arguments(model), user_arguments)
     unless args then return false end
 
     # check expected values of double arguments

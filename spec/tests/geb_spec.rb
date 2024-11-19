@@ -20,12 +20,12 @@ RSpec.describe OpenStudio::Geb do
 
   it "can apply and run single measure" do
     # provide baseline path
-    baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/LargeHotel-90.1-2010-ASHRAE 169-2013-5A.osm")   # commercial
-    # baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/MediumOffice-90.1-2010-ASHRAE 169-2013-5A.osm")   # commercial
+    # baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/LargeHotel-90.1-2010-ASHRAE 169-2013-5A.osm")   # commercial
+    baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/370_medium_office_doas_fan_coil_acc_boiler_3A.osm")   # commercial
     # baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/SFD_1story_UB_UA_ASHP2_HPWH.osm")  # residential
     all_measures = list_all_geb_measures
-    # puts JSON.pretty_generate(all_measures)
-    run_output_path = File.join(File.dirname(__FILE__ ), "../output")
+    # puts JSON.pretty_generate(all_measures)
+    run_output_path = File.join(File.dirname(__FILE__ ), "../gta")
     if File.exist? run_output_path
       FileUtils.rm_rf(run_output_path)
       sleep(0.1)
@@ -37,42 +37,26 @@ RSpec.describe OpenStudio::Geb do
     # provide weather file path
     weather_file_path = File.join(File.dirname(__FILE__ ), "../seed_models/USA_NY_Buffalo.Niagara.Intl.AP.725280_TMY3.epw")
     measure_dict = {
-      # "AdjustThermostatSetpointsByDegreesForPeakHours" => {
-      #   "measure_dir_name" => all_measures["AdjustThermostatSetpointsByDegreesForPeakHours"]["measure_dir_name"],
-      #   "arguments" => {
-      #     "cooling_adjustment" => 4,
-      #     "cooling_daily_starttime" => '13:00:00',
-      #     "cooling_daily_endtime" => '17:00:00',
-      #     "cooling_startdate" => '06-01',
-      #     "cooling_enddate" => '09-30',
-      #     "heating_daily_starttime" => '13:00:00',
-      #     "heating_daily_endtime" => '15:00:00',
-      #     "heating_startdate_1" => '01-01',
-      #     "heating_enddate_1" => '05-31',
-      #     "heating_startdate_2" => '10-01',
-      #     "heating_enddate_2" => '12-31',
-      #     "heating_adjustment" => -5,
-      #     "auto_date" => false
-      #   }
-      # },
+      "AdjustThermostatSetpointsByDegreesForPeakHours" => {
+        "measure_dir_name" => all_measures["AdjustThermostatSetpointsByDegreesForPeakHours"]["measure_dir_name"],
+        "arguments" => {
+          "cooling_adjustment" => 5,
+          "heating_adjustment" => -2,
+          "alt_periods" => true
+        }
+      },
       # "reduce_lpd_by_percentage_for_peak_hours" => {
       #   "measure_dir_name" => all_measures["reduce_lpd_by_percentage_for_peak_hours"]["measure_dir_name"],
       #   "arguments" => {
-      #     "lpd_reduce_percent" => 25,
-      #     "start_time" => "14:00:00",
-      #     "end_time" => "18:00:00",
-      #     "start_date1" => '06-01',
-      #     "end_date1" => '09-30'
+      #     "lpd_reduce_percent" => 50,
+      #     "alt_periods" => true
       #   }
       # },
       # "reduce_epd_by_percentage_for_peak_hours" => {
       #   "measure_dir_name" => all_measures["reduce_epd_by_percentage_for_peak_hours"]["measure_dir_name"],
       #   "arguments" => {
-      #     "epd_reduce_percent" => 30,
-      #     "start_time" => "14:00:00",
-      #     "end_time" => "18:00:00",
-      #     "start_date1" => '06-01',
-      #     "end_date1" => '09-30'
+      #     "alt_periods" => true,
+      #     "epd_reduce_percent" => 50
       #   }
       # },
       # "precooling" => {
@@ -81,8 +65,8 @@ RSpec.describe OpenStudio::Geb do
       #     "cooling_adjustment" => -4,
       #     "starttime_cooling" => '11:00:00',
       #     "endtime_cooling" => '14:00:00',
-      #     "cooling_startdate" => '05-01',
-      #     "cooling_enddate" => '10-01'
+      #     "cooling_startdate" => '06-01',
+      #     "cooling_enddate" => '09-30'
       #   }
       # },
       # "add_chilled_water_storage_tank" => {
@@ -129,12 +113,24 @@ RSpec.describe OpenStudio::Geb do
       #     "charge_on_sun" => true
       #   }
       # },
+      # "AddElectricVehicleChargingLoad" => {
+      #     "measure_dir_name" => all_measures["AddElectricVehicleChargingLoad"]["measure_dir_name"],
+      #     "arguments" => {
+      #         "bldg_use_type" => "home",
+      #         "num_ev_chargers" => 1,
+      #         "num_evs" => 1,
+      #         "charger_level" => "Level 2",
+      #         "start_charge_time" => "21:00",
+      #         "charge_on_sat" => true,
+      #         "charge_on_sun" => true
+      #     }
+      # },
       # "reduce_domestic_hot_water_use_for_peak_hours" => {
       #   "measure_dir_name" => all_measures["reduce_domestic_hot_water_use_for_peak_hours"]["measure_dir_name"],
       #   "arguments" => {
       #     "water_use_reduce_percent" => 50,
-      #     "start_time" => '16:00:00',
-      #     "end_time" => '21:00:00'
+      #     "start_time" => '19:00:00',
+      #     "end_time" => '23:00:00'
       #   }
       # },
       # "add_electrochromic_window" => {
@@ -149,15 +145,15 @@ RSpec.describe OpenStudio::Geb do
       #     "fraction_of_surface" => 0.35
       #   }
       # },
-      "average_ventilation_for_peak_hours" => {
-        "measure_dir_name" => all_measures["average_ventilation_for_peak_hours"]["measure_dir_name"],
-        "arguments" => {
-          "start_time" => '13:00:00',
-          "end_time" => '17:00:00',
-          "start_date1" => '07-21',
-          "end_date1" => '07-21'
-        }
-      },
+      # "average_ventilation_for_peak_hours" => {
+      #   "measure_dir_name" => all_measures["average_ventilation_for_peak_hours"]["measure_dir_name"],
+      #   "arguments" => {
+      #     "start_time" => '13:00:00',
+      #     "end_time" => '17:00:00',
+      #     "start_date1" => '07-20',
+      #     "end_date1" => '07-25'
+      #   }
+      # },
       # "add_exterior_blinds_and_control" => {
       #   "measure_dir_name" => all_measures["add_exterior_blinds_and_control"]["measure_dir_name"],
       #   "arguments" => {
@@ -179,11 +175,11 @@ RSpec.describe OpenStudio::Geb do
       # "add_ceiling_fan" => {
       #   "measure_dir_name" => all_measures["add_ceiling_fan"]["measure_dir_name"],
       #   "arguments" => {
-      #     "bldg_type" => 'commercial',
+      #     "bldg_type" => 'residential',
       #     "motor_type" => 'DC',
       #     "start_time" => '08:00:00',
       #     "end_time" => '18:00:00',
-      #     "start_date" => '05-01',
+      #     "start_date" => '07-21',
       #     "end_date" => '09-30'
       #   }
       # },
@@ -203,7 +199,7 @@ RSpec.describe OpenStudio::Geb do
       #   "arguments" => {
       #     "open_area_fraction" => 0.6,
       #     "min_indoor_temp" => 21,
-      #     "max_indoor_temp" => 24,
+      #     "max_indoor_temp" => 28,
       #     "min_outdoor_temp" => 20,
       #     "max_outdoor_temp" => 24,
       #     "delta_temp" => 2,
@@ -218,7 +214,7 @@ RSpec.describe OpenStudio::Geb do
       #   "measure_dir_name" => all_measures["add_fan_assist_night_ventilation_with_hybrid_control"]["measure_dir_name"],
       #   "arguments" => {
       #     "design_night_vent_ach" => 3,
-      #     "min_outdoor_temp" => 18,
+      #     "min_outdoor_temp" => 20,
       #     "max_outdoor_temp" => 26,
       #     "night_vent_starttime" => "20:00",
       #     "night_vent_endtime" => "08:00",
@@ -244,12 +240,10 @@ RSpec.describe OpenStudio::Geb do
       "GEB Metrics Report" => {
         "measure_dir_name" => all_measures["GEB Metrics Report"]["measure_dir_name"],
         "arguments" => {
-          "event_date" => "07-21",
+          "event_date" => "01-01",
           "baseline_run_output_path" => run_output_path,
-          "shed_start" => '14:00:00',
-          "shed_end" => '17:00:00',
-          "take_start" => '11:00:00',
-          "take_end" => '14:00:00'
+          "shed_start" => '18:00:00',
+          "shed_end" => '22:00:00'
         }
       }
     }
