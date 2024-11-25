@@ -202,7 +202,7 @@ class ReduceLPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
       runner.registerWarning('The percentage reduction of lighting power is negative. This will increase the lighting power.')
     end
 
-    # set the default start and end time based on climate zone
+    # set the default start and end time based on state
     if alt_periods
       state = model.getWeatherFile.stateProvinceRegion
       file = File.open(File.join(File.dirname(__FILE__), "../../../files/seasonal_shedding_peak_hours.json"))
@@ -454,7 +454,7 @@ class ReduceLPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
                 ## (this is just in case that the rule order was not set correctly, and the original rule is still applied to all specific dates;
                 ##  also to make the logic in OSM more clearer)
                 ## the specificDates cannot be modified in place, so create a new rule with the left dates to replace the original rule
-                original_rule_update = copy_rule_with_new_dayschedule(rule, rule.name.to_s + " - dates left")
+                original_rule_update = clone_rule_with_new_dayschedule(rule, rule.name.to_s + " - dates left")
                 schedule_set.setScheduleRuleIndex(original_rule_update, current_index)
                 current_index += 1
                 all_specific_dates.each do |date|
@@ -569,7 +569,7 @@ class ReduceLPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
     return overlapped, new_start_dates, new_end_dates
   end
 
-  def copy_rule_with_new_dayschedule(original_rule, new_rule_name)
+  def clone_rule_with_new_dayschedule(original_rule, new_rule_name)
     ## Cloning a scheduleRule will automatically clone the daySchedule associated with it, but it's a shallow copy,
     ## because the daySchedule is a resource that can be used by many scheduleRule
     ## Therefore, once the daySchedule is modified for the cloned scheduleRule, the original daySchedule is also changed
@@ -593,7 +593,7 @@ class ReduceLPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
     # rule_period = original_rule.clone(model).to_ScheduleRule.get
     # rule_period.daySchedule = original_rule.daySchedule.clone(model)
     new_rule_name = "#{original_rule.name.to_s} with DF for #{os_start_date.to_s} to #{os_end_date.to_s}"
-    rule_period = copy_rule_with_new_dayschedule(original_rule, new_rule_name)
+    rule_period = clone_rule_with_new_dayschedule(original_rule, new_rule_name)
     day_rule_period = rule_period.daySchedule
     day_time_vector = day_rule_period.times
     day_value_vector = day_rule_period.values
@@ -612,7 +612,7 @@ class ReduceLPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
   def modify_rule_for_specific_dates(original_rule, os_start_date, os_end_date, shift_time_start, shift_time_end,
                                      adjustment, applied_dates)
     new_rule_name = "#{original_rule.name.to_s} with DF for #{os_start_date.to_s} to #{os_end_date.to_s}"
-    rule_period = copy_rule_with_new_dayschedule(original_rule, new_rule_name)
+    rule_period = clone_rule_with_new_dayschedule(original_rule, new_rule_name)
     day_rule_period = rule_period.daySchedule
     day_time_vector = day_rule_period.times
     day_value_vector = day_rule_period.values
