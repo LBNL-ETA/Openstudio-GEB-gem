@@ -36,6 +36,12 @@ class ReduceLPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
     lpd_reduce_percent.setDefaultValue(30.0)
     args << lpd_reduce_percent
 
+    lpd_reduce_percent_unoccupied = OpenStudio::Measure::OSArgument.makeDoubleArgument('lpd_reduce_percent_unoccupied', false)
+    lpd_reduce_percent_unoccupied.setDisplayName('Percentage Reduction of Lighting Power (%) for Unoccupied Spaces (if different, optional)')
+    lpd_reduce_percent_unoccupied.setDescription('Enter a value between 0 and 100')
+    lpd_reduce_percent_unoccupied.setDefaultValue(60.0)
+    args << lpd_reduce_percent_unoccupied
+
     start_date1 = OpenStudio::Ruleset::OSArgument.makeStringArgument('start_date1', true)
     start_date1.setDisplayName('First start date for the reduction')
     start_date1.setDescription('In MM-DD format')
@@ -172,6 +178,7 @@ class ReduceLPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
       return false
     end
     lpd_reduce_percent = runner.getDoubleArgumentValue('lpd_reduce_percent', user_arguments)
+    lpd_reduce_percent_unoccupied = runner.getOptionalDoubleArgumentValue('lpd_reduce_percent_unoccupied', user_arguments)
     start_time1 = runner.getStringArgumentValue('start_time1', user_arguments)
     end_time1 = runner.getStringArgumentValue('end_time1', user_arguments)
     start_time2 = runner.getStringArgumentValue('start_time2', user_arguments)
@@ -201,6 +208,19 @@ class ReduceLPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
     elsif lpd_reduce_percent < 0
       runner.registerWarning('The percentage reduction of lighting power is negative. This will increase the lighting power.')
     end
+
+    if lpd_reduce_percent_unoccupied.empty?
+      runner.registerInfo("Unoccupied percentage reduction is not provided. Use the same value for all spaces")
+      lpd_reduce_percent_unoccupied = lpd_reduce_percent
+    elsif lpd_reduce_percent_unoccupied.to_f > 100
+      runner.registerError('The percentage reduction of lighting power cannot be larger than 100.')
+      return false
+    elsif lpd_reduce_percent_unoccupied.to_f < 0
+      runner.registerWarning('The percentage reduction of lighting power is negative. This will increase the lighting power.')
+    else
+      lpd_reduce_percent_unoccupied = lpd_reduce_percent_unoccupied.to_f
+    end
+
 
     # set the default start and end time based on state
     if alt_periods
@@ -371,7 +391,6 @@ class ReduceLPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
                                "period5" => {"date_start"=>os_start_date5, "date_end"=>os_end_date5,
                                              "time_start"=>shift_time_start5, "time_end"=>shift_time_end5} }
 
-    lpd_factor = 1 - (lpd_reduce_percent/100)
     applicable =  false
     lights = model.getLightss
     # create a hash to map the old schedule name to the new schedule
@@ -381,21 +400,56 @@ class ReduceLPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
       if light_sch.empty?
         runner.registerWarning("#{light.name} doesn't have a schedule.")
       else
-        puts "light: #{light.name} - schedule: #{light_sch.get.name.to_s}"
+        occupied = false
+        if light.spaceType.is_initialized
+          space_type = light.spaceType.get
+          peoples = space_type.people
+          peoples.each do |people|
+            if people.numberOfPeople.is_initialized and people.numberOfPeople.get > 0
+              occupied = true
+              break
+            elsif people.	peoplePerFloorArea.is_initialized and people.peoplePerFloorArea.get > 0
+              occupied = true
+              break
+            elsif people.	spaceFloorAreaPerPerson.is_initialized and people.spaceFloorAreaPerPerson.get > 0
+              occupied = true
+              break
+            end
+          end
+        elsif light.space.is_initialized
+          space = light.space.get
+          # Any of the peoplePerFloorArea, numberOfPeople or floorAreaPerPerson will calculate the people automatically
+          # despite the Number of People Calculation Method specified
+          if space.peoplePerFloorArea > 0
+            occupied = true
+          end
+        end
+        if occupied
+          lpd_factor = 1 - (lpd_reduce_percent/100)
+          runner.registerInfo("The space/space type associated with the light #{light.name.to_s} is occupied, so the LPD is reduced for #{lpd_reduce_percent}%")
+        else
+          lpd_factor = 1 - (lpd_reduce_percent_unoccupied/100)
+          runner.registerInfo("The space/space type associated with the light #{light.name.to_s} is unoccupied, so the LPD is reduced for #{lpd_reduce_percent_unoccupied}%")
+        end
+
         if light_schedules.key?(light_sch.get.name.to_s)
-          new_light_sch = light_schedules[light_sch.get.name.to_s]
+          new_light_sch = light_schedules[light_sch.get.name.to_s]["schedule"]
         else
           new_light_sch = light_sch.get.clone(model)
           new_light_sch = new_light_sch.to_Schedule.get
           new_light_sch.setName("#{light_sch.get.name.to_s} adjusted #{lpd_factor}")
           # add to the hash
-          light_schedules[light_sch.get.name.to_s] = new_light_sch
+          light_schedules[light_sch.get.name.to_s] = {"schedule"=>new_light_sch, "lpd_factor" => lpd_factor}
         end
         light.setSchedule(new_light_sch)
       end
+
+
     end
 
-    light_schedules.each do |old_name, cloned_light_sch|
+    light_schedules.each do |old_name, sch_info|
+      cloned_light_sch = sch_info["schedule"]
+      lpd_factor = sch_info["lpd_factor"]
       if cloned_light_sch.to_ScheduleRuleset.empty?
         runner.registerWarning("Schedule #{old_name} isn't a ScheduleRuleset object and won't be altered by this measure.")
         cloned_light_sch.remove # remove un-used cloned schedule

@@ -878,7 +878,7 @@ class Preheating < OpenStudio::Measure::ModelMeasure
       runner.registerInfo("#{new_default_day.times.map(&:to_s)}, #{new_default_day.values}")
     else
       cool_day_mapping.each do |schedule_day_name, day_info|
-        cool_day = day_info["heat_day_schedule"]
+        cool_day = day_info["cool_day_schedule"]
         runner.registerInfo("==== Before, heating schedule: #{cool_day.times.map(&:to_s)}, #{cool_day.values}")
         runner.registerInfo("             cooling schedule: #{default_day.times.map(&:to_s)}, #{default_day.values}")
         applied_day_of_week = []
