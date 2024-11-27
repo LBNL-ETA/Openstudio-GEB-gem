@@ -25,7 +25,7 @@ RSpec.describe OpenStudio::Geb do
     # baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/SFD_1story_UB_UA_ASHP2_HPWH.osm")  # residential
     all_measures = list_all_geb_measures
     # puts JSON.pretty_generate(all_measures)
-    run_output_path = File.join(File.dirname(__FILE__ ), "../lpd")
+    run_output_path = File.join(File.dirname(__FILE__ ), "../preheating")
     if File.exist? run_output_path
       FileUtils.rm_rf(run_output_path)
       sleep(0.1)
@@ -42,7 +42,7 @@ RSpec.describe OpenStudio::Geb do
       #   "arguments" => {
       #     "cooling_adjustment" => 5,
       #     "heating_adjustment" => -4,
-      #     "alt_periods" => true,
+      #     "alt_periods" => false,
       #     "cooling_start_date1" => "01-01",
       #     "cooling_end_date1" => "03-31",
       #     "cooling_start_time1" => "00:00:00",
@@ -77,36 +77,36 @@ RSpec.describe OpenStudio::Geb do
       #     "heating_end_time4" => "24:00:00"
       #   }
       # },
-      "reduce_lpd_by_percentage_for_peak_hours" => {
-        "measure_dir_name" => all_measures["reduce_lpd_by_percentage_for_peak_hours"]["measure_dir_name"],
-        "arguments" => {
-          "alt_periods" => true,
-          "start_date1" => "01-01",
-          "end_date1" => "03-31",
-          "start_time1" => "00:00:00",
-          "end_time1" => "24:00:00",
-          "start_date2" => "04-01",
-          "end_date2" => "05-31",
-          "start_time2" => "00:00:00",
-          "end_time2" => "24:00:00",
-          "start_date3" => "06-01",
-          "end_date3" => "09-30",
-          "start_time3" => "00:00:00",
-          "end_time3" => "24:00:00",
-          "start_date4" => "10-01",
-          "end_date4" => "11-30",
-          "start_time4" => "00:00:00",
-          "end_time4" => "24:00:00",
-          "start_date5" => "12-01",
-          "end_date5" => "12-31",
-          "start_time5" => "00:00:00",
-          "end_time5" => "24:00:00"
-        }
-      },
+      # "reduce_lpd_by_percentage_for_peak_hours" => {
+      #   "measure_dir_name" => all_measures["reduce_lpd_by_percentage_for_peak_hours"]["measure_dir_name"],
+      #   "arguments" => {
+      #     "alt_periods" => true,
+      #     "start_date1" => "01-01",
+      #     "end_date1" => "03-31",
+      #     "start_time1" => "00:00:00",
+      #     "end_time1" => "24:00:00",
+      #     "start_date2" => "04-01",
+      #     "end_date2" => "05-31",
+      #     "start_time2" => "00:00:00",
+      #     "end_time2" => "24:00:00",
+      #     "start_date3" => "06-01",
+      #     "end_date3" => "09-30",
+      #     "start_time3" => "00:00:00",
+      #     "end_time3" => "24:00:00",
+      #     "start_date4" => "10-01",
+      #     "end_date4" => "11-30",
+      #     "start_time4" => "00:00:00",
+      #     "end_time4" => "24:00:00",
+      #     "start_date5" => "12-01",
+      #     "end_date5" => "12-31",
+      #     "start_time5" => "00:00:00",
+      #     "end_time5" => "24:00:00"
+      #   }
+      # },
       # "reduce_epd_by_percentage_for_peak_hours" => {
       #   "measure_dir_name" => all_measures["reduce_epd_by_percentage_for_peak_hours"]["measure_dir_name"],
       #   "arguments" => {
-      #     "alt_periods" => false,
+      #     "alt_periods" => true,
       #     "epd_reduce_percent" => 30,
       #     "start_date1" => "01-01",
       #     "end_date1" => "03-31",
@@ -133,7 +133,7 @@ RSpec.describe OpenStudio::Geb do
       # "precooling" => {
       #   "measure_dir_name" => all_measures["precooling"]["measure_dir_name"],
       #   "arguments" => {
-      #     "cooling_adjustment" => -4,
+      #     "cooling_adjustment" => -6,
       #     "alt_periods" => true,
       #     "start_date1" => "01-01",
       #     "end_date1" => "03-31",
@@ -157,33 +157,29 @@ RSpec.describe OpenStudio::Geb do
       #     "end_time5" => "24:00:00"
       #   }
       # },
-      # "preheating" => {
-      #     "measure_dir_name" => all_measures["preheating"]["measure_dir_name"],
-      #     "arguments" => {
-      #         "heating_adjustment" => 4,
-      #         "alt_periods" => true,
-      #         "start_date1" => "01-01",
-      #         "end_date1" => "03-31",
-      #         "start_time1" => "00:00:00",
-      #         "end_time1" => "24:00:00",
-      #         "start_date2" => "04-01",
-      #         "end_date2" => "05-31",
-      #         "start_time2" => "00:00:00",
-      #         "end_time2" => "24:00:00",
-      #         "start_date3" => "06-01",
-      #         "end_date3" => "09-30",
-      #         "start_time3" => "00:00:00",
-      #         "end_time3" => "24:00:00",
-      #         "start_date4" => "10-01",
-      #         "end_date4" => "11-30",
-      #         "start_time4" => "00:00:00",
-      #         "end_time4" => "24:00:00",
-      #         "start_date5" => "12-01",
-      #         "end_date5" => "12-31",
-      #         "start_time5" => "00:00:00",
-      #         "end_time5" => "24:00:00"
-      #     }
-      # },
+      "preheating" => {
+          "measure_dir_name" => all_measures["preheating"]["measure_dir_name"],
+          "arguments" => {
+              "heating_adjustment" => 6,
+              "alt_periods" => false,
+              "start_date1" => "01-01",
+              "end_date1" => "03-31",
+              "start_time1" => "00:00:00",
+              "end_time1" => "24:00:00",
+              "start_date2" => "04-01",
+              "end_date2" => "05-31",
+              "start_time2" => "00:00:00",
+              "end_time2" => "24:00:00",
+              "start_date3" => "06-01",
+              "end_date3" => "09-30",
+              "start_time3" => "00:00:00",
+              "end_time3" => "24:00:00",
+              "start_date4" => "10-01",
+              "end_date4" => "11-30",
+              "start_time4" => "00:00:00",
+              "end_time4" => "24:00:00"
+          }
+      },
       # "add_chilled_water_storage_tank" => {
       #   "measure_dir_name" => all_measures["add_chilled_water_storage_tank"]["measure_dir_name"],
       #   "arguments" => {
@@ -391,63 +387,44 @@ RSpec.describe OpenStudio::Geb do
       "AdjustThermostatSetpointsByDegreesForPeakHours" => {
         "measure_dir_name" => all_measures["AdjustThermostatSetpointsByDegreesForPeakHours"]["measure_dir_name"],
         "arguments" => {
-          "cooling_adjustment" => 4,
-          "cooling_daily_starttime" => '14:00:00',
-          "cooling_daily_endtime" => '18:00:00',
-          "cooling_startdate" => '06-01',
-          "cooling_enddate" => '09-30',
-          "heating_daily_starttime" => '13:00:00',
-          "heating_daily_endtime" => '15:00:00',
-          "heating_startdate_1" => '01-01',
-          "heating_enddate_1" => '05-31',
-          "heating_startdate_2" => '10-01',
-          "heating_enddate_2" => '12-31',
-          "heating_adjustment" => -5,
-          "auto_date" => false
+            "cooling_adjustment" => 5,
+            "heating_adjustment" => -4,
+            "alt_periods" => true
         }
       },
       "reduce_lpd_by_percentage_for_peak_hours" => {
         "measure_dir_name" => all_measures["reduce_lpd_by_percentage_for_peak_hours"]["measure_dir_name"],
         "arguments" => {
-          "lpd_reduce_percent" => 25,
-          "start_time" => "14:00:00",
-          "end_time" => "18:00:00",
-          "start_date1" => '06-01',
-          "end_date1" => '09-30'
+          "lpd_reduce_percent" => 30,
+          "alt_periods" => true
         }
       },
       "reduce_epd_by_percentage_for_peak_hours" => {
         "measure_dir_name" => all_measures["reduce_epd_by_percentage_for_peak_hours"]["measure_dir_name"],
         "arguments" => {
           "epd_reduce_percent" => 30,
-          "start_time" => "14:00:00",
-          "end_time" => "18:00:00",
-          "start_date1" => '06-01',
-          "end_date1" => '09-30'
+          "alt_periods" => true
         }
       },
-      "add_chilled_water_storage_tank" => {
-        "measure_dir_name" => all_measures["add_chilled_water_storage_tank"]["measure_dir_name"],
-        "arguments" => {
-          "objective" => "Partial Storage",
-          "run_output_path" => run_output_path,
-          "epw_path" => weather_file_path,
-          "discharge_start" => '12:00:00',
-          "discharge_end" => '18:00:00',
-          "charge_start" => '23:00:00',
-          "charge_end" => '07:00:00'
-        }
-      },
-      # "precooling" => {
-      #     "measure_dir_name" => all_measures["precooling"]["measure_dir_name"],
-      #     "arguments" => {
-      #         "cooling_adjustment" => -4,
-      #         "starttime_cooling" => '09:00:00',
-      #         "endtime_cooling" => '12:00:00',
-      #         "cooling_startdate" => '06-01',
-      #         "cooling_enddate" => '09-01'
-      #     }
+      # "add_chilled_water_storage_tank" => {
+      #   "measure_dir_name" => all_measures["add_chilled_water_storage_tank"]["measure_dir_name"],
+      #   "arguments" => {
+      #     "objective" => "Partial Storage",
+      #     "run_output_path" => run_output_path,
+      #     "epw_path" => weather_file_path,
+      #     "discharge_start" => '12:00:00',
+      #     "discharge_end" => '18:00:00',
+      #     "charge_start" => '23:00:00',
+      #     "charge_end" => '07:00:00'
+      #   }
       # },
+      "precooling" => {
+          "measure_dir_name" => all_measures["precooling"]["measure_dir_name"],
+          "arguments" => {
+              "cooling_adjustment" => -4,
+              "alt_periods" => true
+          }
+      },
       # "add_heat_pump_water_heater" => {
       #   "measure_dir_name" => all_measures["add_heat_pump_water_heater"]["measure_dir_name"],
       #   "arguments" => {
