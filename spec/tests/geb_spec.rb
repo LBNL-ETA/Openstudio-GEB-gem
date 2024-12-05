@@ -20,7 +20,7 @@ RSpec.describe OpenStudio::Geb do
 
   it "can apply and run single measure" do
     # provide baseline path
-    baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/370_medium_office_doas_fan_coil_acc_boiler_3A_modified.osm")   # commercial
+    baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/in.osm")   # commercial
     # baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/Outpatient_VAV_economizer_test.osm")   # commercial
     # baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/SFD_1story_UB_UA_ASHP2_HPWH.osm")  # residential
     all_measures = list_all_geb_measures
