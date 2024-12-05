@@ -300,9 +300,9 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
     heating_start_date2 = runner.getStringArgumentValue('heating_start_date2', user_arguments)
     heating_end_date2 = runner.getStringArgumentValue('heating_end_date2', user_arguments)
     heating_start_date3 = runner.getStringArgumentValue('heating_start_date3', user_arguments)
-    heating_end_date3 = runner.getStringArgumentValue('heating_end_date4', user_arguments)
+    heating_end_date3 = runner.getStringArgumentValue('heating_end_date3', user_arguments)
     heating_start_date4 = runner.getStringArgumentValue('heating_start_date4', user_arguments)
-    heating_end_date4 = runner.getStringArgumentValue('heating_end_date5', user_arguments)
+    heating_end_date4 = runner.getStringArgumentValue('heating_end_date4', user_arguments)
     heating_start_date5 = runner.getStringArgumentValue('heating_start_date5', user_arguments)
     heating_end_date5 = runner.getStringArgumentValue('heating_end_date5', user_arguments)
     cooling_start_time1 = runner.getStringArgumentValue('cooling_start_time1', user_arguments)
@@ -320,15 +320,15 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
     cooling_start_date2 = runner.getStringArgumentValue('cooling_start_date2', user_arguments)
     cooling_end_date2 = runner.getStringArgumentValue('cooling_end_date2', user_arguments)
     cooling_start_date3 = runner.getStringArgumentValue('cooling_start_date3', user_arguments)
-    cooling_end_date3 = runner.getStringArgumentValue('cooling_end_date4', user_arguments)
+    cooling_end_date3 = runner.getStringArgumentValue('cooling_end_date3', user_arguments)
     cooling_start_date4 = runner.getStringArgumentValue('cooling_start_date4', user_arguments)
-    cooling_end_date4 = runner.getStringArgumentValue('cooling_end_date5', user_arguments)
+    cooling_end_date4 = runner.getStringArgumentValue('cooling_end_date4', user_arguments)
     cooling_start_date5 = runner.getStringArgumentValue('cooling_start_date5', user_arguments)
     cooling_end_date5 = runner.getStringArgumentValue('cooling_end_date5', user_arguments)
     alt_periods = runner.getBoolArgumentValue('alt_periods', user_arguments)
 
 
-    # set the default start and end time based on climate zone
+    # set the default start and end time based on state
     if alt_periods
       state = model.getWeatherFile.stateProvinceRegion
       file = File.open(File.join(File.dirname(__FILE__), "../../../files/seasonal_shedding_peak_hours.json"))
@@ -375,7 +375,7 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
       end
     end
 
-    def validate_date_format(start_date1, end_date1, runner)
+    def validate_date_format(start_date1, end_date1, runner, model)
       smd = /(\d\d)-(\d\d)/.match(start_date1)
       emd = /(\d\d)-(\d\d)/.match(end_date1)
       if smd.nil? or emd.nil?
@@ -390,8 +390,8 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
           runner.registerError('The start date cannot be later date the end time.')
           return false
         else
-          os_start_date = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(start_month), start_day)
-          os_end_date = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(end_month), end_day)
+          os_start_date = model.getYearDescription.makeDate(start_month, start_day)
+          os_end_date = model.getYearDescription.makeDate(end_month, end_day)
           return os_start_date, os_end_date
         end
       end
@@ -468,7 +468,7 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
     end
 
     # First date period
-    heating_date_result1 = validate_date_format(heating_start_date1, heating_end_date1, runner)
+    heating_date_result1 = validate_date_format(heating_start_date1, heating_end_date1, runner, model)
     if heating_date_result1
       os_heating_start_date1, os_heating_end_date1 = heating_date_result1
     else
@@ -478,35 +478,35 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
     # Other optional date period
     os_heating_start_date2, os_heating_end_date2, os_heating_start_date3, os_heating_end_date3, os_heating_start_date4, os_heating_end_date4, os_heating_start_date5, os_heating_end_date5 = [nil]*8
     if (not heating_start_date2.empty?) and (not heating_end_date2.empty?)
-      heating_date_result2 = validate_date_format(heating_start_date2, heating_end_date2, runner)
+      heating_date_result2 = validate_date_format(heating_start_date2, heating_end_date2, runner, model)
       if heating_date_result2
         os_heating_start_date2, os_heating_end_date2 = heating_date_result2
       end
     end
 
     if (not heating_start_date3.empty?) and (not heating_end_date3.empty?)
-      heating_date_result3 = validate_date_format(heating_start_date3, heating_end_date3, runner)
+      heating_date_result3 = validate_date_format(heating_start_date3, heating_end_date3, runner, model)
       if heating_date_result3
         os_heating_start_date3, os_heating_end_date3 = heating_date_result3
       end
     end
 
     if (not heating_start_date4.empty?) and (not heating_end_date4.empty?)
-      heating_date_result4 = validate_date_format(heating_start_date4, heating_end_date4, runner)
+      heating_date_result4 = validate_date_format(heating_start_date4, heating_end_date4, runner, model)
       if heating_date_result4
         os_heating_start_date4, os_heating_end_date4 = heating_date_result4
       end
     end
 
     if (not heating_start_date5.empty?) and (not heating_end_date5.empty?)
-      heating_date_result5 = validate_date_format(heating_start_date5, heating_end_date5, runner)
+      heating_date_result5 = validate_date_format(heating_start_date5, heating_end_date5, runner, model)
       if heating_date_result5
         os_heating_start_date5, os_heating_end_date5 = heating_date_result5
       end
     end
 
     # First date period
-    cooling_date_result1 = validate_date_format(cooling_start_date1, cooling_end_date1, runner)
+    cooling_date_result1 = validate_date_format(cooling_start_date1, cooling_end_date1, runner, model)
     if cooling_date_result1
       os_cooling_start_date1, os_cooling_end_date1 = cooling_date_result1
     else
@@ -516,28 +516,28 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
     # Other optional date period
     os_cooling_start_date2, os_cooling_end_date2, os_cooling_start_date3, os_cooling_end_date3, os_cooling_start_date4, os_cooling_end_date4, os_cooling_start_date5, os_cooling_end_date5 = [nil]*8
     if (not cooling_start_date2.empty?) and (not cooling_end_date2.empty?)
-      cooling_date_result2 = validate_date_format(cooling_start_date2, cooling_end_date2, runner)
+      cooling_date_result2 = validate_date_format(cooling_start_date2, cooling_end_date2, runner, model)
       if cooling_date_result2
         os_cooling_start_date2, os_cooling_end_date2 = cooling_date_result2
       end
     end
 
     if (not cooling_start_date3.empty?) and (not cooling_end_date3.empty?)
-      cooling_date_result3 = validate_date_format(cooling_start_date3, cooling_end_date3, runner)
+      cooling_date_result3 = validate_date_format(cooling_start_date3, cooling_end_date3, runner, model)
       if cooling_date_result3
         os_cooling_start_date3, os_cooling_end_date3 = cooling_date_result3
       end
     end
 
     if (not cooling_start_date4.empty?) and (not cooling_end_date4.empty?)
-      cooling_date_result4 = validate_date_format(cooling_start_date4, cooling_end_date4, runner)
+      cooling_date_result4 = validate_date_format(cooling_start_date4, cooling_end_date4, runner, model)
       if cooling_date_result4
         os_cooling_start_date4, os_cooling_end_date4 = cooling_date_result4
       end
     end
 
     if (not cooling_start_date5.empty?) and (not cooling_end_date5.empty?)
-      cooling_date_result5 = validate_date_format(cooling_start_date5, cooling_end_date5, runner)
+      cooling_date_result5 = validate_date_format(cooling_start_date5, cooling_end_date5, runner, model)
       if cooling_date_result5
         os_cooling_start_date5, os_cooling_end_date5 = cooling_date_result5
       end
@@ -563,7 +563,9 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
 
     # define starting units
     cooling_adjustment_ip = OpenStudio::Quantity.new(cooling_adjustment, TEMP_IP_UNIT)
+    cooling_adjustment_si = cooling_adjustment * 5 / 9.0
     heating_adjustment_ip = OpenStudio::Quantity.new(heating_adjustment, TEMP_IP_UNIT)
+    heating_adjustment_si = heating_adjustment * 5 / 9.0
 
     # push schedules to hash to avoid making unnecessary duplicates
     clg_set_schs = {}
@@ -574,49 +576,61 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
       # setup new cooling setpoint schedule
       clg_set_sch = thermostat.coolingSetpointTemperatureSchedule
 
-      if !clg_set_sch.empty?
-        old_schedule_name = clg_set_sch.get.name.to_s
-        # clone if not already in hash
-        if clg_set_schs.key?(old_schedule_name)
-          new_clg_set_sch = clg_set_schs[old_schedule_name]
-        else
-          new_clg_set_sch = clg_set_sch.get.clone(model)
-          new_clg_set_sch = new_clg_set_sch.to_Schedule.get
-          new_clg_set_sch.setName("#{old_schedule_name} adjusted by #{cooling_adjustment_ip}F")
-          runner.registerInfo("Cooling schedule #{old_schedule_name} is cloned to #{new_clg_set_sch.name.to_s}")
-          # add to the hash
-          clg_set_schs[old_schedule_name] = new_clg_set_sch
-        end
-        # hook up cloned schedule to thermostat
-        thermostat.setCoolingSetpointTemperatureSchedule(new_clg_set_sch)
-      else
+      if clg_set_sch.empty?
         runner.registerWarning("Thermostat '#{thermostat.name}' doesn't have a cooling setpoint schedule")
+      else
+        old_clg_schedule = clg_set_sch.get
+        old_schedule_name = old_clg_schedule.name.to_s
+        # clone if not already in hash
+        if old_clg_schedule.to_ScheduleRuleset.is_initialized
+          if clg_set_schs.key?(old_schedule_name)
+            new_clg_set_sch = clg_set_schs[old_schedule_name]
+          else
+            # active_indices = old_clg_schedule.to_ScheduleRuleset.get.getActiveRuleIndices(os_cooling_start_date5, os_cooling_end_date5)
+            # active_indices.each do |i|
+            #   runner.registerInfo("Rule applied to the fifth cooling period: #{old_clg_schedule.to_ScheduleRuleset.get.scheduleRules[i].name.to_s}")
+            # end
+            new_clg_set_sch = old_clg_schedule.clone(model)
+            new_clg_set_sch = new_clg_set_sch.to_Schedule.get
+            new_clg_set_sch.setName("#{old_schedule_name} adjusted by #{cooling_adjustment_ip}")
+            runner.registerInfo("Cooling schedule #{old_schedule_name} is cloned to #{new_clg_set_sch.name.to_s}")
+            # add to the hash
+            clg_set_schs[old_schedule_name] = new_clg_set_sch
+          end
+          # hook up cloned schedule to thermostat
+          thermostat.setCoolingSetpointTemperatureSchedule(new_clg_set_sch)
+        else
+            runner.registerWarning("Schedule '#{old_schedule_name}' isn't a ScheduleRuleset object and won't be altered by this measure.")
+        end
       end
 
       # setup new heating setpoint schedule
       htg_set_sch = thermostat.heatingSetpointTemperatureSchedule
-      if !htg_set_sch.empty?
-        old_schedule_name = htg_set_sch.get.name.to_s
-        # clone of not already in hash
-        if htg_set_schs.key?(old_schedule_name)
-          new_htg_set_sch = htg_set_schs[old_schedule_name]
-        else
-          new_htg_set_sch = htg_set_sch.get.clone(model)
-          new_htg_set_sch = new_htg_set_sch.to_Schedule.get
-          new_htg_set_sch.setName("#{old_schedule_name} adjusted by #{heating_adjustment_ip}")
-          runner.registerInfo("Cooling schedule #{old_schedule_name} is cloned to #{new_htg_set_sch.name.to_s}")
-          # add to the hash
-          htg_set_schs[old_schedule_name] = new_htg_set_sch
-        end
-        # hook up clone to thermostat
-        thermostat.setHeatingSetpointTemperatureSchedule(new_htg_set_sch)
-      else
+      if htg_set_sch.empty?
         runner.registerWarning("Thermostat '#{thermostat.name}' doesn't have a heating setpoint schedule.")
+      else
+        old_htg_schedule = htg_set_sch.get
+        old_schedule_name = old_htg_schedule.name.to_s
+        if old_htg_schedule.to_ScheduleRuleset.is_initialized
+          if htg_set_schs.key?(old_schedule_name)
+            new_htg_set_sch = htg_set_schs[old_schedule_name]
+          else
+            new_htg_set_sch = old_htg_schedule.clone(model)
+            new_htg_set_sch = new_htg_set_sch.to_Schedule.get
+            new_htg_set_sch.setName("#{old_schedule_name} adjusted by #{heating_adjustment_ip}")
+            runner.registerInfo("Cooling schedule #{old_schedule_name} is cloned to #{new_htg_set_sch.name.to_s}")
+            # add to the hash
+            htg_set_schs[old_schedule_name] = new_htg_set_sch
+          end
+          # hook up clone to thermostat
+          thermostat.setHeatingSetpointTemperatureSchedule(new_htg_set_sch)
+        else
+          runner.registerWarning("Schedule '#{old_schedule_name}' isn't a ScheduleRuleset object and won't be altered by this measure.")
+        end
+
       end
     end
 
-    # puts "clg_set_schs: #{clg_set_schs.inspect}"
-    # puts "htg_set_schs: #{htg_set_schs.inspect}"
 
     # setting up variables to use for initial and final condition
     clg_sch_set_values = [] # may need to flatten this
@@ -646,7 +660,9 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
     # end
 
     applicable_flag = false
-    optional_cooling_period_inputs = { "period2" => {"date_start"=>os_cooling_start_date2, "date_end"=>os_cooling_end_date2,
+    cooling_adjust_period_inputs = { "period1" => {"date_start"=>os_cooling_start_date1, "date_end"=>os_cooling_end_date1,
+                                                     "time_start"=>cooling_shift_time_start1, "time_end"=>cooling_shift_time_end1},
+                                       "period2" => {"date_start"=>os_cooling_start_date2, "date_end"=>os_cooling_end_date2,
                                              "time_start"=>cooling_shift_time_start2, "time_end"=>cooling_shift_time_end2},
                                "period3" => {"date_start"=>os_cooling_start_date3, "date_end"=>os_cooling_end_date3,
                                              "time_start"=>cooling_shift_time_start3, "time_end"=>cooling_shift_time_end3},
@@ -656,89 +672,151 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
                                              "time_start"=>cooling_shift_time_start5, "time_end"=>cooling_shift_time_end5} }
     # make cooling schedule adjustments and rename. Put in check to skip and warn if schedule not ruleset
     clg_set_schs.each do |old_sch_name, os_sch| # old name and new object for schedule
-      if !os_sch.to_ScheduleRuleset.empty?
-        schedule = os_sch.to_ScheduleRuleset.get
-        rules = schedule.scheduleRules
-        days_covered = Array.new(7, false)
-
-        # TODO: when ruleset has multiple rules for each month or couple of months instead of a full year, should first see if the period overlaps with summer/winter
-        if rules.length <= 0
-          runner.registerWarning("Cooling setpoint schedule '#{old_sch_name}' is a ScheduleRuleSet, but has no ScheduleRules associated. It won't be altered by this measure.")
-        else
-          current_index = 0
-          rules.each do |rule|
-            rule_period1 = modify_rule_for_date_period(rule, os_cooling_start_date1, os_cooling_start_date1,
-                                                       cooling_shift_time_start1, cooling_shift_time_end1,
-                                                       cooling_adjustment_ip, model)
-            if rule_period1
-              applicable_flag = true
-              checkDaysCovered(rule_period1, days_covered)
-              runner.registerInfo("--------------- current days of week coverage: #{days_covered}")
-              if schedule.setScheduleRuleIndex(rule_period1, current_index)
-                current_index += 1
-              else
-                runner.registerError("Fail to set rule index for #{rule_period1.name.to_s}.")
-              end
-            end
-            final_clg_sch_set_values << rule_period1.daySchedule.values
-
-            optional_cooling_period_inputs.each do |period, period_inputs|
+      schedule = os_sch.to_ScheduleRuleset.get
+      rules = schedule.scheduleRules
+      days_covered = Array.new(7, false)
+      current_index = 0
+      # TODO: when ruleset has multiple rules for each month or couple of months instead of a full year, should first see if the period overlaps with summer/winter
+      if rules.length <= 0
+        runner.registerWarning("Cooling setpoint schedule '#{old_sch_name}' is a ScheduleRuleSet, but has no ScheduleRules associated. It won't be altered by this measure.")
+      else
+        runner.registerInfo("schedule rule set #{old_sch_name} has #{rules.length} rules.")
+        rules.each do |rule|
+          runner.registerInfo("---- Rule No.#{rule.ruleIndex}: #{rule.name.to_s}")
+          if rule.dateSpecificationType == "SpecificDates"
+            ## if the rule applies to SpecificDates, collect the dates that fall into each adjustment date period,
+            ## and create a new rule for each date period with covered specific dates
+            runner.registerInfo("======= The rule #{rule.name.to_s} only covers specific dates.")
+            ## the specificDates cannot be modified in place because it's a frozen array
+            all_specific_dates = []
+            rule.specificDates.each { |date| all_specific_dates << date }
+            cooling_adjust_period_inputs.each do |period, period_inputs|
+              period_inputs["specific_dates"] = []
               os_start_date = period_inputs["date_start"]
               os_end_date = period_inputs["date_end"]
               shift_time_start = period_inputs["time_start"]
               shift_time_end = period_inputs["time_end"]
               if [os_start_date, os_end_date, shift_time_start, shift_time_end].all?
-                rule_period = modify_rule_for_date_period(rule, os_start_date, os_end_date, shift_time_start, shift_time_end,
-                                                          cooling_adjustment_ip, model)
+                rule.specificDates.each do |covered_date|
+                  if covered_date >= os_start_date and covered_date <= os_end_date
+                    period_inputs["specific_dates"] << covered_date
+                    all_specific_dates.delete(covered_date)
+                  end
+                end
+                runner.registerInfo("========= Specific dates within date range #{os_start_date.to_s} to #{os_end_date.to_s}: #{period_inputs["specific_dates"].map(&:to_s)}")
+                runner.registerInfo("!!! Specific dates haven't been covered: #{all_specific_dates.map(&:to_s)}")
+                next if period_inputs["specific_dates"].empty?
+                rule_period = modify_rule_for_specific_dates(rule, os_start_date, os_end_date, shift_time_start, shift_time_end,
+                                                             cooling_adjustment_si, period_inputs["specific_dates"])
                 if rule_period
                   applicable_flag = true
+                  if period == "period1"
+                    final_clg_sch_set_values << rule_period.daySchedule.values
+                  end
                   if schedule.setScheduleRuleIndex(rule_period, current_index)
                     current_index += 1
+                    runner.registerInfo("-------- The rule #{rule_period.name.to_s} for #{rule_period.dateSpecificationType} is added as priority #{current_index}")
                   else
                     runner.registerError("Fail to set rule index for #{rule_period.name.to_s}.")
                   end
                 end
-                runner.registerInfo("------------ cooling schedule #{old_sch_name} updated for #{rule_period.startDate.get} to #{rule_period.endDate.get}")
               end
             end
-            # The original rule will be shifted to the currently lowest priority
-            # Setting the rule to an existing index will automatically push all other rules after it down
+            if all_specific_dates.empty?
+              ## if all specific dates have been covered by new rules for each adjustment date period, remove the original rule
+              runner.registerInfo("The original rule is removed since no specific date left")
+            else
+              ## if there's still dates left to be covered, modify the original rule to only cover these dates
+              ## (this is just in case that the rule order was not set correctly, and the original rule is still applied to all specific dates;
+              ##  also to make the logic in OSM more clearer)
+              ## the specificDates cannot be modified in place, so create a new rule with the left dates to replace the original rule
+              original_rule_update = clone_rule_with_new_dayschedule(rule, rule.name.to_s + " - dates left")
+              schedule.setScheduleRuleIndex(original_rule_update, current_index)
+              current_index += 1
+              all_specific_dates.each do |date|
+                original_rule_update.addSpecificDate(date)
+              end
+              runner.registerInfo("-------- The original rule #{rule.name.to_s} is modified to only cover the rest of the dates: #{all_specific_dates.map(&:to_s)}")
+              runner.registerInfo("-------- and is shifted to priority #{current_index}")
+            end
+            rule.remove
+
+
+          else
+            ## If the rule applies to a DateRange, check if the DateRange overlaps with each adjustment date period
+            ## if so, create a new rule for that adjustment date period
+            runner.registerInfo("******* The rule #{rule.name.to_s} covers date range #{rule.startDate.get} - #{rule.endDate.get}.")
+            cooling_adjust_period_inputs.each do |period, period_inputs|
+              os_start_date = period_inputs["date_start"]
+              os_end_date = period_inputs["date_end"]
+              shift_time_start = period_inputs["time_start"]
+              shift_time_end = period_inputs["time_end"]
+              if [os_start_date, os_end_date, shift_time_start, shift_time_end].all?
+                ## check if the original rule applied DateRange overlaps with the adjustment date period
+                overlapped, new_start_dates, new_end_dates = check_date_ranges_overlap(rule, os_start_date, os_end_date)
+                if overlapped
+                  new_start_dates.each_with_index do |start_date, i|
+                    rule_period = modify_rule_for_date_period(rule, start_date, new_end_dates[i], shift_time_start,
+                                                              shift_time_end, cooling_adjustment_si)
+                    if rule_period
+                      applicable_flag = true
+                      if period == "period1"
+                        checkDaysCovered(rule_period, days_covered)
+                        final_clg_sch_set_values << rule_period.daySchedule.values
+                      end
+                      if schedule.setScheduleRuleIndex(rule_period, current_index)
+                        current_index += 1
+                        runner.registerInfo("-------- The rule #{rule_period.name.to_s} is added as priority #{current_index}")
+                      else
+                        runner.registerError("Fail to set rule index for #{rule_period.name.to_s}.")
+                      end
+                    end
+                  end
+                end
+
+              end
+            end
+            ## The original rule will be shifted to the currently lowest priority
+            ## Setting the rule to an existing index will automatically push all other rules after it down
             if schedule.setScheduleRuleIndex(rule, current_index)
+              runner.registerInfo("-------- The original rule #{rule.name.to_s} is shifted to priority #{current_index}")
               current_index += 1
             else
               runner.registerError("Fail to set rule index for #{rule.name.to_s}.")
             end
           end
-        end
 
-        default_day = schedule.defaultDaySchedule
-        if days_covered.include?(false)
-          runner.registerInfo("Some days use default day. Adding new scheduleRule from defaultDaySchedule for applicable date period.")
-          modify_default_day_for_date_period(schedule, default_day, days_covered, os_cooling_start_date1, os_cooling_end_date1,
-                                             cooling_shift_time_start1, cooling_shift_time_end1, cooling_adjustment_ip)
-          optional_cooling_period_inputs.each do |period, period_inputs|
-            os_start_date = period_inputs["date_start"]
-            os_end_date = period_inputs["date_end"]
-            shift_time_start = period_inputs["time_start"]
-            shift_time_end = period_inputs["time_end"]
-            if [os_start_date, os_end_date, shift_time_start, shift_time_end].all?
-              modify_default_day_for_date_period(schedule, default_day, days_covered, os_start_date, os_end_date,
-                                                 shift_time_start, shift_time_end, cooling_adjustment_ip)
-              applicable_flag = true
+        end
+      end
+
+      default_day = schedule.defaultDaySchedule
+      if days_covered.include?(false)
+        runner.registerInfo("Some days use default day. Adding new scheduleRule from defaultDaySchedule for applicable date period.")
+        cooling_adjust_period_inputs.each do |period, period_inputs|
+          os_start_date = period_inputs["date_start"]
+          os_end_date = period_inputs["date_end"]
+          shift_time_start = period_inputs["time_start"]
+          shift_time_end = period_inputs["time_end"]
+          if [os_start_date, os_end_date, shift_time_start, shift_time_end].all?
+            new_default_rule_period = modify_default_day_for_date_period(schedule, default_day, days_covered, os_start_date, os_end_date,
+                                               shift_time_start, shift_time_end, cooling_adjustment_si)
+            schedule.setScheduleRuleIndex(new_default_rule_period, current_index)
+            applicable_flag = true
+            if period == 'period1'
+              final_clg_sch_set_values << new_default_rule_period.daySchedule.values
             end
           end
-          final_clg_sch_set_values << default_day.values
         end
-        ######################################################################
-      else
-        runner.registerWarning("Schedule '#{old_sch_name}' isn't a ScheduleRuleset object and won't be altered by this measure.")
-        os_sch.remove # remove un-used clone
+
       end
+
     end
 
 
     ######################################################################
-    optional_heating_period_inputs = { "period2" => {"date_start"=>os_heating_start_date2, "date_end"=>os_heating_end_date2,
+    heating_adjust_period_inputs = { "period1" => {"date_start"=>os_heating_start_date1, "date_end"=>os_heating_end_date1,
+                                                     "time_start"=>heating_shift_time_start1, "time_end"=>heating_shift_time_end1},
+                                       "period2" => {"date_start"=>os_heating_start_date2, "date_end"=>os_heating_end_date2,
                                                      "time_start"=>heating_shift_time_start2, "time_end"=>heating_shift_time_end2},
                                        "period3" => {"date_start"=>os_heating_start_date3, "date_end"=>os_heating_end_date3,
                                                      "time_start"=>heating_shift_time_start3, "time_end"=>heating_shift_time_end3},
@@ -748,81 +826,132 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
                                                      "time_start"=>heating_shift_time_start5, "time_end"=>heating_shift_time_end5} }
     # make heating schedule adjustments and rename. Put in check to skip and warn if schedule not ruleset
     htg_set_schs.each do |old_sch_name, os_sch| # old name and new object for schedule
-      if !os_sch.to_ScheduleRuleset.empty?
-        schedule = os_sch.to_ScheduleRuleset.get
-        rules = schedule.scheduleRules
-        days_covered = Array.new(7, false)
-        if rules.length <= 0
-          runner.registerWarning("Heating setpoint schedule '#{old_sch_name}' is a ScheduleRuleSet, but has no ScheduleRules associated. It won't be altered by this measure.")
-        else
-          current_index = 0
-          rules.each do |rule|
-            rule_period1 = modify_rule_for_date_period(rule, os_heating_start_date1, os_heating_end_date1,
-                                                       heating_shift_time_start1, heating_shift_time_end1,
-                                                       heating_adjustment_ip, model)
-            if rule_period1
-              applicable_flag = true
-              checkDaysCovered(rule_period1, days_covered)
-              runner.registerInfo("--------------- current days of week coverage: #{days_covered}")
-              if schedule.setScheduleRuleIndex(rule_period1, current_index)
-                current_index += 1
-              else
-                runner.registerError("Fail to set rule index for #{rule_period1.name.to_s}.")
-              end
-            end
-            final_htg_sch_set_values << rule_period1.daySchedule.values
-
-            optional_heating_period_inputs.each do |period, period_inputs|
+      schedule = os_sch.to_ScheduleRuleset.get
+      rules = schedule.scheduleRules
+      days_covered = Array.new(7, false)
+      current_index = 0
+      if rules.length <= 0
+        runner.registerWarning("Heating setpoint schedule '#{old_sch_name}' is a ScheduleRuleSet, but has no ScheduleRules associated. It won't be altered by this measure.")
+      else
+        runner.registerInfo("schedule rule set #{old_sch_name} has #{rules.length} rules.")
+        rules.each do |rule|
+          runner.registerInfo("---- Rule No.#{rule.ruleIndex}: #{rule.name.to_s}")
+          if rule.dateSpecificationType == "SpecificDates"
+            ## if the rule applies to SpecificDates, collect the dates that fall into each adjustment date period,
+            ## and create a new rule for each date period with covered specific dates
+            runner.registerInfo("======= The rule #{rule.name.to_s} only covers specific dates.")
+            ## the specificDates cannot be modified in place because it's a frozen array
+            all_specific_dates = []
+            rule.specificDates.each { |date| all_specific_dates << date }
+            heating_adjust_period_inputs.each do |period, period_inputs|
+              period_inputs["specific_dates"] = []
               os_start_date = period_inputs["date_start"]
               os_end_date = period_inputs["date_end"]
               shift_time_start = period_inputs["time_start"]
               shift_time_end = period_inputs["time_end"]
               if [os_start_date, os_end_date, shift_time_start, shift_time_end].all?
-                rule_period = modify_rule_for_date_period(rule, os_start_date, os_end_date, shift_time_start, shift_time_end,
-                                                          heating_adjustment_ip, model)
+                rule.specificDates.each do |covered_date|
+                  if covered_date >= os_start_date and covered_date <= os_end_date
+                    period_inputs["specific_dates"] << covered_date
+                    all_specific_dates.delete(covered_date)
+                  end
+                end
+                runner.registerInfo("========= Specific dates within date range #{os_start_date.to_s} to #{os_end_date.to_s}: #{period_inputs["specific_dates"].map(&:to_s)}")
+                rule_period = modify_rule_for_specific_dates(rule, os_start_date, os_end_date, shift_time_start, shift_time_end,
+                                                             heating_adjustment_si, period_inputs["specific_dates"])
                 if rule_period
                   applicable_flag = true
+                  if period == "period1"
+                    final_htg_sch_set_values << rule_period.daySchedule.values
+                  end
                   if schedule.setScheduleRuleIndex(rule_period, current_index)
                     current_index += 1
+                    runner.registerInfo("-------- The rule #{rule_period.name.to_s} for #{rule_period.dateSpecificationType} is added as priority #{current_index}")
                   else
                     runner.registerError("Fail to set rule index for #{rule_period.name.to_s}.")
                   end
                 end
-                runner.registerInfo("------------ heating schedule #{old_sch_name} updated for #{rule_period.startDate.get} to #{rule_period.endDate.get}")
+              end
+            end
+            if all_specific_dates.empty?
+              ## if all specific dates have been covered by new rules for each adjustment date period, remove the original rule
+              runner.registerInfo("The original rule is removed since no specific date left")
+            else
+              ## if there's still dates left to be covered, modify the original rule to only cover these dates
+              ## (this is just in case that the rule order was not set correctly, and the original rule is still applied to all specific dates;
+              ##  also to make the logic in OSM more clearer)
+              ## the specificDates cannot be modified in place, so create a new rule with the left dates to replace the original rule
+              original_rule_update = clone_rule_with_new_dayschedule(rule, rule.name.to_s + " - dates left")
+              schedule.setScheduleRuleIndex(original_rule_update, current_index)
+              current_index += 1
+              all_specific_dates.each do |date|
+                original_rule_update.addSpecificDate(date)
+              end
+              runner.registerInfo("-------- The original rule #{rule.name.to_s} is modified to only cover the rest of the dates: #{all_specific_dates.map(&:to_s)}")
+              runner.registerInfo("-------- and is shifted to priority #{current_index}")
+            end
+            rule.remove
+
+          else
+            heating_adjust_period_inputs.each do |period, period_inputs|
+              os_start_date = period_inputs["date_start"]
+              os_end_date = period_inputs["date_end"]
+              shift_time_start = period_inputs["time_start"]
+              shift_time_end = period_inputs["time_end"]
+              if [os_start_date, os_end_date, shift_time_start, shift_time_end].all?
+                overlapped, new_start_dates, new_end_dates = check_date_ranges_overlap(rule, os_start_date, os_end_date)
+                if overlapped
+                  new_start_dates.each_with_index do |start_date, i|
+                    rule_period = modify_rule_for_date_period(rule, start_date, new_end_dates[i], shift_time_start,
+                                                              shift_time_end, heating_adjustment_si)
+                    if rule_period
+                      applicable_flag = true
+                      if period == "period1"
+                        checkDaysCovered(rule_period, days_covered)
+                        final_htg_sch_set_values << rule_period.daySchedule.values
+                      end
+                      if schedule.setScheduleRuleIndex(rule_period, current_index)
+                        current_index += 1
+                        runner.registerInfo("-------- The rule #{rule_period.name.to_s} is added as priority #{current_index}")
+                      else
+                        runner.registerError("Fail to set rule index for #{rule_period.name.to_s}.")
+                      end
+                    end
+                  end
+                end
               end
             end
             # The original rule will be shifted to the currently lowest priority
             # Setting the rule to an existing index will automatically push all other rules after it down
             if schedule.setScheduleRuleIndex(rule, current_index)
+              runner.registerInfo("-------- The original rule #{rule.name.to_s} is shifted to priority #{current_index}")
               current_index += 1
             else
               runner.registerError("Fail to set rule index for #{rule.name.to_s}.")
             end
           end
-        end
 
-        default_day = schedule.defaultDaySchedule
-        if days_covered.include?(false)
-          runner.registerInfo("Some days use default day. Adding new scheduleRule from defaultDaySchedule for applicable date period.")
-          modify_default_day_for_date_period(schedule, default_day, days_covered, os_heating_start_date1, os_heating_end_date1,
-                                             heating_shift_time_start1, heating_shift_time_end1, heating_adjustment_ip)
-          optional_heating_period_inputs.each do |period, period_inputs|
-            os_start_date = period_inputs["date_start"]
-            os_end_date = period_inputs["date_end"]
-            shift_time_start = period_inputs["time_start"]
-            shift_time_end = period_inputs["time_end"]
-            if [os_start_date, os_end_date, shift_time_start, shift_time_end].all?
-              modify_default_day_for_date_period(schedule, default_day, days_covered, os_start_date, os_end_date,
-                                                 shift_time_start, shift_time_end, heating_adjustment_ip)
-              applicable_flag = true
+        end
+      end
+
+      default_day = schedule.defaultDaySchedule
+      if days_covered.include?(false)
+        runner.registerInfo("Some days use default day. Adding new scheduleRule from defaultDaySchedule for applicable date period.")
+        heating_adjust_period_inputs.each do |period, period_inputs|
+          os_start_date = period_inputs["date_start"]
+          os_end_date = period_inputs["date_end"]
+          shift_time_start = period_inputs["time_start"]
+          shift_time_end = period_inputs["time_end"]
+          if [os_start_date, os_end_date, shift_time_start, shift_time_end].all?
+            new_default_rule_period = modify_default_day_for_date_period(schedule, default_day, days_covered, os_start_date, os_end_date,
+                                               shift_time_start, shift_time_end, heating_adjustment_si)
+            schedule.setScheduleRuleIndex(new_default_rule_period, current_index)
+            applicable_flag = true
+            if period == 'period1'
+              final_htg_sch_set_values << new_default_rule_period.daySchedule.values
             end
           end
-          final_htg_sch_set_values << default_day.values
         end
-
-      else
-        runner.registerWarning("Schedule '#{old_sch_name}' isn't a ScheduleRuleset object and won't be altered by this measure.")
-        os_sch.remove # remove un-used clone
       end
     end
 
@@ -866,13 +995,56 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
   end
 
 
+  def check_date_ranges_overlap(rule, adjust_start_date, adjust_end_date)
+    ## check if the original rule applied DateRange overlaps with the adjustment date period
+    overlapped = false
+    new_start_dates = []
+    new_end_dates = []
+    if rule.endDate.get >= rule.startDate.get and rule.startDate.get <= adjust_end_date and rule.endDate.get >= adjust_start_date
+      overlapped = true
+      new_start_dates << [adjust_start_date, rule.startDate.get].max
+      new_end_dates << [adjust_end_date, rule.endDate.get].min
+    elsif rule.endDate.get < rule.startDate.get
+      ## If the DateRange has a endDate < startDate, the range wraps around the year.
+      if rule.endDate.get >= adjust_start_date
+        overlapped = true
+        new_start_dates << adjust_start_date
+        new_end_dates << rule.endDate.get
+      end
+      if rule.startDate.get <= adjust_end_date
+        overlapped = true
+        new_start_dates << rule.startDate.get
+        new_end_dates << adjust_end_date
+      end
+    end
+    return overlapped, new_start_dates, new_end_dates
+  end
 
-  def modify_rule_for_date_period(original_rule, os_start_date, os_end_date, shift_time_start, shift_time_end, lpd_factor, model)
+  def clone_rule_with_new_dayschedule(original_rule, new_rule_name)
+    ## Cloning a scheduleRule will automatically clone the daySchedule associated with it, but it's a shallow copy,
+    ## because the daySchedule is a resource that can be used by many scheduleRule
+    ## Therefore, once the daySchedule is modified for the cloned scheduleRule, the original daySchedule is also changed
+    ## Also, there's no function to assign a new daySchedule to the existing scheduleRule,
+    ## so the only way to clone the scheduleRule but change the daySchedule is to construct a new scheduleRule with a daySchedule passed in
+    ## and copy all other settings from the original scheduleRule
+    rule_period = OpenStudio::Model::ScheduleRule.new(original_rule.scheduleRuleset, original_rule.daySchedule)
+    rule_period.setName(new_rule_name)
+    rule_period.setApplySunday(original_rule.applySunday)
+    rule_period.setApplyMonday(original_rule.applyMonday)
+    rule_period.setApplyTuesday(original_rule.applyTuesday)
+    rule_period.setApplyWednesday(original_rule.applyWednesday)
+    rule_period.setApplyThursday(original_rule.applyThursday)
+    rule_period.setApplyFriday(original_rule.applyFriday)
+    rule_period.setApplySaturday(original_rule.applySaturday)
+    return rule_period
+  end
+
+  def modify_rule_for_date_period(original_rule, os_start_date, os_end_date, shift_time_start, shift_time_end, adjustment)
     # The cloned scheduleRule will automatically belongs to the originally scheduleRuleSet
-    rule_period = original_rule.clone(model).to_ScheduleRule.get
-    rule_period.setName("#{original_rule.name.to_s} with DF for #{os_start_date.to_s}-#{os_end_date.to_s}")
-    rule_period.setStartDate(os_start_date)
-    rule_period.setEndDate(os_end_date)
+    # rule_period = original_rule.clone(model).to_ScheduleRule.get
+    # rule_period.daySchedule = original_rule.daySchedule.clone(model)
+    new_rule_name = "#{original_rule.name.to_s} with DF for #{os_start_date.to_s} to #{os_end_date.to_s}"
+    rule_period = clone_rule_with_new_dayschedule(original_rule, new_rule_name)
     day_rule_period = rule_period.daySchedule
     day_time_vector = day_rule_period.times
     day_value_vector = day_rule_period.values
@@ -880,15 +1052,39 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
       return false
     end
     day_rule_period.clearValues
-    day_rule_period = updateDaySchedule(day_rule_period, day_time_vector, day_value_vector, shift_time_start, shift_time_end, lpd_factor)
+    updateDaySchedule(day_rule_period, day_time_vector, day_value_vector, shift_time_start, shift_time_end, adjustment)
+    if rule_period
+      rule_period.setStartDate(os_start_date)
+      rule_period.setEndDate(os_end_date)
+    end
+    return rule_period
+  end
+
+  def modify_rule_for_specific_dates(original_rule, os_start_date, os_end_date, shift_time_start, shift_time_end,
+                                     adjustment, applied_dates)
+    new_rule_name = "#{original_rule.name.to_s} with DF for #{os_start_date.to_s} to #{os_end_date.to_s}"
+    rule_period = clone_rule_with_new_dayschedule(original_rule, new_rule_name)
+    day_rule_period = rule_period.daySchedule
+    day_time_vector = day_rule_period.times
+    day_value_vector = day_rule_period.values
+    if day_time_vector.empty?
+      return false
+    end
+    day_rule_period.clearValues
+    updateDaySchedule(day_rule_period, day_time_vector, day_value_vector, shift_time_start, shift_time_end, adjustment)
+    if rule_period
+      applied_dates.each do |date|
+        rule_period.addSpecificDate(date)
+      end
+    end
     return rule_period
   end
 
   def modify_default_day_for_date_period(schedule_set, default_day, days_covered, os_start_date, os_end_date,
-                                         shift_time_start, shift_time_end, lpd_factor)
+                                         shift_time_start, shift_time_end, adjustment)
     # the new rule created for the ScheduleRuleSet by default has the highest priority (ruleIndex=0)
     new_default_rule = OpenStudio::Model::ScheduleRule.new(schedule_set, default_day)
-    new_default_rule.setName("#{schedule_set.name.to_s} default day with DF for #{os_start_date.to_s}-#{os_end_date.to_s}")
+    new_default_rule.setName("#{schedule_set.name.to_s} default day with DF for #{os_start_date.to_s} to #{os_end_date.to_s}")
     new_default_rule.setStartDate(os_start_date)
     new_default_rule.setEndDate(os_end_date)
     coverMissingDays(new_default_rule, days_covered)
@@ -896,8 +1092,9 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
     day_time_vector = new_default_day.times
     day_value_vector = new_default_day.values
     new_default_day.clearValues
-    new_default_day = updateDaySchedule(new_default_day, day_time_vector, day_value_vector, shift_time_start, shift_time_end, lpd_factor)
-    schedule_set.setScheduleRuleIndex(new_default_rule, 0)
+    new_default_day = updateDaySchedule(new_default_day, day_time_vector, day_value_vector, shift_time_start, shift_time_end, adjustment)
+    # schedule_set.setScheduleRuleIndex(new_default_rule, 0)
+    return new_default_rule
     # TODO: if the scheduleRuleSet has holidaySchedule (which is a ScheduleDay), it cannot be altered
   end
 
@@ -952,9 +1149,44 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
 
   end
 
+  def updateDaySchedule(sch_day, vec_time, vec_value, time_begin, time_end, adjustment)
+    count = 0
+    vec_time.each_with_index do |exist_timestamp, i|
+      adjusted_value = vec_value[i] + adjustment
+      if exist_timestamp > time_begin && exist_timestamp < time_end && count == 0
+        sch_day.addValue(time_begin, vec_value[i])
+        sch_day.addValue(exist_timestamp, adjusted_value)
+        count = 1
+      elsif exist_timestamp == time_end && count == 0
+        sch_day.addValue(time_begin, vec_value[i])
+        sch_day.addValue(exist_timestamp, adjusted_value)
+        count = 2
+      elsif exist_timestamp == time_begin && count == 0
+        sch_day.addValue(exist_timestamp, vec_value[i])
+        count = 1
+      elsif exist_timestamp > time_end && count == 0
+        sch_day.addValue(time_begin, vec_value[i])
+        sch_day.addValue(time_end, adjusted_value)
+        sch_day.addValue(exist_timestamp,  vec_value[i])
+        count = 2
+      elsif exist_timestamp > time_begin && exist_timestamp < time_end && count==1
+        sch_day.addValue(exist_timestamp, adjusted_value)
+      elsif exist_timestamp == time_end && count==1
+        sch_day.addValue(exist_timestamp, adjusted_value)
+        count = 2
+      elsif exist_timestamp > time_end && count == 1
+        sch_day.addValue(time_end, adjusted_value)
+        sch_day.addValue(exist_timestamp, vec_value[i])
+        count = 2
+      else
+        sch_day.addValue(exist_timestamp, vec_value[i])
+      end
+    end
+    return sch_day
+  end
 
   # TODO check if this function works
-  def updateDaySchedule(sch_day, vec_time, vec_value, time_begin, time_end, adjustment)
+  def updateDaySchedule_old(sch_day, vec_time, vec_value, time_begin, time_end, adjustment)
     # indicator: 0:schedule unchanged, 1:schedule changed at least once, 2:schedule change completed
     count = 0
     for i in 0..(vec_time.size - 1)

@@ -91,16 +91,16 @@ class ReduceEPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
     args << end_date5
 
     # make an argument for the start time of the reduction
-    start_time = OpenStudio::Measure::OSArgument.makeStringArgument('start_time', true)
-    start_time.setDisplayName('Start time of the reduction for the first season')
-    start_time.setDescription('In HH:MM:SS format')
-    start_time.setDefaultValue('17:00:00')
-    args << start_time
-    end_time = OpenStudio::Measure::OSArgument.makeStringArgument('end_time', true)
-    end_time.setDisplayName('End time of the reduction for the first season')
-    end_time.setDescription('In HH:MM:SS format')
-    end_time.setDefaultValue('21:00:00')
-    args << end_time
+    start_time1 = OpenStudio::Measure::OSArgument.makeStringArgument('start_time1', true)
+    start_time1.setDisplayName('Start time of the reduction for the first season')
+    start_time1.setDescription('In HH:MM:SS format')
+    start_time1.setDefaultValue('17:00:00')
+    args << start_time1
+    end_time1 = OpenStudio::Measure::OSArgument.makeStringArgument('end_time1', true)
+    end_time1.setDisplayName('End time of the reduction for the first season')
+    end_time1.setDescription('In HH:MM:SS format')
+    end_time1.setDefaultValue('21:00:00')
+    args << end_time1
 
 
     start_time2 = OpenStudio::Measure::OSArgument.makeStringArgument('start_time2', false)
@@ -170,8 +170,8 @@ class ReduceEPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
       return false
     end
     epd_reduce_percent = runner.getDoubleArgumentValue('epd_reduce_percent', user_arguments)
-    start_time = runner.getStringArgumentValue('start_time', user_arguments)
-    end_time = runner.getStringArgumentValue('end_time', user_arguments)
+    start_time1 = runner.getStringArgumentValue('start_time1', user_arguments)
+    end_time1 = runner.getStringArgumentValue('end_time1', user_arguments)
     start_time2 = runner.getStringArgumentValue('start_time2', user_arguments)
     end_time2 = runner.getStringArgumentValue('end_time2', user_arguments)
     start_time3 = runner.getStringArgumentValue('start_time3', user_arguments)
@@ -185,9 +185,9 @@ class ReduceEPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
     start_date2 = runner.getStringArgumentValue('start_date2', user_arguments)
     end_date2 = runner.getStringArgumentValue('end_date2', user_arguments)
     start_date3 = runner.getStringArgumentValue('start_date3', user_arguments)
-    end_date3 = runner.getStringArgumentValue('end_date4', user_arguments)
+    end_date3 = runner.getStringArgumentValue('end_date3', user_arguments)
     start_date4 = runner.getStringArgumentValue('start_date4', user_arguments)
-    end_date4 = runner.getStringArgumentValue('end_date5', user_arguments)
+    end_date4 = runner.getStringArgumentValue('end_date4', user_arguments)
     start_date5 = runner.getStringArgumentValue('start_date5', user_arguments)
     end_date5 = runner.getStringArgumentValue('end_date5', user_arguments)
     alt_periods = runner.getBoolArgumentValue('alt_periods', user_arguments)
@@ -200,7 +200,7 @@ class ReduceEPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
       runner.registerWarning('The percentage reduction of electric equipment power is negative. This will increase the electric equipment power.')
     end
 
-    # set the default start and end time based on climate zone
+    # set the default start and end time based on state
     if alt_periods
       state = model.getWeatherFile.stateProvinceRegion
       runner.registerInfo("Using weather file for #{state} state.")
@@ -208,8 +208,8 @@ class ReduceEPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
       default_peak_periods = JSON.load(file)
       file.close
       peak_periods = default_peak_periods[state]
-      start_time = peak_periods["winter_peak_start"].split[1]
-      end_time = peak_periods["winter_peak_end"].split[1]
+      start_time1 = peak_periods["winter_peak_start"].split[1]
+      end_time1 = peak_periods["winter_peak_end"].split[1]
       start_time2 = peak_periods["intermediate_peak_start"].split[1]
       end_time2 = peak_periods["intermediate_peak_end"].split[1]
       start_time3 = peak_periods["summer_peak_start"].split[1]
@@ -248,7 +248,7 @@ class ReduceEPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
       end
     end
 
-    def validate_date_format(start_date1, end_date1, runner)
+    def validate_date_format(start_date1, end_date1, runner, model)
       smd = /(\d\d)-(\d\d)/.match(start_date1)
       emd = /(\d\d)-(\d\d)/.match(end_date1)
       if smd.nil? or emd.nil?
@@ -263,15 +263,17 @@ class ReduceEPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
           runner.registerError('The start date cannot be later date the end time.')
           return false
         else
-          os_start_date = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(start_month), start_day)
-          os_end_date = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(end_month), end_day)
+          # os_start_date = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(start_month), start_day)
+          # os_end_date = OpenStudio::Date.new(OpenStudio::MonthOfYear.new(end_month), end_day)
+          os_start_date = model.getYearDescription.makeDate(start_month, start_day)
+          os_end_date = model.getYearDescription.makeDate(end_month, end_day)
           return os_start_date, os_end_date
         end
       end
     end
 
     # First time period
-    time_result1 = validate_time_format(start_time, end_time, runner)
+    time_result1 = validate_time_format(start_time1, end_time1, runner)
     if time_result1
       shift_time_start1, shift_time_end1 = time_result1
     else
@@ -307,7 +309,7 @@ class ReduceEPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
 
 
     # First date period
-    date_result1 = validate_date_format(start_date1, end_date1, runner)
+    date_result1 = validate_date_format(start_date1, end_date1, runner, model)
     if date_result1
       os_start_date1, os_end_date1 = date_result1
     else
@@ -317,28 +319,28 @@ class ReduceEPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
     # Other optional date period
     os_start_date2, os_end_date2, os_start_date3, os_end_date3, os_start_date4, os_end_date4, os_start_date5, os_end_date5 = [nil]*8
     if (not start_date2.empty?) and (not end_date2.empty?)
-      date_result2 = validate_date_format(start_date2, end_date2, runner)
+      date_result2 = validate_date_format(start_date2, end_date2, runner, model)
       if date_result2
         os_start_date2, os_end_date2 = date_result2
       end
     end
 
     if (not start_date3.empty?) and (not end_date3.empty?)
-      date_result3 = validate_date_format(start_date3, end_date3, runner)
+      date_result3 = validate_date_format(start_date3, end_date3, runner, model)
       if date_result3
         os_start_date3, os_end_date3 = date_result3
       end
     end
 
     if (not start_date4.empty?) and (not end_date4.empty?)
-      date_result4 = validate_date_format(start_date4, end_date4, runner)
+      date_result4 = validate_date_format(start_date4, end_date4, runner, model)
       if date_result4
         os_start_date4, os_end_date4 = date_result4
       end
     end
 
     if (not start_date5.empty?) and (not end_date5.empty?)
-      date_result5 = validate_date_format(start_date5, end_date5, runner)
+      date_result5 = validate_date_format(start_date5, end_date5, runner, model)
       if date_result5
         os_start_date5, os_end_date5 = date_result5
       end
@@ -387,7 +389,9 @@ class ReduceEPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
                               "Conference",
                               "OfficeSmall"]
 
-    optional_period_inputs = { "period2" => {"date_start"=>os_start_date2, "date_end"=>os_end_date2,
+    adjust_period_inputs = { "period1" => {"date_start"=>os_start_date1, "date_end"=>os_end_date1,
+                                             "time_start"=>shift_time_start1, "time_end"=>shift_time_end1},
+                               "period2" => {"date_start"=>os_start_date2, "date_end"=>os_end_date2,
                                              "time_start"=>shift_time_start2, "time_end"=>shift_time_end2},
                                "period3" => {"date_start"=>os_start_date3, "date_end"=>os_end_date3,
                                              "time_start"=>shift_time_start3, "time_end"=>shift_time_end3},
@@ -403,6 +407,7 @@ class ReduceEPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
     equip_schedules = {}
     equipments.each do |equip|
       space_type = nil
+      # the equipment can belong to a spaceType or a space
       if equip.spaceType.is_initialized
         space_type = equip.spaceType.get
       elsif equip.space.is_initialized and equip.space.get.spaceType.is_initialized
@@ -436,8 +441,6 @@ class ReduceEPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
         end
       end
 
-
-
     end
 
     equip_schedules.each do |old_name, cloned_equip_sch|
@@ -445,73 +448,137 @@ class ReduceEPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
       rules = schedule_set.scheduleRules
       days_covered = Array.new(7, false)
       original_rule_number = rules.length
+      current_index = 0
       if original_rule_number > 0
-        runner.registerInfo("------------ schedule rule set #{old_name} has #{original_rule_number} rules.")
-        current_index = 0
+        runner.registerInfo("schedule rule set #{old_name} has #{original_rule_number} rules.")
         # rules are in order of priority
         rules.each do |rule|
-          runner.registerInfo("------------ Rule #{rule.ruleIndex}: #{rule.daySchedule.name.to_s}")
-          rule_period1 = modify_rule_for_date_period(rule, os_start_date1, os_end_date1, shift_time_start1, shift_time_end1, epd_factor, model)
-          if rule_period1
-            applicable = true
-            checkDaysCovered(rule_period1, days_covered)
-            runner.registerInfo("--------------- current days of week coverage: #{days_covered}")
-            if schedule_set.setScheduleRuleIndex(rule_period1, current_index)
-              current_index += 1
-            else
-              runner.registerError("Fail to set rule index for #{rule_period1.name.to_s}.")
-            end
-          end
-
-          optional_period_inputs.each do |period, period_inputs|
-            os_start_date = period_inputs["date_start"]
-            os_end_date = period_inputs["date_end"]
-            shift_time_start = period_inputs["time_start"]
-            shift_time_end = period_inputs["time_end"]
-            if [os_start_date, os_end_date, shift_time_start, shift_time_end].all?
-              rule_period = modify_rule_for_date_period(rule, os_start_date, os_end_date, shift_time_start, shift_time_end, epd_factor, model)
-              if rule_period
-                if schedule_set.setScheduleRuleIndex(rule_period, current_index)
-                  current_index += 1
-                else
-                  runner.registerError("Fail to set rule index for #{rule_period.name.to_s}.")
+          runner.registerInfo("---- Rule No.#{rule.ruleIndex}: #{rule.name.to_s}")
+          if rule.dateSpecificationType == "SpecificDates"
+            ## if the rule applies to SpecificDates, collect the dates that fall into each adjustment date period,
+            ## and create a new rule for each date period with covered specific dates
+            runner.registerInfo("======= The rule #{rule.name.to_s} only covers specific dates.")
+            ## the specificDates cannot be modified in place because it's a frozen array
+            all_specific_dates = []
+            rule.specificDates.each { |date| all_specific_dates << date }
+            adjust_period_inputs.each do |period, period_inputs|
+              period_inputs["specific_dates"] = []
+              os_start_date = period_inputs["date_start"]
+              os_end_date = period_inputs["date_end"]
+              shift_time_start = period_inputs["time_start"]
+              shift_time_end = period_inputs["time_end"]
+              if [os_start_date, os_end_date, shift_time_start, shift_time_end].all?
+                rule.specificDates.each do |covered_date|
+                  if covered_date >= os_start_date and covered_date <= os_end_date
+                    period_inputs["specific_dates"] << covered_date
+                    all_specific_dates.delete(covered_date)
+                  end
+                end
+                runner.registerInfo("========= Specific dates within date range #{os_start_date.to_s} to #{os_end_date.to_s}: #{period_inputs["specific_dates"].map(&:to_s)}")
+                runner.registerInfo("!!! Specific dates haven't been covered: #{all_specific_dates.map(&:to_s)}")
+                next if period_inputs["specific_dates"].empty?
+                rule_period = modify_rule_for_specific_dates(rule, os_start_date, os_end_date, shift_time_start, shift_time_end,
+                                                             epd_factor, period_inputs["specific_dates"])
+                if rule_period
+                  applicable = true
+                  if schedule_set.setScheduleRuleIndex(rule_period, current_index)
+                    current_index += 1
+                    runner.registerInfo("-------- The rule #{rule_period.name.to_s} for #{rule_period.dateSpecificationType} is added as priority #{current_index}")
+                  else
+                    runner.registerError("Fail to set rule index for #{rule_period.name.to_s}.")
+                  end
                 end
               end
-              runner.registerInfo("    ------------ schedule updated for #{rule_period.startDate.get} to #{rule_period.endDate.get}")
+            end
+            if all_specific_dates.empty?
+              ## if all specific dates have been covered by new rules for each adjustment date period, remove the original rule
+              runner.registerInfo("The original rule is removed since no specific date left")
+            else
+              ## if there's still dates left to be covered, modify the original rule to only cover these dates
+              ## (this is just in case that the rule order was not set correctly, and the original rule is still applied to all specific dates;
+              ##  also to make the logic in OSM more clearer)
+              ## the specificDates cannot be modified in place, so create a new rule with the left dates to replace the original rule
+              original_rule_update = clone_rule_with_new_dayschedule(rule, rule.name.to_s + " - dates left")
+              schedule_set.setScheduleRuleIndex(original_rule_update, current_index)
+              current_index += 1
+              all_specific_dates.each do |date|
+                original_rule_update.addSpecificDate(date)
+              end
+              runner.registerInfo("-------- The original rule #{rule.name.to_s} is modified to only cover the rest of the dates: #{all_specific_dates.map(&:to_s)}")
+              runner.registerInfo("-------- and is shifted to priority #{current_index}")
+            end
+            rule.remove
+
+          else
+            ## If the rule applies to a DateRange, check if the DateRange overlaps with each adjustment date period
+            ## if so, create a new rule for that adjustment date period
+            runner.registerInfo("******* The rule #{rule.name.to_s} covers date range #{rule.startDate.get} - #{rule.endDate.get}.")
+            # runner.registerInfo("Before adjustment, the rule #{rule.name.to_s} is #{rule.daySchedule.values}")
+
+            adjust_period_inputs.each do |period, period_inputs|
+              os_start_date = period_inputs["date_start"]
+              os_end_date = period_inputs["date_end"]
+              shift_time_start = period_inputs["time_start"]
+              shift_time_end = period_inputs["time_end"]
+              if [os_start_date, os_end_date, shift_time_start, shift_time_end].all?
+                overlapped, new_start_dates, new_end_dates = check_date_ranges_overlap(rule, os_start_date, os_end_date)
+                if overlapped
+                  new_start_dates.each_with_index do |start_date, i|
+                    rule_period = modify_rule_for_date_period(rule, start_date, new_end_dates[i], shift_time_start, shift_time_end, epd_factor)
+                    if rule_period
+                      applicable = true
+                      if period == "period1"
+                        # check the days covered only once
+                        checkDaysCovered(rule_period, days_covered)
+                      end
+                      if schedule_set.setScheduleRuleIndex(rule_period, current_index)
+                        runner.registerInfo("-------- The rule #{rule_period.name.to_s} is added as priority #{current_index}")
+                        current_index += 1
+                      else
+                        runner.registerError("-------- Fail to set rule index for #{rule_period.name.to_s}.")
+                      end
+                    end
+                  end
+                end
+              end
+            end
+            # The original rule will be shifted to the currently lowest priority
+            # Setting the rule to an existing index will automatically push all other rules after it down
+            if schedule_set.setScheduleRuleIndex(rule, current_index)
+              runner.registerInfo("-------- The original rule #{rule.name.to_s} is shifted to priority #{current_index}")
+              current_index += 1
+            else
+              runner.registerError("-------- Fail to set rule index for #{rule.name.to_s}")
             end
           end
 
-          # The original rule will be shifted to the currently lowest priority
-          # Setting the rule to an existing index will automatically push all other rules after it down
-          if schedule_set.setScheduleRuleIndex(rule, current_index)
-            current_index += 1
-          else
-            runner.registerError("Fail to set rule index for #{rule.name.to_s}.")
-          end
         end
       else
         runner.registerWarning("Electric equipment schedule #{old_name} is a ScheduleRuleSet, but has no ScheduleRules associated. It won't be altered by this measure.")
       end
 
+      # if all rules not covered all days in a week, then the rest of days use defaultDaySchedule
+      # defaultDaySchedule cannot specify date range, so clone it to a new rule to set date range and cover the rest of days
       default_day = schedule_set.defaultDaySchedule
       if days_covered.include?(false)
         runner.registerInfo("Some days use default day. Adding new scheduleRule from defaultDaySchedule for applicable date period.")
-        modify_default_day_for_date_period(schedule_set, default_day, days_covered, os_start_date1, os_end_date1,
-                                           shift_time_start1, shift_time_end1, epd_factor)
-        optional_period_inputs.each do |period, period_inputs|
+        adjust_period_inputs.each do |period, period_inputs|
+          runner.registerInfo("******** current covered days: #{days_covered}")
           os_start_date = period_inputs["date_start"]
           os_end_date = period_inputs["date_end"]
           shift_time_start = period_inputs["time_start"]
           shift_time_end = period_inputs["time_end"]
           if [os_start_date, os_end_date, shift_time_start, shift_time_end].all?
-            modify_default_day_for_date_period(schedule_set, default_day, days_covered, os_start_date, os_end_date,
+            new_default_rule_period = modify_default_day_for_date_period(schedule_set, default_day, days_covered, os_start_date, os_end_date,
                                                shift_time_start, shift_time_end, epd_factor)
+            schedule_set.setScheduleRuleIndex(new_default_rule_period, current_index)
           end
         end
       end
-
+      # schedule_set.scheduleRules.each do |final_rule|
+      #   runner.registerInfo("Finally rules： #{final_rule.name.to_s} is in priority #{final_rule.ruleIndex}")
+      # end
     end
-
 
     unless applicable
       runner.registerAsNotApplicable('No electric equipment schedule in the model could be altered.')
@@ -520,13 +587,56 @@ class ReduceEPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
     return true
   end
 
+  def check_date_ranges_overlap(rule, adjust_start_date, adjust_end_date)
+    ## check if the original rule applied DateRange overlaps with the adjustment date period
+    overlapped = false
+    new_start_dates = []
+    new_end_dates = []
+    if rule.endDate.get >= rule.startDate.get and rule.startDate.get <= adjust_end_date and rule.endDate.get >= adjust_start_date
+      overlapped = true
+      new_start_dates << [adjust_start_date, rule.startDate.get].max
+      new_end_dates << [adjust_end_date, rule.endDate.get].min
+    elsif rule.endDate.get < rule.startDate.get
+      ## If the DateRange has a endDate < startDate, the range wraps around the year.
+      if rule.endDate.get >= adjust_start_date
+        overlapped = true
+        new_start_dates << adjust_start_date
+        new_end_dates << rule.endDate.get
+      end
+      if rule.startDate.get <= adjust_end_date
+        overlapped = true
+        new_start_dates << rule.startDate.get
+        new_end_dates << adjust_end_date
+      end
+    end
+    return overlapped, new_start_dates, new_end_dates
+  end
 
-  def modify_rule_for_date_period(original_rule, os_start_date, os_end_date, shift_time_start, shift_time_end, lpd_factor, model)
+  def clone_rule_with_new_dayschedule(original_rule, new_rule_name)
+    ## Cloning a scheduleRule will automatically clone the daySchedule associated with it, but it's a shallow copy,
+    ## because the daySchedule is a resource that can be used by many scheduleRule
+    ## Therefore, once the daySchedule is modified for the cloned scheduleRule, the original daySchedule is also changed
+    ## Also, there's no function to assign a new daySchedule to the existing scheduleRule,
+    ## so the only way to clone the scheduleRule but change the daySchedule is to construct a new scheduleRule with a daySchedule passed in
+    ## and copy all other settings from the original scheduleRule
+    rule_period = OpenStudio::Model::ScheduleRule.new(original_rule.scheduleRuleset, original_rule.daySchedule)
+    rule_period.setName(new_rule_name)
+    rule_period.setApplySunday(original_rule.applySunday)
+    rule_period.setApplyMonday(original_rule.applyMonday)
+    rule_period.setApplyTuesday(original_rule.applyTuesday)
+    rule_period.setApplyWednesday(original_rule.applyWednesday)
+    rule_period.setApplyThursday(original_rule.applyThursday)
+    rule_period.setApplyFriday(original_rule.applyFriday)
+    rule_period.setApplySaturday(original_rule.applySaturday)
+    return rule_period
+  end
+
+  def modify_rule_for_date_period(original_rule, os_start_date, os_end_date, shift_time_start, shift_time_end, adjustment)
     # The cloned scheduleRule will automatically belongs to the originally scheduleRuleSet
-    rule_period = original_rule.clone(model).to_ScheduleRule.get
-    rule_period.setName("#{original_rule.name.to_s} with DF for #{os_start_date.to_s}-#{os_end_date.to_s}")
-    rule_period.setStartDate(os_start_date)
-    rule_period.setEndDate(os_end_date)
+    # rule_period = original_rule.clone(model).to_ScheduleRule.get
+    # rule_period.daySchedule = original_rule.daySchedule.clone(model)
+    new_rule_name = "#{original_rule.name.to_s} with DF for #{os_start_date.to_s} to #{os_end_date.to_s}"
+    rule_period = clone_rule_with_new_dayschedule(original_rule, new_rule_name)
     day_rule_period = rule_period.daySchedule
     day_time_vector = day_rule_period.times
     day_value_vector = day_rule_period.values
@@ -534,15 +644,39 @@ class ReduceEPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
       return false
     end
     day_rule_period.clearValues
-    day_rule_period = updateDaySchedule(day_rule_period, day_time_vector, day_value_vector, shift_time_start, shift_time_end, lpd_factor)
+    updateDaySchedule(day_rule_period, day_time_vector, day_value_vector, shift_time_start, shift_time_end, adjustment)
+    if rule_period
+      rule_period.setStartDate(os_start_date)
+      rule_period.setEndDate(os_end_date)
+    end
+    return rule_period
+  end
+
+  def modify_rule_for_specific_dates(original_rule, os_start_date, os_end_date, shift_time_start, shift_time_end,
+                                     adjustment, applied_dates)
+    new_rule_name = "#{original_rule.name.to_s} with DF for #{os_start_date.to_s} to #{os_end_date.to_s}"
+    rule_period = clone_rule_with_new_dayschedule(original_rule, new_rule_name)
+    day_rule_period = rule_period.daySchedule
+    day_time_vector = day_rule_period.times
+    day_value_vector = day_rule_period.values
+    if day_time_vector.empty?
+      return false
+    end
+    day_rule_period.clearValues
+    updateDaySchedule(day_rule_period, day_time_vector, day_value_vector, shift_time_start, shift_time_end, adjustment)
+    if rule_period
+      applied_dates.each do |date|
+        rule_period.addSpecificDate(date)
+      end
+    end
     return rule_period
   end
 
   def modify_default_day_for_date_period(schedule_set, default_day, days_covered, os_start_date, os_end_date,
-                                         shift_time_start, shift_time_end, lpd_factor)
+                                         shift_time_start, shift_time_end, epd_factor)
     # the new rule created for the ScheduleRuleSet by default has the highest priority (ruleIndex=0)
     new_default_rule = OpenStudio::Model::ScheduleRule.new(schedule_set, default_day)
-    new_default_rule.setName("#{schedule_set.name.to_s} default day with DF for #{os_start_date.to_s}-#{os_end_date.to_s}")
+    new_default_rule.setName("#{schedule_set.name.to_s} default day with DF for #{os_start_date.to_s} to #{os_end_date.to_s}")
     new_default_rule.setStartDate(os_start_date)
     new_default_rule.setEndDate(os_end_date)
     coverMissingDays(new_default_rule, days_covered)
@@ -550,8 +684,9 @@ class ReduceEPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
     day_time_vector = new_default_day.times
     day_value_vector = new_default_day.values
     new_default_day.clearValues
-    new_default_day = updateDaySchedule(new_default_day, day_time_vector, day_value_vector, shift_time_start, shift_time_end, lpd_factor)
-    schedule_set.setScheduleRuleIndex(new_default_rule, 0)
+    new_default_day = updateDaySchedule(new_default_day, day_time_vector, day_value_vector, shift_time_start, shift_time_end, epd_factor)
+    # schedule_set.setScheduleRuleIndex(new_default_rule, 0)
+    return new_default_rule
     # TODO: if the scheduleRuleSet has holidaySchedule (which is a ScheduleDay), it cannot be altered
   end
 
