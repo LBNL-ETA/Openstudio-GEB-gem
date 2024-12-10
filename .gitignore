@@ -5,6 +5,7 @@
 /gems
 /_yardoc/
 /coverage/
+/.coverage
 /doc/
 /pkg/
 /spec/*
@@ -13,6 +14,8 @@
 !/spec/spec_helper.rb
 /test/
 /lib/measures/test_results
+/lib/measures/test
+/lib/measures/files
 /lib/measures/.rubocop*
 /lib/measures/staged
 /lib/measures/staged/*
