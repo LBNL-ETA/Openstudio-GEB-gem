@@ -567,12 +567,39 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
     heating_adjustment_ip = OpenStudio::Quantity.new(heating_adjustment, TEMP_IP_UNIT)
     heating_adjustment_si = heating_adjustment * 5 / 9.0
 
+    exclude_space_types = ["ER_Exam", "ER_NurseStn", "ER_Trauma", "ER_Triage", "ICU_NurseStn", "ICU_Open", "ICU_PatRm", "Lab",
+                           "OR", "Anesthesia", "BioHazard", "Exam", "MedGas", "OR", "PACU", "PreOp", "ProcedureRoom", "Lab with fume hood",
+                           'HspSurgOutptLab', "RefWalkInCool", "RefWalkInFreeze", "HspSurgOutptLab", "RefStorFreezer", "RefStorCooler"]
     # push schedules to hash to avoid making unnecessary duplicates
     clg_set_schs = {}
     htg_set_schs = {}
     # get spaces
     thermostats = model.getThermostatSetpointDualSetpoints
     thermostats.each do |thermostat|
+      thermal_zone = thermostat.to_Thermostat.get.thermalZone.get
+      if thermal_zone.is_initialized
+        zone_applicable = true
+        thermal_zone.get.spaces.each do |space|
+          if space.spaceType.is_initialized and space.spaceType.get.standardsSpaceType.is_initialized
+            space_type = space.spaceType.get.standardsSpaceType.get
+            if exclude_space_types.include?space_type
+              runner.registerInfo("The thermal zone #{thermal_zone.name.to_s} for thermostat #{thermostat.name.to_s} contains a space type #{space_type} that's not applicable")
+              zone_applicable = false
+              break
+            end
+          end
+        end
+        next unless zone_applicable
+      else
+        runner.registerInfo("Thermostat #{thermostat.name.to_s} does not have a thermal zone")
+        next
+      end
+      clg_fuels = thermal_zone.coolingFuelTypes.map(&:valueName).uniq
+      htg_fuels = thermal_zone.get.heatingFuelTypes.map(&:valueName).uniq
+      unless clg_fuels.include?"Electricity" or htg_fuels.include?"Electricity"
+        runner.registerInfo("The space conditioning for thermostat #{thermostat.name.to_s} in thermal zone #{thermal_zone.get.name.to_s} does not use electricity, so it won't be altered.")
+        next
+      end
       # setup new cooling setpoint schedule
       clg_set_sch = thermostat.coolingSetpointTemperatureSchedule
 
@@ -951,6 +978,22 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
               final_htg_sch_set_values << new_default_rule_period.daySchedule.values
             end
           end
+        end
+      end
+    end
+
+
+    model.getEnergyManagementSystemActuators.each do |ems_actuator|
+      if ems_actuator.actuatedComponent.is_initialized
+        old_sch_name = ems_actuator.actuatedComponent.get.name.to_s
+        if clg_set_schs.key?old_sch_name
+          replaced_sch = clg_set_schs[old_sch_name]
+          ems_actuator.setActuatedComponent(replaced_sch)
+          runner.registerInfo("The actuator component for EMS actuator #{ems_actuator.name.to_s} has been changed from #{old_sch_name} to #{replaced_sch.name.to_s}")
+        elsif htg_set_schs.key?old_sch_name
+          replaced_sch = htg_set_schs[old_sch_name]
+          ems_actuator.setActuatedComponent(replaced_sch)
+          runner.registerInfo("The actuator component for EMS actuator #{ems_actuator.name.to_s} has been changed from #{old_sch_name} to #{replaced_sch.name.to_s}")
         end
       end
     end

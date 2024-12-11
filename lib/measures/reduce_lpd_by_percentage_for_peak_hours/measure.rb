@@ -391,11 +391,24 @@ class ReduceLPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
                                "period5" => {"date_start"=>os_start_date5, "date_end"=>os_end_date5,
                                              "time_start"=>shift_time_start5, "time_end"=>shift_time_end5} }
 
+
+    exclude_space_types = ["ER_Exam", "ER_NurseStn", "ER_Trauma", "ER_Triage", "ICU_NurseStn", "ICU_Open", "ICU_PatRm", "Lab",
+                           "OR", "Anesthesia", "BioHazard", "Exam", "MedGas", "OR", "PACU", "PreOp", "ProcedureRoom", "Lab with fume hood", 'HspSurgOutptLab']
+
     applicable =  false
-    lights = model.getLightss
     # create a hash to map the old schedule name to the new schedule
     light_schedules = {}
-    lights.each do |light|
+    model.getLightss.each do |light|
+      space_type = nil
+      if light.spaceType.is_initialized
+        space_type = light.spaceType.get
+      elsif light.space.is_initialized and light.space.get.spaceType.is_initialized
+        space_type = light.space.get.spaceType.get
+      end
+      if space_type and space_type.standardsSpaceType.is_initialized and exclude_space_types.include?space_type.standardsSpaceType.get
+        runner.registerInfo("The light #{light.name} belongs to space type #{space_type.standardsSpaceType.get}, which is not applicable")
+        next
+      end
       light_sch = light.schedule
       if light_sch.empty?
         runner.registerWarning("#{light.name} doesn't have a schedule.")

@@ -423,13 +423,40 @@ class Preheating < OpenStudio::Measure::ModelMeasure
     # end
 
 
-    
+    exclude_space_types = ["ER_Exam", "ER_NurseStn", "ER_Trauma", "ER_Triage", "ICU_NurseStn", "ICU_Open", "ICU_PatRm", "Lab",
+                           "OR", "Anesthesia", "BioHazard", "Exam", "MedGas", "OR", "PACU", "PreOp", "ProcedureRoom", "Lab with fume hood",
+                           'HspSurgOutptLab', "RefWalkInCool", "RefWalkInFreeze", "HspSurgOutptLab", "RefStorFreezer", "RefStorCooler"]
+
     # push schedules to hash to avoid making unnecessary duplicates
     htg_set_schs = {}
     clg_set_schs = {}
     # get spaces
     thermostats = model.getThermostatSetpointDualSetpoints
     thermostats.each do |thermostat|
+      thermal_zone = thermostat.to_Thermostat.get.thermalZone
+      if thermal_zone.is_initialized
+        zone_applicable = true
+        thermal_zone.get.spaces.each do |space|
+          if space.spaceType.is_initialized and space.spaceType.get.standardsSpaceType.is_initialized
+            space_type = space.spaceType.get.standardsSpaceType.get
+            if exclude_space_types.include?space_type
+              runner.registerInfo("The thermal zone #{thermal_zone.get.name.to_s} for thermostat #{thermostat.name.to_s} contains a space type #{space_type} that's not applicable")
+              zone_applicable = false
+              break
+            end
+          end
+        end
+        next unless zone_applicable
+      else
+        runner.registerInfo("Thermostat #{thermostat.name.to_s} does not have a thermal zone")
+        next
+      end
+
+      htg_fuels = thermal_zone.get.heatingFuelTypes.map(&:valueName).uniq
+      unless htg_fuels.include?"Electricity"
+        runner.registerInfo("The heating for thermostat #{thermostat.name.to_s} in thermal zone #{thermal_zone.get.name.to_s} does not use electricity, so it won't be altered.")
+        next
+      end
       # setup new cooling setpoint schedule
       htg_set_sch = thermostat.heatingSetpointTemperatureSchedule
       clg_set_sch = thermostat.coolingSetpointTemperatureSchedule
@@ -682,7 +709,45 @@ class Preheating < OpenStudio::Measure::ModelMeasure
         end
 
       end
+    end
 
+    affected_actuators = []
+    model.getEnergyManagementSystemActuators.each do |ems_actuator|
+      if ems_actuator.actuatedComponent.is_initialized
+        old_sch_name = ems_actuator.actuatedComponent.get.name.to_s
+        if htg_set_schs.key?old_sch_name
+          replaced_sch = htg_set_schs[old_sch_name]
+          ems_actuator.setActuatedComponent(replaced_sch)
+          affected_actuators << ems_actuator.handle
+          runner.registerInfo("The actuator component for EMS actuator #{ems_actuator.name.to_s} has been changed from #{old_sch_name} to #{replaced_sch.name.to_s}")
+        end
+      end
+    end
+    model.getEnergyManagementSystemPrograms.each do |ems_program|
+      next unless ems_program.name.to_s.include?"OptimumStart"
+      referenced_obj_names = (ems_program.referencedObjects.map {|obj| obj.handle}).uniq
+      common_actuator = referenced_obj_names & affected_actuators
+      next if common_actuator.empty?
+      runner.registerInfo("EMS program #{ems_program.name.to_s} is associated with affected EMS actuators")
+      # runner.registerInfo("#{ems_program.lines}")
+      common_actuator.each do |actuator_handle|
+        heating_adjust_period_inputs.each do |period, period_inputs|
+          os_start_date = period_inputs["date_start"]
+          os_end_date = period_inputs["date_end"]
+          shift_time_start = period_inputs["time_start"]
+          shift_time_end = period_inputs["time_end"]
+          if [os_start_date, os_end_date, shift_time_start, shift_time_end].all?
+            ## The OptimumStartProg EMS is applied to hour 5 and 7 during non-daylight saving time, and hour 4 and 6 during daylight saving time
+            ## It's because the Hour function doesn't take daylight saving time into consideration, while the schedule objects do
+            ## So the actual time EMS functions is 5:00 and 7:00 (if you output the thermostat setpoint variable to check)
+            if shift_time_start.totalHours <= 7 and shift_time_end.totalHours > 5
+              ems_program.addLine("IF DayOfYear >= #{os_start_date.dayOfYear} && DayOfYear <= #{os_end_date.dayOfYear}")
+              ems_program.addLine("SET #{actuator_handle} = NULL")
+              ems_program.addLine("ENDIF")
+            end
+          end
+        end
+      end
     end
 
     # not applicable if no schedules can be altered
