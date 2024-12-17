@@ -225,9 +225,17 @@ class ReduceLPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
     # set the default start and end time based on state
     if alt_periods
       state = model.getWeatherFile.stateProvinceRegion
+      if state == ''
+        runner.registerError('Unable to find state in model WeatherFile. The measure cannot be applied.')
+        return false
+      end
       file = File.open(File.join(File.dirname(__FILE__), "../../../files/seasonal_shedding_peak_hours.json"))
       default_peak_periods = JSON.load(file)
       file.close
+      unless default_peak_periods.key?state
+        runner.registerAsNotApplicable("No default inputs for the state of the WeatherFile #{state}")
+        return false
+      end
       peak_periods = default_peak_periods[state]
       start_time1 = peak_periods["winter_peak_start"].split[1]
       end_time1 = peak_periods["winter_peak_end"].split[1]

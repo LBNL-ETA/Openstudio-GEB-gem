@@ -192,9 +192,17 @@ class Precooling < OpenStudio::Measure::ModelMeasure
 
     if alt_periods
       state = model.getWeatherFile.stateProvinceRegion
+      if state == ''
+        runner.registerError('Unable to find state in model WeatherFile. The measure cannot be applied.')
+        return false
+      end
       file = File.open(File.join(File.dirname(__FILE__), "../../../files/seasonal_shifting_take_hours.json"))
       default_peak_periods = JSON.load(file)
       file.close
+      unless default_peak_periods.key?state
+        runner.registerAsNotApplicable("No default inputs for the state of the WeatherFile #{state}")
+        return false
+      end
       peak_periods = default_peak_periods[state]
       start_time1 = peak_periods["winter_take_start"].split[1]
       end_time1 = peak_periods["winter_take_end"].split[1]
@@ -428,10 +436,11 @@ class Precooling < OpenStudio::Measure::ModelMeasure
     # get spaces
     thermostats = model.getThermostatSetpointDualSetpoints
     thermostats.each do |thermostat|
-      thermal_zone = thermostat.to_Thermostat.get.thermalZone.get
+      thermal_zone = thermostat.to_Thermostat.get.thermalZone
       if thermal_zone.is_initialized
+        thermal_zone = thermal_zone.get
         zone_applicable = true
-        thermal_zone.get.spaces.each do |space|
+        thermal_zone.spaces.each do |space|
           if space.spaceType.is_initialized and space.spaceType.get.standardsSpaceType.is_initialized
             space_type = space.spaceType.get.standardsSpaceType.get
             if exclude_space_types.include?space_type
@@ -449,7 +458,7 @@ class Precooling < OpenStudio::Measure::ModelMeasure
 
       clg_fuels = thermal_zone.coolingFuelTypes.map(&:valueName).uniq
       unless clg_fuels.include?"Electricity"
-        runner.registerInfo("The cooling for thermostat #{thermostat.name.to_s} in thermal zone #{thermal_zone.get.name.to_s} does not use electricity, so it won't be altered.")
+        runner.registerInfo("The cooling for thermostat #{thermostat.name.to_s} in thermal zone #{thermal_zone.name.to_s} does not use electricity, so it won't be altered.")
         next
       end
       # setup new cooling setpoint schedule

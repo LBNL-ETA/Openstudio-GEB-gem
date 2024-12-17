@@ -89,6 +89,15 @@
     "intermediate_take_start": "2050-05-04 12:00:00",
     "intermediate_take_end": "2050-05-04 16:00:00"
   },
+  "DC":
+  {
+    "summer_take_start": "2050-07-07 13:00:00",
+    "summer_take_end": "2050-07-07 17:00:00",
+    "winter_take_start": "2050-12-29 12:00:00",
+    "winter_take_end": "2050-12-29 16:00:00",
+    "intermediate_take_start": "2050-05-04 12:00:00",
+    "intermediate_take_end": "2050-05-04 16:00:00"
+  },
   "SD":
   {
     "summer_take_start": "2050-07-20 15:00:00",
