@@ -13,8 +13,5 @@ gemspec
 # if allow_local && File.exists?('../OpenStudio-extension-gem')
 #   gem 'openstudio-extension', path: '../OpenStudio-extension-gem'
 # else
-#   gem 'openstudio-extension', github: 'NREL/OpenStudio-extension-gem', tag: 'v0.8.1'
+  gem 'openstudio-extension', github: 'NREL/OpenStudio-extension-gem', tag: 'bundler-hack'
 # end
-
-# pin this dependency to avoid unicode_normalize error
-gem 'addressable', '2.8.1'
