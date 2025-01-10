@@ -435,10 +435,12 @@ class Preheating < OpenStudio::Measure::ModelMeasure
                            "OR", "Anesthesia", "BioHazard", "Exam", "MedGas", "OR", "PACU", "PreOp", "ProcedureRoom", "Lab with fume hood",
                            'HspSurgOutptLab', "RefWalkInCool", "RefWalkInFreeze", "HspSurgOutptLab", "RefStorFreezer", "RefStorCooler"]
 
-    # push schedules to hash to avoid making unnecessary duplicates
-    htg_set_schs = {}
-    clg_set_schs = {}
-    # get spaces
+    ## push schedules to hash to avoid making unnecessary duplicates
+    ## one heating schedule set can correspond to multiple different cooling schedule set
+    ## each unique pair would be cloned into a new heating schedule set because of the potential deadband conflict
+    sch_set_mapping = {}
+    ## sch_set_mapping = {old_heat_sch_name: {corresponding_cool_sch_handle1: [cloned_heat_sch1, corresponding_cool_sch1],
+    ##                                       corresponding_cool_sch_handle2: [cloned_heat_sch2, corresponding_cool_sch2]} }
     thermostats = model.getThermostatSetpointDualSetpoints
     thermostats.each do |thermostat|
       thermal_zone = thermostat.to_Thermostat.get.thermalZone
@@ -466,41 +468,60 @@ class Preheating < OpenStudio::Measure::ModelMeasure
         runner.registerInfo("The heating for thermostat #{thermostat.name.to_s} in thermal zone #{thermal_zone.name.to_s} does not use electricity, so it won't be altered.")
         next
       end
-      # setup new cooling setpoint schedule
+      ## setup new cooling setpoint schedule
       htg_set_sch = thermostat.heatingSetpointTemperatureSchedule
       clg_set_sch = thermostat.coolingSetpointTemperatureSchedule
       if htg_set_sch.empty?
         runner.registerWarning("Thermostat '#{thermostat.name}' doesn't have a heating setpoint schedule")
       else
-        # clone of not alredy in hash
         old_htg_schedule = htg_set_sch.get
         old_schedule_name = old_htg_schedule.name.to_s
         if old_htg_schedule.to_ScheduleRuleset.is_initialized
-          if htg_set_schs.key?(old_schedule_name)
-            new_htg_set_sch = htg_set_schs[old_schedule_name]
+          if sch_set_mapping.key?(old_schedule_name)
+            if clg_set_sch.empty? || clg_set_sch.get.to_ScheduleRuleset.empty?
+              if sch_set_mapping[old_schedule_name].key?"nil"
+                new_htg_set_sch = sch_set_mapping[old_schedule_name]["nil"][0]
+              else
+                new_htg_set_sch = old_htg_schedule.clone(model).to_Schedule.get
+                n_new_heat_sch = sch_set_mapping[old_schedule_name].size
+                new_htg_set_sch.setName("#{old_schedule_name} adjusted by #{heating_adjustment}F_#{n_new_heat_sch}")
+                sch_set_mapping[old_schedule_name]["nil"] = [new_htg_set_sch, nil]
+              end
+            else
+              clg_sch_handle = clg_set_sch.get.handle.to_s
+              if sch_set_mapping[old_schedule_name].key?clg_sch_handle
+                new_htg_set_sch = sch_set_mapping[old_schedule_name][clg_sch_handle][0]
+              else
+                new_htg_set_sch = old_htg_schedule.clone(model).to_Schedule.get
+                n_new_heat_sch = sch_set_mapping[old_schedule_name].size
+                new_htg_set_sch.setName("#{old_schedule_name} adjusted by #{heating_adjustment}F_#{n_new_heat_sch}")
+                sch_set_mapping[old_schedule_name][clg_sch_handle] = [new_htg_set_sch, clg_set_sch.get]
+              end
+            end
           else
             new_htg_set_sch = old_htg_schedule.clone(model).to_Schedule.get
             new_htg_set_sch.setName("#{old_schedule_name} adjusted by #{heating_adjustment}F")
-            htg_set_schs[old_schedule_name] = new_htg_set_sch
+            if clg_set_sch.is_initialized
+              sch_set_mapping[old_schedule_name] = {clg_set_sch.get.handle.to_s => [new_htg_set_sch, clg_set_sch.get]}
+            else
+              sch_set_mapping[old_schedule_name] = {"nil" => [new_htg_set_sch, nil]}
+            end
           end
-          # hook up clone to thermostat
+          ## hook up clone to thermostat
           thermostat.setHeatingSetpointTemperatureSchedule(new_htg_set_sch)
-          if clg_set_sch.is_initialized
-            clg_set_schs[old_schedule_name] = clg_set_sch.get
-          end
         else
           runner.registerWarning("Schedule '#{old_schedule_name}' isn't a ScheduleRuleset object and won't be altered by this measure.")
         end
-
       end
-
+    end
+    sch_set_mapping.each do |old_sch_name, new_sch_hash|
+      runner.registerInfo("The original heating schedule ruleset #{old_sch_name} is paired with #{new_sch_hash.size} unique cooling schedules, so it will be cloned as #{new_sch_hash.size} new schedules")
     end
 
-
-    # consider issuing a warning if the model has un-conditioned thermal zones (no ideal air loads or hvac)
+    ## consider issuing a warning if the model has un-conditioned thermal zones (no ideal air loads or hvac)
     zones = model.getThermalZones
     zones.each do |zone|
-      # if you have a thermostat but don't have ideal air loads or zone equipment then issue a warning
+      ## if you have a thermostat but don't have ideal air loads or zone equipment then issue a warning
       if !zone.thermostatSetpointDualSetpoint.empty? && !zone.useIdealAirLoads && (zone.equipment.size <= 0)
         runner.registerWarning("Thermal zone '#{zone.name}' has a thermostat but does not appear to be conditioned.")
       end
@@ -519,222 +540,237 @@ class Preheating < OpenStudio::Measure::ModelMeasure
 
     applicable =  false
 
-    htg_set_schs.each do |old_sch_name, os_sch|
-      cooling_set = clg_set_schs[old_sch_name].to_ScheduleRuleset.get
-      schedule = os_sch.to_ScheduleRuleset.get
-      rules = schedule.scheduleRules
-      days_covered = Array.new(7, false)
-      current_index = 0
-      if rules.length <= 0
-        runner.registerWarning("Heating setpoint schedule '#{old_sch_name}' is a ScheduleRuleSet, but has no ScheduleRules associated. It won't be altered by this measure.")
-      else
-        runner.registerInfo("Schedule rule set #{old_sch_name} has #{rules.length} rules.")
-        rules.each do |rule|
-          runner.registerInfo("---- Rule No.#{rule.ruleIndex}: #{rule.name.to_s}")
-          if rule.dateSpecificationType == "SpecificDates"
-            ## if the rule applies to SpecificDates, collect the dates that fall into each adjustment date period,
-            ## and create a new rule for each date period with covered specific dates
-            runner.registerInfo("-------- The rule #{rule.name.to_s} only covers specific dates.")
-            ## the specificDates cannot be modified in place because it's a frozen array
-            all_specific_dates = []
-            rule.specificDates.each { |date| all_specific_dates << date }
-            heating_adjust_period_inputs.each do |period, period_inputs|
-              period_inputs["specific_dates"] = []
-              os_start_date = period_inputs["date_start"]
-              os_end_date = period_inputs["date_end"]
-              shift_time_start = period_inputs["time_start"]
-              shift_time_end = period_inputs["time_end"]
-              if [os_start_date, os_end_date, shift_time_start, shift_time_end].all?
-                runner.registerInfo("#{(os_end_date - os_start_date).totalDays} days within the period!")
-                rule.specificDates.each do |covered_date|
-                  if covered_date >= os_start_date and covered_date <= os_end_date
-                    period_inputs["specific_dates"] << covered_date
-                    all_specific_dates.delete(covered_date)
-                  end
-                end
-                runner.registerInfo("-------- Specific dates within date range #{os_start_date.to_s} to #{os_end_date.to_s}: #{period_inputs["specific_dates"].map(&:to_s)}")
-                # runner.registerInfo("!!! Specific dates haven't been covered: #{all_specific_dates.map(&:to_s)}")
-                next if period_inputs["specific_dates"].empty?
-                cool_day_mapping = {}
-                period_inputs["specific_dates"].each do |date|
-                  corresponding_cool_day = cooling_set.getDaySchedules(date, date)[0]
-                  if cool_day_mapping.key?(corresponding_cool_day.name.to_s)
-                    cool_day_mapping[corresponding_cool_day.name.to_s]["dates"] << date
-                  else
-                    cool_day_mapping[corresponding_cool_day.name.to_s] = {"cool_day_schedule" => corresponding_cool_day, "dates" => [date]}
-                  end
-                end
-                runner.registerInfo("#{period} has #{cool_day_mapping.size} cooling setpoint days. ")
-                cool_day_mapping.each do |schedule_day_name, day_info|
-                  runner.registerInfo("Cooling sch #{schedule_day_name} applies to #{day_info["dates"].size} days")
-                  cool_day = day_info["cool_day_schedule"]
-                  runner.registerInfo("---- Before, cooling schedule: #{cool_day.times.map(&:to_s)}, #{cool_day.values}")
-                  runner.registerInfo("             heating schedule: #{rule.daySchedule.times.map(&:to_s)}, #{rule.daySchedule.values}")
-                  rule_period = modify_rule_for_specific_dates(rule, os_start_date, os_end_date, shift_time_start, shift_time_end,
-                                                               heating_adjustment_si, day_info["dates"], compared_day_sch=cool_day)
-                  runner.registerInfo("---- After, adjusted schedule: #{rule_period.daySchedule.times.map(&:to_s)}, #{rule_period.daySchedule.values}")
-                  if rule_period
-                    applicable = true
-                    schedule.setScheduleRuleIndex(rule_period, current_index)
-                    current_index += 1
-                    runner.registerInfo("-------- The rule #{rule_period.name.to_s} for #{rule_period.dateSpecificationType} is added as priority #{current_index}")
-                  end
-                end
-
-
-
-              end
-            end
-            if all_specific_dates.empty?
-              ## if all specific dates have been covered by new rules for each adjustment date period, remove the original rule
-              runner.registerInfo("The original rule is removed since no specific date left")
-            else
-              ## if there's still dates left to be covered, modify the original rule to only cover these dates
-              ## (this is just in case that the rule order was not set correctly, and the original rule is still applied to all specific dates;
-              ##  also to make the logic in OSM more clearer)
-              ## the specificDates cannot be modified in place, so create a new rule with the left dates to replace the original rule
-              original_rule_update = clone_rule_with_new_dayschedule(rule, rule.name.to_s + " - dates left")
-              schedule.setScheduleRuleIndex(original_rule_update, current_index)
-              current_index += 1
-              all_specific_dates.each do |date|
-                original_rule_update.addSpecificDate(date)
-              end
-              runner.registerInfo("-------- The original rule #{rule.name.to_s} is modified to only cover the rest of the dates: #{all_specific_dates.map(&:to_s)}")
-              runner.registerInfo("-------- and is shifted to priority #{current_index}")
-            end
-            rule.remove
-
-
-          else
-            ## If the rule applies to a DateRange, check if the DateRange overlaps with each adjustment date period
-            ## if so, create a new rule for that adjustment date period
-            runner.registerInfo("******* The rule #{rule.name.to_s} covers date range #{rule.startDate.get} - #{rule.endDate.get}.")
-            heating_adjust_period_inputs.each do |period, period_inputs|
-              os_start_date = period_inputs["date_start"]
-              os_end_date = period_inputs["date_end"]
-              shift_time_start = period_inputs["time_start"]
-              shift_time_end = period_inputs["time_end"]
-              if [os_start_date, os_end_date, shift_time_start, shift_time_end].all?
-                ## check if the original rule applied DateRange overlaps with the adjustment date period
-                overlapped, new_start_dates, new_end_dates = check_date_ranges_overlap(rule, os_start_date, os_end_date)
-                next unless overlapped
-                #############################################################
-                heat_sch_applied_dates = get_applied_dates_in_range(os_start_date, os_end_date, rule)
-                cool_day_mapping = {}
-                day_of_week_mapping = {}
-                heat_sch_applied_dates.each do |date|
-                  corresponding_cool_day = cooling_set.getDaySchedules(date, date)[0]
-                  if cool_day_mapping.key?(corresponding_cool_day.name.to_s)
-                    cool_day_mapping[corresponding_cool_day.name.to_s]["dates"] << date
-                  else
-                    cool_day_mapping[corresponding_cool_day.name.to_s] = {"cool_day_schedule" => corresponding_cool_day, "dates" => [date]}
-                  end
-                  if day_of_week_mapping.key?date.dayOfWeek.valueName
-                    day_of_week_mapping[date.dayOfWeek.valueName] << date
-                  else
-                    day_of_week_mapping[date.dayOfWeek.valueName] = [date]
-                  end
-                end
-                runner.registerInfo("#{period} has #{cool_day_mapping.size} cooling setpoint days.")
-                cool_day_mapping.each do |schedule_day_name, day_info|
-                  runner.registerInfo("Cooling sch #{schedule_day_name} applies to #{day_info["dates"].size} days")
-                  if cool_day_mapping.size == 1
-                    applied_day_of_week = nil
-                    cool_sch_dates = []
-                  else
-                    cool_sch_dates = day_info["dates"].map(&:to_s)
-                    applied_day_of_week = []
-                    day_of_week_mapping.each do |day_of_week, dates|
-                      week_day_dates = dates.map(&:to_s)
-                      if (week_day_dates - cool_sch_dates).empty?
-                        applied_day_of_week << day_of_week
-                        cool_sch_dates -= week_day_dates
-                        runner.registerInfo("Cooling sch #{schedule_day_name} applies to #{day_of_week}")
-                        if cool_sch_dates.empty?
-                          break
-                        end
-                      end
+    sch_set_mapping.each do |old_sch_name, new_sch_hash|
+      new_sch_hash.each do |paired_cool_sch_handle, os_schs|
+        cooling_set = os_schs[0].to_ScheduleRuleset.get
+        schedule = os_schs[1].to_ScheduleRuleset.get
+        rules = schedule.scheduleRules
+        days_covered = Array.new(7, false)
+        current_index = 0
+        if rules.length <= 0
+          runner.registerWarning("Heating setpoint schedule '#{old_sch_name}' is a ScheduleRuleSet, but has no ScheduleRules associated. It won't be altered by this measure.")
+        else
+          runner.registerInfo("Heating schedule ruleset #{schedule.name.to_s} cloned from #{old_sch_name} has #{rules.length} rules.")
+          rules.each do |rule|
+            runner.registerInfo("---- Rule No.#{rule.ruleIndex}: #{rule.name.to_s}")
+            if rule.dateSpecificationType == "SpecificDates"
+              ## if the rule applies to SpecificDates, collect the dates that fall into each adjustment date period,
+              ## and create a new rule for each date period with covered specific dates
+              runner.registerInfo("-------- The rule #{rule.name.to_s} only covers specific dates.")
+              ## the specificDates cannot be modified in place because it's a frozen array
+              all_specific_dates = []
+              rule.specificDates.each { |date| all_specific_dates << date }
+              heating_adjust_period_inputs.each do |period, period_inputs|
+                period_inputs["specific_dates"] = []
+                os_start_date = period_inputs["date_start"]
+                os_end_date = period_inputs["date_end"]
+                shift_time_start = period_inputs["time_start"]
+                shift_time_end = period_inputs["time_end"]
+                if [os_start_date, os_end_date, shift_time_start, shift_time_end].all?
+                  rule.specificDates.each do |covered_date|
+                    if covered_date >= os_start_date and covered_date <= os_end_date
+                      period_inputs["specific_dates"] << covered_date
+                      all_specific_dates.delete(covered_date)
                     end
                   end
-
-                  cool_day = day_info["cool_day_schedule"]
-                  runner.registerInfo("**** Before, cooling schedule: #{cool_day.times.map(&:to_s)}, #{cool_day.values}")
-                  runner.registerInfo("             heating schedule: #{rule.daySchedule.times.map(&:to_s)}, #{rule.daySchedule.values}")
-                  new_start_dates.each_with_index do |start_date, i|
-                    unless applied_day_of_week&.empty?
-                      rule_period = modify_rule_for_date_period(rule, start_date, new_end_dates[i], shift_time_start, shift_time_end, heating_adjustment_si,
-                                                                applied_dow=applied_day_of_week, compared_day_sch=cool_day)
-                      runner.registerInfo("A new rule is created for #{applied_day_of_week}:")
-                      runner.registerInfo("#{rule_period.daySchedule.times.map(&:to_s)}, #{rule_period.daySchedule.values}")
-                      if rule_period
-                        applicable = true
-                        if period == "period1"
-                          checkDaysCovered(rule_period, days_covered)
-                        end
-                        schedule.setScheduleRuleIndex(rule_period, current_index)
-                        current_index += 1
-                        runner.registerInfo("******* The rule #{rule_period.name.to_s} is added as priority #{current_index}")
-                      end
+                  runner.registerInfo("-------- Specific dates within date range #{os_start_date.to_s} to #{os_end_date.to_s}: #{period_inputs["specific_dates"].map(&:to_s)}")
+                  # runner.registerInfo("!!! Specific dates haven't been covered: #{all_specific_dates.map(&:to_s)}")
+                  next if period_inputs["specific_dates"].empty?
+                  cool_day_mapping = {}
+                  period_inputs["specific_dates"].each do |date|
+                    corresponding_cool_day = cooling_set.getDaySchedules(date, date)[0]
+                    if cool_day_mapping.key?(corresponding_cool_day.name.to_s)
+                      cool_day_mapping[corresponding_cool_day.name.to_s]["dates"] << date
+                    else
+                      cool_day_mapping[corresponding_cool_day.name.to_s] = {"cool_day_schedule" => corresponding_cool_day, "dates" => [date]}
                     end
-
-                    unless cool_sch_dates.empty?
-                      left_os_dates = cool_sch_dates.map {|str_date| OpenStudio::Date.new(str_date)}
-                      runner.registerInfo("Cooling sch #{schedule_day_name} still covers other days. These days will be added as a rule for specific dates.")
-                      rule_for_left_dates = modify_rule_for_specific_dates(rule, os_start_date, os_end_date, shift_time_start, shift_time_end,
-                                                                           heating_adjustment_si, left_os_dates, compared_day_sch=cool_day)
-                      schedule.setScheduleRuleIndex(rule_for_left_dates, current_index)
+                  end
+                  runner.registerInfo("#{period} has #{cool_day_mapping.size} cooling setpoint days. ")
+                  cool_day_mapping.each do |schedule_day_name, day_info|
+                    runner.registerInfo("Cooling sch #{schedule_day_name} applies to #{day_info["dates"].size} days")
+                    cool_day = day_info["cool_day_schedule"]
+                    runner.registerInfo("---- Before, cooling schedule: #{cool_day.times.map(&:to_s)}, #{cool_day.values}")
+                    runner.registerInfo("             heating schedule: #{rule.daySchedule.times.map(&:to_s)}, #{rule.daySchedule.values}")
+                    rule_period = modify_rule_for_specific_dates(rule, os_start_date, os_end_date, shift_time_start, shift_time_end,
+                                                                 heating_adjustment_si, day_info["dates"], compared_day_sch=cool_day)
+                    runner.registerInfo("---- After, adjusted schedule: #{rule_period.daySchedule.times.map(&:to_s)}, #{rule_period.daySchedule.values}")
+                    if rule_period
+                      applicable = true
+                      schedule.setScheduleRuleIndex(rule_period, current_index)
                       current_index += 1
-                      runner.registerInfo("******* The rule #{rule_for_left_dates.name.to_s} is added as priority #{current_index}")
+                      runner.registerInfo("-------- The rule #{rule_period.name.to_s} for #{rule_period.dateSpecificationType} is added as priority #{current_index}")
                     end
                   end
+
+
+
                 end
-
               end
+              if all_specific_dates.empty?
+                ## if all specific dates have been covered by new rules for each adjustment date period, remove the original rule
+                runner.registerInfo("The original rule is removed since no specific date left")
+              else
+                ## if there's still dates left to be covered, modify the original rule to only cover these dates
+                ## (this is just in case that the rule order was not set correctly, and the original rule is still applied to all specific dates;
+                ##  also to make the logic in OSM more clearer)
+                ## the specificDates cannot be modified in place, so create a new rule with the left dates to replace the original rule
+                original_rule_update = clone_rule_with_new_dayschedule(rule, rule.name.to_s + " - dates left")
+                schedule.setScheduleRuleIndex(original_rule_update, current_index)
+                current_index += 1
+                all_specific_dates.each do |date|
+                  original_rule_update.addSpecificDate(date)
+                end
+                runner.registerInfo("-------- The original rule #{rule.name.to_s} is modified to only cover the rest of the dates: #{all_specific_dates.map(&:to_s)}")
+                runner.registerInfo("-------- and is shifted to priority #{current_index}")
+              end
+              rule.remove
+
+
+            else
+              ## If the rule applies to a DateRange, check if the DateRange overlaps with each adjustment date period
+              ## if so, create a new rule for that adjustment date period
+              runner.registerInfo("******* The rule #{rule.name.to_s} covers date range #{rule.startDate.get} - #{rule.endDate.get}.")
+              heating_adjust_period_inputs.each do |period, period_inputs|
+                os_start_date = period_inputs["date_start"]
+                os_end_date = period_inputs["date_end"]
+                shift_time_start = period_inputs["time_start"]
+                shift_time_end = period_inputs["time_end"]
+                if [os_start_date, os_end_date, shift_time_start, shift_time_end].all?
+                  ## check if the original rule applied DateRange overlaps with the adjustment date period
+                  overlapped, new_start_dates, new_end_dates = check_date_ranges_overlap(rule, os_start_date, os_end_date)
+                  next unless overlapped
+                  #############################################################
+                  heat_sch_applied_dates = get_applied_dates_in_range(os_start_date, os_end_date, rule)
+                  cool_day_mapping = {}
+                  day_of_week_mapping = {}
+                  heat_sch_applied_dates.each do |date|
+                    corresponding_cool_day = cooling_set.getDaySchedules(date, date)[0]
+                    if cool_day_mapping.key?(corresponding_cool_day.name.to_s)
+                      cool_day_mapping[corresponding_cool_day.name.to_s]["dates"] << date
+                    else
+                      cool_day_mapping[corresponding_cool_day.name.to_s] = {"cool_day_schedule" => corresponding_cool_day, "dates" => [date]}
+                    end
+                    if day_of_week_mapping.key?date.dayOfWeek.valueName
+                      day_of_week_mapping[date.dayOfWeek.valueName] << date
+                    else
+                      day_of_week_mapping[date.dayOfWeek.valueName] = [date]
+                    end
+                  end
+                  runner.registerInfo("#{period} has #{cool_day_mapping.size} cooling setpoint days.")
+                  cool_day_mapping.each do |schedule_day_name, day_info|
+                    runner.registerInfo("Cooling sch #{schedule_day_name} applies to #{day_info["dates"].size} days")
+                    if cool_day_mapping.size == 1
+                      applied_day_of_week = nil
+                      cool_sch_dates = []
+                    else
+                      cool_sch_dates = day_info["dates"].map(&:to_s)
+                      applied_day_of_week = []
+                      day_of_week_mapping.each do |day_of_week, dates|
+                        week_day_dates = dates.map(&:to_s)
+                        if (week_day_dates - cool_sch_dates).empty?
+                          applied_day_of_week << day_of_week
+                          cool_sch_dates -= week_day_dates
+                          runner.registerInfo("Cooling sch #{schedule_day_name} applies to #{day_of_week}")
+                          if cool_sch_dates.empty?
+                            break
+                          end
+                        end
+                      end
+                    end
+
+                    cool_day = day_info["cool_day_schedule"]
+                    runner.registerInfo("**** Before, cooling schedule: #{cool_day.times.map(&:to_s)}, #{cool_day.values}")
+                    runner.registerInfo("             heating schedule: #{rule.daySchedule.times.map(&:to_s)}, #{rule.daySchedule.values}")
+                    new_start_dates.each_with_index do |start_date, i|
+                      unless applied_day_of_week&.empty?
+                        rule_period = modify_rule_for_date_period(rule, start_date, new_end_dates[i], shift_time_start, shift_time_end, heating_adjustment_si,
+                                                                  applied_dow=applied_day_of_week, compared_day_sch=cool_day)
+                        runner.registerInfo("A new rule is created for #{applied_day_of_week}:")
+                        runner.registerInfo("#{rule_period.daySchedule.times.map(&:to_s)}, #{rule_period.daySchedule.values}")
+                        if rule_period
+                          applicable = true
+                          if period == "period1"
+                            checkDaysCovered(rule_period, days_covered)
+                          end
+                          schedule.setScheduleRuleIndex(rule_period, current_index)
+                          current_index += 1
+                          runner.registerInfo("******* The rule #{rule_period.name.to_s} is added as priority #{current_index}")
+                        end
+                      end
+
+                      unless cool_sch_dates.empty?
+                        left_os_dates = cool_sch_dates.map {|str_date| OpenStudio::Date.new(str_date)}
+                        runner.registerInfo("Cooling sch #{schedule_day_name} still covers other days. These days will be added as a rule for specific dates.")
+                        rule_for_left_dates = modify_rule_for_specific_dates(rule, os_start_date, os_end_date, shift_time_start, shift_time_end,
+                                                                             heating_adjustment_si, left_os_dates, compared_day_sch=cool_day)
+                        schedule.setScheduleRuleIndex(rule_for_left_dates, current_index)
+                        current_index += 1
+                        runner.registerInfo("******* The rule #{rule_for_left_dates.name.to_s} is added as priority #{current_index}")
+                      end
+                    end
+                  end
+
+                end
+              end
+              ## The original rule will be shifted to the currently lowest priority
+              ## Setting the rule to an existing index will automatically push all other rules after it down
+              schedule.setScheduleRuleIndex(rule, current_index)
+              runner.registerInfo("========== The original rule #{rule.name.to_s} is shifted to priority #{current_index}")
+              current_index += 1
             end
-            ## The original rule will be shifted to the currently lowest priority
-            ## Setting the rule to an existing index will automatically push all other rules after it down
-            schedule.setScheduleRuleIndex(rule, current_index)
-            runner.registerInfo("========== The original rule #{rule.name.to_s} is shifted to priority #{current_index}")
-            current_index += 1
+
+          end
+        end
+
+        default_day = schedule.defaultDaySchedule
+        if days_covered.include?(false)
+          runner.registerInfo("Some days use default day. Adding new scheduleRule from defaultDaySchedule for applicable date period.")
+          heating_adjust_period_inputs.each do |period, period_inputs|
+            os_start_date = period_inputs["date_start"]
+            os_end_date = period_inputs["date_end"]
+            shift_time_start = period_inputs["time_start"]
+            shift_time_end = period_inputs["time_end"]
+            if [os_start_date, os_end_date, shift_time_start, shift_time_end].all?
+              modify_default_day_for_date_period(schedule, default_day, days_covered, os_start_date, os_end_date, shift_time_start, shift_time_end,
+                                                 heating_adjustment_si, current_index, cooling_set, runner)
+              # schedule.setScheduleRuleIndex(new_default_rule_period, current_index)
+              applicable = true
+            end
           end
 
         end
       end
 
-      default_day = schedule.defaultDaySchedule
-      if days_covered.include?(false)
-        runner.registerInfo("Some days use default day. Adding new scheduleRule from defaultDaySchedule for applicable date period.")
-        heating_adjust_period_inputs.each do |period, period_inputs|
-          os_start_date = period_inputs["date_start"]
-          os_end_date = period_inputs["date_end"]
-          shift_time_start = period_inputs["time_start"]
-          shift_time_end = period_inputs["time_end"]
-          if [os_start_date, os_end_date, shift_time_start, shift_time_end].all?
-            modify_default_day_for_date_period(schedule, default_day, days_covered, os_start_date, os_end_date, shift_time_start, shift_time_end,
-                                               heating_adjustment_si, current_index, cooling_set, runner)
-            # schedule.setScheduleRuleIndex(new_default_rule_period, current_index)
-            applicable = true
-          end
-        end
-
-      end
     end
 
-    affected_actuators = []
+    # affected_actuators = {original_affected actuator_handle: [added_actuator_for_original_sch_copy1, added_actuator_for_original_sch_copy2]}
+    affected_actuators = {}
     model.getEnergyManagementSystemActuators.each do |ems_actuator|
-      if ems_actuator.actuatedComponent.is_initialized
-        old_sch_name = ems_actuator.actuatedComponent.get.name.to_s
-        if htg_set_schs.key?old_sch_name
-          replaced_sch = htg_set_schs[old_sch_name]
-          ems_actuator.setActuatedComponent(replaced_sch)
-          affected_actuators << ems_actuator.handle
-          runner.registerInfo("The actuator component for EMS actuator #{ems_actuator.name.to_s} has been changed from #{old_sch_name} to #{replaced_sch.name.to_s}")
+      next unless ems_actuator.actuatedComponent.is_initialized
+      actuated_comp_name = ems_actuator.actuatedComponent.get.name.to_s
+      if sch_set_mapping.key?actuated_comp_name
+        ## If the actuator works on a heating schedule that has been modified, the actuator needs to be hooked up with the modified (cloned) schedule
+        ## Also, if there's extra cloned copies of the original schedule, each of them needs an actuator (as well as a corresponding EMS program as well)
+        new_sch_hash = sch_set_mapping[actuated_comp_name]
+        new_sch_hash.each_with_index do |(key, schs), index|
+          if index == 0
+            ems_actuator.setActuatedComponent(schs[0])
+            runner.registerInfo("The actuator component for EMS actuator #{ems_actuator.name.to_s} has been changed from #{actuated_comp_name} to #{schs[0].name.to_s}")
+            affected_actuators[ems_actuator.handle.to_s] = []
+          else
+            ## Clone a new actuator for each extra copy of the original schedule and hook them up
+            new_actuator = ems_actuator.clone(model).to_EnergyManagementSystemActuator.get
+            new_actuator.setActuatedComponent(schs[0])
+            runner.registerInfo("A new actuator #{new_actuator.name.to_s} has been added for the newly added schedule #{schs[0].name.to_s}")
+            affected_actuators[ems_actuator.handle.to_s] << new_actuator.handle.to_s
+          end
         end
       end
     end
+
     model.getEnergyManagementSystemPrograms.each do |ems_program|
       next unless ems_program.name.to_s.include?"OptimumStart"
-      referenced_obj_names = (ems_program.referencedObjects.map {|obj| obj.handle}).uniq
+      referenced_obj_names = (ems_program.referencedObjects.map {|obj| obj.handle.to_s}).uniq
       common_actuator = referenced_obj_names & affected_actuators
       next if common_actuator.empty?
       runner.registerInfo("EMS program #{ems_program.name.to_s} is associated with affected EMS actuators")
@@ -750,11 +786,19 @@ class Preheating < OpenStudio::Measure::ModelMeasure
             ## It's because the Hour function doesn't take daylight saving time into consideration, while the schedule objects do
             ## So the actual time EMS functions is 5:00 and 7:00 (if you output the thermostat setpoint variable to check)
             if shift_time_start.totalHours <= 7 and shift_time_end.totalHours > 5
+              ## If the EMS program conflicts with the precooling adjustment, disable the program by setting the actuator to null
               ems_program.addLine("IF DayOfYear >= #{os_start_date.dayOfYear} && DayOfYear <= #{os_end_date.dayOfYear}")
               ems_program.addLine("SET #{actuator_handle} = NULL")
               ems_program.addLine("ENDIF")
             end
           end
+        end
+        ## For each extra copy of cloned heating schedule (actuator), clone an EMS program for it, and modify the corresponding handle in the program
+        affected_actuators[actuator_handle].each do |new_actuator_handle|
+          new_program = ems_program.clone(model).to_EnergyManagementSystemProgram.get
+          new_program_body = new_program.body.gsub(actuator_handle, new_actuator_handle)
+          new_program.setBody(new_program_body)
+          runner.registerInfo("A new EMS program #{new_program.name.to_s} has been created for the newly added actuator #{new_actuator_handle}")
         end
       end
     end
