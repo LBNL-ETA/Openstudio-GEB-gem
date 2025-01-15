@@ -35,7 +35,7 @@ RSpec.describe OpenStudio::Geb do
     end
 
     # provide weather file path
-    weather_file_path = File.join(File.dirname(__FILE__ ), "../seed_models/G1200110.epw")
+    weather_file_path = File.join(File.dirname(__FILE__ ), "../seed_models/G0101250.epw")
     measure_dict = {
       # "AdjustThermostatSetpointsByDegreesForPeakHours" => {
       #   "measure_dir_name" => all_measures["AdjustThermostatSetpointsByDegreesForPeakHours"]["measure_dir_name"],

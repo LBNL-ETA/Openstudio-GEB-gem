@@ -771,7 +771,7 @@ class Preheating < OpenStudio::Measure::ModelMeasure
     model.getEnergyManagementSystemPrograms.each do |ems_program|
       next unless ems_program.name.to_s.include?"OptimumStart"
       referenced_obj_names = (ems_program.referencedObjects.map {|obj| obj.handle.to_s}).uniq
-      common_actuator = referenced_obj_names & affected_actuators
+      common_actuator = referenced_obj_names & affected_actuators.keys.map(&:to_s)
       next if common_actuator.empty?
       runner.registerInfo("EMS program #{ems_program.name.to_s} is associated with affected EMS actuators")
       # runner.registerInfo("#{ems_program.lines}")
