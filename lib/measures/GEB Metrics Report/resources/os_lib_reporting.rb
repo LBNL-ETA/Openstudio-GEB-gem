@@ -557,7 +557,7 @@ module OsLib_Reporting
 
     # plot: event day timestep demand profiles of baseline and GEB measures
     bldg_demand_chart = {}
-    bldg_demand_chart[:title] = 'Whole Building Net Electricity Consumption on selected day (W)'
+    bldg_demand_chart[:title] = 'Whole Building Net Electricity Consumption on Selected Day (W)'
     bldg_demand_chart[:chart_div] = 'bldg_demand_chart'
     bldg_demand_chart[:xaxis_label] = 'Time'
     bldg_demand_chart[:yaxis_label] = 'W'
