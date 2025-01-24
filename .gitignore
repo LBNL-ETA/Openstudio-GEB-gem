@@ -13,12 +13,14 @@
 !/spec/spec_helper.rb
 /test/
 /lib/measures/test_results
+/lib/measures/files
 /lib/measures/.rubocop*
 /lib/measures/staged
 /lib/measures/staged/*
 
 # rspec failure tracking
 .rspec_status
+.coverage
 
 # Ignore IDE files
 *.idea/
