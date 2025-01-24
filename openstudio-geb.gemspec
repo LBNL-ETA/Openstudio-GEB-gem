@@ -22,14 +22,12 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.required_ruby_version = '~> 3.2.2'
+  spec.required_ruby_version = '3.2.2'
 
-  spec.add_dependency 'openstudio-extension', '~> 0.8.0'
-  spec.add_dependency 'openstudio-standards', '0.6.1'
+  spec.add_dependency 'openstudio-extension', '~> 0.8.3'
+  spec.add_dependency 'openstudio-standards', '~> 0.7.1'
+  spec.add_dependency 'simplecov', '0.22.0'
 
-  spec.add_development_dependency 'bundler', '~> 2.4.10'
-  spec.add_development_dependency 'rake', '~> 13.0'
   spec.add_development_dependency 'rspec', '~> 3.9'
-  spec.add_development_dependency 'rubocop', '1.50'
 
 end
