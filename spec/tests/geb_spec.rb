@@ -80,7 +80,7 @@ RSpec.describe OpenStudio::Geb do
       # "reduce_lpd_by_percentage_for_peak_hours" => {
       #   "measure_dir_name" => all_measures["reduce_lpd_by_percentage_for_peak_hours"]["measure_dir_name"],
       #   "arguments" => {
-      #     "alt_periods" => true,
+      #     "alt_periods" => false,
       #     "start_date1" => "01-01",
       #     "end_date1" => "03-31",
       #     "start_time1" => "00:00:00",
@@ -134,7 +134,7 @@ RSpec.describe OpenStudio::Geb do
       #   "measure_dir_name" => all_measures["precooling"]["measure_dir_name"],
       #   "arguments" => {
       #     "cooling_adjustment" => -4,
-      #     "alt_periods" => true,
+      #     "alt_periods" => false,
       #     "start_date1" => "01-01",
       #     "end_date1" => "03-31",
       #     "start_time1" => "00:00:00",

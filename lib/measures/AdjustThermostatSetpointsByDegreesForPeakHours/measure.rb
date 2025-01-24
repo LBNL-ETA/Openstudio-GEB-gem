@@ -331,9 +331,17 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
     # set the default start and end time based on state
     if alt_periods
       state = model.getWeatherFile.stateProvinceRegion
+      if state == ''
+        runner.registerError('Unable to find state in model WeatherFile. The measure cannot be applied.')
+        return false
+      end
       file = File.open(File.join(File.dirname(__FILE__), "../../../files/seasonal_shedding_peak_hours.json"))
       default_peak_periods = JSON.load(file)
       file.close
+      unless default_peak_periods.key?state
+        runner.registerAsNotApplicable("No default inputs for the state of the WeatherFile #{state}")
+        return false
+      end
       peak_periods = default_peak_periods[state]
       cooling_start_time1 = heating_start_time1 = peak_periods["winter_peak_start"].split[1]
       cooling_end_time1 = heating_end_time1 = peak_periods["winter_peak_end"].split[1]
@@ -951,6 +959,22 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
               final_htg_sch_set_values << new_default_rule_period.daySchedule.values
             end
           end
+        end
+      end
+    end
+
+
+    model.getEnergyManagementSystemActuators.each do |ems_actuator|
+      if ems_actuator.actuatedComponent.is_initialized
+        old_sch_name = ems_actuator.actuatedComponent.get.name.to_s
+        if clg_set_schs.key?old_sch_name
+          replaced_sch = clg_set_schs[old_sch_name]
+          ems_actuator.setActuatedComponent(replaced_sch)
+          runner.registerInfo("The actuator component for EMS actuator #{ems_actuator.name.to_s} has been changed from #{old_sch_name} to #{replaced_sch.name.to_s}")
+        elsif htg_set_schs.key?old_sch_name
+          replaced_sch = htg_set_schs[old_sch_name]
+          ems_actuator.setActuatedComponent(replaced_sch)
+          runner.registerInfo("The actuator component for EMS actuator #{ems_actuator.name.to_s} has been changed from #{old_sch_name} to #{replaced_sch.name.to_s}")
         end
       end
     end

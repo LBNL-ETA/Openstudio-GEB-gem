@@ -203,10 +203,18 @@ class ReduceEPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
     # set the default start and end time based on state
     if alt_periods
       state = model.getWeatherFile.stateProvinceRegion
+      if state == ''
+        runner.registerError('Unable to find state in model WeatherFile. The measure cannot be applied.')
+        return false
+      end
       runner.registerInfo("Using weather file for #{state} state.")
       file = File.open(File.join(File.dirname(__FILE__), "../../../files/seasonal_shedding_peak_hours.json"))
       default_peak_periods = JSON.load(file)
       file.close
+      unless default_peak_periods.key?state
+        runner.registerAsNotApplicable("No default inputs for the state of the WeatherFile #{state}")
+        return false
+      end
       peak_periods = default_peak_periods[state]
       start_time1 = peak_periods["winter_peak_start"].split[1]
       end_time1 = peak_periods["winter_peak_end"].split[1]
@@ -406,41 +414,28 @@ class ReduceEPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
     # create a hash to map the old schedule name to the new schedule
     equip_schedules = {}
     equipments.each do |equip|
-      space_type = nil
-      # the equipment can belong to a spaceType or a space
-      if equip.spaceType.is_initialized
-        space_type = equip.spaceType.get
-      elsif equip.space.is_initialized and equip.space.get.spaceType.is_initialized
-        space_type = equip.space.get.spaceType.get
-      end
-      if space_type
-        if space_type.standardsSpaceType.is_initialized and applicable_space_types.include?space_type.standardsSpaceType.get
-          runner.registerInfo("Found applicable equipment #{equip.name.to_s} belongs to office space types: #{space_type.name} with standardsSpaceType #{space_type.standardsSpaceType.get}")
-          equip_sch = equip.schedule
-          if equip_sch.empty?
-            runner.registerWarning("#{equip.name} doesn't have a schedule, so it won't be altered.")
+      equip_sch = equip.schedule
+      if equip_sch.empty?
+        runner.registerWarning("#{equip.name} doesn't have a schedule, so it won't be altered.")
+        next
+      else
+        if equip_schedules.key?(equip_sch.get.name.to_s)
+          new_equip_sch = equip_schedules[equip_sch.get.name.to_s]
+        else
+          if equip_sch.get.to_ScheduleRuleset.empty?
+            runner.registerWarning("Schedule #{equip_sch.get.name} isn't a ScheduleRuleset object and won't be altered by this measure.")
             next
           else
-            if equip_schedules.key?(equip_sch.get.name.to_s)
-              new_equip_sch = equip_schedules[equip_sch.get.name.to_s]
-            else
-              if equip_sch.get.to_ScheduleRuleset.empty?
-                runner.registerWarning("Schedule #{equip_sch.get.name} isn't a ScheduleRuleset object and won't be altered by this measure.")
-                next
-              else
-                new_equip_sch = equip_sch.get.clone(model)
-                new_equip_sch = new_equip_sch.to_Schedule.get
-                new_equip_sch.setName("#{equip_sch.get.name.to_s} adjusted #{epd_factor}")
-                # add to the hash
-                equip_schedules[equip_sch.get.name.to_s] = new_equip_sch
-              end
-            end
-            equip.setSchedule(new_equip_sch)
-            runner.registerInfo("Schedule #{equip_sch.get.name} of electric equipment #{equip.name} will be altered by this measure.")
+            new_equip_sch = equip_sch.get.clone(model)
+            new_equip_sch = new_equip_sch.to_Schedule.get
+            new_equip_sch.setName("#{equip_sch.get.name.to_s} adjusted #{epd_factor}")
+            # add to the hash
+            equip_schedules[equip_sch.get.name.to_s] = new_equip_sch
           end
         end
+        equip.setSchedule(new_equip_sch)
+        runner.registerInfo("Schedule #{equip_sch.get.name} of electric equipment #{equip.name} will be altered by this measure.")
       end
-
     end
 
     equip_schedules.each do |old_name, cloned_equip_sch|
