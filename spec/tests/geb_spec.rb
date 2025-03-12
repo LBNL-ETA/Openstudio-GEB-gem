@@ -25,7 +25,7 @@ RSpec.describe OpenStudio::Geb do
     # baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/SFD_1story_UB_UA_ASHP2_HPWH.osm")  # residential
     all_measures = list_all_geb_measures
     # puts JSON.pretty_generate(all_measures)
-    run_output_path = File.join(File.dirname(__FILE__ ), "../precooling")
+    run_output_path = File.join(File.dirname(__FILE__ ), "../gta")
     if File.exist? run_output_path
       FileUtils.rm_rf(run_output_path)
       sleep(0.1)
@@ -37,46 +37,46 @@ RSpec.describe OpenStudio::Geb do
     # provide weather file path
     weather_file_path = File.join(File.dirname(__FILE__ ), "../seed_models/G1200110.epw")
     measure_dict = {
-      # "AdjustThermostatSetpointsByDegreesForPeakHours" => {
-      #   "measure_dir_name" => all_measures["AdjustThermostatSetpointsByDegreesForPeakHours"]["measure_dir_name"],
-      #   "arguments" => {
-      #     "cooling_adjustment" => 5,
-      #     "heating_adjustment" => -4,
-      #     "alt_periods" => false,
-      #     "cooling_start_date1" => "01-01",
-      #     "cooling_end_date1" => "03-31",
-      #     "cooling_start_time1" => "00:00:00",
-      #     "cooling_end_time1" => "24:00:00",
-      #     "cooling_start_date2" => "04-01",
-      #     "cooling_end_date2" => "05-31",
-      #     "cooling_start_time2" => "00:00:00",
-      #     "cooling_end_time2" => "24:00:00",
-      #     "cooling_start_date3" => "06-01",
-      #     "cooling_end_date3" => "09-30",
-      #     "cooling_start_time3" => "00:00:00",
-      #     "cooling_end_time3" => "24:00:00",
-      #     "cooling_start_date4" => "10-01",
-      #     "cooling_end_date4" => "11-30",
-      #     "cooling_start_time4" => "00:00:00",
-      #     "cooling_end_time4" => "24:00:00",
-      #     "heating_start_date1" => "01-01",
-      #     "heating_end_date1" => "03-31",
-      #     "heating_start_time1" => "00:00:00",
-      #     "heating_end_time1" => "24:00:00",
-      #     "heating_start_date2" => "04-01",
-      #     "heating_end_date2" => "05-31",
-      #     "heating_start_time2" => "00:00:00",
-      #     "heating_end_time2" => "24:00:00",
-      #     "heating_start_date3" => "06-01",
-      #     "heating_end_date3" => "09-30",
-      #     "heating_start_time3" => "00:00:00",
-      #     "heating_end_time3" => "24:00:00",
-      #     "heating_start_date4" => "12-01",
-      #     "heating_end_date4" => "12-31",
-      #     "heating_start_time4" => "00:00:00",
-      #     "heating_end_time4" => "24:00:00"
-      #   }
-      # },
+      "AdjustThermostatSetpointsByDegreesForPeakHours" => {
+        "measure_dir_name" => all_measures["AdjustThermostatSetpointsByDegreesForPeakHours"]["measure_dir_name"],
+        "arguments" => {
+          "cooling_adjustment" => 5,
+          "heating_adjustment" => -2,
+          "alt_periods" => true,
+          "cooling_start_date1" => "01-01",
+          "cooling_end_date1" => "03-31",
+          "cooling_start_time1" => "00:00:00",
+          "cooling_end_time1" => "24:00:00",
+          "cooling_start_date2" => "04-01",
+          "cooling_end_date2" => "05-31",
+          "cooling_start_time2" => "00:00:00",
+          "cooling_end_time2" => "24:00:00",
+          "cooling_start_date3" => "06-01",
+          "cooling_end_date3" => "09-30",
+          "cooling_start_time3" => "00:00:00",
+          "cooling_end_time3" => "24:00:00",
+          "cooling_start_date4" => "10-01",
+          "cooling_end_date4" => "11-30",
+          "cooling_start_time4" => "00:00:00",
+          "cooling_end_time4" => "24:00:00",
+          "heating_start_date1" => "01-01",
+          "heating_end_date1" => "03-31",
+          "heating_start_time1" => "00:00:00",
+          "heating_end_time1" => "24:00:00",
+          "heating_start_date2" => "04-01",
+          "heating_end_date2" => "05-31",
+          "heating_start_time2" => "00:00:00",
+          "heating_end_time2" => "24:00:00",
+          "heating_start_date3" => "06-01",
+          "heating_end_date3" => "09-30",
+          "heating_start_time3" => "00:00:00",
+          "heating_end_time3" => "24:00:00",
+          "heating_start_date4" => "12-01",
+          "heating_end_date4" => "12-31",
+          "heating_start_time4" => "00:00:00",
+          "heating_end_time4" => "24:00:00"
+        }
+      },
       # "reduce_lpd_by_percentage_for_peak_hours" => {
       #   "measure_dir_name" => all_measures["reduce_lpd_by_percentage_for_peak_hours"]["measure_dir_name"],
       #   "arguments" => {
@@ -130,33 +130,33 @@ RSpec.describe OpenStudio::Geb do
       #     "end_time5" => "24:00:00"
       #   }
       # },
-      "precooling" => {
-        "measure_dir_name" => all_measures["precooling"]["measure_dir_name"],
-        "arguments" => {
-          "cooling_adjustment" => -4,
-          "alt_periods" => true,
-          "start_date1" => "01-01",
-          "end_date1" => "03-31",
-          "start_time1" => "00:00:00",
-          "end_time1" => "24:00:00",
-          "start_date2" => "04-01",
-          "end_date2" => "05-31",
-          "start_time2" => "00:00:00",
-          "end_time2" => "24:00:00",
-          "start_date3" => "06-01",
-          "end_date3" => "09-30",
-          "start_time3" => "00:00:00",
-          "end_time3" => "24:00:00",
-          "start_date4" => "10-01",
-          "end_date4" => "11-30",
-          "start_time4" => "00:00:00",
-          "end_time4" => "24:00:00",
-          "start_date5" => "12-01",
-          "end_date5" => "12-31",
-          "start_time5" => "00:00:00",
-          "end_time5" => "24:00:00"
-        }
-      },
+      # "precooling" => {
+      #   "measure_dir_name" => all_measures["precooling"]["measure_dir_name"],
+      #   "arguments" => {
+      #     "cooling_adjustment" => -4,
+      #     "alt_periods" => true,
+      #     "start_date1" => "01-01",
+      #     "end_date1" => "03-31",
+      #     "start_time1" => "00:00:00",
+      #     "end_time1" => "24:00:00",
+      #     "start_date2" => "04-01",
+      #     "end_date2" => "05-31",
+      #     "start_time2" => "00:00:00",
+      #     "end_time2" => "24:00:00",
+      #     "start_date3" => "06-01",
+      #     "end_date3" => "09-30",
+      #     "start_time3" => "00:00:00",
+      #     "end_time3" => "24:00:00",
+      #     "start_date4" => "10-01",
+      #     "end_date4" => "11-30",
+      #     "start_time4" => "00:00:00",
+      #     "end_time4" => "24:00:00",
+      #     "start_date5" => "12-01",
+      #     "end_date5" => "12-31",
+      #     "start_time5" => "00:00:00",
+      #     "end_time5" => "24:00:00"
+      #   }
+      # },
       # "preheating" => {
       #     "measure_dir_name" => all_measures["preheating"]["measure_dir_name"],
       #     "arguments" => {
