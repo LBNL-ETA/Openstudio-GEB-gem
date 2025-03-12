@@ -603,68 +603,74 @@ class AdjustThermostatSetpointsByDegreesForPeakHours < OpenStudio::Measure::Mode
         runner.registerInfo("Thermostat #{thermostat.name.to_s} does not have a thermal zone")
         next
       end
+
       clg_fuels = thermal_zone.coolingFuelTypes.map(&:valueName).uniq
       htg_fuels = thermal_zone.heatingFuelTypes.map(&:valueName).uniq
-      unless clg_fuels.include?"Electricity" or htg_fuels.include?"Electricity"
-        runner.registerInfo("The space conditioning for thermostat #{thermostat.name.to_s} in thermal zone #{thermal_zone.name.to_s} does not use electricity, so it won't be altered.")
-        next
-      end
-      # setup new cooling setpoint schedule
-      clg_set_sch = thermostat.coolingSetpointTemperatureSchedule
+      if clg_fuels.include?"Electricity"
+        # setup new cooling setpoint schedule for the thermal zones using electricity for cooling
+        clg_set_sch = thermostat.coolingSetpointTemperatureSchedule
 
-      if clg_set_sch.empty?
-        runner.registerWarning("Thermostat '#{thermostat.name}' doesn't have a cooling setpoint schedule")
-      else
-        old_clg_schedule = clg_set_sch.get
-        old_schedule_name = old_clg_schedule.name.to_s
-        # clone if not already in hash
-        if old_clg_schedule.to_ScheduleRuleset.is_initialized
-          if clg_set_schs.key?(old_schedule_name)
-            new_clg_set_sch = clg_set_schs[old_schedule_name]
-          else
-            # active_indices = old_clg_schedule.to_ScheduleRuleset.get.getActiveRuleIndices(os_cooling_start_date5, os_cooling_end_date5)
-            # active_indices.each do |i|
-            #   runner.registerInfo("Rule applied to the fifth cooling period: #{old_clg_schedule.to_ScheduleRuleset.get.scheduleRules[i].name.to_s}")
-            # end
-            new_clg_set_sch = old_clg_schedule.clone(model)
-            new_clg_set_sch = new_clg_set_sch.to_Schedule.get
-            new_clg_set_sch.setName("#{old_schedule_name} adjusted by #{cooling_adjustment_ip}")
-            runner.registerInfo("Cooling schedule #{old_schedule_name} is cloned to #{new_clg_set_sch.name.to_s}")
-            # add to the hash
-            clg_set_schs[old_schedule_name] = new_clg_set_sch
-          end
-          # hook up cloned schedule to thermostat
-          thermostat.setCoolingSetpointTemperatureSchedule(new_clg_set_sch)
+        if clg_set_sch.empty?
+          runner.registerWarning("Thermostat '#{thermostat.name}' doesn't have a cooling setpoint schedule")
         else
+          old_clg_schedule = clg_set_sch.get
+          old_schedule_name = old_clg_schedule.name.to_s
+          # clone if not already in hash
+          if old_clg_schedule.to_ScheduleRuleset.is_initialized
+            if clg_set_schs.key?(old_schedule_name)
+              new_clg_set_sch = clg_set_schs[old_schedule_name]
+            else
+              # active_indices = old_clg_schedule.to_ScheduleRuleset.get.getActiveRuleIndices(os_cooling_start_date5, os_cooling_end_date5)
+              # active_indices.each do |i|
+              #   runner.registerInfo("Rule applied to the fifth cooling period: #{old_clg_schedule.to_ScheduleRuleset.get.scheduleRules[i].name.to_s}")
+              # end
+              new_clg_set_sch = old_clg_schedule.clone(model)
+              new_clg_set_sch = new_clg_set_sch.to_Schedule.get
+              new_clg_set_sch.setName("#{old_schedule_name} adjusted by #{cooling_adjustment_ip}")
+              runner.registerInfo("Cooling schedule #{old_schedule_name} is cloned to #{new_clg_set_sch.name.to_s}")
+              # add to the hash
+              clg_set_schs[old_schedule_name] = new_clg_set_sch
+            end
+            # hook up cloned schedule to thermostat
+            thermostat.setCoolingSetpointTemperatureSchedule(new_clg_set_sch)
+          else
             runner.registerWarning("Schedule '#{old_schedule_name}' isn't a ScheduleRuleset object and won't be altered by this measure.")
-        end
-      end
-
-      # setup new heating setpoint schedule
-      htg_set_sch = thermostat.heatingSetpointTemperatureSchedule
-      if htg_set_sch.empty?
-        runner.registerWarning("Thermostat '#{thermostat.name}' doesn't have a heating setpoint schedule.")
-      else
-        old_htg_schedule = htg_set_sch.get
-        old_schedule_name = old_htg_schedule.name.to_s
-        if old_htg_schedule.to_ScheduleRuleset.is_initialized
-          if htg_set_schs.key?(old_schedule_name)
-            new_htg_set_sch = htg_set_schs[old_schedule_name]
-          else
-            new_htg_set_sch = old_htg_schedule.clone(model)
-            new_htg_set_sch = new_htg_set_sch.to_Schedule.get
-            new_htg_set_sch.setName("#{old_schedule_name} adjusted by #{heating_adjustment_ip}")
-            runner.registerInfo("Cooling schedule #{old_schedule_name} is cloned to #{new_htg_set_sch.name.to_s}")
-            # add to the hash
-            htg_set_schs[old_schedule_name] = new_htg_set_sch
           end
-          # hook up clone to thermostat
-          thermostat.setHeatingSetpointTemperatureSchedule(new_htg_set_sch)
-        else
-          runner.registerWarning("Schedule '#{old_schedule_name}' isn't a ScheduleRuleset object and won't be altered by this measure.")
         end
-
+      else
+        runner.registerInfo("The space cooling for thermostat #{thermostat.name.to_s} in thermal zone #{thermal_zone.name.to_s} does not use electricity, so the cooling setpoint won't be altered.")
       end
+
+      if htg_fuels.include?"Electricity"
+        # setup new heating setpoint schedule for the thermal zones using electric heating
+        htg_set_sch = thermostat.heatingSetpointTemperatureSchedule
+        if htg_set_sch.empty?
+          runner.registerWarning("Thermostat '#{thermostat.name}' doesn't have a heating setpoint schedule.")
+        else
+          old_htg_schedule = htg_set_sch.get
+          old_schedule_name = old_htg_schedule.name.to_s
+          if old_htg_schedule.to_ScheduleRuleset.is_initialized
+            if htg_set_schs.key?(old_schedule_name)
+              new_htg_set_sch = htg_set_schs[old_schedule_name]
+            else
+              new_htg_set_sch = old_htg_schedule.clone(model)
+              new_htg_set_sch = new_htg_set_sch.to_Schedule.get
+              new_htg_set_sch.setName("#{old_schedule_name} adjusted by #{heating_adjustment_ip}")
+              runner.registerInfo("Cooling schedule #{old_schedule_name} is cloned to #{new_htg_set_sch.name.to_s}")
+              # add to the hash
+              htg_set_schs[old_schedule_name] = new_htg_set_sch
+            end
+            # hook up clone to thermostat
+            thermostat.setHeatingSetpointTemperatureSchedule(new_htg_set_sch)
+          else
+            runner.registerWarning("Schedule '#{old_schedule_name}' isn't a ScheduleRuleset object and won't be altered by this measure.")
+          end
+
+        end
+      else
+        runner.registerInfo("The space heating for thermostat #{thermostat.name.to_s} in thermal zone #{thermal_zone.name.to_s} does not use electricity, so the heating setpoint won't be altered.")
+      end
+
     end
 
 
