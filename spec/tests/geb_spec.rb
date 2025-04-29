@@ -20,12 +20,12 @@ RSpec.describe OpenStudio::Geb do
 
   it "can apply and run single measure" do
     # provide baseline path
-    baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/370_medium_office_doas_fan_coil_acc_boiler_3A_modified.osm")   # commercial
+    baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/SecondarySchool_Pre1980_5A.osm")   # commercial
     # baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/Outpatient_VAV_economizer_test.osm")   # commercial
     # baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/SFD_1story_UB_UA_ASHP2_HPWH.osm")  # residential
     all_measures = list_all_geb_measures
     # puts JSON.pretty_generate(all_measures)
-    run_output_path = File.join(File.dirname(__FILE__ ), "../precooling")
+    run_output_path = File.join(File.dirname(__FILE__ ), "../epd")
     if File.exist? run_output_path
       FileUtils.rm_rf(run_output_path)
       sleep(0.1)
@@ -103,38 +103,11 @@ RSpec.describe OpenStudio::Geb do
       #     "end_time5" => "24:00:00"
       #   }
       # },
-      # "reduce_epd_by_percentage_for_peak_hours" => {
-      #   "measure_dir_name" => all_measures["reduce_epd_by_percentage_for_peak_hours"]["measure_dir_name"],
-      #   "arguments" => {
-      #     "alt_periods" => true,
-      #     "epd_reduce_percent" => 30,
-      #     "start_date1" => "01-01",
-      #     "end_date1" => "03-31",
-      #     "start_time1" => "00:00:00",
-      #     "end_time1" => "24:00:00",
-      #     "start_date2" => "04-01",
-      #     "end_date2" => "05-31",
-      #     "start_time2" => "00:00:00",
-      #     "end_time2" => "24:00:00",
-      #     "start_date3" => "06-01",
-      #     "end_date3" => "09-30",
-      #     "start_time3" => "00:00:00",
-      #     "end_time3" => "24:00:00",
-      #     "start_date4" => "10-01",
-      #     "end_date4" => "11-30",
-      #     "start_time4" => "00:00:00",
-      #     "end_time4" => "24:00:00",
-      #     "start_date5" => "12-01",
-      #     "end_date5" => "12-31",
-      #     "start_time5" => "00:00:00",
-      #     "end_time5" => "24:00:00"
-      #   }
-      # },
-      "precooling" => {
-        "measure_dir_name" => all_measures["precooling"]["measure_dir_name"],
+      "reduce_epd_by_percentage_for_peak_hours" => {
+        "measure_dir_name" => all_measures["reduce_epd_by_percentage_for_peak_hours"]["measure_dir_name"],
         "arguments" => {
-          "cooling_adjustment" => -4,
           "alt_periods" => true,
+          "epd_reduce_percent" => 50,
           "start_date1" => "01-01",
           "end_date1" => "03-31",
           "start_time1" => "00:00:00",
@@ -157,6 +130,33 @@ RSpec.describe OpenStudio::Geb do
           "end_time5" => "24:00:00"
         }
       },
+      # "precooling" => {
+      #   "measure_dir_name" => all_measures["precooling"]["measure_dir_name"],
+      #   "arguments" => {
+      #     "cooling_adjustment" => -4,
+      #     "alt_periods" => true,
+      #     "start_date1" => "01-01",
+      #     "end_date1" => "03-31",
+      #     "start_time1" => "00:00:00",
+      #     "end_time1" => "24:00:00",
+      #     "start_date2" => "04-01",
+      #     "end_date2" => "05-31",
+      #     "start_time2" => "00:00:00",
+      #     "end_time2" => "24:00:00",
+      #     "start_date3" => "06-01",
+      #     "end_date3" => "09-30",
+      #     "start_time3" => "00:00:00",
+      #     "end_time3" => "24:00:00",
+      #     "start_date4" => "10-01",
+      #     "end_date4" => "11-30",
+      #     "start_time4" => "00:00:00",
+      #     "end_time4" => "24:00:00",
+      #     "start_date5" => "12-01",
+      #     "end_date5" => "12-31",
+      #     "start_time5" => "00:00:00",
+      #     "end_time5" => "24:00:00"
+      #   }
+      # },
       # "preheating" => {
       #     "measure_dir_name" => all_measures["preheating"]["measure_dir_name"],
       #     "arguments" => {
@@ -353,8 +353,8 @@ RSpec.describe OpenStudio::Geb do
         "arguments" => {
           "event_date" => "01-01",
           "baseline_run_output_path" => run_output_path,
-          "take_start" => '12:00:00',
-          "take_end" => '16:00:00',
+          # "take_start" => '12:00:00',
+          # "take_end" => '16:00:00',
           "shed_start" => '16:00:00',
           "shed_end" => '20:00:00'
         }
