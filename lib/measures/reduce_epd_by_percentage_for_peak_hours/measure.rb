@@ -368,34 +368,57 @@ class ReduceEPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
     #   end
     # end
 
-    applicable_space_types = ["SecondarySchool - Office",
-                              "PrimarySchool - Office",
-                              "SmallOffice - ClosedOffice",
-                              "SmallOffice - Conference",
-                              "SmallOffice - OpenOffice",
-                              "MediumOffice - Classroom",
-                              "MediumOffice - ClosedOffice",
-                              "MediumOffice - Conference",
-                              "MediumOffice - OpenOffice",
-                              "LargeOffice - BreakRoom",
-                              "LargeOffice - Classroom",
-                              "LargeOffice - ClosedOffice",
-                              "LargeOffice - Conference",
-                              "LargeOffice - OpenOffice",
-                              "SmallHotel - Meeting",
-                              "SmallHotel - Office",
-                              "Storage - Office",
-                              "Hospital - Office",
-                              "Outpatient - Conference",
-                              "Outpatient - Office",
-                              "Warehouse - Office",
-                              "WholeBuilding - Sm Office",
-                              "WholeBuilding - Md Office",
-                              "WholeBuilding - Lg Office",
-                              "OfficeGeneral",
-                              "OfficeOpen",
-                              "Conference",
-                              "OfficeSmall"]
+    # applicable_space_types = ["SecondarySchool - Office",
+    #                           "PrimarySchool - Office",
+    #                           "SmallOffice - ClosedOffice",
+    #                           "SmallOffice - Conference",
+    #                           "SmallOffice - OpenOffice",
+    #                           "MediumOffice - Classroom",
+    #                           "MediumOffice - ClosedOffice",
+    #                           "MediumOffice - Conference",
+    #                           "MediumOffice - OpenOffice",
+    #                           "LargeOffice - BreakRoom",
+    #                           "LargeOffice - Classroom",
+    #                           "LargeOffice - ClosedOffice",
+    #                           "LargeOffice - Conference",
+    #                           "LargeOffice - OpenOffice",
+    #                           "SmallHotel - Meeting",
+    #                           "SmallHotel - Office",
+    #                           "Storage - Office",
+    #                           "Hospital - Office",
+    #                           "Outpatient - Conference",
+    #                           "Outpatient - Office",
+    #                           "Warehouse - Office",
+    #                           "WholeBuilding - Sm Office",
+    #                           "WholeBuilding - Md Office",
+    #                           "WholeBuilding - Lg Office",
+    #                           "OfficeGeneral",
+    #                           "OfficeOpen",
+    #                           "Conference",
+    #                           "OfficeSmall"]
+
+    applicable_space_types = ["Office", "Classroom", "Library", "ComputerRoom",
+                              "WholeBuilding - Sm Office", "SmallOffice - ClosedOffice", "SmallOffice - Conference", "SmallOffice - OpenOffice",
+                              "WholeBuilding - Md Office", "MediumOffice - Classroom", "MediumOffice - ClosedOffice",
+                              "MediumOffice - Conference", "MediumOffice - OpenOffice", "WholeBuilding - Lg Office",
+                              "BreakRoom", "ClosedOffice", "Conference", "OpenOffice", "Meeting",
+                              "Courthouse - Conference", "Courthouse - Library", "Courthouse - Office",
+                              "College - Art Classroom", "College - Classroom", "College - Conference", "College - Office"]
+
+    # Data center wouldn't be applied with this measure
+    excluded_bldg_types = ["LargeDataCenterHighITE", "LargeDataCenterLowITE",
+                           "SmallDataCenterHighITE", "SmallDataCenterLowITE"]
+
+    if model.getBuilding.standardsBuildingType.is_initialized
+      model_building_type = model.getBuilding.standardsBuildingType.get
+      if excluded_bldg_types.include?(model_building_type)
+        runner.registerAsNotApplicable("The building type #{model_building_type} is not applicable.")
+        return true
+      end
+    else
+      runner.registerError('model.getBuilding.standardsBuildingType is empty.')
+      return false
+    end
 
     adjust_period_inputs = { "period1" => {"date_start"=>os_start_date1, "date_end"=>os_end_date1,
                                              "time_start"=>shift_time_start1, "time_end"=>shift_time_end1},
@@ -423,7 +446,7 @@ class ReduceEPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
       end
       if space_type
         if space_type.standardsSpaceType.is_initialized and applicable_space_types.include?space_type.standardsSpaceType.get
-          runner.registerInfo("Found applicable equipment #{equip.name.to_s} belongs to office space types: #{space_type.name} with standardsSpaceType #{space_type.standardsSpaceType.get}")
+          runner.registerInfo("Found applicable equipment #{equip.name.to_s} belongs to: #{space_type.name} with standardsSpaceType #{space_type.standardsSpaceType.get}")
           equip_sch = equip.schedule
           if equip_sch.empty?
             runner.registerWarning("#{equip.name} doesn't have a schedule, so it won't be altered.")
