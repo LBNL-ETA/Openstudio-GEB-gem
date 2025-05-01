@@ -433,7 +433,7 @@ class Preheating < OpenStudio::Measure::ModelMeasure
 
     exclude_space_types = ["ER_Exam", "ER_NurseStn", "ER_Trauma", "ER_Triage", "ICU_NurseStn", "ICU_Open", "ICU_PatRm", "Lab",
                            "OR", "Anesthesia", "BioHazard", "Exam", "MedGas", "OR", "PACU", "PreOp", "ProcedureRoom", "Lab with fume hood",
-                           'HspSurgOutptLab', "RefWalkInCool", "RefWalkInFreeze", "HspSurgOutptLab", "RefStorFreezer", "RefStorCooler"]
+                           'HspSurgOutptLab', "RefWalkInCool", "RefWalkInFreeze", "RefFoodPrep", "RefStorFreezer", "RefStorCooler"]
 
     ## push schedules to hash to avoid making unnecessary duplicates
     ## one heating schedule set can correspond to multiple different cooling schedule set

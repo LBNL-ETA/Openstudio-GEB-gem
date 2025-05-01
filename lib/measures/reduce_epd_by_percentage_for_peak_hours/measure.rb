@@ -403,7 +403,8 @@ class ReduceEPDByPercentageForPeakHours < OpenStudio::Measure::ModelMeasure
                               "MediumOffice - Conference", "MediumOffice - OpenOffice", "WholeBuilding - Lg Office",
                               "BreakRoom", "ClosedOffice", "Conference", "OpenOffice", "Meeting",
                               "Courthouse - Conference", "Courthouse - Library", "Courthouse - Office",
-                              "College - Art Classroom", "College - Classroom", "College - Conference", "College - Office"]
+                              "College - Art Classroom", "College - Classroom", "College - Conference", "College - Office",
+                              "OfficeGeneral", "CompRoomClassRm", "OfficeOpen", "OfficeSmall"]
 
     # Data center wouldn't be applied with this measure
     excluded_bldg_types = ["LargeDataCenterHighITE", "LargeDataCenterLowITE",
