@@ -13,5 +13,7 @@ gemspec
 # if allow_local && File.exists?('../OpenStudio-extension-gem')
 #   gem 'openstudio-extension', path: '../OpenStudio-extension-gem'
 # else
-  # gem 'openstudio-extension', github: 'NREL/OpenStudio-extension-gem', tag: 'bundler-hack'
+  gem 'openstudio-extension', github: 'NREL/OpenStudio-extension-gem', branch: 'faraday'
 # end
+# Delete this once testing is complete!
+gem 'bcl', github: 'NREL/bcl-gem', branch: 'faraday'
