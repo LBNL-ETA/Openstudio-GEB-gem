@@ -25,9 +25,11 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = '3.2.2'
 
   spec.add_dependency 'openstudio-extension', '~> 0.9.1'
-  spec.add_dependency 'openstudio-standards', '~> 0.8.0'
+  spec.add_dependency 'openstudio-standards', '~> 0.8.2'
   spec.add_dependency 'simplecov', '0.22.0'
 
+  spec.add_development_dependency 'rake', '~> 13.0'
+  spec.add_development_dependency 'rubocop', '1.50'
   spec.add_development_dependency 'rspec', '~> 3.9'
 
 end
