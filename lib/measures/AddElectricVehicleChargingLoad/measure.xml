@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <measure>
-  <schema_version>3.0</schema_version>
+  <schema_version>3.1</schema_version>
   <name>add_electric_vehicle_charging_load</name>
   <uid>8f2cc5fa-3aed-4bd1-8663-dc9415733759</uid>
-  <version_id>04662888-91c4-4b8c-b398-e7a58e3cb526</version_id>
-  <version_modified>20230718T215419Z</version_modified>
+  <version_id>ce7c370c-f6b1-43ed-8606-38af8c50d28b</version_id>
+  <version_modified>2025-06-30T21:09:48Z</version_modified>
   <xml_checksum>0EED982D</xml_checksum>
   <class_name>AddElectricVehicleChargingLoad</class_name>
   <display_name>AddElectricVehicleChargingLoad</display_name>
@@ -26,6 +26,10 @@
         <choice>
           <value>workplace</value>
           <display_name>workplace</display_name>
+        </choice>
+        <choice>
+          <value>commercial station</value>
+          <display_name>commercial station</display_name>
         </choice>
       </choices>
     </argument>
@@ -65,6 +69,10 @@
           <value>DC charger</value>
           <display_name>DC charger</display_name>
         </choice>
+        <choice>
+          <value>Supercharger</value>
+          <display_name>Supercharger</display_name>
+        </choice>
       </choices>
     </argument>
     <argument>
@@ -98,6 +106,24 @@
       <required>true</required>
       <model_dependent>false</model_dependent>
       <default_value>4</default_value>
+    </argument>
+    <argument>
+      <name>arrival_time_variation_in_mins</name>
+      <display_name>Variation of arrival time in minutes</display_name>
+      <description>Actual arrival time can vary a certain period before and after the average arrival time. This parameter describes this absolute time delta. In other words, average arrival time plus/minus this parameter constitutes the arrival time range. </description>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>30</default_value>
+    </argument>
+    <argument>
+      <name>charge_time_variation_in_mins</name>
+      <display_name>Variation of charge time in minutes</display_name>
+      <description>Actual charge time can vary a certain period around the average charge hours. This parameter describes this absolute time delta. In other words, average charge hours plus/minus this parameter constitutes the charge time range. </description>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>60</default_value>
     </argument>
     <argument>
       <name>charge_on_sat</name>
@@ -170,6 +196,18 @@
   </attributes>
   <files>
     <file>
+      <filename>LICENSE.md</filename>
+      <filetype>md</filetype>
+      <usage_type>license</usage_type>
+      <checksum>BFFB1AA6</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>170026EE</checksum>
+    </file>
+    <file>
       <filename>README.md.erb</filename>
       <filetype>erb</filetype>
       <usage_type>readmeerb</usage_type>
@@ -182,6 +220,29 @@
       <checksum>00000000</checksum>
     </file>
     <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>2.9.1</identifier>
+        <min_compatible>2.9.1</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>CA8CFC96</checksum>
+    </file>
+    <file>
+      <filename>CZ06RV2.epw</filename>
+      <filetype>epw</filetype>
+      <usage_type>test</usage_type>
+      <checksum>52282D70</checksum>
+    </file>
+    <file>
+      <filename>add_electric_vehicle_charging_load_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>BBBD18C2</checksum>
+    </file>
+    <file>
       <filename>example_model.osm</filename>
       <filetype>osm</filetype>
       <usage_type>test</usage_type>
@@ -191,36 +252,7 @@
       <filename>test.osm</filename>
       <filetype>osm</filetype>
       <usage_type>test</usage_type>
-      <checksum>6AAB13AE</checksum>
-    </file>
-    <file>
-      <filename>README.md</filename>
-      <filetype>md</filetype>
-      <usage_type>readme</usage_type>
-      <checksum>253F8177</checksum>
-    </file>
-    <file>
-      <filename>LICENSE.md</filename>
-      <filetype>md</filetype>
-      <usage_type>license</usage_type>
-      <checksum>BFFB1AA6</checksum>
-    </file>
-    <file>
-      <filename>add_electric_vehicle_charging_load_test.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>test</usage_type>
-      <checksum>1E9C7A92</checksum>
-    </file>
-    <file>
-      <version>
-        <software_program>OpenStudio</software_program>
-        <identifier>2.9.1</identifier>
-        <min_compatible>2.9.1</min_compatible>
-      </version>
-      <filename>measure.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>script</usage_type>
-      <checksum>BE9231DB</checksum>
+      <checksum>60703786</checksum>
     </file>
   </files>
 </measure>

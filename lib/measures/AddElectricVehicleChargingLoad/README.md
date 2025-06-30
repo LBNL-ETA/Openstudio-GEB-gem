@@ -83,6 +83,22 @@ ModelMeasure
 **Required:** true,
 **Model Dependent:** false
 
+### Variation of arrival time in minutes
+Actual arrival time can vary a certain period before and after the average arrival time. This parameter describes this absolute time delta. In other words, average arrival time plus/minus this parameter constitutes the arrival time range. 
+**Name:** arrival_time_variation_in_mins,
+**Type:** Double,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### Variation of charge time in minutes
+Actual charge time can vary a certain period around the average charge hours. This parameter describes this absolute time delta. In other words, average charge hours plus/minus this parameter constitutes the charge time range. 
+**Name:** charge_time_variation_in_mins,
+**Type:** Double,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
 ### EVs are charged on Saturday
 
 **Name:** charge_on_sat,

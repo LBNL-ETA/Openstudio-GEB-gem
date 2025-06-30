@@ -1,3 +1,8 @@
+# *******************************************************************************
+# OpenStudio(R), Copyright (c) Alliance for Sustainable Energy, LLC.
+# See also https://openstudio.net/license
+# *******************************************************************************
+
 # codes to generate internal windows in the MediumOffice model
 
 require 'openstudio'

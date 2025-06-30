@@ -20,71 +20,175 @@ ModelMeasure
 
 
 ### Degrees Fahrenheit to Adjust Heating Setpoint By
-
+Use positive value for increasing heating setpoint during preheating period
 **Name:** heating_adjustment,
 **Type:** Double,
 **Units:** ,
 **Required:** true,
 **Model Dependent:** false
 
-### First Start Date for Pre-heating
+### First start date for preheating
 In MM-DD format
-**Name:** heating_startdate1,
+**Name:** start_date1,
+**Type:** String,
+**Units:** ,
+**Required:** true,
+**Model Dependent:** false
+
+### First end date for preheating
+In MM-DD format
+**Name:** end_date1,
+**Type:** String,
+**Units:** ,
+**Required:** true,
+**Model Dependent:** false
+
+### Second start date for preheating (optional)
+Specify a date in MM-DD format if you want a second season of preheating; leave blank if not needed.
+**Name:** start_date2,
 **Type:** String,
 **Units:** ,
 **Required:** false,
 **Model Dependent:** false
 
-### First End Date for Pre-heating
-In MM-DD format
-**Name:** heating_enddate1,
+### Second end date for preheating
+Specify a date in MM-DD format if you want a second season of preheating; leave blank if not needed. If either the start or end date is blank, the period is considered not used.
+**Name:** end_date2,
 **Type:** String,
 **Units:** ,
 **Required:** false,
 **Model Dependent:** false
 
-### Second Start Date for Pre-heating
-In MM-DD format
-**Name:** heating_startdate2,
+### Third start date for preheating (optional)
+Specify a date in MM-DD format if you want a third season of preheating; leave blank if not needed.
+**Name:** start_date3,
 **Type:** String,
 **Units:** ,
 **Required:** false,
 **Model Dependent:** false
 
-### First End Date for Pre-heating
-In MM-DD format
-**Name:** heating_enddate2,
+### Third end date for preheating
+Specify a date in MM-DD format if you want a third season of preheating; leave blank if not needed. If either the start or end date is blank, the period is considered not used.
+**Name:** end_date3,
 **Type:** String,
 **Units:** ,
 **Required:** false,
 **Model Dependent:** false
 
-### Start Time for Pre-heating
+### Fourth start date for preheating (optional)
+Specify a date in MM-DD format if you want a fourth season of preheating; leave blank if not needed.
+**Name:** start_date4,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### Fourth end date for preheating
+Specify a date in MM-DD format if you want a fourth season of preheating; leave blank if not needed. If either the start or end date is blank, the period is considered not used.
+**Name:** end_date4,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### Fifth start date for preheating (optional)
+Specify a date in MM-DD format if you want a fifth season of preheating; leave blank if not needed.
+**Name:** start_date5,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### Fifth end date for preheating
+Specify a date in MM-DD format if you want a fifth season of preheating; leave blank if not needed. If either the start or end date is blank, the period is considered not used.
+**Name:** end_date5,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### Start time of preheating for the first season
 In HH:MM:SS format
-**Name:** starttime_heating,
+**Name:** start_time1,
 **Type:** String,
 **Units:** ,
 **Required:** true,
 **Model Dependent:** false
 
-### End Time for Pre-heating
+### End time of preheating for the first season
 In HH:MM:SS format
-**Name:** endtime_heating,
+**Name:** end_time1,
 **Type:** String,
 **Units:** ,
 **Required:** true,
 **Model Dependent:** false
 
-### Enable Climate-specific Periods Setting ?
-
-**Name:** auto_date,
-**Type:** Boolean,
+### Start time of preheating for the second season (optional)
+In HH:MM:SS format
+**Name:** start_time2,
+**Type:** String,
 **Units:** ,
-**Required:** true,
+**Required:** false,
 **Model Dependent:** false
 
-### Alternate Peak and Take Periods ?
+### End time of preheating for the second season (optional)
+In HH:MM:SS format
+**Name:** end_time2,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
 
+### Start time of preheating for the third season (optional)
+In HH:MM:SS format
+**Name:** start_time3,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### End time of preheating for the third season (optional)
+In HH:MM:SS format
+**Name:** end_time3,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### Start time of preheating for the fourth season (optional)
+In HH:MM:SS format
+**Name:** start_time4,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### End time of preheating for the fourth season (optional)
+In HH:MM:SS format
+**Name:** end_time4,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### Start time of preheating for the fifth season (optional)
+In HH:MM:SS format
+**Name:** start_time5,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### End time of preheating for the fifth season (optional)
+In HH:MM:SS format
+**Name:** end_time5,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### Use alternative default start and end time based on the state of the model from the Cambium load profile peak period?
+This will overwrite the start and end time and date provided by the user
 **Name:** alt_periods,
 **Type:** Boolean,
 **Units:** ,

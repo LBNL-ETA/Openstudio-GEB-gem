@@ -1,81 +1,209 @@
 <?xml version="1.0"?>
 <measure>
-  <schema_version>3.0</schema_version>
+  <schema_version>3.1</schema_version>
   <name>precooling</name>
   <uid>58a80cd6-4b78-44f1-8b5b-b589b92f94e2</uid>
-  <version_id>4e7fdd9d-fc9c-46b2-b69c-a463312203f4</version_id>
-  <version_modified>20230718T215421Z</version_modified>
+  <version_id>c876ea55-76ae-47e3-b3bc-e396fda90187</version_id>
+  <version_modified>2025-06-30T21:09:49Z</version_modified>
   <xml_checksum>037F7E44</xml_checksum>
   <class_name>Precooling</class_name>
   <display_name>Precooling</display_name>
   <description>This measure adjusts cooling schedules by a user specified number of degrees for the specified time period of a day. User can also specify the start and end date for the adjustment. This is applied throughout the entire building.</description>
-  <modeler_description>This measure will clone all of the schedules that are used as  cooling setpoints for thermal zones. The clones are hooked up to the thermostat in place of the original schedules. Then the schedules are adjusted by the specified values. HVAC operation schedule will also be changed. There is a checkbox to determine if the thermostat for design days should be altered.</modeler_description>
+  <modeler_description>This measure will clone all of the schedules that are used for cooling setpoints for thermal zones. The clones are hooked up to the thermostat in place of the original schedules. Then the schedules are adjusted by the specified values. HVAC operation schedule will also be changed. There is a checkbox to determine if the thermostat for design days should be altered.</modeler_description>
   <arguments>
     <argument>
       <name>cooling_adjustment</name>
       <display_name>Degrees Fahrenheit to Adjust Cooling Setpoint By</display_name>
+      <description>Use negative value for reducing cooling setpoint during precooling period</description>
       <type>Double</type>
       <required>true</required>
       <model_dependent>false</model_dependent>
       <default_value>-4</default_value>
     </argument>
     <argument>
-      <name>starttime_cooling</name>
-      <display_name>Start Time for Pre-cooling</display_name>
-      <description>In HH:MM:SS format</description>
-      <type>String</type>
-      <required>true</required>
-      <model_dependent>false</model_dependent>
-      <default_value>11:59:00</default_value>
-    </argument>
-    <argument>
-      <name>endtime_cooling</name>
-      <display_name>End Time for Pre-cooling</display_name>
-      <description>In HH:MM:SS format</description>
-      <type>String</type>
-      <required>true</required>
-      <model_dependent>false</model_dependent>
-      <default_value>15:59:00</default_value>
-    </argument>
-    <argument>
-      <name>cooling_startdate</name>
-      <display_name>Start Date for Pre-cooling</display_name>
+      <name>start_date1</name>
+      <display_name>First start date for precooling</display_name>
       <description>In MM-DD format</description>
       <type>String</type>
-      <required>false</required>
+      <required>true</required>
       <model_dependent>false</model_dependent>
       <default_value>06-01</default_value>
     </argument>
     <argument>
-      <name>cooling_enddate</name>
-      <display_name>End Date for Pre-cooling</display_name>
+      <name>end_date1</name>
+      <display_name>First end date for precooling</display_name>
       <description>In MM-DD format</description>
       <type>String</type>
-      <required>false</required>
+      <required>true</required>
       <model_dependent>false</model_dependent>
       <default_value>09-30</default_value>
     </argument>
     <argument>
-      <name>auto_date</name>
-      <display_name>Enable Climate-specific Periods Setting ?</display_name>
-      <type>Boolean</type>
+      <name>start_date2</name>
+      <display_name>Second start date for precooling (optional)</display_name>
+      <description>Specify a date in MM-DD format if you want a second season of precooling; leave blank if not needed.</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>end_date2</name>
+      <display_name>Second end date for precooling</display_name>
+      <description>Specify a date in MM-DD format if you want a second season of precooling; leave blank if not needed. If either the start or end date is blank, the period is considered not used.</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>start_date3</name>
+      <display_name>Third start date for precooling (optional)</display_name>
+      <description>Specify a date in MM-DD format if you want a third season of precooling; leave blank if not needed.</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>end_date3</name>
+      <display_name>Third end date for precooling</display_name>
+      <description>Specify a date in MM-DD format if you want a third season of precooling; leave blank if not needed. If either the start or end date is blank, the period is considered not used.</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>start_date4</name>
+      <display_name>Fourth start date for precooling (optional)</display_name>
+      <description>Specify a date in MM-DD format if you want a fourth season of precooling; leave blank if not needed.</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>end_date4</name>
+      <display_name>Fourth end date for precooling</display_name>
+      <description>Specify a date in MM-DD format if you want a fourth season of precooling; leave blank if not needed. If either the start or end date is blank, the period is considered not used.</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>start_date5</name>
+      <display_name>Fifth start date for precooling (optional)</display_name>
+      <description>Specify a date in MM-DD format if you want a fifth season of precooling; leave blank if not needed.</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>end_date5</name>
+      <display_name>Fifth end date for precooling</display_name>
+      <description>Specify a date in MM-DD format if you want a fifth season of precooling; leave blank if not needed. If either the start or end date is blank, the period is considered not used.</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>start_time1</name>
+      <display_name>Start time of precooling for the first season</display_name>
+      <description>In HH:MM:SS format</description>
+      <type>String</type>
       <required>true</required>
       <model_dependent>false</model_dependent>
-      <default_value>false</default_value>
-      <choices>
-        <choice>
-          <value>true</value>
-          <display_name>true</display_name>
-        </choice>
-        <choice>
-          <value>false</value>
-          <display_name>false</display_name>
-        </choice>
-      </choices>
+      <default_value>17:00:00</default_value>
+    </argument>
+    <argument>
+      <name>end_time1</name>
+      <display_name>End time of precooling for the first season</display_name>
+      <description>In HH:MM:SS format</description>
+      <type>String</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>21:00:00</default_value>
+    </argument>
+    <argument>
+      <name>start_time2</name>
+      <display_name>Start time of precooling for the second season (optional)</display_name>
+      <description>In HH:MM:SS format</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>end_time2</name>
+      <display_name>End time of precooling for the second season (optional)</display_name>
+      <description>In HH:MM:SS format</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>start_time3</name>
+      <display_name>Start time of precooling for the third season (optional)</display_name>
+      <description>In HH:MM:SS format</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>end_time3</name>
+      <display_name>End time of precooling for the third season (optional)</display_name>
+      <description>In HH:MM:SS format</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>start_time4</name>
+      <display_name>Start time of precooling for the fourth season (optional)</display_name>
+      <description>In HH:MM:SS format</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>end_time4</name>
+      <display_name>End time of precooling for the fourth season (optional)</display_name>
+      <description>In HH:MM:SS format</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>start_time5</name>
+      <display_name>Start time of precooling for the fifth season (optional)</display_name>
+      <description>In HH:MM:SS format</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>end_time5</name>
+      <display_name>End time of precooling for the fifth season (optional)</display_name>
+      <description>In HH:MM:SS format</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
     </argument>
     <argument>
       <name>alt_periods</name>
-      <display_name>Alternate Peak and Take Periods ?</display_name>
+      <display_name>Use alternative default start and end time based on the state of the model from the Cambium load profile peak period?</display_name>
+      <description>This will overwrite the start and end time and date provided by the user</description>
       <type>Boolean</type>
       <required>true</required>
       <model_dependent>false</model_dependent>
@@ -131,22 +259,22 @@
   </attributes>
   <files>
     <file>
-      <filename>README.md.erb</filename>
-      <filetype>erb</filetype>
-      <usage_type>readmeerb</usage_type>
-      <checksum>703C9964</checksum>
+      <filename>LICENSE.md</filename>
+      <filetype>md</filetype>
+      <usage_type>license</usage_type>
+      <checksum>BFFB1AA6</checksum>
     </file>
     <file>
       <filename>README.md</filename>
       <filetype>md</filetype>
       <usage_type>readme</usage_type>
-      <checksum>02F34247</checksum>
+      <checksum>D6514577</checksum>
     </file>
     <file>
-      <filename>LICENSE.md</filename>
-      <filetype>md</filetype>
-      <usage_type>license</usage_type>
-      <checksum>BFFB1AA6</checksum>
+      <filename>README.md.erb</filename>
+      <filetype>erb</filetype>
+      <usage_type>readmeerb</usage_type>
+      <checksum>703C9964</checksum>
     </file>
     <file>
       <version>
@@ -157,7 +285,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>A8C58179</checksum>
+      <checksum>29B4D616</checksum>
     </file>
   </files>
 </measure>
