@@ -1,5 +1,9 @@
 # OpenStudio GEB Gem
 
+## Version 0.7.0
+
+- Support for OpenStudio 3.10 (upgrade standards gem 0.8.2, extension gem 0.9.1)
+
 ## Version 0.6.0
 - Support for OpenStudio 3.9 (upgrade standards gem 0.7.0, extension gem 0.8.2)
 
