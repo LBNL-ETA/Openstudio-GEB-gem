@@ -427,7 +427,7 @@ class AddHpwh < OpenStudio::Measure::ModelMeasure
     # in place, the new HPWH tank will be placed in front (to the left) of them.
 
     # use OS standards build - arbitrary selection, but NZE Ready seems appropriate
-    std = Standard.build('NREL ZNE Ready 2017')
+    # std = Standard.build('NREL ZNE Ready 2017')
 
     #####
     # get the selected water heaters
@@ -559,35 +559,35 @@ class AddHpwh < OpenStudio::Measure::ModelMeasure
           zone = model.getThermalZoneByName(zone_name).get
         end
 
-        hpwh = std.model_add_heatpump_water_heater(model, # model
-                                                   type: type,                                                           # type
-                                                   water_heater_capacity: (cap * 1000 / cop),                            # water_heater_capacity
-                                                   electric_backup_capacity: (bu_cap * 1000),                            # electric_backup_capacity
-                                                   water_heater_volume: v,                                               # water_heater_volume
-                                                   service_water_temperature: OpenStudio.convert(140.0, 'F', 'C').get,   # service_water_temperature
-                                                   parasitic_fuel_consumption_rate: 3.0,                                 # parasitic_fuel_consumption_rate
-                                                   swh_temp_sch: sched,                                                  # swh_temp_sch
-                                                   cop: cop,                                                             # cop
-                                                   shr: 0.88,                                                            # shr
-                                                   tank_ua: 3.9,                                                         # tank_ua
-                                                   set_peak_use_flowrate: false,                                         # set_peak_use_flowrate
-                                                   peak_flowrate: 0.0,                                                   # peak_flowrate
-                                                   flowrate_schedule: nil,                                               # flowrate_schedule
-                                                   water_heater_thermal_zone: zone)                                      # water_heater_thermal_zone
+        hpwh = OpenstudioStandards::ServiceWaterHeating.create_heatpump_water_heater(model, # model
+                                                                                     heat_pump_type: type,
+                                                                                     water_heater_capacity: (cap * 1000 / cop),
+                                                                                     water_heater_volume: v,
+                                                                                     coefficient_of_performance: cop,
+                                                                                     electric_backup_capacity: (bu_cap * 1000),
+                                                                                     on_cycle_parasitic_fuel_consumption_rate: 3.0,
+                                                                                     off_cycle_parasitic_fuel_consumption_rate: 3.0,
+                                                                                     service_water_temperature: OpenStudio.convert(140.0, 'F', 'C').get,
+                                                                                     service_water_temperature_schedule: sched,
+                                                                                     set_peak_use_flowrate: false,
+                                                                                     peak_flowrate: 0.0,
+                                                                                     flowrate_schedule: nil,
+                                                                                     water_heater_thermal_zone: zone)
       else
         # zone = whtr.ambientTemperatureThermalZone.get
-        hpwh = std.model_add_water_heater(model, # model
-                                          (cap * 1000),                                                         # water_heater_capacity
-                                          v.to_f,                                                               # water_heater_volume
-                                          'HeatPump',                                                           # water_heater_fuel
-                                          OpenStudio.convert(140.0, 'F', 'C').to_f,                             # service_water_temperature
-                                          3.0,                                                                  # parasitic_fuel_consumption_rate
-                                          sched,                                                                # swh_temp_sch
-                                          false,                                                                # set_peak_use_flowrate
-                                          0.0,                                                                  # peak_flowrate
-                                          nil,                                                                  # flowrate_schedule
-                                          model.getThermalZones[0], # water_heater_thermal_zone
-                                          1) # number_water_heaters
+        hpwh = OpenstudioStandards::ServiceWaterHeating.create_water_heater(model,
+                                                                            water_heater_capacity: (cap * 1000),
+                                                                            water_heater_volume: v.to_f,
+                                                                            water_heater_fuel: 'HeatPump',
+                                                                            service_water_temperature: OpenStudio.convert(140.0, 'F', 'C').to_f,
+                                                                            on_cycle_parasitic_fuel_consumption_rate: 3.0,
+                                                                            off_cycle_parasitic_fuel_consumption_rate: 3.0,
+                                                                            service_water_temperature_schedule: sched,
+                                                                            set_peak_use_flowrate: false,
+                                                                            peak_flowrate: 0.0,
+                                                                            flowrate_schedule: nil,
+                                                                            water_heater_thermal_zone: model.getThermalZones[0],
+                                                                            number_of_water_heaters: 1)
         # set COP in PLF curve
         cop_curve = hpwh.partLoadFactorCurve.get
         cop_curve.setName(cop_curve.name.get.gsub('2.8', cop.to_s))

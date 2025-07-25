@@ -20,12 +20,12 @@ RSpec.describe OpenStudio::Geb do
 
   it "can apply and run single measure" do
     # provide baseline path
-    baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/LargeOffice-90.1-2013-ASHRAE 169-2013-5A.osm")   # commercial
+    baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/bldg0249347_smlOfc_CA.osm")   # commercial
     # baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/Outpatient_VAV_economizer_test.osm")   # commercial
     # baseline_dir_str = File.join(File.dirname(__FILE__ ), "../seed_models/SFD_1story_UB_UA_ASHP2_HPWH.osm")  # residential
     all_measures = list_all_geb_measures
     # puts JSON.pretty_generate(all_measures)
-    run_output_path = File.join(File.dirname(__FILE__ ), "../gta")
+    run_output_path = File.join(File.dirname(__FILE__ ), "../precool")
     if File.exist? run_output_path
       FileUtils.rm_rf(run_output_path)
       sleep(0.1)
@@ -37,46 +37,46 @@ RSpec.describe OpenStudio::Geb do
     # provide weather file path
     weather_file_path = File.join(File.dirname(__FILE__ ), "../seed_models/USA_NY_Buffalo.Niagara.Intl.AP.725280_TMY3.epw")
     measure_dict = {
-      "AdjustThermostatSetpointsByDegreesForPeakHours" => {
-        "measure_dir_name" => all_measures["AdjustThermostatSetpointsByDegreesForPeakHours"]["measure_dir_name"],
-        "arguments" => {
-          "cooling_adjustment" => 5,
-          "heating_adjustment" => -4,
-          "alt_periods" => true,
-          "cooling_start_date1" => "01-01",
-          "cooling_end_date1" => "03-31",
-          "cooling_start_time1" => "00:00:00",
-          "cooling_end_time1" => "24:00:00",
-          "cooling_start_date2" => "04-01",
-          "cooling_end_date2" => "05-31",
-          "cooling_start_time2" => "00:00:00",
-          "cooling_end_time2" => "24:00:00",
-          "cooling_start_date3" => "06-01",
-          "cooling_end_date3" => "09-30",
-          "cooling_start_time3" => "00:00:00",
-          "cooling_end_time3" => "24:00:00",
-          "cooling_start_date4" => "10-01",
-          "cooling_end_date4" => "11-30",
-          "cooling_start_time4" => "00:00:00",
-          "cooling_end_time4" => "24:00:00",
-          "heating_start_date1" => "01-01",
-          "heating_end_date1" => "03-31",
-          "heating_start_time1" => "00:00:00",
-          "heating_end_time1" => "24:00:00",
-          "heating_start_date2" => "04-01",
-          "heating_end_date2" => "05-31",
-          "heating_start_time2" => "00:00:00",
-          "heating_end_time2" => "24:00:00",
-          "heating_start_date3" => "06-01",
-          "heating_end_date3" => "09-30",
-          "heating_start_time3" => "00:00:00",
-          "heating_end_time3" => "24:00:00",
-          "heating_start_date4" => "12-01",
-          "heating_end_date4" => "12-31",
-          "heating_start_time4" => "00:00:00",
-          "heating_end_time4" => "24:00:00"
-        }
-      },
+      # "AdjustThermostatSetpointsByDegreesForPeakHours" => {
+      #   "measure_dir_name" => all_measures["AdjustThermostatSetpointsByDegreesForPeakHours"]["measure_dir_name"],
+      #   "arguments" => {
+      #     "cooling_adjustment" => 5,
+      #     "heating_adjustment" => -4,
+      #     "alt_periods" => true,
+      #     "cooling_start_date1" => "01-01",
+      #     "cooling_end_date1" => "03-31",
+      #     "cooling_start_time1" => "00:00:00",
+      #     "cooling_end_time1" => "24:00:00",
+      #     "cooling_start_date2" => "04-01",
+      #     "cooling_end_date2" => "05-31",
+      #     "cooling_start_time2" => "00:00:00",
+      #     "cooling_end_time2" => "24:00:00",
+      #     "cooling_start_date3" => "06-01",
+      #     "cooling_end_date3" => "09-30",
+      #     "cooling_start_time3" => "00:00:00",
+      #     "cooling_end_time3" => "24:00:00",
+      #     "cooling_start_date4" => "10-01",
+      #     "cooling_end_date4" => "11-30",
+      #     "cooling_start_time4" => "00:00:00",
+      #     "cooling_end_time4" => "24:00:00",
+      #     "heating_start_date1" => "01-01",
+      #     "heating_end_date1" => "03-31",
+      #     "heating_start_time1" => "00:00:00",
+      #     "heating_end_time1" => "24:00:00",
+      #     "heating_start_date2" => "04-01",
+      #     "heating_end_date2" => "05-31",
+      #     "heating_start_time2" => "00:00:00",
+      #     "heating_end_time2" => "24:00:00",
+      #     "heating_start_date3" => "06-01",
+      #     "heating_end_date3" => "09-30",
+      #     "heating_start_time3" => "00:00:00",
+      #     "heating_end_time3" => "24:00:00",
+      #     "heating_start_date4" => "12-01",
+      #     "heating_end_date4" => "12-31",
+      #     "heating_start_time4" => "00:00:00",
+      #     "heating_end_time4" => "24:00:00"
+      #   }
+      # },
       # "reduce_lpd_by_percentage_for_peak_hours" => {
       #   "measure_dir_name" => all_measures["reduce_lpd_by_percentage_for_peak_hours"]["measure_dir_name"],
       #   "arguments" => {
@@ -254,12 +254,12 @@ RSpec.describe OpenStudio::Geb do
       #     "ctrl_type" => 'MeetDaylightIlluminanceSetpoint'
       #   }
       # },
-      # "add_rooftop_pv_simple" => {
-      #   "measure_dir_name" => all_measures["add_rooftop_pv_simple"]["measure_dir_name"],
-      #   "arguments" => {
-      #     "fraction_of_surface" => 0.35
-      #   }
-      # },
+      "add_rooftop_pv_simple" => {
+        "measure_dir_name" => all_measures["add_rooftop_pv_simple"]["measure_dir_name"],
+        "arguments" => {
+          "fraction_of_surface" => 0.35
+        }
+      },
       # "average_ventilation_for_peak_hours" => {
       #   "measure_dir_name" => all_measures["average_ventilation_for_peak_hours"]["measure_dir_name"],
       #   "arguments" => {
@@ -325,19 +325,19 @@ RSpec.describe OpenStudio::Geb do
       #     "wknds" => true
       #   }
       # },
-      # "add_fan_assist_night_ventilation_with_hybrid_control" => {
-      #   "measure_dir_name" => all_measures["add_fan_assist_night_ventilation_with_hybrid_control"]["measure_dir_name"],
-      #   "arguments" => {
-      #     "design_night_vent_ach" => 3,
-      #     "min_outdoor_temp" => 20,
-      #     "max_outdoor_temp" => 26,
-      #     "night_vent_starttime" => "20:00",
-      #     "night_vent_endtime" => "08:00",
-      #     "night_vent_startdate" => "03-01",
-      #     "night_vent_enddate" => "10-31",
-      #     "wknds" => true
-      #   }
-      # },
+      "add_fan_assist_night_ventilation_with_hybrid_control" => {
+        "measure_dir_name" => all_measures["add_fan_assist_night_ventilation_with_hybrid_control"]["measure_dir_name"],
+        "arguments" => {
+          "design_night_vent_ach" => 3,
+          "min_outdoor_temp" => 20,
+          "max_outdoor_temp" => 26,
+          "night_vent_starttime" => "20:00",
+          "night_vent_endtime" => "08:00",
+          "night_vent_startdate" => "03-01",
+          "night_vent_enddate" => "10-31",
+          "wknds" => true
+        }
+      },
       # "apply_dynamic_coating_to_roof_wall" => {
       #   "measure_dir_name" => all_measures["apply_dynamic_coating_to_roof_wall"]["measure_dir_name"],
       #   "arguments" => {
