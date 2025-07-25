@@ -3,8 +3,8 @@
   <schema_version>3.1</schema_version>
   <name>add_hpwh</name>
   <uid>97c41d92-8cb1-4724-aa1c-33296e049171</uid>
-  <version_id>177d1d3e-2a14-4a18-bdca-85c1855a433e</version_id>
-  <version_modified>2025-06-30T21:09:49Z</version_modified>
+  <version_id>b746875a-c677-4291-96f6-bcc2015ac43f</version_id>
+  <version_modified>2025-07-25T08:00:56Z</version_modified>
   <xml_checksum>A374667A</xml_checksum>
   <class_name>AddHpwh</class_name>
   <display_name>Add HPWH for Domestic Hot Water</display_name>
@@ -388,7 +388,7 @@ Due to the heat pump interaction with zone conditioning as well as tank heating,
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>5F05569F</checksum>
+      <checksum>17D1BC82</checksum>
     </file>
     <file>
       <filename>CZ06RV2.epw</filename>

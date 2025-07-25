@@ -1,11 +1,10 @@
 <?xml version="1.0"?>
 <measure>
   <schema_version>3.1</schema_version>
-  <error>Failed to infer measure name from '/Users/nmoore/github/Openstudio-GEB-gem/lib/measures/add_fan_assist_night_ventilation_with_hybrid_control/measure.rb'</error>
   <name>add_fan_assist_night_ventilation_with_hybrid_control</name>
   <uid>d92a3755-0116-4cc0-913a-583b7823a6f3</uid>
-  <version_id>cb8fc140-2c68-4518-9ea9-26441e91afc4</version_id>
-  <version_modified>2025-06-30T21:09:49Z</version_modified>
+  <version_id>6825a934-7881-4359-b18c-7b8f49a0b230</version_id>
+  <version_modified>2025-07-25T08:00:52Z</version_modified>
   <xml_checksum>5C177E8D</xml_checksum>
   <class_name>AddFanAssistNightVentilationWithHybridControl</class_name>
   <display_name>Add fan assist night ventilation with hybrid control</display_name>
@@ -195,7 +194,7 @@
       <filename>README.md</filename>
       <filetype>md</filetype>
       <usage_type>readme</usage_type>
-      <checksum>01DF739F</checksum>
+      <checksum>87A78EF5</checksum>
     </file>
     <file>
       <filename>README.md.erb</filename>
@@ -218,7 +217,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>25928993</checksum>
+      <checksum>99564A32</checksum>
     </file>
     <file>
       <filename>USA_NY_Buffalo.Niagara.Intl.AP.725280_TMY3.epw</filename>
