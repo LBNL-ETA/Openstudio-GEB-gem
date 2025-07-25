@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <measure>
-  <schema_version>3.0</schema_version>
+  <schema_version>3.1</schema_version>
   <name>apply_dynamic_coating_to_roof_wall</name>
   <uid>798beecf-b1eb-466c-ae5b-7a9e1197c908</uid>
-  <version_id>bfa5b8bd-ac57-416b-ba13-68a261754eb7</version_id>
-  <version_modified>20231025T220809Z</version_modified>
+  <version_id>055cae13-a5b1-4c58-942e-9764e416a857</version_id>
+  <version_modified>2025-06-30T21:09:48Z</version_modified>
   <xml_checksum>3F2EAA60</xml_checksum>
   <class_name>ApplyDynamicCoatingToRoofWall</class_name>
   <display_name>Apply dynamic coating to roof wall</display_name>
@@ -151,7 +151,13 @@
       <filename>LICENSE.md</filename>
       <filetype>md</filetype>
       <usage_type>license</usage_type>
-      <checksum>CD7F5672</checksum>
+      <checksum>BFFB1AA6</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>32AD1B4C</checksum>
     </file>
     <file>
       <filename>README.md.erb</filename>
@@ -174,13 +180,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>57AB3D04</checksum>
-    </file>
-    <file>
-      <filename>apply_dynamic_coating_to_roof_wall_test.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>test</usage_type>
-      <checksum>5927C28F</checksum>
+      <checksum>D13D9A70</checksum>
     </file>
     <file>
       <filename>MediumOffice-90.1-2010-ASHRAE 169-2013-5A.osm</filename>
@@ -189,16 +189,22 @@
       <checksum>A364A953</checksum>
     </file>
     <file>
+      <filename>SF-CACZ6-HPWH-pre1978.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>16E17299</checksum>
+    </file>
+    <file>
       <filename>USA_NY_Buffalo.Niagara.Intl.AP.725280_TMY3.epw</filename>
       <filetype>epw</filetype>
       <usage_type>test</usage_type>
       <checksum>3A15D82B</checksum>
     </file>
     <file>
-      <filename>README.md</filename>
-      <filetype>md</filetype>
-      <usage_type>readme</usage_type>
-      <checksum>32AD1B4C</checksum>
+      <filename>apply_dynamic_coating_to_roof_wall_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>0C27C111</checksum>
     </file>
   </files>
 </measure>

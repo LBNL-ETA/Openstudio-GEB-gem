@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <measure>
-  <schema_version>3.0</schema_version>
+  <schema_version>3.1</schema_version>
   <name>reduce_lpd_by_percentage_for_peak_hours</name>
   <uid>a305ea88-b32c-4e91-bdd0-4ea7d41d7388</uid>
-  <version_id>87894ed1-6370-400a-8dbc-b50db3610784</version_id>
-  <version_modified>20230718T215426Z</version_modified>
+  <version_id>e37a7281-c8a1-4071-aeb8-34155dc9506d</version_id>
+  <version_modified>2025-06-30T21:09:49Z</version_modified>
   <xml_checksum>81C5D8E7</xml_checksum>
   <class_name>ReduceLPDByPercentageForPeakHours</class_name>
   <display_name>Reduce LPD by Percentage for Peak Hours</display_name>
   <description>This measure reduces lighting loads by a user-specified percentage for a user-specified time period (usually the peak hours). This is applied throughout the entire building.</description>
-  <modeler_description>This measure will clone all of the lighting schedules for each zone. Then the schedules are adjusted by the specified percentage during the specified time period.</modeler_description>
+  <modeler_description>This measure will clone all of the lighting schedules for each zone. Then the schedules are adjusted by the specified percentage during the specified time period. Only schedules defined in scheduleRuleSet format will be modified.</modeler_description>
   <arguments>
     <argument>
       <name>lpd_reduce_percent</name>
@@ -18,32 +18,203 @@
       <type>Double</type>
       <required>true</required>
       <model_dependent>false</model_dependent>
-      <default_value>50</default_value>
+      <default_value>30</default_value>
     </argument>
     <argument>
-      <name>start_time</name>
-      <display_name>Start Time for the Reduction</display_name>
-      <description>In HH:MM:SS format</description>
+      <name>lpd_reduce_percent_unoccupied</name>
+      <display_name>Percentage Reduction of Lighting Power (%) for Unoccupied Spaces (if different, optional)</display_name>
+      <description>Enter a value between 0 and 100</description>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>60</default_value>
+    </argument>
+    <argument>
+      <name>start_date1</name>
+      <display_name>First start date for the reduction</display_name>
+      <description>In MM-DD format</description>
+      <type>String</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>06-01</default_value>
+    </argument>
+    <argument>
+      <name>end_date1</name>
+      <display_name>First end date for the reduction</display_name>
+      <description>In MM-DD format</description>
+      <type>String</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>09-30</default_value>
+    </argument>
+    <argument>
+      <name>start_date2</name>
+      <display_name>Second start date for the reduction (optional)</display_name>
+      <description>Specify a date in MM-DD format if you want a second season of reduction; leave blank if not needed.</description>
       <type>String</type>
       <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>end_date2</name>
+      <display_name>Second end date for the reduction</display_name>
+      <description>Specify a date in MM-DD format if you want a second season of reduction; leave blank if not needed. If either the start or end date is blank, the period is considered not used.</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>start_date3</name>
+      <display_name>Third start date for the reduction (optional)</display_name>
+      <description>Specify a date in MM-DD format if you want a third season of reduction; leave blank if not needed.</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>end_date3</name>
+      <display_name>Third end date for the reduction</display_name>
+      <description>Specify a date in MM-DD format if you want a third season of reduction; leave blank if not needed. If either the start or end date is blank, the period is considered not used.</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>start_date4</name>
+      <display_name>Fourth start date for the reduction (optional)</display_name>
+      <description>Specify a date in MM-DD format if you want a fourth season of reduction; leave blank if not needed.</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>end_date4</name>
+      <display_name>Fourth end date for the reduction</display_name>
+      <description>Specify a date in MM-DD format if you want a fourth season of reduction; leave blank if not needed. If either the start or end date is blank, the period is considered not used.</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>start_date5</name>
+      <display_name>Fifth start date for the reduction (optional)</display_name>
+      <description>Specify a date in MM-DD format if you want a fifth season of reduction; leave blank if not needed.</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>end_date5</name>
+      <display_name>Fifth end date for the reduction</display_name>
+      <description>Specify a date in MM-DD format if you want a fifth season of reduction; leave blank if not needed. If either the start or end date is blank, the period is considered not used.</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>start_time1</name>
+      <display_name>Start time of the reduction for the first season</display_name>
+      <description>In HH:MM:SS format</description>
+      <type>String</type>
+      <required>true</required>
       <model_dependent>false</model_dependent>
       <default_value>17:00:00</default_value>
     </argument>
     <argument>
-      <name>end_time</name>
-      <display_name>End Time for the Reduction</display_name>
+      <name>end_time1</name>
+      <display_name>End time of the reduction for the first season</display_name>
       <description>In HH:MM:SS format</description>
       <type>String</type>
-      <required>false</required>
+      <required>true</required>
       <model_dependent>false</model_dependent>
       <default_value>21:00:00</default_value>
     </argument>
     <argument>
-      <name>alt_periods</name>
-      <display_name>Use alternative default start and end time based on the climate zone of the model?</display_name>
-      <description>This will overwrite the star and end time you input</description>
-      <type>Boolean</type>
+      <name>start_time2</name>
+      <display_name>Start time of the reduction for the second season (optional)</display_name>
+      <description>In HH:MM:SS format</description>
+      <type>String</type>
       <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>end_time2</name>
+      <display_name>End time of the reduction for the second season (optional)</display_name>
+      <description>In HH:MM:SS format</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>start_time3</name>
+      <display_name>Start time of the reduction for the third season (optional)</display_name>
+      <description>In HH:MM:SS format</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>end_time3</name>
+      <display_name>End time of the reduction for the third season (optional)</display_name>
+      <description>In HH:MM:SS format</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>start_time4</name>
+      <display_name>Start time of the reduction for the fourth season (optional)</display_name>
+      <description>In HH:MM:SS format</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>end_time4</name>
+      <display_name>End time of the reduction for the fourth season (optional)</display_name>
+      <description>In HH:MM:SS format</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>start_time5</name>
+      <display_name>Start time of the reduction for the fifth season (optional)</display_name>
+      <description>In HH:MM:SS format</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>end_time5</name>
+      <display_name>End time of the reduction for the fifth season (optional)</display_name>
+      <description>In HH:MM:SS format</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>alt_periods</name>
+      <display_name>Use alternative default start and end time based on the state of the model from the Cambium load profile peak period?</display_name>
+      <description>This will overwrite the start and end time and date provided by the user</description>
+      <type>Boolean</type>
+      <required>true</required>
       <model_dependent>false</model_dependent>
       <default_value>false</default_value>
       <choices>
@@ -56,60 +227,6 @@
           <display_name>false</display_name>
         </choice>
       </choices>
-    </argument>
-    <argument>
-      <name>start_date1</name>
-      <display_name>First start date for the Reduction</display_name>
-      <description>In MM-DD format</description>
-      <type>String</type>
-      <required>false</required>
-      <model_dependent>false</model_dependent>
-      <default_value>06-01</default_value>
-    </argument>
-    <argument>
-      <name>end_date1</name>
-      <display_name>First end date for the Reduction</display_name>
-      <description>In MM-DD format</description>
-      <type>String</type>
-      <required>false</required>
-      <model_dependent>false</model_dependent>
-      <default_value>09-30</default_value>
-    </argument>
-    <argument>
-      <name>start_date2</name>
-      <display_name>Second start date for the Reduction (optional)</display_name>
-      <description>Specify a date in MM-DD format if you want a second period of reduction; leave blank if not needed.</description>
-      <type>String</type>
-      <required>false</required>
-      <model_dependent>false</model_dependent>
-      <default_value></default_value>
-    </argument>
-    <argument>
-      <name>end_date2</name>
-      <display_name>Second end date for the Reduction</display_name>
-      <description>Specify a date in MM-DD format if you want a second period of reduction; leave blank if not needed. If either the start or end date is blank, the period is considered not used.</description>
-      <type>String</type>
-      <required>false</required>
-      <model_dependent>false</model_dependent>
-      <default_value></default_value>
-    </argument>
-    <argument>
-      <name>start_date3</name>
-      <display_name>Second start date for the Reduction (optional)</display_name>
-      <description>Specify a date in MM-DD format if you want a third period of reduction; leave blank if not needed.</description>
-      <type>String</type>
-      <required>false</required>
-      <model_dependent>false</model_dependent>
-      <default_value></default_value>
-    </argument>
-    <argument>
-      <name>end_date3</name>
-      <display_name>Second end date for the Reduction</display_name>
-      <description>Specify a date in MM-DD format if you want a third period of reduction; leave blank if not needed. If either the start or end date is blank, the period is considered not used.</description>
-      <type>String</type>
-      <required>false</required>
-      <model_dependent>false</model_dependent>
-      <default_value></default_value>
     </argument>
   </arguments>
   <outputs />
@@ -141,6 +258,18 @@
   </attributes>
   <files>
     <file>
+      <filename>LICENSE.md</filename>
+      <filetype>md</filetype>
+      <usage_type>license</usage_type>
+      <checksum>BFFB1AA6</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>11F88691</checksum>
+    </file>
+    <file>
       <filename>README.md.erb</filename>
       <filetype>erb</filetype>
       <usage_type>readmeerb</usage_type>
@@ -153,30 +282,6 @@
       <checksum>00000000</checksum>
     </file>
     <file>
-      <filename>example_model.osm</filename>
-      <filetype>osm</filetype>
-      <usage_type>test</usage_type>
-      <checksum>53D14E69</checksum>
-    </file>
-    <file>
-      <filename>README.md</filename>
-      <filetype>md</filetype>
-      <usage_type>readme</usage_type>
-      <checksum>66D5DFAC</checksum>
-    </file>
-    <file>
-      <filename>LICENSE.md</filename>
-      <filetype>md</filetype>
-      <usage_type>license</usage_type>
-      <checksum>BFFB1AA6</checksum>
-    </file>
-    <file>
-      <filename>reduce_lpd_by_percentage_for_peak_hours_test.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>test</usage_type>
-      <checksum>2FDC7C07</checksum>
-    </file>
-    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>3.1.0</identifier>
@@ -185,7 +290,19 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>61627297</checksum>
+      <checksum>DF9033F3</checksum>
+    </file>
+    <file>
+      <filename>example_model.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>53D14E69</checksum>
+    </file>
+    <file>
+      <filename>reduce_lpd_by_percentage_for_peak_hours_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>2FDC7C07</checksum>
     </file>
     <file>
       <filename>test.osm</filename>

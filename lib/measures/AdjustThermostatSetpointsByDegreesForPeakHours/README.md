@@ -19,46 +19,6 @@ ModelMeasure
 ## Arguments
 
 
-### Degrees Fahrenheit to Adjust Cooling Setpoint By
-
-**Name:** cooling_adjustment,
-**Type:** Double,
-**Units:** ,
-**Required:** true,
-**Model Dependent:** false
-
-### Daily Start Time for Cooling Adjustment
-Use 24 hour format HH:MM:SS
-**Name:** cooling_daily_starttime,
-**Type:** String,
-**Units:** ,
-**Required:** false,
-**Model Dependent:** false
-
-### Daily End Time for Cooling Adjustment
-Use 24 hour format HH:MM:SS
-**Name:** cooling_daily_endtime,
-**Type:** String,
-**Units:** ,
-**Required:** false,
-**Model Dependent:** false
-
-### Start Date for Cooling Adjustment
-In MM-DD format
-**Name:** cooling_startdate,
-**Type:** String,
-**Units:** ,
-**Required:** false,
-**Model Dependent:** false
-
-### End Date for Cooling Adjustment
-In MM-DD format
-**Name:** cooling_enddate,
-**Type:** String,
-**Units:** ,
-**Required:** false,
-**Model Dependent:** false
-
 ### Degrees Fahrenheit to Adjust heating Setpoint By
 
 **Name:** heating_adjustment,
@@ -67,76 +27,340 @@ In MM-DD format
 **Required:** true,
 **Model Dependent:** false
 
-### Start Time for Heating Adjustment
-Use 24 hour format HH:MM:SS
-**Name:** heating_daily_starttime,
-**Type:** String,
-**Units:** ,
-**Required:** false,
-**Model Dependent:** false
-
-### End Time for Heating Adjustment
-Use 24 hour format HH:MM:SS
-**Name:** heating_daily_endtime,
-**Type:** String,
-**Units:** ,
-**Required:** false,
-**Model Dependent:** false
-
-### Start Date for Heating Adjustment Period 1
+### First start date for heating setpoint adjustment
 In MM-DD format
-**Name:** heating_startdate_1,
+**Name:** heating_start_date1,
 **Type:** String,
 **Units:** ,
-**Required:** false,
+**Required:** true,
 **Model Dependent:** false
 
-### End Date for Heating Adjustment Period 1
+### First end date for heating setpoint adjustment
 In MM-DD format
-**Name:** heating_enddate_1,
+**Name:** heating_end_date1,
+**Type:** String,
+**Units:** ,
+**Required:** true,
+**Model Dependent:** false
+
+### Second start date for heating setpoint adjustment (optional)
+Specify a date in MM-DD format if you want a second season of heating setpoint adjustment; leave blank if not needed.
+**Name:** heating_start_date2,
 **Type:** String,
 **Units:** ,
 **Required:** false,
 **Model Dependent:** false
 
-### Start Date for Heating Adjustment Period 2
+### Second end date for heating setpoint adjustment
+Specify a date in MM-DD format if you want a second season of heating setpoint adjustment; leave blank if not needed. If either the start or end date is blank, the period is considered not used.
+**Name:** heating_end_date2,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### Third start date for heating setpoint adjustment (optional)
+Specify a date in MM-DD format if you want a third season of heating setpoint adjustment; leave blank if not needed.
+**Name:** heating_start_date3,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### Third end date for heating setpoint adjustment
+Specify a date in MM-DD format if you want a third season of heating setpoint adjustment; leave blank if not needed. If either the start or end date is blank, the period is considered not used.
+**Name:** heating_end_date3,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### Fourth start date for heating setpoint adjustment (optional)
+Specify a date in MM-DD format if you want a fourth season of heating setpoint adjustment; leave blank if not needed.
+**Name:** heating_start_date4,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### Fourth end date for heating setpoint adjustment
+Specify a date in MM-DD format if you want a fourth season of heating setpoint adjustment; leave blank if not needed. If either the start or end date is blank, the period is considered not used.
+**Name:** heating_end_date4,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### Fifth start date for heating setpoint adjustment (optional)
+Specify a date in MM-DD format if you want a fifth season of heating setpoint adjustment; leave blank if not needed.
+**Name:** heating_start_date5,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### Fifth end date for heating setpoint adjustment
+Specify a date in MM-DD format if you want a fifth season of heating setpoint adjustment; leave blank if not needed. If either the start or end date is blank, the period is considered not used.
+**Name:** heating_end_date5,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### Start time of heating setpoint adjustment for the first season
+In HH:MM:SS format
+**Name:** heating_start_time1,
+**Type:** String,
+**Units:** ,
+**Required:** true,
+**Model Dependent:** false
+
+### End time of heating setpoint adjustment for the first season
+In HH:MM:SS format
+**Name:** heating_end_time1,
+**Type:** String,
+**Units:** ,
+**Required:** true,
+**Model Dependent:** false
+
+### Start time of heating setpoint adjustment for the second season (optional)
+In HH:MM:SS format
+**Name:** heating_start_time2,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### End time of heating setpoint adjustment for the second season (optional)
+In HH:MM:SS format
+**Name:** heating_end_time2,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### Start time of heating setpoint adjustment for the third season (optional)
+In HH:MM:SS format
+**Name:** heating_start_time3,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### End time of heating setpoint adjustment for the third season (optional)
+In HH:MM:SS format
+**Name:** heating_end_time3,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### Start time of heating setpoint adjustment for the fourth season (optional)
+In HH:MM:SS format
+**Name:** heating_start_time4,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### End time of heating setpoint adjustment for the fourth season (optional)
+In HH:MM:SS format
+**Name:** heating_end_time4,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### Start time of heating setpoint adjustment for the fifth season (optional)
+In HH:MM:SS format
+**Name:** heating_start_time5,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### End time of heating setpoint adjustment for the fifth season (optional)
+In HH:MM:SS format
+**Name:** heating_end_time5,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### Degrees Fahrenheit to Adjust Cooling Setpoint By
+
+**Name:** cooling_adjustment,
+**Type:** Double,
+**Units:** ,
+**Required:** true,
+**Model Dependent:** false
+
+### First start date for cooling setpoint adjustment
 In MM-DD format
-**Name:** heating_startdate_2,
+**Name:** cooling_start_date1,
 **Type:** String,
 **Units:** ,
-**Required:** false,
+**Required:** true,
 **Model Dependent:** false
 
-### End Date for Heating Adjustment Period 2
+### First end date for cooling setpoint adjustment
 In MM-DD format
-**Name:** heating_enddate_2,
+**Name:** cooling_end_date1,
+**Type:** String,
+**Units:** ,
+**Required:** true,
+**Model Dependent:** false
+
+### Second start date for cooling setpoint adjustment (optional)
+Specify a date in MM-DD format if you want a second season of cooling setpoint adjustment; leave blank if not needed.
+**Name:** cooling_start_date2,
 **Type:** String,
 **Units:** ,
 **Required:** false,
 **Model Dependent:** false
 
-### Alter Design Day Thermostats
-
-**Name:** alter_design_days,
-**Type:** Boolean,
+### Second end date for cooling setpoint adjustment
+Specify a date in MM-DD format if you want a second season of cooling setpoint adjustment; leave blank if not needed. If either the start or end date is blank, the period is considered not used.
+**Name:** cooling_end_date2,
+**Type:** String,
 **Units:** ,
 **Required:** false,
 **Model Dependent:** false
 
-### Enable Climate-specific Periods Setting?
-
-**Name:** auto_date,
-**Type:** Boolean,
+### Third start date for cooling setpoint adjustment (optional)
+Specify a date in MM-DD format if you want a third season of cooling setpoint adjustment; leave blank if not needed.
+**Name:** cooling_start_date3,
+**Type:** String,
 **Units:** ,
 **Required:** false,
 **Model Dependent:** false
 
-### Alternate Peak and Take Periods
+### Third end date for cooling setpoint adjustment
+Specify a date in MM-DD format if you want a third season of cooling setpoint adjustment; leave blank if not needed. If either the start or end date is blank, the period is considered not used.
+**Name:** cooling_end_date3,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
 
+### Fourth start date for cooling setpoint adjustment (optional)
+Specify a date in MM-DD format if you want a fourth season of cooling setpoint adjustment; leave blank if not needed.
+**Name:** cooling_start_date4,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### Fourth end date for cooling setpoint adjustment
+Specify a date in MM-DD format if you want a fourth season of cooling setpoint adjustment; leave blank if not needed. If either the start or end date is blank, the period is considered not used.
+**Name:** cooling_end_date4,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### Fifth start date for cooling setpoint adjustment (optional)
+Specify a date in MM-DD format if you want a fifth season of cooling setpoint adjustment; leave blank if not needed.
+**Name:** cooling_start_date5,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### Fifth end date for cooling setpoint adjustment
+Specify a date in MM-DD format if you want a fifth season of cooling setpoint adjustment; leave blank if not needed. If either the start or end date is blank, the period is considered not used.
+**Name:** cooling_end_date5,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### Start time of cooling setpoint adjustment for the first season
+In HH:MM:SS format
+**Name:** cooling_start_time1,
+**Type:** String,
+**Units:** ,
+**Required:** true,
+**Model Dependent:** false
+
+### End time of cooling setpoint adjustment for the first season
+In HH:MM:SS format
+**Name:** cooling_end_time1,
+**Type:** String,
+**Units:** ,
+**Required:** true,
+**Model Dependent:** false
+
+### Start time of cooling setpoint adjustment for the second season (optional)
+In HH:MM:SS format
+**Name:** cooling_start_time2,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### End time of cooling setpoint adjustment for the second season (optional)
+In HH:MM:SS format
+**Name:** cooling_end_time2,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### Start time of cooling setpoint adjustment for the third season (optional)
+In HH:MM:SS format
+**Name:** cooling_start_time3,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### End time of cooling setpoint adjustment for the third season (optional)
+In HH:MM:SS format
+**Name:** cooling_end_time3,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### Start time of cooling setpoint adjustment for the fourth season (optional)
+In HH:MM:SS format
+**Name:** cooling_start_time4,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### End time of cooling setpoint adjustment for the fourth season (optional)
+In HH:MM:SS format
+**Name:** cooling_end_time4,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### Start time of cooling setpoint adjustment for the fifth season (optional)
+In HH:MM:SS format
+**Name:** cooling_start_time5,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### End time of cooling setpoint adjustment for the fifth season (optional)
+In HH:MM:SS format
+**Name:** cooling_end_time5,
+**Type:** String,
+**Units:** ,
+**Required:** false,
+**Model Dependent:** false
+
+### Use alternative default start and end time based on the state of the model from the Cambium load profile peak period?
+This will overwrite the start and end time and date provided by the user
 **Name:** alt_periods,
 **Type:** Boolean,
 **Units:** ,
-**Required:** false,
+**Required:** true,
 **Model Dependent:** false
 
 

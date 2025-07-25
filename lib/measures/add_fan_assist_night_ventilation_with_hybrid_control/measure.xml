@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <measure>
-  <schema_version>3.0</schema_version>
+  <schema_version>3.1</schema_version>
   <name>add_fan_assist_night_ventilation_with_hybrid_control</name>
   <uid>d92a3755-0116-4cc0-913a-583b7823a6f3</uid>
-  <version_id>b83aa7af-e28a-4856-b35c-d6dd565bbe73</version_id>
-  <version_modified>20230728T183331Z</version_modified>
+  <version_id>6825a934-7881-4359-b18c-7b8f49a0b230</version_id>
+  <version_modified>2025-07-25T08:00:52Z</version_modified>
   <xml_checksum>5C177E8D</xml_checksum>
   <class_name>AddFanAssistNightVentilationWithHybridControl</class_name>
   <display_name>Add fan assist night ventilation with hybrid control</display_name>
@@ -185,6 +185,18 @@
   </attributes>
   <files>
     <file>
+      <filename>LICENSE.md</filename>
+      <filetype>md</filetype>
+      <usage_type>license</usage_type>
+      <checksum>BFFB1AA6</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>87A78EF5</checksum>
+    </file>
+    <file>
       <filename>README.md.erb</filename>
       <filetype>erb</filetype>
       <usage_type>readmeerb</usage_type>
@@ -197,12 +209,6 @@
       <checksum>00000000</checksum>
     </file>
     <file>
-      <filename>LICENSE.md</filename>
-      <filetype>md</filetype>
-      <usage_type>license</usage_type>
-      <checksum>BFFB1AA6</checksum>
-    </file>
-    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>3.4.0</identifier>
@@ -211,25 +217,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>ABFC22A0</checksum>
-    </file>
-    <file>
-      <filename>add_fan_assist_night_ventilation_with_hybrid_control_test.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>test</usage_type>
-      <checksum>537C80AD</checksum>
-    </file>
-    <file>
-      <filename>MediumOffice-90.1-2010-ASHRAE 169-2013-5A.osm</filename>
-      <filetype>osm</filetype>
-      <usage_type>test</usage_type>
-      <checksum>A364A953</checksum>
-    </file>
-    <file>
-      <filename>SFD_2story_FB_UA_GRG_AC1_UnitHeater_FuelTankWH.osm</filename>
-      <filetype>osm</filetype>
-      <usage_type>test</usage_type>
-      <checksum>EE98A148</checksum>
+      <checksum>99564A32</checksum>
     </file>
     <file>
       <filename>USA_NY_Buffalo.Niagara.Intl.AP.725280_TMY3.epw</filename>
@@ -238,28 +226,16 @@
       <checksum>3A15D82B</checksum>
     </file>
     <file>
-      <filename>SmallHotel-2A.osm</filename>
-      <filetype>osm</filetype>
+      <filename>add_fan_assist_night_ventilation_with_hybrid_control_test.rb</filename>
+      <filetype>rb</filetype>
       <usage_type>test</usage_type>
-      <checksum>21334FFF</checksum>
-    </file>
-    <file>
-      <filename>USA_TX_Houston-Bush.Intercontinental.AP.722430_TMY3.epw</filename>
-      <filetype>epw</filetype>
-      <usage_type>test</usage_type>
-      <checksum>EE565FCC</checksum>
+      <checksum>537C80AD</checksum>
     </file>
     <file>
       <filename>medium_office_with_internal_windows.osm</filename>
       <filetype>osm</filetype>
       <usage_type>test</usage_type>
-      <checksum>401CD6E0</checksum>
-    </file>
-    <file>
-      <filename>README.md</filename>
-      <filetype>md</filetype>
-      <usage_type>readme</usage_type>
-      <checksum>87A78EF5</checksum>
+      <checksum>60FE56AE</checksum>
     </file>
   </files>
 </measure>

@@ -1,40 +1,81 @@
 <?xml version="1.0"?>
 <measure>
-  <schema_version>3.0</schema_version>
-  <error>wrong number of arguments (given 1, expected 0)</error>
+  <schema_version>3.1</schema_version>
   <name>geb_metrics_report</name>
   <uid>de3dd145-8762-4f1d-b4b5-a3b90c985c19</uid>
-  <version_id>9a5d71fc-a377-4290-858b-9b47a4a2e6cc</version_id>
-  <version_modified>20230719T172108Z</version_modified>
+  <version_id>2a013e83-786d-4f5e-af69-f5ac3cc0fd9f</version_id>
+  <version_modified>2025-06-30T21:09:48Z</version_modified>
   <xml_checksum>5EE3671C</xml_checksum>
   <class_name>GEBMetricsReport</class_name>
   <display_name>GEB Metrics Report</display_name>
   <description>This measure calculates GEB-related (mainly DF) metrics and reports them.</description>
-  <modeler_description>GEB metrics compare between baseline and GEB measures. To enable the GEB metrics calculation, please make sure the output variable -Facility Total Electric Demand Power- is added to both baseline and retrofit models.</modeler_description>
+  <modeler_description>GEB metrics compare between baseline and GEB measures. To enable the GEB metrics calculation, please make sure the output variable -Facility Net Purchased Electricity Rate- is added to both baseline and retrofit models.</modeler_description>
   <arguments>
+    <argument>
+      <name>geb_metrics_section</name>
+      <display_name>GEB metrics</display_name>
+      <description>Choose whether or not to report geb_metrics_section</description>
+      <type>Boolean</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>true</default_value>
+      <choices>
+        <choice>
+          <value>true</value>
+          <display_name>true</display_name>
+        </choice>
+        <choice>
+          <value>false</value>
+          <display_name>false</display_name>
+        </choice>
+      </choices>
+    </argument>
     <argument>
       <name>event_date</name>
       <display_name>The event date for GEB metrics reporting purpose</display_name>
       <description>In MM-DD format</description>
       <type>String</type>
-      <units></units>
       <required>true</required>
       <model_dependent>false</model_dependent>
-      <default_value></default_value>
-      <min_value></min_value>
-      <max_value></max_value>
+    </argument>
+    <argument>
+      <name>shed_start</name>
+      <display_name>Enter Starting Time for Shed Period:</display_name>
+      <description>Use 24 hour format HH:MM:SS</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+    </argument>
+    <argument>
+      <name>shed_end</name>
+      <display_name>Enter End Time for Shed Period:</display_name>
+      <description>Use 24 hour format HH:MM:SS</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+    </argument>
+    <argument>
+      <name>take_start</name>
+      <display_name>Enter Starting Time for Take Period:</display_name>
+      <description>Use 24 hour format HH:MM:SS</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+    </argument>
+    <argument>
+      <name>take_end</name>
+      <display_name>Enter End Time for Take Period:</display_name>
+      <description>Use 24 hour format HH:MM:SS</description>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
     </argument>
     <argument>
       <name>baseline_run_output_path</name>
       <display_name>Output path</display_name>
-      <description></description>
       <type>Path</type>
-      <units></units>
       <required>true</required>
       <model_dependent>false</model_dependent>
-      <default_value></default_value>
-      <min_value></min_value>
-      <max_value></max_value>
     </argument>
   </arguments>
   <outputs />
@@ -66,6 +107,18 @@
   </attributes>
   <files>
     <file>
+      <filename>LICENSE.md</filename>
+      <filetype>md</filetype>
+      <usage_type>license</usage_type>
+      <checksum>BFFB1AA6</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>212E96A4</checksum>
+    </file>
+    <file>
       <filename>README.md.erb</filename>
       <filetype>erb</filetype>
       <usage_type>readmeerb</usage_type>
@@ -76,36 +129,6 @@
       <filetype>gitkeep</filetype>
       <usage_type>doc</usage_type>
       <checksum>00000000</checksum>
-    </file>
-    <file>
-      <filename>small_office_simple_w_CO2_daylighting.osm</filename>
-      <filetype>osm</filetype>
-      <usage_type>test</usage_type>
-      <checksum>106D8627</checksum>
-    </file>
-    <file>
-      <filename>LICENSE.md</filename>
-      <filetype>md</filetype>
-      <usage_type>license</usage_type>
-      <checksum>BFFB1AA6</checksum>
-    </file>
-    <file>
-      <filename>os_lib_helper_methods.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>FEACB9A1</checksum>
-    </file>
-    <file>
-      <filename>report.html.erb</filename>
-      <filetype>erb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>FFA4B403</checksum>
-    </file>
-    <file>
-      <filename>os_lib_reporting.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>98131F05</checksum>
     </file>
     <file>
       <version>
@@ -119,202 +142,28 @@
       <checksum>B2A084B4</checksum>
     </file>
     <file>
+      <filename>os_lib_helper_methods.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>FEACB9A1</checksum>
+    </file>
+    <file>
+      <filename>os_lib_reporting.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>1103A285</checksum>
+    </file>
+    <file>
+      <filename>report.html.erb</filename>
+      <filetype>erb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>FFA4B403</checksum>
+    </file>
+    <file>
       <filename>CZ06RV2.epw</filename>
       <filetype>epw</filetype>
       <usage_type>test</usage_type>
       <checksum>52282D70</checksum>
-    </file>
-    <file>
-      <filename>baseline/out.osw</filename>
-      <filetype>osw</filetype>
-      <usage_type>test</usage_type>
-      <checksum>81394943</checksum>
-    </file>
-    <file>
-      <filename>baseline/baseline.osm</filename>
-      <filetype>osm</filetype>
-      <usage_type>test</usage_type>
-      <checksum>1DAFFE27</checksum>
-    </file>
-    <file>
-      <filename>baseline/baseline.osw</filename>
-      <filetype>osw</filetype>
-      <usage_type>test</usage_type>
-      <checksum>1DA31EB3</checksum>
-    </file>
-    <file>
-      <filename>baseline/run/in.osm</filename>
-      <filetype>osm</filetype>
-      <usage_type>test</usage_type>
-      <checksum>E9F1D709</checksum>
-    </file>
-    <file>
-      <filename>baseline/run/eplusout.shd</filename>
-      <filetype>shd</filetype>
-      <usage_type>test</usage_type>
-      <checksum>E865DCFA</checksum>
-    </file>
-    <file>
-      <filename>baseline/run/eplustbl.htm</filename>
-      <filetype>htm</filetype>
-      <usage_type>test</usage_type>
-      <checksum>E530BAF4</checksum>
-    </file>
-    <file>
-      <filename>baseline/run/stdout-expandobject</filename>
-      <filetype></filetype>
-      <usage_type>test</usage_type>
-      <checksum>1A38BEA7</checksum>
-    </file>
-    <file>
-      <filename>baseline/run/eplusout.mdd</filename>
-      <filetype>mdd</filetype>
-      <usage_type>test</usage_type>
-      <checksum>D6E3BBDD</checksum>
-    </file>
-    <file>
-      <filename>baseline/run/eplusout.audit</filename>
-      <filetype>audit</filetype>
-      <usage_type>test</usage_type>
-      <checksum>4634D8ED</checksum>
-    </file>
-    <file>
-      <filename>baseline/run/run.log</filename>
-      <filetype>log</filetype>
-      <usage_type>test</usage_type>
-      <checksum>00000000</checksum>
-    </file>
-    <file>
-      <filename>baseline/run/eplusout.rdd</filename>
-      <filetype>rdd</filetype>
-      <usage_type>test</usage_type>
-      <checksum>125FD099</checksum>
-    </file>
-    <file>
-      <filename>baseline/run/eplusout.eio</filename>
-      <filetype>eio</filetype>
-      <usage_type>test</usage_type>
-      <checksum>BAA66A35</checksum>
-    </file>
-    <file>
-      <filename>baseline/run/eplusssz.csv</filename>
-      <filetype>csv</filetype>
-      <usage_type>test</usage_type>
-      <checksum>57B7E6F9</checksum>
-    </file>
-    <file>
-      <filename>baseline/run/results.json</filename>
-      <filetype>json</filetype>
-      <usage_type>test</usage_type>
-      <checksum>73BEBBA8</checksum>
-    </file>
-    <file>
-      <filename>baseline/run/finished.job</filename>
-      <filetype>job</filetype>
-      <usage_type>test</usage_type>
-      <checksum>1E4958FD</checksum>
-    </file>
-    <file>
-      <filename>baseline/run/eplusout.err</filename>
-      <filetype>err</filetype>
-      <usage_type>test</usage_type>
-      <checksum>5D0C3CC0</checksum>
-    </file>
-    <file>
-      <filename>baseline/run/data_point.zip</filename>
-      <filetype>zip</filetype>
-      <usage_type>test</usage_type>
-      <checksum>D84E1C83</checksum>
-    </file>
-    <file>
-      <filename>baseline/run/stdout-energyplus</filename>
-      <filetype></filetype>
-      <usage_type>test</usage_type>
-      <checksum>104DDC36</checksum>
-    </file>
-    <file>
-      <filename>baseline/run/eplusout.eso</filename>
-      <filetype>eso</filetype>
-      <usage_type>test</usage_type>
-      <checksum>A0791896</checksum>
-    </file>
-    <file>
-      <filename>baseline/run/in.idf</filename>
-      <filetype>idf</filetype>
-      <usage_type>test</usage_type>
-      <checksum>A0ACFC21</checksum>
-    </file>
-    <file>
-      <filename>baseline/run/eplusout.end</filename>
-      <filetype>end</filetype>
-      <usage_type>test</usage_type>
-      <checksum>7AE603B1</checksum>
-    </file>
-    <file>
-      <filename>baseline/run/eplusout.sql</filename>
-      <filetype>sql</filetype>
-      <usage_type>test</usage_type>
-      <checksum>A436973E</checksum>
-    </file>
-    <file>
-      <filename>baseline/run/epluszsz.csv</filename>
-      <filetype>csv</filetype>
-      <usage_type>test</usage_type>
-      <checksum>EECD4641</checksum>
-    </file>
-    <file>
-      <filename>baseline/run/data_point_out.json</filename>
-      <filetype>json</filetype>
-      <usage_type>test</usage_type>
-      <checksum>73BEBBA8</checksum>
-    </file>
-    <file>
-      <filename>baseline/run/started.job</filename>
-      <filetype>job</filetype>
-      <usage_type>test</usage_type>
-      <checksum>92F635F9</checksum>
-    </file>
-    <file>
-      <filename>baseline/run/sqlite.err</filename>
-      <filetype>err</filetype>
-      <usage_type>test</usage_type>
-      <checksum>D834FBC1</checksum>
-    </file>
-    <file>
-      <filename>baseline/run/objectives.json</filename>
-      <filetype>json</filetype>
-      <usage_type>test</usage_type>
-      <checksum>73BEBBA8</checksum>
-    </file>
-    <file>
-      <filename>baseline/run/measure_attributes.json</filename>
-      <filetype>json</filetype>
-      <usage_type>test</usage_type>
-      <checksum>73BEBBA8</checksum>
-    </file>
-    <file>
-      <filename>baseline/run/eplusout.bnd</filename>
-      <filetype>bnd</filetype>
-      <usage_type>test</usage_type>
-      <checksum>2B77D071</checksum>
-    </file>
-    <file>
-      <filename>baseline/run/eplusout.mtd</filename>
-      <filetype>mtd</filetype>
-      <usage_type>test</usage_type>
-      <checksum>F82856DF</checksum>
-    </file>
-    <file>
-      <filename>baseline/run/pre-preprocess.idf</filename>
-      <filetype>idf</filetype>
-      <usage_type>test</usage_type>
-      <checksum>CEF1EA7A</checksum>
-    </file>
-    <file>
-      <filename>baseline/reports/eplustbl.html</filename>
-      <filetype>html</filetype>
-      <usage_type>test</usage_type>
-      <checksum>A3B928F4</checksum>
     </file>
     <file>
       <filename>geb_metrics_report_test.rb</filename>
@@ -323,16 +172,10 @@
       <checksum>7D0DCE15</checksum>
     </file>
     <file>
-      <filename>README.md</filename>
-      <filetype>md</filetype>
-      <usage_type>readme</usage_type>
-      <checksum>0B68E96D</checksum>
-    </file>
-    <file>
-      <filename>occupant_centric_kpi_report_test.rb</filename>
-      <filetype>rb</filetype>
+      <filename>small_office_simple_w_CO2_daylighting.osm</filename>
+      <filetype>osm</filetype>
       <usage_type>test</usage_type>
-      <checksum>3D6AD315</checksum>
+      <checksum>106D8627</checksum>
     </file>
   </files>
 </measure>

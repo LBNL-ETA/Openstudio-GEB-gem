@@ -1,11 +1,10 @@
 <?xml version="1.0"?>
 <measure>
-  <schema_version>3.0</schema_version>
-  <error>no implicit conversion of String into Integer</error>
+  <schema_version>3.1</schema_version>
   <name>add_hpwh</name>
   <uid>97c41d92-8cb1-4724-aa1c-33296e049171</uid>
-  <version_id>4fd3571e-efb1-496e-8e01-84a1c9160c9b</version_id>
-  <version_modified>20230718T215426Z</version_modified>
+  <version_id>b746875a-c677-4291-96f6-bcc2015ac43f</version_id>
+  <version_modified>2025-07-25T08:00:56Z</version_modified>
   <xml_checksum>A374667A</xml_checksum>
   <class_name>AddHpwh</class_name>
   <display_name>Add HPWH for Domestic Hot Water</display_name>
@@ -19,7 +18,6 @@ Due to the heat pump interaction with zone conditioning as well as tank heating,
       <display_name>Remove existing water heater?</display_name>
       <description></description>
       <type>Boolean</type>
-      <units></units>
       <required>true</required>
       <model_dependent>false</model_dependent>
       <default_value>true</default_value>
@@ -33,15 +31,12 @@ Due to the heat pump interaction with zone conditioning as well as tank heating,
           <display_name>false</display_name>
         </choice>
       </choices>
-      <min_value></min_value>
-      <max_value></max_value>
     </argument>
     <argument>
       <name>wh</name>
       <display_name>Select 40+ gallon water heater to replace or augment</display_name>
       <description>All can only be used with the 'Simplified' model</description>
       <type>Choice</type>
-      <units></units>
       <required>true</required>
       <model_dependent>false</model_dependent>
       <default_value>All Water Heaters (Simplified Only)</default_value>
@@ -51,8 +46,6 @@ Due to the heat pump interaction with zone conditioning as well as tank heating,
           <display_name>All Water Heaters (Simplified Only)</display_name>
         </choice>
       </choices>
-      <min_value></min_value>
-      <max_value></max_value>
     </argument>
     <argument>
       <name>vol</name>
@@ -63,18 +56,15 @@ Due to the heat pump interaction with zone conditioning as well as tank heating,
       <required>false</required>
       <model_dependent>false</model_dependent>
       <default_value>0</default_value>
-      <min_value></min_value>
-      <max_value></max_value>
     </argument>
     <argument>
       <name>type</name>
       <display_name>Select heat pump water heater type</display_name>
       <description></description>
       <type>Choice</type>
-      <units></units>
       <required>true</required>
       <model_dependent>false</model_dependent>
-      <default_value>Simplified</default_value>
+      <default_value>PumpedCondenser</default_value>
       <choices>
         <choice>
           <value>Simplified</value>
@@ -89,15 +79,12 @@ Due to the heat pump interaction with zone conditioning as well as tank heating,
           <display_name>WrappedCondenser</display_name>
         </choice>
       </choices>
-      <min_value></min_value>
-      <max_value></max_value>
     </argument>
     <argument>
       <name>zone_name</name>
       <display_name>Select thermal zone for HP evaporator</display_name>
       <description>Does not apply to 'Simplified' cases</description>
       <type>Choice</type>
-      <units></units>
       <required>true</required>
       <model_dependent>false</model_dependent>
       <default_value>N/A - Simplified</default_value>
@@ -111,87 +98,65 @@ Due to the heat pump interaction with zone conditioning as well as tank heating,
           <display_name>Error: No Thermal Zones Found</display_name>
         </choice>
       </choices>
-      <min_value></min_value>
-      <max_value></max_value>
     </argument>
     <argument>
       <name>cap</name>
       <display_name>Set heat pump heating capacity</display_name>
       <description>[kW]</description>
       <type>Double</type>
-      <units></units>
       <required>true</required>
       <model_dependent>false</model_dependent>
       <default_value>23.4</default_value>
-      <min_value></min_value>
-      <max_value></max_value>
     </argument>
     <argument>
       <name>cop</name>
       <display_name>Set heat pump rated COP (heating)</display_name>
-      <description></description>
       <type>Double</type>
-      <units></units>
       <required>true</required>
       <model_dependent>false</model_dependent>
       <default_value>3.2</default_value>
-      <min_value></min_value>
-      <max_value></max_value>
     </argument>
     <argument>
       <name>bu_cap</name>
       <display_name>Set electric backup heating capacity</display_name>
       <description>[kW]</description>
       <type>Double</type>
-      <units></units>
       <required>true</required>
       <model_dependent>false</model_dependent>
       <default_value>23.4</default_value>
-      <min_value></min_value>
-      <max_value></max_value>
     </argument>
     <argument>
       <name>max_temp</name>
       <display_name>Set maximum tank temperature</display_name>
       <description>[F]</description>
       <type>Double</type>
-      <units></units>
       <required>true</required>
       <model_dependent>false</model_dependent>
       <default_value>160</default_value>
-      <min_value></min_value>
-      <max_value></max_value>
     </argument>
     <argument>
       <name>min_temp</name>
       <display_name>Set minimum tank temperature during float</display_name>
       <description>[F]</description>
       <type>Double</type>
-      <units></units>
       <required>true</required>
       <model_dependent>false</model_dependent>
       <default_value>120</default_value>
-      <min_value></min_value>
-      <max_value></max_value>
     </argument>
     <argument>
       <name>db_temp</name>
       <display_name>Set deadband temperature difference between heat pump and electric backup</display_name>
       <description>[F]</description>
       <type>Double</type>
-      <units></units>
       <required>true</required>
       <model_dependent>false</model_dependent>
       <default_value>5</default_value>
-      <min_value></min_value>
-      <max_value></max_value>
     </argument>
     <argument>
       <name>sched</name>
       <display_name>Select reference tank setpoint temperature schedule</display_name>
       <description></description>
       <type>Choice</type>
-      <units></units>
       <required>true</required>
       <model_dependent>false</model_dependent>
       <default_value>Use Existing Setpoint Schedule</default_value>
@@ -205,15 +170,12 @@ Due to the heat pump interaction with zone conditioning as well as tank heating,
           <display_name>--Create New @ 140F--</display_name>
         </choice>
       </choices>
-      <min_value></min_value>
-      <max_value></max_value>
     </argument>
     <argument>
       <name>flex0</name>
       <display_name>Daily Flex Period 1:</display_name>
       <description>Applies every day in the full run period.</description>
       <type>Choice</type>
-      <units></units>
       <required>true</required>
       <model_dependent>false</model_dependent>
       <default_value>None</default_value>
@@ -235,27 +197,20 @@ Due to the heat pump interaction with zone conditioning as well as tank heating,
           <display_name>Float</display_name>
         </choice>
       </choices>
-      <min_value></min_value>
-      <max_value></max_value>
     </argument>
     <argument>
       <name>flex_hrs0</name>
       <display_name>Use 24-Hour Format</display_name>
-      <description></description>
       <type>String</type>
-      <units></units>
       <required>false</required>
       <model_dependent>false</model_dependent>
       <default_value>HH:MM - HH:MM</default_value>
-      <min_value></min_value>
-      <max_value></max_value>
     </argument>
     <argument>
       <name>flex1</name>
       <display_name>Daily Flex Period 2:</display_name>
       <description>Applies every day in the full run period.</description>
       <type>Choice</type>
-      <units></units>
       <required>true</required>
       <model_dependent>false</model_dependent>
       <default_value>None</default_value>
@@ -277,27 +232,20 @@ Due to the heat pump interaction with zone conditioning as well as tank heating,
           <display_name>Float</display_name>
         </choice>
       </choices>
-      <min_value></min_value>
-      <max_value></max_value>
     </argument>
     <argument>
       <name>flex_hrs1</name>
       <display_name>Use 24-Hour Format</display_name>
-      <description></description>
       <type>String</type>
-      <units></units>
       <required>false</required>
       <model_dependent>false</model_dependent>
       <default_value>HH:MM - HH:MM</default_value>
-      <min_value></min_value>
-      <max_value></max_value>
     </argument>
     <argument>
       <name>flex2</name>
       <display_name>Daily Flex Period 3:</display_name>
       <description>Applies every day in the full run period.</description>
       <type>Choice</type>
-      <units></units>
       <required>true</required>
       <model_dependent>false</model_dependent>
       <default_value>None</default_value>
@@ -319,27 +267,20 @@ Due to the heat pump interaction with zone conditioning as well as tank heating,
           <display_name>Float</display_name>
         </choice>
       </choices>
-      <min_value></min_value>
-      <max_value></max_value>
     </argument>
     <argument>
       <name>flex_hrs2</name>
       <display_name>Use 24-Hour Format</display_name>
-      <description></description>
       <type>String</type>
-      <units></units>
       <required>false</required>
       <model_dependent>false</model_dependent>
       <default_value>HH:MM - HH:MM</default_value>
-      <min_value></min_value>
-      <max_value></max_value>
     </argument>
     <argument>
       <name>flex3</name>
       <display_name>Daily Flex Period 4:</display_name>
       <description>Applies every day in the full run period.</description>
       <type>Choice</type>
-      <units></units>
       <required>true</required>
       <model_dependent>false</model_dependent>
       <default_value>None</default_value>
@@ -361,20 +302,14 @@ Due to the heat pump interaction with zone conditioning as well as tank heating,
           <display_name>Float</display_name>
         </choice>
       </choices>
-      <min_value></min_value>
-      <max_value></max_value>
     </argument>
     <argument>
       <name>flex_hrs3</name>
       <display_name>Use 24-Hour Format</display_name>
-      <description></description>
       <type>String</type>
-      <units></units>
       <required>false</required>
       <model_dependent>false</model_dependent>
       <default_value>HH:MM - HH:MM</default_value>
-      <min_value></min_value>
-      <max_value></max_value>
     </argument>
   </arguments>
   <outputs />
@@ -421,6 +356,18 @@ Due to the heat pump interaction with zone conditioning as well as tank heating,
   </attributes>
   <files>
     <file>
+      <filename>LICENSE.md</filename>
+      <filetype>md</filetype>
+      <usage_type>license</usage_type>
+      <checksum>BFFB1AA6</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>C5978CDF</checksum>
+    </file>
+    <file>
       <filename>README.md.erb</filename>
       <filetype>erb</filetype>
       <usage_type>readmeerb</usage_type>
@@ -433,24 +380,6 @@ Due to the heat pump interaction with zone conditioning as well as tank heating,
       <checksum>F610A0B3</checksum>
     </file>
     <file>
-      <filename>SmallHotel-2A.osm</filename>
-      <filetype>osm</filetype>
-      <usage_type>test</usage_type>
-      <checksum>21334FFF</checksum>
-    </file>
-    <file>
-      <filename>CZ06RV2.epw</filename>
-      <filetype>epw</filetype>
-      <usage_type>test</usage_type>
-      <checksum>52282D70</checksum>
-    </file>
-    <file>
-      <filename>LICENSE.md</filename>
-      <filetype>md</filetype>
-      <usage_type>license</usage_type>
-      <checksum>BFFB1AA6</checksum>
-    </file>
-    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>3.0.0</identifier>
@@ -459,13 +388,13 @@ Due to the heat pump interaction with zone conditioning as well as tank heating,
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>83CEDEE0</checksum>
+      <checksum>17D1BC82</checksum>
     </file>
     <file>
-      <filename>add_hpwh_test.rb</filename>
-      <filetype>rb</filetype>
+      <filename>CZ06RV2.epw</filename>
+      <filetype>epw</filetype>
       <usage_type>test</usage_type>
-      <checksum>3A9BEF58</checksum>
+      <checksum>52282D70</checksum>
     </file>
     <file>
       <filename>LargeOffice-90.1-2013-ASHRAE 169-2013-5A.osm</filename>
@@ -474,10 +403,16 @@ Due to the heat pump interaction with zone conditioning as well as tank heating,
       <checksum>25B8DCC1</checksum>
     </file>
     <file>
-      <filename>README.md</filename>
-      <filetype>md</filetype>
-      <usage_type>readme</usage_type>
-      <checksum>0B68E96D</checksum>
+      <filename>SmallHotel-2A.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>21334FFF</checksum>
+    </file>
+    <file>
+      <filename>add_hpwh_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>3A9BEF58</checksum>
     </file>
   </files>
 </measure>
